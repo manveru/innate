@@ -1,0 +1,4 @@
+%h1= "Edit #@title"
+%form{:action => @action, :method => :POST}
+  %textarea{:name => :text}~ @text
+  %input{:type => :submit, :value => 'Save'}
