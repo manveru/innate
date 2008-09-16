@@ -3,9 +3,20 @@
 
 %html
   %head
-    %title Ramaze Wiki
+    %title Innate Wiki
     %link{:rel => 'stylesheet', :href => '/css/screen.css', :type => 'text/css'}
+    %link{:rel => 'stylesheet', :href => '/css/dawn.css', :type => 'text/css'}
   %body
-    .menu
-      %a{:href => '/list'} List
+    .head
+      .title
+        %a{:href => '/'}
+          %h1 Innate Wiki
+          %h2 A minimal git based wiki
+      .menu
+        %a{:href => '/list'} List
+        - if Page[@name].exists?
+          %a{:href => "/edit/#@name"} Edit
+          %a{:href => "/delete/#@name"} Delete
+        - elsif @name
+          %a{:href => "/edit/#@name"} Create
     .content= content

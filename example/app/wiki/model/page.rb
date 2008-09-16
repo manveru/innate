@@ -21,26 +21,42 @@ class Page
   end
 
   def read(rev = @revision)
-    G.gblob("#{rev}:#{repo_file}").contents
+    return nil unless rev
+    G.gblob("#{rev}:#{repo_file}").contents + "\n"
   rescue Git::GitExecuteError => ex
     p :read => ex
     nil
   end
 
   def revisions
-    G.lib.log_commits(:object => repo_file)
+    G.lib.log_commits(:object => "-- #{repo_file}")
   rescue Git::GitExecuteError => ex
     p :revisions => ex
     []
   end
 
   def save(content, comment = "Update #@name")
-    File.open(file, 'w+'){|i| i.write content.gsub(/\r\n|\r/, "\n") }
+    File.open(file, 'w+'){|i|
+      i.puts content.gsub(/\r\n|\r/, "\n")
+    }
     G.add(repo_file)
     message = G.commit(comment)
     @revision = message[/Created commit (\w+):/, 1]
   rescue Git::GitExecuteError => ex
     puts ex
+    nil
+  end
+
+  def move(to, comment = "Move #@name to #{to}")
+    return unless exists?
+    return if @name == to
+    G.lib.mv(repo_file, repo_file(to))
+    message = G.commit(comment)
+    @revision = message[/Created commit (\w+):/, 1]
+    @name = to
+  rescue Git::GitExecuteError => ex
+    puts "move(%p, %p)" % [to, comment]
+    p ex
     nil
   end
 
@@ -52,8 +68,8 @@ class Page
     File.join(C.repo, repo_file)
   end
 
-  def repo_file
-    "#@name.owl"
+  def repo_file(name = @name)
+    "#{name}.owl"
   end
 
   def content

@@ -6,4 +6,4 @@ require 'env'
 require 'model/page'
 require 'node/init'
 
-Innate.start
+Innate.start :adapter => :mongrel

@@ -8,7 +8,8 @@ OWLScribble.each_wiki_link do |tag, page_name, link_text|
   tag.name  = 'a'
   tag.href  = "/#{Rack::Utils.escape(page_name)}"
   tag.text  = link_text.dewikiword
-  tag.class = "wiki-link"
+  c = Page[page_name].exists? ? 'existing-wiki-link' : 'missing-wiki-link'
+  tag.class = c
 end
 
 OWLScribble.each_wiki_command do |tag, command, params|

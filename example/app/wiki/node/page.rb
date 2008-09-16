@@ -13,11 +13,12 @@ class PageNode
   end
 
   def edit(name)
-    @action = "/save/#{name}"
+    @save_action = "/save/#{name}"
+    @move_action = "/move/#{name}"
+    @name = name
     @page = Page[name]
     @title = name.dewikiword
     @text = @page.content
-    p :@text => @text
   end
 
   def save(name)
@@ -28,7 +29,20 @@ class PageNode
       @page.save(text, comment)
     end
 
-    redirect "/index/#{name}"
+    redirect "/#{name}"
+  end
+
+  def move(from)
+    if to = request.params['move']
+      Page[from].move(to)
+      redirect "/#{to}"
+    end
+    redirect "/#{from}"
+  end
+
+  def delete(name)
+    Page[name].delete
+    redirect "/"
   end
 
   def list
