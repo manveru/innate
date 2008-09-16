@@ -149,8 +149,10 @@ module Rack
       end
 
       return nil
+    rescue Errno::ENOENT => ex
+      @@cache.delete(file)
+      retry
     end
-
 
     # Holds hooks that are called before and after #cycle and #safe_load
     module Hooks
