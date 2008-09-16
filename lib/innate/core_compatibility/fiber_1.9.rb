@@ -1,12 +1,10 @@
 module Innate
   class Fiber < ::Fiber
-    def self.new(*args)
-      instance = super
-      instance.state = {}
-      instance
-    end
-
     attr_accessor :state
+
+    def initialize(*args)
+      @state = {}
+    end
 
     def [](key)
       @state[key]
