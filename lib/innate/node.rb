@@ -41,7 +41,13 @@ module Innate
       name, *exts = path.split('.')
 
       action = patterns_for(name){|meth, params|
-        find_method(meth, params) || find_view(meth, params)
+        if valid_method?(meth, params)
+          view = find_view(meth, params)
+          Action.create(:node => self, :params => params, :method => meth, :view => view)
+
+        elsif view = find_view(meth, params)
+          Action.create(:node => self, :params => params, :view => view)
+        end
       }
 
       return unless action
@@ -58,13 +64,11 @@ module Innate
     # TODO:
     #   * Remove rescue, it just slows thins down
 
-    def find_method(action, params)
-      arity = self.instance_method(action).arity
+    def valid_method?(name, params)
+      arity = self.instance_method(name).arity
       match = params.size
 
-      if arity == match or arity < 0
-        return Action.new(self, action, params)
-      end
+      return true if arity == match or arity < 0
     rescue NameError
       nil
     end
@@ -80,19 +84,12 @@ module Innate
       Dir["#{path}.*"]
     end
 
+    def assign_view(action)
+      action.view = to_view(name)
+    end
+
     def find_view(name, params)
-      views = to_view(name)
-      return if views.empty?
-
-      action = Action.new(self, nil, params)
-
-      if views.size == 1
-        action.view = views.first
-      else # TODO
-        action.view = views.first
-      end
-
-      return action
+      to_view(name).first
     end
 
     def map_layout(location)
