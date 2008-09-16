@@ -36,39 +36,41 @@ module Innate
     innate.view_root = 'view'
     innate.layout_root = 'layout'
     innate.started = false
+    innate.adapter = :webrick
   }
 
   def self.start(options = {})
     return if @config.started
 
-    @config.caller = find_app_root(caller)
+    @config.caller = app_root_from(caller)
     @config.app_root = File.dirname(@config.caller)
     @config.started = true
+    @config.adapter = (options[:adapter] || @config.adapter).to_s
 
     trap('INT'){ stop }
 
-    Rack::Handler.get('thin').run(middleware, :Port => 7000)
+    Rack::Handler.get(@config.adapter).run(middleware, :Port => 7000)
   end
 
   # nasty, horribly nasty and possibly b0rken, but it's a start
-  def self.find_app_root(caller)
-    caller.each do |bt|
-      if bt =~ /^(.*?):(\d+)/
-        file, line = $1, $2.to_i
-        File.open(file){|f|
-          current = 1
-
-          until line == current
-            current += 1
-            break unless f.gets
-          end
-
-          return File.expand_path(file) if f.gets =~ /Innate\.start/
-        }
-      end
+  def self.app_root_from(backtrace)
+    caller_lines(backtrace) do |file, line, method|
+      haystack = File.readlines(file)[line - 1]
+      return file if haystack =~ /Innate\.start/
     end
+  end
 
-    nil
+  # yield [file, line]
+  def self.caller_lines(backtrace)
+    backtrace.each do |line|
+      if line =~ /^(.*?):(\d+):in `(.*)'$/
+        file, line, method = $1, $2.to_i, $3
+      elsif line =~ /^(.*?):(\d+)$/
+        file, line, method = $1, $2.to_i, nil
+      end
+
+      yield(file, line, method) if file and File.file?(file)
+    end
   end
 
   def self.stop(wait = 0)
@@ -76,25 +78,64 @@ module Innate
     exit!
   end
 
-  def self.middleware
-    return @middleware if @middleware
+  class RackCompiler
+    CACHE = {}
 
-    @middleware = Rack::Builder.new{
-      use Rack::CommonLogger
-      use Rack::ShowExceptions
-      use Rack::ShowStatus
-      use Rack::Reloader
-      use Rack::Lint
-      # use Rack::Profile
-      use Innate::Current
+    def self.build(name, &block)
+      CACHE[name] ||= new(name, &block)
+    end
 
-      cascade = [Rack::File.new('public'), Innate::DynaMap]
-      run Rack::Cascade.new(cascade)
-    }
+    def self.build!(name, &block)
+      CACHE[name] = new(name, &block)
+    end
+
+    def initialize(name)
+      @name = name
+      @mw = []
+      @compiled = nil
+      yield(self) if block_given?
+    end
+
+    def use(mw)
+      @mw.unshift(mw)
+    end
+
+    def run(app)
+      @app = app
+    end
+
+    def cascade(*apps)
+      @app = Rack::Cascade.new(apps)
+    end
+
+    def call(env)
+      compile
+      @compiled.call(env)
+    end
+
+    def compiled?
+      !! @compiled
+    end
+
+    def compile
+      return self if compiled?
+      @compiled = @mw.inject(@app){|a,e| e.new(a) }
+      self
+    end
   end
 
-  def self.middleware=(mw)
-    @middleware = mw
+  def self.middleware
+    RackCompiler.build :innate do |c|
+      c.use Rack::CommonLogger   # fast depending on the output
+      c.use Rack::ShowExceptions # fast
+      c.use Rack::ShowStatus     # fast
+      c.use Rack::Reloader       # reasonably fast depending on settings
+      c.use Rack::Lint           # slow, use only while developing
+#       c.use Rack::Profile        # slow, use only for debugging or tuning
+      c.use Innate::Current      # necessary
+
+      c.cascade Rack::File.new('public'), Innate::DynaMap
+    end
   end
 
   def self.map(location, node)
@@ -110,7 +151,11 @@ module Innate
     end
   end
 
-  def self.recursive?(caller, max = 3)
+  def self.recursive?(backtrace, max = 3)
+    caller_lines(backtrace) do |file, line, method|
+      p [file, line, method]
+    end
+
     this_file = File.expand_path(__FILE__)
     caller.select{|line|
       this_file == File.expand_path(line[/^(.*):(\d+):in `(.*)'$/, 1].to_s)
@@ -119,13 +164,15 @@ module Innate
 
   class DynaMap
     MAP = {}
+    CACHE = {}
 
     def self.call(env)
-      Rack::URLMap.new(MAP).call(env)
+      CACHE[:map].call(env)
     end
 
     def self.map(location, node)
       MAP[location] = node
+      CACHE[:map] = Rack::URLMap.new(MAP)
     end
   end
 end

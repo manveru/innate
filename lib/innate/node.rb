@@ -5,6 +5,7 @@ module Innate
     def self.included(obj)
       obj.send(:include, Trinity)
       obj.extend(Trinity, self)
+      obj.provide(:html => :html) # default provide
     end
 
     def map(location)
@@ -15,7 +16,17 @@ module Innate
 
     def provide(formats = {})
       @provide ||= {}
-      formats.each{|k,v| @provide[k.to_s] = v }
+
+      if formats.respond_to?(:each_pair)
+        formats.each_pair{|k,v| @provide[k.to_s] = v }
+      elsif formats.respond_to?(:to_sym)
+        formats[formats.to_sym.to_s] = formats
+      elsif formats.respond_to?(:to_str)
+        formats[formats.to_str] = formats
+      else
+        raise(ArgumentError, "provide(%p) is invalid parameter" % formats)
+      end
+
       @provide
     end
 
@@ -65,6 +76,9 @@ module Innate
     #   * Remove rescue, it just slows thins down
 
     def valid_method?(name, params)
+      ims = instance_methods(false).map{|im| im.to_s }
+      return false unless ims.include?(name)
+
       arity = self.instance_method(name).arity
       match = params.size
 
