@@ -28,12 +28,17 @@ module Innate
   class State
     def initialize
       detect
-      p "State uses #@core"
+      puts "Innate::State relies on #@core"
     end
 
     def detect
-      @extract = :value
+      require 'fiber'
+      require 'lib/innate/core_compatibility/fiber_1.9'
+      @core = Innate::Fiber
+      @extract = :resume
+    rescue LoadError
       @core = Thread
+      @extract = :value
     end
 
     def [](key)
@@ -48,4 +53,9 @@ module Innate
       @core.new(&block).send(@extract)
     end
   end
+end
+
+state = Innate::State.new
+state.wrap do
+  state[:a] = 1
 end

@@ -20,6 +20,7 @@ require 'innate/strategy'
 require 'innate/mock'
 require 'innate/adapter'
 require 'innate/action'
+require 'innate/helper'
 require 'innate/node'
 require 'innate/view'
 
@@ -95,6 +96,14 @@ module Innate
     DynaMap.map(location, node)
   end
 
+  def self.at(location)
+    DynaMap::MAP[location]
+  end
+
+  def self.to(node)
+    DynaMap::MAP.invert[node]
+  end
+
   def self.call(env)
     if recursive?(caller)
       puts "recursive call"
@@ -106,7 +115,7 @@ module Innate
 
   def self.recursive?(backtrace, max = 3)
     caller_lines(backtrace) do |file, line, method|
-      p [file, line, method]
+#       p [file, line, method]
     end
 
     this_file = File.expand_path(__FILE__)

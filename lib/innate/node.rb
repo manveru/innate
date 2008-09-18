@@ -3,7 +3,7 @@ require 'set'
 module Innate
   module Node
     def self.included(obj)
-      obj.send(:include, Trinity)
+      obj.send(:include, Trinity, Helper)
       obj.extend(Trinity, self)
       obj.provide(:html => :html) # default provide
     end
@@ -54,10 +54,12 @@ module Innate
       action = patterns_for(name){|meth, params|
         if valid_method?(meth, params)
           view = find_view(meth, params)
-          Action.create(:node => self, :params => params, :method => meth, :view => view)
+          Action.create(:node => self, :params => params,
+                        :method => meth, :view => view)
 
         elsif view = find_view(meth, params)
-          Action.create(:node => self, :params => params, :view => view)
+          Action.create(:node => self, :params => params,
+                        :view => view)
         end
       }
 
@@ -73,18 +75,31 @@ module Innate
     end
 
     # TODO:
-    #   * Remove rescue, it just slows thins down
+    #   * Remove rescue, it just slows things down
 
     def valid_method?(name, params)
-      ims = instance_methods(false).map{|im| im.to_s }
-      return false unless ims.include?(name)
+      expected_arity = params.size
 
-      arity = self.instance_method(name).arity
-      match = params.size
+      possible_methods(name) do |arity|
+        return true if arity == expected_arity or arity < 0
+      end
 
-      return true if arity == match or arity < 0
-    rescue NameError
-      nil
+      return false
+    rescue NameError => ex
+      puts ex
+      return false
+    end
+
+    # Takes a +name+ of the method to find and a block.
+    # The block should take the arity of the found method.
+
+    def possible_methods(name)
+      [self, *(Helper::EXPOSE & ancestors)].each do |object|
+        object.instance_methods(false).each do |im|
+          next unless im.to_s == name
+          yield object.instance_method(im).arity
+        end
+      end
     end
 
     def map_view(location)
