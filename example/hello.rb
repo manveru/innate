@@ -1,15 +1,11 @@
-require 'lib/innate'
+require 'innate'
 
 class Hello
   include Innate::Node
   map '/'
 
   def index
-    'Hello, World from index!'
-  end
-
-  def foo
-    'Hi from foo'
+    'Hello, World!'
   end
 end
 
