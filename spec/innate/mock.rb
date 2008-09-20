@@ -24,16 +24,16 @@ end
 
 describe 'Innate::SpeckMock2' do
   should 'handle get request' do
-    response = Innate::Mock.get('/deep/foo/bar')
+    response = Innate::Mock.get('/deep/foo')
     # '/foo/bar'
     response.status.should == 200
-    response.body.should == 'spec mock 2'
+    response.body.should == 'spec mock 2 foo'
   end
 end
 
 describe 'Innate::SpecMock' do
   should 'handle get request' do
-    response = Innate::Mock.get('/one')
+    response = Innate::Mock.get('/')
     # '/one'
     response.status.should == 200
     response.body.should == ''

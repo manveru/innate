@@ -1,11 +1,9 @@
-require 'lib/innate'
-
 module Innate
   module Helper
     module Link
       def r(name, hash = {})
         location = Innate.to(self)
-        front = "#{map}/#{name}".squeeze('/')
+        front = "#{location}/#{name}".squeeze('/')
 
         if hash.empty?
           URI(front)

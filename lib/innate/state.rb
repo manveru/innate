@@ -54,8 +54,3 @@ module Innate
     end
   end
 end
-
-state = Innate::State.new
-state.wrap do
-  state[:a] = 1
-end

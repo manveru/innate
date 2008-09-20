@@ -82,15 +82,15 @@ class Options < BasicObject
     elsif block
       self[meth] = ::Options.for("#@__name:#{meth}", &block)
     else
-      @__name.split(':').inject([]) do |s,v|
-        s << v
-        value = SCOPE[s.join(':')][meth]
-        if value.nil?
-          s
-        else
-          return value
-        end
+      splat = @__name.split(':')
+
+      splat.size.downto(1) do |n|
+        value = SCOPE[splat[0, n] * ':'][meth]
+
+        return value unless value.nil?
       end
+
+      return nil
     end
   end
 

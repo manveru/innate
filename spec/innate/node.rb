@@ -1,7 +1,13 @@
 require 'spec/helper'
 
+Options.for 'innate:app' do |app|
+  app.root = File.dirname(__FILE__)
+  app.view = ''
+end
+
 class SpecNode
   include Innate::Node
+  map '/'
 
   def foo; end
   def bar; end
@@ -14,6 +20,7 @@ end
 class SpecNodeProvide
   include Innate::Node
   map '/provide'
+
   provide :css => :none
   provide :sass => :sass
 
@@ -34,7 +41,7 @@ class SpecNodeProvideTemplate
   provide :css => :none
   provide :sass => :sass
 
-  view_root File.expand_path(File.join(File.dirname(__FILE__), 'node'))
+  view_root 'node'
 end
 
 describe 'Innate::Node' do

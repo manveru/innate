@@ -10,8 +10,6 @@ module Innate
 
     def map(location)
       Innate.map(location, self)
-      map_view(location)
-      map_layout(location)
     end
 
     def provide(formats = {})
@@ -102,15 +100,24 @@ module Innate
       end
     end
 
-    def map_view(location)
-      @map_view = location
-    end
-
     def to_view(file)
       return [] unless file
-      o = Options.for(:innate)
-      path = File.join(o.app_root, o.view_root, @map_view, file)
+
+      app = Options.for('innate:app')
+      app_root = app[:root]
+      app_view = app[:view]
+
+      path = File.join(app_root, app_view, view_root, file)
+
       Dir["#{path}.*"]
+    end
+
+    def view_root(location = nil)
+      if location
+        @view_root = location
+      else
+        @view_root ||= Innate.to(self)
+      end
     end
 
     def assign_view(action)
@@ -121,8 +128,12 @@ module Innate
       to_view(name).first
     end
 
-    def map_layout(location)
-      @map_layout = location
+    def layout_root(location = nil)
+      if location
+        @layout_root = location
+      else
+        @layout_root ||= Innate.to(self)
+      end
     end
 
     def to_layout(file)

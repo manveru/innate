@@ -5,6 +5,7 @@ module Innate
 end
 
 require 'pp'
+require 'set'
 
 require 'innate/core_compatibility/string'
 require 'innate/core_compatibility/fiber'
@@ -23,6 +24,7 @@ require 'innate/action'
 require 'innate/helper'
 require 'innate/node'
 require 'innate/view'
+require 'innate/session'
 
 require 'rack/reloader'
 require 'rack/profile'
@@ -33,31 +35,56 @@ module Innate
 
   @config = Options.for(:innate){|innate|
     innate.root = Innate::ROOT
-    innate.view_root = 'view'
-    innate.layout_root = 'layout'
     innate.started = false
     innate.adapter = :webrick
+
+    innate.app do |app|
+      app.root = '/'
+      app.view = 'view'
+      app.layout = 'layout'
+    end
+
+    innate.session do |session|
+      session.key = 'innate.sid'
+      session.domain = false
+      session.path = '/'
+
+      # The current value is a time at:
+      #   2038-01-19 03:14:07 UTC
+      # Let's hope that by then we get a better ruby with a better Time class
+      session.expires = Time.at(2147483647)
+    end
   }
 
   def self.start(options = {})
     return if @config.started
 
-    @config.caller = app_root_from(caller)
-    @config.app_root = File.dirname(@config.caller)
-    @config.started = true
-    @config.adapter = (options[:adapter] || @config.adapter).to_s
+    config.caller = caller
+    config.app.caller = who_called?(/Innate\.start/, caller)
+    pp config.caller
+    pp config.app.caller
+    config.app.root = File.dirname(config.app.caller)
+    config.started = true
+    config.adapter = (options[:adapter] || @config.adapter).to_s
 
     trap('INT'){ stop }
 
     Rack::Handler.get(@config.adapter).run(middleware, :Port => 7000)
   end
 
+  def self.config
+    @config
+  end
+
   # nasty, horribly nasty and possibly b0rken, but it's a start
-  def self.app_root_from(backtrace)
+  def self.who_called?(regexp, backtrace)
+
     caller_lines(backtrace) do |file, line, method|
       haystack = File.readlines(file)[line - 1]
-      return file if haystack =~ /Innate\.start/
+      return file if haystack =~ regexp
     end
+
+    return nil
   end
 
   # yield [file, line]

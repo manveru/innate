@@ -1,6 +1,3 @@
-require 'set'
-require 'rack'
-
 module Innate
   module HelperManagment
     EXTS = %w[rb so bundle]
@@ -40,7 +37,7 @@ module Innate
 
     def require_helper(name)
       if found = Dir[helper_glob(name)].first
-        require found
+        require File.expand_path(found)
       else
         raise LoadError, "Helper #{name} not found"
       end
