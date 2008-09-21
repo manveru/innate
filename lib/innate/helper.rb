@@ -10,6 +10,8 @@ module Innate
       end
     end
 
+    public :helper
+
     def class_helper(*names)
       names_to_helpers(*names) do |mod|
         extend mod
@@ -78,6 +80,7 @@ module Innate
     # The helpers used for every node on inclusion
     DEFAULT = Set.new
 
+    # Expose all public methods in these helpers like methods on your node
     EXPOSE = Set.new
 
     # Ramaze compat
@@ -90,3 +93,5 @@ module Innate
     end
   end
 end
+
+require 'innate/helper/link'
