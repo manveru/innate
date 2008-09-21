@@ -65,8 +65,6 @@ module Innate
 
     config.caller = caller
     config.app.caller = who_called?(/Innate\.start/, caller)
-    pp config.caller
-    pp config.app.caller
     config.app.root = File.dirname(config.app.caller)
     config.started = true
     config.adapter = (options[:adapter] || @config.adapter).to_s
