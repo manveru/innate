@@ -36,14 +36,24 @@ module Innate
 
     def try_resolve(path)
       if action = resolve(path)
-        catch(:respond){
+        action_found(action)
+      else
+        action_not_found
+      end
+    end
+
+    def action_found(action)
+      catch(:respond) do
+        catch(:redirect) do
           response.write action.call
           response.status = 200
-        }
-      else
-        response.status = 404
-        response.write 'Action not found'
+        end
       end
+    end
+
+    def action_not_found
+      response.status = 404
+      response.write 'Action not found'
     end
 
     def resolve(path)
