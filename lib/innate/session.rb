@@ -48,6 +48,7 @@ module Innate
       { :value   => sid,
         :domain  => options.domain,
         :path    => options.path,
+        :secure  => options.secure,
         :expires => options.expires }
     end
 

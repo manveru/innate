@@ -51,6 +51,7 @@ module Innate
       session.key = 'innate.sid'
       session.domain = false
       session.path = '/'
+      session.secure = false
 
       # The current value is a time at:
       #   2038-01-19 03:14:07 UTC
