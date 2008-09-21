@@ -34,6 +34,13 @@ module Innate
     innate.started = false
     innate.adapter = :webrick
 
+    innate.header = {
+      'Content-Type' => 'text/html',
+      # 'Accept-Charset' => 'utf-8',
+    }
+
+    innate.redirect_status = 302
+
     innate.app do |app|
       app.root = '/'
       app.view = 'view'
