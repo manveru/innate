@@ -1,6 +1,8 @@
 module Innate
   module Helper
     module Link
+      DEFAULT << self
+
       def r(name, hash = {})
         location = Innate.to(self)
         front = "#{location}/#{name}".squeeze('/')

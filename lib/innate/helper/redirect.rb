@@ -1,6 +1,8 @@
 module Innate
   module Helper
     module Redirect
+      DEFAULT << self
+
       def respond(body, status, header)
         resopnse.write body
         response.status = status
@@ -40,18 +42,3 @@ module Innate
     end
   end
 end
-
-require 'innate'
-
-class Main
-  include Innate::Node
-  map '/'
-
-  helper :redirect, :cgi
-
-  def index
-    redirect '/'
-  end
-end
-
-pp Innate::Mock.get('/')

@@ -1,6 +1,8 @@
 module Innate
   module Helper
     module Aspect
+      DEFAULT << self
+
       AOP = Hash.new{|h,k| h[k] = Hash.new{|hh,kk| hh[kk] = {} }}
 
       def self.included(into)

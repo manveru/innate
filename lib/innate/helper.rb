@@ -18,7 +18,9 @@ module Innate
 
     def names_to_helpers(*names)
       names.each do |name|
-        if mod = get(name)
+        if name.class == Module
+          yield(name)
+        elsif mod = get(name)
           yield(mod)
         elsif require_helper(name)
           redo
@@ -73,6 +75,9 @@ module Innate
     #
     # Now /smile can be accessed on the Node this is included into.
 
+    # The helpers used for every node on inclusion
+    DEFAULT = Set.new
+
     EXPOSE = Set.new
 
     # Ramaze compat
@@ -81,6 +86,7 @@ module Innate
     def self.included(into)
       into.extend(HelperManagment)
       into.__send__(:include, Trinity)
+      into.helper(*DEFAULT)
     end
   end
 end
