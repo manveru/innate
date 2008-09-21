@@ -8,10 +8,7 @@ require 'pp'
 require 'set'
 
 require 'innate/core_compatibility/string'
-require 'innate/core_compatibility/fiber'
 require 'innate/core_compatibility/basic_object'
-
-require 'innate/util/state_accessor'
 
 require 'innate/option'
 require 'innate/state'
