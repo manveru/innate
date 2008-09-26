@@ -1,3 +1,5 @@
+require 'haml/engine'
+
 module Innate
   class View
     class Haml
