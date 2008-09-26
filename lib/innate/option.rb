@@ -94,6 +94,10 @@ class Options < BasicObject
     end
   end
 
+  def to_hash
+    @__hash
+  end
+
   def pretty_print(q)
     q.pp_hash @__hash
   end
