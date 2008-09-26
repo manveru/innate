@@ -93,7 +93,5 @@ end
 
 # Require default helpers as far as we can find them
 Dir[Innate::HelpersHelper.glob].each do |file|
-  unless File.open(file).grep(/DEFAULT/).empty?
-    require file
-  end
+  require file if File.read(file) =~ /^\s*DEFAULT/
 end
