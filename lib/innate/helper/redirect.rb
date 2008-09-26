@@ -29,7 +29,7 @@ module Innate
         target = target.to_s
 
         response['Location'] = target
-        response.status = options[:status] || Options.app.redirect_status
+        response.status = options[:status] || 302
         response.write    options[:body]   || redirect_body(target)
 
         throw(:redirect)
@@ -38,6 +38,10 @@ module Innate
       def redirect_body(target)
         "You are being redirected, please follow this link to: " +
           "<a href='#{target}'>#{h target}</a>!"
+      end
+
+      def redirect_referrer
+        redirect request.referer
       end
     end
   end

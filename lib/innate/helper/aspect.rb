@@ -51,26 +51,3 @@ module Innate
     end
   end
 end
-
-require 'pp'
-
-class Foo
-  include Innate::Helper::Aspect
-
-  wrap '/' do
-    p :foo
-  end
-
-  def call
-    call_aspect(:before, '/')
-    call_aspect(:after, '/')
-  end
-end
-
-class Bar < Foo
-  before '/' do
-    p :bar
-  end
-end
-
-Bar.new.call

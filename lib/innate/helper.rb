@@ -1,30 +1,64 @@
 module Innate
-  module HelperManagment
+  # Acts as namespace for helpers
+  module Helper
+    DEFAULT = Set.new
+    LOOKUP = EXPOSE = Set.new
+
+    def self.included(into)
+      into.extend(HelperAccess)
+      into.__send__(:include, Trinity)
+      into.helper(*DEFAULT)
+    end
+  end
+
+  # Provides access to ::helper and ::class_helper methods
+  module HelperAccess
+    public
+
+#     helper :cgi, :link, :aspect
+#     helper :both => :link
+#     helper :extend => :link
+#     helper :cgi, :both => :link
+#     helper :both => [:link, :redirect]
+
+    def helper(*args)
+      opts = {:include => [], :extend => [], :both => []}
+
+      args.each do |arg|
+        if arg.respond_to?(:each_pair)
+          arg.each_pair{|k,v| opts[k] << v }
+        else
+          opts[:include] << arg
+        end
+      end
+
+      opts.each do |meth, values|
+        values = values.flatten
+        next if values.empty?
+
+        case meth
+        when :include, :extend
+          HelpersHelper.each(*values){|mod| __send__(meth, mod) }
+        when :both
+          HelpersHelper.each(*values){|mod| include(mod); extend(mod) }
+        end
+      end
+    end
+  end
+
+  module HelpersHelper
     EXTS = %w[rb so bundle]
+    PATH = [ File.dirname(__FILE__) ]
 
     module_function
 
-    def helper(*names)
-      names_to_helpers(*names) do |mod|
-        include mod
-      end
-    end
-
-    public :helper
-
-    def class_helper(*names)
-      names_to_helpers(*names) do |mod|
-        extend mod
-      end
-    end
-
-    def names_to_helpers(*names)
+    def each(*names)
       names.each do |name|
         if name.class == Module
           yield(name)
         elsif mod = get(name)
           yield(mod)
-        elsif require_helper(name)
+        elsif try_require(name)
           redo
         else
           raise LoadError, "Helper #{name} not found"
@@ -39,59 +73,27 @@ module Innate
       end
     end
 
-    def require_helper(name)
-      if found = Dir[helper_glob(name)].first
+    def try_require(name)
+      if found = Dir[glob(name)].first
         require File.expand_path(found)
       else
         raise LoadError, "Helper #{name} not found"
       end
     end
 
-    def helper_glob(name)
-      glob = "{#{helper_paths * ','}}/helper/#{name}.{#{EXTS * ','}}"
+    def glob(name = '*')
+      "{#{paths * ','}}/helper/#{name}.{#{EXTS * ','}}"
     end
 
-    def helper_paths
-      [
-        File.dirname(__FILE__),
-      ]
-    end
-  end
-
-  module Helper
-    # This allows you to make the methods in your helper normal actions
-    #
-    # Usage:
-    #
-    #   module Innate
-    #     module Helper
-    #       module Smile
-    #         EXPOSE << self
-    #
-    #         def smile
-    #           ':)'
-    #         end
-    #       end
-    #     end
-    #   end
-    #
-    # Now /smile can be accessed on the Node this is included into.
-
-    # The helpers used for every node on inclusion
-    DEFAULT = Set.new
-
-    # Expose all public methods in these helpers like methods on your node
-    EXPOSE = Set.new
-
-    # Ramaze compat
-    LOOKUP = EXPOSE
-
-    def self.included(into)
-      into.extend(HelperManagment)
-      into.__send__(:include, Trinity)
-      into.helper(*DEFAULT)
+    def paths
+      PATH
     end
   end
 end
 
-require 'innate/helper/link'
+# Require default helpers as far as we can find them
+Dir[Innate::HelpersHelper.glob].each do |file|
+  unless File.open(file).grep(/DEFAULT/).empty?
+    require file
+  end
+end
