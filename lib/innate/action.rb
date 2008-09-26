@@ -6,15 +6,7 @@ module Innate
 
   class Action
     def self.create(hash)
-      ms = members.map{|m| m.to_s }
-      instance = new
-
-      hash.each do |k,v|
-        k = k.to_s
-        instance[k] = v if ms.include?(k)
-      end
-
-      return instance
+      new(*members.map{|m| hash[m.to_sym] })
     end
 
     def call
@@ -30,18 +22,15 @@ module Innate
     }
 
     def fulfill_wish(string)
-      if view
-        way = File.basename(view).gsub!(/.*?#{wish}\./, '')
-      end
+      way = File.basename(view).gsub!(/.*?#{wish}\./, '') if view
 
       if way ||= node.provide[wish]
         node.response['content-type'] = content_type
         View.get(way).render(self, string)
       else
-        raise
+        return nil
+        # raise
       end
-    rescue => ex
-      puts ex
     end
 
     def content_type
@@ -51,15 +40,13 @@ module Innate
     end
 
     def wrap_in_layout
-      if layout
-        layout_action = dup
-        layout_action.view = layout
-        layout_action.layout = nil
-        layout_action.variables[:content] = yield
-        layout_action.call
-      else
-        yield
-      end
+      return yield unless layout
+
+      layout_action = dup
+      layout_action.view = layout
+      layout_action.layout = nil
+      layout_action.variables[:content] = yield
+      layout_action.call
     end
   end
 end
