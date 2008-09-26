@@ -38,6 +38,9 @@ module Innate
   @config = Options.for(:innate){|innate|
     innate.root = Innate::ROOT
     innate.started = false
+
+    innate.port = 7000
+    innate.host = '0.0.0.0'
     innate.adapter = :webrick
 
     innate.header = {
@@ -70,14 +73,15 @@ module Innate
     return if @config.started
 
     config.caller = caller
-    config.app.caller = who_called?(/Innate\.start/, caller)
-    config.app.root = File.dirname(config.app.caller)
+    if config.app.caller = who_called?(/Innate\.start/, caller)
+      config.app.root = File.dirname(config.app.caller)
+    end
     config.started = true
     config.adapter = (options[:adapter] || @config.adapter).to_s
 
     trap('INT'){ stop }
 
-    Rack::Handler.get(@config.adapter).run(middleware, :Port => 7000)
+    Adapter.start(middleware, config)
   end
 
   def self.config
@@ -86,13 +90,13 @@ module Innate
 
   # nasty, horribly nasty and possibly b0rken, but it's a start
   def self.who_called?(regexp, backtrace)
-
     caller_lines(backtrace) do |file, line, method|
+#       p :file => file, :line => line, :method => method
       haystack = File.readlines(file)[line - 1]
       return file if haystack =~ regexp
     end
 
-    return nil
+    return false
   end
 
   # yield [file, line]
@@ -115,11 +119,11 @@ module Innate
 
   def self.middleware
     Rack::MiddlewareCompiler.build :innate do |c|
-      c.use Rack::CommonLogger   # fast depending on the output
+#       c.use Rack::CommonLogger   # fast depending on the output
       c.use Rack::ShowExceptions # fast
       c.use Rack::ShowStatus     # fast
       c.use Rack::Reloader       # reasonably fast depending on settings
-      c.use Rack::Lint           # slow, use only while developing
+#       c.use Rack::Lint           # slow, use only while developing
 #       c.use Rack::Profile        # slow, use only for debugging or tuning
       c.use Innate::Current      # necessary
 
