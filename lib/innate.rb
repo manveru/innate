@@ -23,7 +23,6 @@ require 'innate/view'
 require 'innate/session'
 
 require 'rack/reloader'
-require 'rack/profile'
 require 'rack/middleware_compiler'
 
 module Innate
