@@ -1,5 +1,3 @@
-require 'haml/engine'
-
 module Innate
   class Action < Struct.new(:node, :method, :params,
                             :view, :layout, :instance,
@@ -62,29 +60,6 @@ module Innate
       else
         yield
       end
-    end
-  end
-end
-
-__END__
-
-    def wrap_template(string)
-      string = File.read(view) if view
-      render(string, instance)
-    end
-
-    def wrap_layout
-      if layout
-        content = yield
-        string = File.read(layout)
-        render(string, instance, :content => content)
-      else
-        yield
-      end
-    end
-
-    def render(string, instance, vars = {})
-      Haml::Engine.new(string).render(instance, vars)
     end
   end
 end
