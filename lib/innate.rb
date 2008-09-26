@@ -4,13 +4,20 @@ module Innate
   ROOT = File.expand_path(File.dirname(__FILE__))
 end
 
+# stdlib
 require 'pp'
 require 'set'
 
+# 3rd party
+begin; require 'rubygems'; rescue LoadError; end
+require 'rack'
+
+# innate
 require 'innate/core_compatibility/string'
 require 'innate/core_compatibility/basic_object'
 
 require 'innate/option'
+require 'innate/log'
 require 'innate/state'
 require 'innate/trinity'
 require 'innate/current'
