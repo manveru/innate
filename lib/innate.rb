@@ -72,10 +72,7 @@ module Innate
   def self.start(options = {})
     return if @config.started
 
-    config.caller = caller
-    if config.app.caller = who_called?(/Innate\.start/, caller)
-      config.app.root = File.dirname(config.app.caller)
-    end
+    config.app.root = go_figure_root(caller)
     config.started = true
     config.adapter = (options[:adapter] || @config.adapter).to_s
 
@@ -88,16 +85,22 @@ module Innate
     @config
   end
 
-  # nasty, horribly nasty and possibly b0rken, but it's a start
-  def self.who_called?(regexp, backtrace)
-    caller_lines(backtrace) do |file, line, method|
-#       p :file => file, :line => line, :method => method
-      haystack = File.readlines(file)[line - 1]
-      return file if haystack =~ regexp
-    end
+  def self.go_figure_root(backtrace)
+    pwd = Dir.pwd
 
-    return false
+    return pwd if File.file?(File.join(pwd, 'start.rb'))
+
+    caller_lines(backtrace) do |file, line, method|
+      dir, file = File.split(File.expand_path(file))
+      return dir if file == "start.rb"
+    end
   end
+
+#     config.caller = options[:caller] || caller
+#     config.app.caller = o
+#     if config.app.caller = who_called?(/Innate\.start/, config.caller)
+#       config.app.root = File.dirname(config.app.caller)
+#     end
 
   # yield [file, line]
   def self.caller_lines(backtrace)

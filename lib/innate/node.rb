@@ -59,19 +59,7 @@ module Innate
     def resolve(path)
       name, *exts = path.split('.')
 
-      action = patterns_for(name){|meth, params|
-        if valid_method?(meth, params)
-          view = find_view(meth, params)
-          Action.create(:node => self, :params => params,
-                        :method => meth, :view => view)
-
-        elsif view = find_view(meth, params)
-          Action.create(:node => self, :params => params,
-                        :view => view)
-        end
-      }
-
-      return unless action
+      return unless action = find_action(name)
 
       action.options ||= {}
       action.variables ||= {}
@@ -82,20 +70,31 @@ module Innate
       return action
     end
 
+    def find_action(name)
+      patterns_for(name){|name, params|
+        view = find_view(name, params)
+        method = find_method(name, params)
+        p :view => view
+        p :method => method
+
+        next unless view or method
+
+        Action.create(:node => self, :params => params,
+                      :method => method, :view => view)
+      }
+    end
+
     # TODO:
     #   * Remove rescue, it just slows things down
 
-    def valid_method?(name, params)
+    def find_method(name, params)
       expected_arity = params.size
 
       possible_methods(name) do |arity|
-        return true if arity == expected_arity or arity < 0
+        return name if arity == expected_arity or arity < 0
       end
 
-      return false
-    rescue NameError => ex
-      puts ex
-      return false
+      return nil
     end
 
     # Takes a +name+ of the method to find and a block.
@@ -117,7 +116,9 @@ module Innate
       app_root = app[:root]
       app_view = app[:view]
 
-      path = File.join(app_root, app_view, view_root, file)
+      path = [app_root, app_view, view_root, file]
+      p :path => path
+      path = File.join(*path)
 
       Dir["#{path}.*"]
     end
@@ -148,8 +149,14 @@ module Innate
 
     def to_layout(file)
       return [] unless file
-      o = Options.for(:innate)
-      path = File.join(o.app_root, o.layout_root, @map_layout, file)
+
+      app = Options.for('innate:app')
+      pp Options.for(:innate)
+      app_root = app[:root]
+      app_layout = app[:layout]
+
+      path = [app_root, app_layout, file]
+      path = File.join(*path)
       Dir["#{path}.*"]
     end
 
