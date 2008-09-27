@@ -11,8 +11,11 @@ module Innate
         ::Thread.current[key] = value
       end
 
-      def wrap(&block)
-        ::Thread.new(&block).value
+      def wrap
+        thread = ::Thread.new{ begin; yield; rescue Object => ex; ex; end }
+        value = thread.value
+        raise(value) if Exception === value
+        return value
       end
     end
   end
