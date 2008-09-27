@@ -7,9 +7,12 @@ module Innate
         into.extend(self)
       end
 
-      def r(name, hash = {})
+      def r(name, *args)
+        hash = {}
+        hashes, names = args.partition{|arg| arg.respond_to?(:merge!) }
+        hashes.each{|h| hash.merge!(h) }
         location = Innate.to(self) || Innate.to(self.class)
-        front = "#{location}/#{name}".squeeze('/')
+        front = Array[location, name, *names].join('/').squeeze('/')
 
         if hash.empty?
           URI(front)
