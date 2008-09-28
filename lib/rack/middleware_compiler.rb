@@ -1,24 +1,27 @@
 module Rack
   class MiddlewareCompiler
-    CACHE = {}
+    COMPILED = {}
 
     def self.build(name, &block)
-      CACHE[name] ||= new(name, &block)
+      COMPILED[name] ||= new(name, &block)
     end
 
     def self.build!(name, &block)
-      CACHE[name] = new(name, &block)
+      COMPILED[name] = new(name, &block)
     end
+
+    attr_reader :middlewares, :name
 
     def initialize(name)
       @name = name
-      @mw = []
+      @middlewares = []
       @compiled = nil
       yield(self) if block_given?
     end
 
-    def use(mw)
-      @mw.unshift(mw)
+    # FIXME: Should we use `|` or `+`?
+    def use(*mws)
+      @middlewares = mws | @middlewares
     end
 
     def run(app)
@@ -35,12 +38,12 @@ module Rack
     end
 
     def compiled?
-      !! @compiled
+      @compiled
     end
 
     def compile
       return self if compiled?
-      @compiled = @mw.inject(@app){|a,e| e.new(a) }
+      @compiled = @middlewares.inject(@app){|a,e| e.new(a) }
       self
     end
   end

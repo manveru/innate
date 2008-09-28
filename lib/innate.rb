@@ -76,6 +76,7 @@ module Innate
 
   def self.start(options = {})
     return if @config.started
+    setup_middleware
 
     config.app.root = go_figure_root(options, caller)
     config.started = true
@@ -83,11 +84,48 @@ module Innate
 
     trap('INT'){ stop }
 
-    Adapter.start(middleware, config)
+    Adapter.start(middleware(:innate), config)
+  end
+
+  def self.stop(wait = 0)
+    puts "Shutdown Innate"
+    exit!
   end
 
   def self.config
     @config
+  end
+
+  def self.middleware(name, &block)
+    Rack::MiddlewareCompiler.build(name, &block)
+  end
+
+  def self.middleware!(name, &block)
+    Rack::MiddlewareCompiler.build!(name, &block)
+  end
+
+  def self.setup_middleware
+    middleware :innate do |m|
+      # m.use Rack::CommonLogger # usually fast, depending on the output
+      m.use Rack::ShowExceptions # fast
+      m.use Rack::ShowStatus     # fast
+      m.use Rack::Reloader       # reasonably fast depending on settings
+      # m.use Rack::Lint         # slow, use only while developing
+      # m.use Rack::Profile      # slow, use only for debugging or tuning
+      m.use Innate::Current      # necessary
+
+      m.cascade Rack::File.new('public'), Innate::DynaMap
+    end
+  end
+
+  def self.call(env)
+    this_file = File.expand_path(__FILE__)
+    count = 0
+    caller_lines{|f, l, m| count += 1 if f == this_file }
+
+    raise RuntimeError, "Recursive loop in Innate::call" if count > 10
+
+    middleware.call(env)
   end
 
   def self.go_figure_root(options, backtrace)
