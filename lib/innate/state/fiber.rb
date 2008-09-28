@@ -36,6 +36,10 @@ module Innate
       def wrap(&block)
         Innate::Fiber.new(&block).resume
       end
+
+      def sync #(&block)
+        yield
+      end
     end
   end
 end
