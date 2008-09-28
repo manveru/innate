@@ -74,8 +74,6 @@ module Innate
       patterns_for(name){|name, params|
         view = find_view(name, params)
         method = find_method(name, params)
-        p :view => view
-        p :method => method
 
         next unless view or method
 
@@ -117,10 +115,11 @@ module Innate
       app_view = app[:view]
 
       path = [app_root, app_view, view_root, file]
-      p :path => path
       path = File.join(*path)
 
-      Dir["#{path}.*"]
+      ext = @provide.values.uniq
+
+      Dir["#{path}.{#{ext*','}}"]
     end
 
     def view_root(location = nil)
@@ -136,7 +135,14 @@ module Innate
     end
 
     def find_view(name, params)
-      to_view(name).first
+      possible = to_view(name)
+      case n = possible.size
+      when 1
+        possible.first
+      else
+        warn "%d views found for %s:%p : %p" % [n, name, params, possible]
+        possible.first
+      end
     end
 
     def layout_root(location = nil)
@@ -151,7 +157,6 @@ module Innate
       return [] unless file
 
       app = Options.for('innate:app')
-      pp Options.for(:innate)
       app_root = app[:root]
       app_layout = app[:layout]
 
