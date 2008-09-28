@@ -1,10 +1,13 @@
 require 'haml/engine'
 
 module Innate
-  class View
-    class Haml
-      def self.render(action, string = nil)
+  module View
+    module Haml
+      module_function
+
+      def render(action, string = nil)
         string ||= action.view
+        action.options[:filename] ||= (action.view || '(haml)')
         haml = ::Haml::Engine.new(string, action.options)
         haml.to_html(action.instance, action.variables)
       end
