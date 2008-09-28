@@ -114,11 +114,12 @@ module Innate
       app_view = app[:view]
 
       path = [app_root, app_view, view_root, file]
+
+      return [] unless path.all?
+
       path = File.join(*path)
-
-      ext = @provide.values.uniq
-
-      Dir["#{path}.{#{ext*','}}"]
+      exts = @provide.values.uniq
+      Dir["#{path}.{#{exts*','}}"]
     end
 
     def view_root(location = nil)
@@ -135,13 +136,13 @@ module Innate
 
     def find_view(name, params)
       possible = to_view(name)
-      case n = possible.size
-      when 1
-        possible.first
-      else
-        warn "%d views found for %s:%p : %p" % [n, name, params, possible]
-        possible.first
+
+      if possible.size > 1
+        interp = [possible.size, name, params, possible]
+        warn "%d views found for %s:%p : %p" % interp
       end
+
+      possible.first
     end
 
     def layout_root(location = nil)
