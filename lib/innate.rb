@@ -76,7 +76,7 @@ module Innate
   def self.start(options = {})
     return if @config.started
 
-    config.app.root = go_figure_root(caller)
+    config.app.root = go_figure_root(options, caller)
     config.started = true
     config.adapter = (options[:adapter] || @config.adapter).to_s
 
@@ -89,7 +89,13 @@ module Innate
     @config
   end
 
-  def self.go_figure_root(backtrace)
+  def self.go_figure_root(options, backtrace)
+    if file = options[:file]
+      return File.dirname(file)
+    elsif root = options[:root]
+      return root
+    end
+
     pwd = Dir.pwd
 
     return pwd if File.file?(File.join(pwd, 'start.rb'))
@@ -98,6 +104,8 @@ module Innate
       dir, file = File.split(File.expand_path(file))
       return dir if file == "start.rb"
     end
+
+    return nil
   end
 
 #     config.caller = options[:caller] || caller
