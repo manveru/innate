@@ -46,7 +46,6 @@ module Innate
       catch(:respond) do
         catch(:redirect) do
           response.write action.call
-          response.status = 200
         end
       end
     end
