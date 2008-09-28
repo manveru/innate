@@ -12,6 +12,10 @@ require 'set'
 begin; require 'rubygems'; rescue LoadError; end
 require 'rack'
 
+module Rack
+  autoload 'Profile', 'rack/profile'
+end
+
 # innate
 require 'innate/core_compatibility/string'
 require 'innate/core_compatibility/basic_object'
