@@ -1,7 +1,9 @@
 module Innate
-  class View
-    class None
-      def self.render(action, string = nil)
+  module View
+    module None
+      module_function
+
+      def render(action, string = nil)
         string || action.view
       end
     end
