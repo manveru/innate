@@ -2,9 +2,11 @@ require 'logger'
 
 class Page
   C = Options.for(:wiki)
+  GBLOB_CACHE = {}
+  LOG_CACHE = {}
 
   begin
-    G = Git.open(C.repo) #, :log => Logger.new($stdout))
+    G = Git.open(C.repo, :log => Logger.new($stdout))
   rescue ArgumentError
     FileUtils.mkdir_p(C.repo)
     Dir.chdir(C.repo){ Git.init('.') }
@@ -22,14 +24,16 @@ class Page
 
   def read(rev = @revision)
     return nil unless rev
-    G.gblob("#{rev}:#{repo_file}").contents + "\n"
+    ref = "#{rev}:#{repo_file}"
+    GBLOB_CACHE[ref] ||= G.gblob(ref).contents + "\n"
   rescue Git::GitExecuteError => ex
     p :read => ex
     nil
   end
 
   def revisions
-    G.lib.log_commits(:object => "-- #{repo_file}")
+    object = "-- #{repo_file}"
+    LOG_CACHE[object] ||= G.lib.log_commits(:object => object)
   rescue Git::GitExecuteError => ex
     p :revisions => ex
     []
@@ -45,6 +49,9 @@ class Page
   rescue Git::GitExecuteError => ex
     puts ex
     nil
+  ensure
+    GBLOB_CACHE.clear
+    LOG_CACHE.clear
   end
 
   def move(to, comment = "Move #@name to #{to}")
