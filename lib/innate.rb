@@ -32,6 +32,7 @@ require 'innate/helper'
 require 'innate/node'
 require 'innate/view'
 require 'innate/session'
+require 'innate/dynamap'
 
 require 'rack/reloader'
 require 'rack/middleware_compiler'
