@@ -1,9 +1,15 @@
 require 'innate'
+require 'innate/setup'
 require 'owlscribble'
+require 'uv'
 require 'git'
 
-require 'env'
-require 'model/page'
-require 'node/init'
+Innate.setup do
+#   gem :owlscribble
+#   gem :uv
+#   gem :git
 
-Innate.start :adapter => :mongrel
+  require 'env', 'model/page', 'node/init'
+
+  start :adapter => :mongrel
+end

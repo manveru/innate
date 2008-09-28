@@ -13,8 +13,8 @@ class PageNode
   end
 
   def edit(name)
-    @save_action = "/save/#{name}"
-    @move_action = "/move/#{name}"
+    @save_action = r :save, name
+    @move_action = r :move, name
     @name = name
     @page = Page[name]
     @title = name.dewikiword
@@ -29,30 +29,25 @@ class PageNode
       @page.save(text, comment)
     end
 
-    redirect "/#{name}"
+    redirect rs(name)
   end
 
   def move(from)
     if to = request.params['move']
       Page[from].move(to)
-      redirect "/#{to}"
+      redirect rs(to)
     end
-    redirect "/#{from}"
+
+    redirect rs(from)
   end
 
   def delete(name)
     Page[name].delete
-    redirect "/"
+
+    redirect rs(:/)
   end
 
   def list
     Page.list
-  end
-
-  def redirect(target)
-    response.status = 302
-    response['location'] = target
-    response.write %{You are being redirected, please follow <a href="#{target}">this link to:#{target}</a>!}
-    throw :respond
   end
 end
