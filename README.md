@@ -36,7 +36,7 @@ access to alternate branches, bugfixes, and new features.
 
     git clone git://github.com/manveru/innate.git
 
-and add the innate/lib directory to your `RUBYLIB` environment variable.
+And add the innate/lib directory to your `RUBYLIB` environment variable.
 
 For unixish systems you may want to add it to `~/.bashrc` or the equivalent for
 your shell:
@@ -45,11 +45,49 @@ your shell:
 
 ### Via gem install
 
-#### From github
+#### From Github
 
     gem install manveru-innate --source=http://gems.github.com
 
-#### From rubyforge
+#### From Rubyforge
 
-Not yet, and not sure when i'll get around to do this, feel free to ask if you
+Not yet, and not sure when I'll get around to do this, feel free to ask if you
 want to maintain the project at rubyforge.
+
+## Concepts
+
+First let's see about the good old MVC:
+
+### Model
+
+Innate doesn't have any ties to models, it does not offer helpers or rake tasks
+or whatever you may be expecting, there is no M, use whatever you like.
+Innate is, however, known to be compatible with the ORMs listed below:
+
+* ActiveRecord
+* DataMapper
+* M4DBI
+* Og
+* Sequel
+
+Please consider giving us a heads up about what worked for you if it isn't in
+the list yet.
+
+### View
+
+Innate supports multiple templating engines and it is very easy to add your own.
+At the moment we offer following engines out of the box:
+
+* [Builder](http://builder.rubyforge.org)
+* [Haml](http://haml.hamptoncatlin.com/)
+* [Sass](http://haml.hamptoncatlin.com/docs/sass)
+* [Erubis](http://rubyforge.org/projects/erubis)
+* [Tenjin](http://www.kuwata-lab.com/tenjin/)
+
+How to build your own is discussed at [HowTo:View](http://ramaze.net/HowTo:View).
+
+### Controller
+
+Innate follows a different approach than most frameworks, making the controller
+subclassing obsolete. To make an object accessible from the outside simply
+include Innate::Node and map it to the location you would like.
