@@ -30,6 +30,7 @@ module Innate
 
     def self.register(klass, *exts)
       exts.each do |ext|
+        ext = ext.to_s
         if k = ENGINE[ext]
           warn "#{ext} is assigned to #{k} already"
         else
@@ -38,15 +39,17 @@ module Innate
       end
     end
 
-    autoload :Haml, 'innate/view/haml'
-    autoload :None, 'innate/view/none'
-    autoload :Sass, 'innate/view/sass'
-    autoload :Builder, 'innate/view/builder'
+    def self.auto_register(name, *exts)
+      autoload(name, "innate/view/#{name}".downcase)
+      register("Innate::View::#{name}", *exts)
+    end
 
-    register 'Innate::View::None', 'css'
-    register 'Innate::View::Haml', 'haml'
-    register 'Innate::View::None', 'html'
-    register 'Innate::View::Sass', 'sass'
-    register 'Innate::View::Builder', 'builder' #, 'rxml'
+    auto_register :None, :css
+    auto_register :None, :html
+
+    auto_register :Builder, :builder
+    auto_register :Haml,    :haml
+    auto_register :Sass,    :sass
+    auto_register :Tenjin,  :rbhtml
   end
 end
