@@ -88,7 +88,7 @@ module Innate
   end
 
   def self.stop(wait = 0)
-    puts "Shutdown Innate"
+    Log.info "Shutdown Innate"
     exit!
   end
 
