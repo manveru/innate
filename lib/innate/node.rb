@@ -112,9 +112,11 @@ module Innate
       return [] unless path.all?
 
       path = File.join(*path)
-      exts = @provide.keys.uniq.join(',')
+      exts = [@provide[wish], *@provide.keys].flatten.uniq.join(',')
 
-      Dir["#{path}.#{wish}.{#{exts}}"] + Dir["#{path}.{#{exts}}"]
+      glob = "#{path}.{#{wish}.,#{wish},}{#{exts},}"
+
+      Dir[glob].uniq
     end
 
     def view_root(location = nil)
