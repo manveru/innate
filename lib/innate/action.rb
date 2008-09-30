@@ -1,7 +1,7 @@
 module Innate
-  class Action < Struct.new(:node, :method, :params,
-                            :view, :layout, :instance,
-                            :exts, :wish, :options, :variables)
+  class Action < Struct.new(:node, :method, :params, :view, :layout, :instance,
+                            :exts, :wish, :options, :variables, :value,
+                            :view_value)
   end unless defined?(Innate::Action)
 
   class Action
@@ -11,21 +11,33 @@ module Innate
 
     def call
       self.instance = node.new
-      string = instance.send(method, *params) if method
-      string = File.read(view) if view
+      self.value = instance.send(method, *params) if method
+      self.view_value = File.read(view) if view
 
-      wrap_in_layout{ fulfill_wish(string) }
+      req, method = WISH_TRANSFORM[wish]
+      if method
+        require req if req
+        node.response['Content-Type'] = content_type
+        value.__send__(method)
+      else
+        wrap_in_layout{ fulfill_wish(value || view_value) }
+      end
     end
 
     CONTENT_TYPE = {
       'sass' => 'text/css',
     }
 
+    WISH_TRANSFORM = {
+      'json' => ['json', :to_json],
+      'yaml' => ['yaml', :to_yaml],
+    }
+
     def fulfill_wish(string)
       way = File.basename(view).gsub!(/.*?#{wish}\./, '') if view
 
       if way ||= node.provide[wish]
-        node.response['content-type'] = content_type
+        node.response['Content-Type'] = content_type
         View.get(way).render(self, string)
       else
         return nil

@@ -5,7 +5,7 @@ module Innate
     def self.included(obj)
       obj.send(:include, Trinity, Helper)
       obj.extend(Trinity, self)
-      obj.provide(:html => :html) # default provide
+      obj.provide(:html => :none) # provide .html with no interpolation
     end
 
     def map(location)
@@ -46,6 +46,7 @@ module Innate
       catch(:respond) do
         catch(:redirect) do
           response.write action.call
+          response['Content-Type'] ||= action.content_type
         end
       end
     end
