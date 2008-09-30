@@ -113,8 +113,6 @@ module Innate
       path = File.join(*path)
       exts = @provide.keys.uniq.join(',')
 
-      p :path => path, :exts => exts
-
       Dir["#{path}.#{wish}.{#{exts}}"] + Dir["#{path}.{#{exts}}"]
     end
 
