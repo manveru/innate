@@ -57,32 +57,25 @@ module Innate
 
     def resolve(path)
       name, *exts = path.split('.')
+      wish = exts.last || 'html'
 
-      return unless action = find_action(name)
-
-      action.options ||= {}
-      action.variables ||= {}
-      action.wish = exts.last || 'html'
-
-      assign_layout(action)
-
-      return action
+      find_action(name, wish)
     end
 
-    def find_action(name)
+    def find_action(name, wish)
       patterns_for(name){|name, params|
-        view = find_view(name, params)
+        view = find_view(name, wish, params)
         method = find_method(name, params)
 
         next unless view or method
 
-        Action.create(:node => self, :params => params,
-                      :method => method, :view => view)
+        layout = to_layout(@layout).first
+
+        Action.create(:node => self, :params => params, :wish => wish,
+                      :method => method, :view => view, :options => {},
+                      :variables => {}, :layout => layout)
       }
     end
-
-    # TODO:
-    #   * Remove rescue, it just slows things down
 
     def find_method(name, params)
       expected_arity = params.size
@@ -106,7 +99,7 @@ module Innate
       end
     end
 
-    def to_view(file)
+    def to_view(file, wish)
       return [] unless file
 
       app = Options.for('innate:app')
@@ -118,8 +111,11 @@ module Innate
       return [] unless path.all?
 
       path = File.join(*path)
-      exts = @provide.values.uniq
-      Dir["#{path}.{#{exts*','}}"]
+      exts = @provide.keys.uniq.join(',')
+
+      p :path => path, :exts => exts
+
+      Dir["#{path}.#{wish}.{#{exts}}"] + Dir["#{path}.{#{exts}}"]
     end
 
     def view_root(location = nil)
@@ -134,12 +130,12 @@ module Innate
       action.view = to_view(name)
     end
 
-    def find_view(name, params)
-      possible = to_view(name)
+    def find_view(name, wish, params)
+      possible = to_view(name, wish)
 
       if possible.size > 1
         interp = [possible.size, name, params, possible]
-        warn "%d views found for %s:%p : %p" % interp
+        Log.warn "%d views found for %s:%p : %p" % interp
       end
 
       possible.first
@@ -163,11 +159,6 @@ module Innate
       path = [app_root, app_layout, file]
       path = File.join(*path)
       Dir["#{path}.*"]
-    end
-
-    def assign_layout(action)
-      action.layout = to_layout(@layout).first
-      return action
     end
 
     def layout(name = nil)
