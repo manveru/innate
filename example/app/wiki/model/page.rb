@@ -6,7 +6,7 @@ class Page
   LOG_CACHE = {}
 
   begin
-    G = Git.open(C.repo, :log => Logger.new($stdout))
+    G = Git.open(C.repo, :log => Innate::Log)
   rescue ArgumentError
     FileUtils.mkdir_p(C.repo)
     Dir.chdir(C.repo){ Git.init('.') }
