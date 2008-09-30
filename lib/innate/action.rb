@@ -20,7 +20,7 @@ module Innate
         node.response['Content-Type'] = content_type
         value.__send__(method)
       else
-        wrap_in_layout{ fulfill_wish(value || view_value) }
+        wrap_in_layout{ fulfill_wish(view_value || value) }
       end
     end
 
