@@ -4,7 +4,7 @@ module Innate
       DEFAULT << self
 
       def respond(body, status, header)
-        resopnse.write body
+        response.write body
         response.status = status
         response.header = header
 
