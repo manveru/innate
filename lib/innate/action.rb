@@ -56,6 +56,7 @@ module Innate
 
       layout_action = dup
       layout_action.view = layout
+      layout_action.method = nil
       layout_action.layout = nil
       layout_action.variables[:content] = yield
       layout_action.call
