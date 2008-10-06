@@ -1,0 +1,16 @@
+* Header 1
+** Header 2
+*** Header 3
+
+| *name*  |     tel | room |
+| manveru | 777-777 |   42 |
+| pistos  | 888-888 |   21 |
+
+[[Home]]
+[[Home][Home]]
+SomeWhereElse
+[[file:foo.txt]]
+[[file:foo.txt][foo.txt]]
+[[rss:http://foo.bar/rss][foo rss]]
+[[http://google.com]]
+[[http://google.com][Google]]
