@@ -70,7 +70,7 @@ module Org
     SWF_DEFAULT = '; loop: false; quality: low; play: false'
 
     def link_swf(file, args)
-      args << SWF_DEFAULT << "; movie: #{file}.swf"
+      args << SWF_DEFAULT << "; movie: /swf/#{file}.swf"
       template = SWF_TEMPLATE.dup
       args.split(/\s*;\s*/).each do |subarg|
         key, value = subarg.split(/\s*:\s*/)

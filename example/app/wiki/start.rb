@@ -1,7 +1,9 @@
 require 'innate'
 require 'innate/setup'
-require 'org'
 require 'git'
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'vendor/org/lib')
+require 'org'
 
 Innate.middleware :innate do |m|
   m.use Rack::CommonLogger   # usually fast, depending on the output
