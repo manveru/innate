@@ -11,13 +11,15 @@ module Innate
         hash = {}
         hashes, names = args.partition{|arg| arg.respond_to?(:merge!) }
         hashes.each{|h| hash.merge!(h) }
+
         location = Innate.to(self) || Innate.to(self.class)
         front = Array[location, name, *names].join('/').squeeze('/')
 
         if hash.empty?
           URI(front)
         else
-          query = hash.map{|k,v| "#{u k}=#{u v}" }.join(';')
+          u = Rack::Utils.method(:escape)
+          query = hash.map{|k,v| "#{u[k]}=#{u[v]}" }.join(';')
           URI("#{front}?#{query}")
         end
       end
