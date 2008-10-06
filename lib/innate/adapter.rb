@@ -56,8 +56,14 @@ module Innate
       end
 
       def start_emongrel(app, options)
+        require 'swiftcore/evented_mongrel'
+        handler = Rack::Handler.get('emongrel')
+        handler.run(app, options)
+      end
+
+      def start_smongrel(app, options)
         require 'swiftcore/swiftiplied_mongrel'
-        handler = Rack::Handler.get('mongrel')
+        handler = Rack::Handler.get('smongrel')
         handler.run(app, options)
       end
     end
