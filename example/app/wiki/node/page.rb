@@ -5,49 +5,130 @@ class PageNode
 
   provide :html => :haml
 
-  def index(name = 'Home')
-    @page = Page[name]
-    @name = name
-    @title = name.dewikiword
-    @text = @page.render
+  def index(*name)
+    @name = name.empty? ? 'Home' : name.join('/')
+    @page = Page[@name]
+    @title = to_title(@name)
+    @toc, @html = @page.to_toc, @page.to_html
   end
 
-  def edit(name)
-    @save_action = r :save, name
-    @move_action = r :move, name
-    @name = name
-    @page = Page[name]
-    @title = name.dewikiword
+  def edit(*name)
+    redirect_referrer if name.empty?
+    @name = name.join('/')
+    @page = Page[@name]
+    @title = to_title(@name)
     @text = @page.content
   end
 
-  def save(name)
-    @page = Page[name]
+  def save
+    name, text = request[:name, :text]
+    page = Page[name]
 
-    if text = request.params['text']
-      comment = @page.exists? ? "Edit #{name}" : "Create #{name}"
-      @page.save(text, comment)
+    if text
+      comment = page.exists? ? "Edit #{name}" : "Create #{name}"
+      page.save(text, comment)
     end
 
-    redirect rs(name)
+    redirect r(:/, name)
   end
 
-  def move(from)
-    if to = request.params['move']
+  def move
+    from, to = request[:from, :to]
+
+    if from and to
       Page[from].move(to)
-      redirect rs(to)
+      redirect r(to)
     end
 
-    redirect rs(from)
+    redirect r(from)
   end
 
   def delete(name)
     Page[name].delete
 
-    redirect rs(:/)
+    redirect r(:/)
   end
 
   def list
-    Page.list
+    @list = nested_list(Page.list)
+  end
+
+  def random
+    redirect(r(:/, Page.list.sort_by{ rand }.first))
+  end
+
+  private
+
+  # make me public if you dare
+  def dot
+    dot_plot(Org::Token::LINKS)
+    Org::Token::LINKS.clear
+    "Plot finished"
+  end
+
+  def to_title(string)
+    url_decode(string).gsub(/::/, ' ')
+  end
+
+  # TODO: Make this more... elegant (maybe using Find.find as base),
+  #       no time for that now
+  def nested_list(list)
+    final = {}
+
+    list.each do |node|
+      parts = node.split('/')
+      parts.each_with_index do |part, idx|
+        ref = final
+        idx.times{|i| ref = ref[parts[i]] }
+        ref[part] ||= {}
+      end
+    end
+
+    final_nested_list(final).flatten.join("\n")
+  end
+
+  def final_nested_list(list, head = nil)
+    list.map do |node, value|
+      name = File.join(*[head, node].compact)
+      if value.empty?
+        "<li>#{list_link(name)}</li>"
+      else
+        ["<li>#{list_link(name)}</li>",
+         "<ul>",
+         final_nested_list(value, name),
+         "</ul>"]
+      end
+    end
+  end
+
+  def list_link(name)
+    a(name, name)
+  end
+
+  # Generate a pretty graph from the structure of the wiki and show
+  # it, beware of this, as it stops the server until feh returns,
+  # useful for development only.
+  def dot_plot(links)
+    require 'tempfile'
+
+    Tempfile.open('graph.dot') do |dot|
+      dot.puts 'Digraph Wiki {'
+
+      links.each do |page, links|
+        links.each do |link|
+          exists = Page[link.split('#').first].exists?
+          color = exists ? '#0000ff' : '#ff0000'
+          dot.puts %(  "#{page}" -> "#{link}" [color="#{color}"];)
+        end
+      end
+
+      dot.puts '}'
+      dot.close
+
+      system('dot', '-Tpng', '-O', dot.path)
+      system('feh', "#{dot.path}.png")
+    end
+
+    Innate::Log.info "Plot finished"
   end
 end

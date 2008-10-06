@@ -1,15 +1,14 @@
 require 'innate'
 require 'innate/setup'
-require 'owlscribble'
-require 'uv'
+require 'org'
 require 'git'
 
 Innate.middleware :innate do |m|
-  m.use Rack::CommonLogger # usually fast, depending on the output
+  m.use Rack::CommonLogger   # usually fast, depending on the output
   m.use Rack::ShowExceptions # fast
   m.use Rack::ShowStatus     # fast
   m.use Rack::Reloader       # reasonably fast depending on settings
-  m.use Rack::Lint         # slow, use only while developing
+  m.use Rack::Lint           # slow, use only while developing
   # m.use Rack::Profile      # slow, use only for debugging or tuning
   m.use Innate::Current      # necessary
 
@@ -17,9 +16,9 @@ Innate.middleware :innate do |m|
 end
 
 Innate.setup do
-#   gem :owlscribble
-#   gem :uv
-#   gem :git
+  # gem :owlscribble
+  # gem :uv
+  # gem :git
 
   require 'env', 'model/page', 'node/init'
 

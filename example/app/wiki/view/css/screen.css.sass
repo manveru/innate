@@ -32,7 +32,6 @@ input.submit
       :font-size 1em
   .menu
     :padding-right 6em
-    // :line-height 6em
     :float right
     a
       :background #f60
@@ -41,13 +40,39 @@ input.submit
       :line-height 6em
       :padding 1em
 
+*
+  margin: 0
+  padding: 0
+
 .content
   :clear both
   :padding 1em
 
-  h1
-    :margin 0
-  a.missing-wiki-link
-    :color #f00
-  a.existing-wiki-link
-    :color #00f
+  .text, .list
+    h1, h2, h3
+      :margin 0
+    h2, h3, h4, h5, h6
+      :margin-top 1em
+    a.missing-wiki-link
+      :color #f00
+    a.existing-wiki-link
+      :color #00f
+    p
+      padding: 0.5em
+    ul
+      padding-left: 2em
+    code
+      background: #eee
+
+  .toc
+    font-size: 0.8em
+    float: right
+    padding: 0.5em
+    border: 1px solid #ddd
+    background: #eee
+    ol
+      list-style-type: none
+      margin-left: 0.5em
+      li
+        list-style-type: none
+        margin-left: 0.5em

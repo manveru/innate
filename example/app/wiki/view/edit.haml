@@ -1,14 +1,14 @@
 %h1
   = "Edit #{@title.dump}"
 
-%form{:action => @save_action, :method => :POST}
+%form{:action => r(:save, @name), :method => :POST}
   %fieldset
     %legend Edit
     %label{:for => :form_text} Text:
     %textarea{:name => :text, :id => :form_text}~ @text
     %input{:type => :submit, :class => :submit, :value => 'Save'}
 
-%form{:action => @move_action, :method => :POST}
+%form{:action => r(:move, @name), :method => :POST}
   %fieldset
     %legend Move
     %label{:for => :form_move} Move to different page:

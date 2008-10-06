@@ -14,9 +14,10 @@
           %h2 A minimal git based wiki
       .menu
         %a{:href => '/list'} List
+        %a{:href => r(:random)} Random
         - if Page[@name].exists?
-          %a{:href => "/edit/#@name"} Edit
-          %a{:href => "/delete/#@name"} Delete
+          %a{:href => r(:edit, @name)} Edit
+          %a{:href => r(:delete, @name)} Delete
         - elsif @name
-          %a{:href => "/edit/#@name"} Create
+          %a{:href => r(:edit, @name)} Create
     .content= content
