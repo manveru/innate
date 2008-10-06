@@ -9,21 +9,6 @@ module Innate
       new(*members.map{|m| hash[m.to_sym] })
     end
 
-    def call
-      self.instance = node.new
-      self.value = instance.send(method, *params) if method
-      self.view_value = File.read(view) if view
-
-      req, method = WISH_TRANSFORM[wish]
-      if method
-        require req if req
-        node.response['Content-Type'] = content_type
-        value.__send__(method)
-      else
-        wrap_in_layout{ fulfill_wish(view_value || value) }
-      end
-    end
-
     CONTENT_TYPE = {
       'sass' => 'text/css',
     }
@@ -32,6 +17,40 @@ module Innate
       'json' => ['json', :to_json],
       'yaml' => ['yaml', :to_yaml],
     }
+
+    def call
+      wrap do
+        setup
+        render
+      end
+    end
+
+    def wrap
+      Current.actions << self
+      yield
+    ensure
+      Current.actions.delete(self)
+    end
+
+    private # think about internal API, don't expose it for now
+
+    def setup
+      self.instance = node.new
+      self.value = instance.send(method, *params) if method
+      self.view_value = File.read(view) if view
+    end
+
+    def render
+      req, method = WISH_TRANSFORM[wish]
+
+      if method
+        require req if req
+        node.response['Content-Type'] = content_type
+        value.__send__(method)
+      else
+        wrap_in_layout{ fulfill_wish(view_value || value) }
+      end
+    end
 
     def fulfill_wish(string)
       way = File.basename(view).gsub!(/.*?#{wish}\./, '') if view

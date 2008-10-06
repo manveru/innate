@@ -1,3 +1,6 @@
+require 'innate/request'
+# require 'innate/response'
+
 module Innate
   class Current
     extend Trinity
@@ -16,6 +19,7 @@ module Innate
     def setup(env)
       req = STATE[:request] = Rack::Request.new(env)
       res = STATE[:response] = Rack::Response.new
+      STATE[:actions] = []
       STATE[:session] = Session.new(req, res)
     end
   end
