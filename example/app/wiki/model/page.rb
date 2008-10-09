@@ -1,11 +1,11 @@
 require 'logger'
+require 'vendor/git_extension'
 
 class Page
   C = Options.for(:wiki)
   GBLOB_CACHE = {}
   LOG_CACHE = {}
   EXT = '.org'
-  DEFAULT_LANGUAGE = 'en'
 
   begin
     G = Git.open(C.repo, :log => Innate::Log)
@@ -20,10 +20,10 @@ class Page
   end
 
   def self.language
-    Innate::Current.session[:language] || DEFAULT_LANGUAGE
+    Innate::Current.session[:language] || C.default_language
   end
 
-  def self.list
+  def self.list(language)
     Dir["#{C.repo}/#{language}/**/*#{EXT}"].map{|path|
       path.gsub(C.repo, '').gsub(/#{language}\//, '').gsub(/#{EXT}$/, '')[1..-1]
     }
@@ -34,6 +34,21 @@ class Page
     render(out * "\n")
   end
 
+  def self.diff(sha, style)
+    require 'uv'
+    diff = G.diff(sha).patch
+    Uv.parse(diff, output = 'xhtml', syntax_name = 'diff', line_numbers = false, render_style = style, headers = false)
+  end
+
+  def diff(sha, style)
+    diff = G.gcommit(sha).diff(repo_file).patch
+    Uv.parse(diff, output = 'xhtml', syntax_name = 'diff', line_numbers = false, render_style = style, headers = false)
+  end
+
+  def self.show(sha, file)
+    G.gblob("#{sha}:#{file}").contents
+  end
+
   def initialize(name, revision = nil)
     @name = name
     @org = nil
@@ -41,7 +56,7 @@ class Page
   end
 
   def read(rev = @revision)
-    return File.read(file)
+#    return File.read(file)
     return nil unless rev
     ref = "#{rev}:#{repo_file}"
     GBLOB_CACHE[ref] ||= G.gblob(ref).contents + "\n"
@@ -92,8 +107,7 @@ class Page
   end
 
   def history
-    pp revisions
-    G.lib.log_commits(repo_file).map do |rev|
+    G.lib.log_commits_follow(:object => repo_file).map do |rev|
       G.gcommit(rev)
     end
   end

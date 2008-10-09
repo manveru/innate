@@ -17,7 +17,7 @@ module Innate
     end
 
     def setup(env)
-      req = STATE[:request] = Rack::Request.new(env)
+      req = STATE[:request] = Request.new(env)
       res = STATE[:response] = Rack::Response.new
       STATE[:actions] = []
       STATE[:session] = Session.new(req, res)

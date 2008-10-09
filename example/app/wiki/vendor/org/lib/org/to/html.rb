@@ -46,6 +46,9 @@ module Org
       when *%w[ruby c delphi html nitro_xhtml plaintext rhtml xml]
         tokens = CodeRay.scan(code, language)
         html = tokens.html(:wrap => :div)
+      when *%w[diff]
+        require 'uv'
+        Uv.parse(code, output = 'xhtml', syntax_name = language, line_numbers = false, render_style = 'amy', headers = false)
       else
         code = language if not code or code.strip.empty?
         html = tag(:pre, code)

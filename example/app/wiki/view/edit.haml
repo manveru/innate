@@ -1,11 +1,14 @@
 %h1
   = "Edit #{@title.dump}"
 
-%form{:action => r(:save, @name), :method => :POST}
+%form{:action => r(:save), :method => :POST}
+  %input{:type => :hidden, :name => :name, :value => @name}
   %fieldset
     %legend Edit
     %label{:for => :form_text} Text:
     %textarea{:name => :text, :id => :form_text}~ @text
+    %label{:for => :form_comment} Comment:
+    %input{:type => :text, :name => :comment, :value => "Update #{@name}", :id => :form_comment}
     %input{:type => :submit, :class => :submit, :value => 'Save'}
 
 %form{:action => r(:move, @name), :method => :POST}

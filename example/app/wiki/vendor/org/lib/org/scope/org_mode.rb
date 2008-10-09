@@ -32,11 +32,13 @@ module Org
     block.scope :ul do |ul|
       ul.rule :li, /[ \t]+\*+\s*/, :start => :li, :bol => true
       ul.rule :close, /\n/, :end => :ul
+      ul.rule :close, /(.)/, :end => :ul, :unscan => true
 
       ul.scope :li do |li|
         li.apply(&inline_rules)
         li.rule :text, /(.)/
-        li.rule :close, /\n/, :end => :li, :unscan => false
+        li.rule :ul, /[ \t]+\*+\s*/, :start => ul, :bol => true
+        li.rule :close, /\n/, :end => :li
       end
     end
 

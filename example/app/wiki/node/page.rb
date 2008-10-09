@@ -1,7 +1,7 @@
 class PageNode
   include Innate::Node
   map '/'
-  layout 'page'
+  layout 'default'
 
   provide :html => :haml
 
@@ -57,6 +57,20 @@ class PageNode
     @history = @page.history
   end
 
+  def diff(sha, *file)
+    @sha, @name = sha, file.join('/')
+    style = session[:uv_style] = request[:uv_style] || session[:uv_style] || 'active_4d'
+    @styles = Uv.themes
+    @text = Page.new(@name).diff(sha, style)
+  end
+
+  def show(sha, *file)
+    @sha, @name = sha, file.join('/')
+    @page = Page.new(@name, sha)
+    @title = to_title(@name)
+    @toc, @html = @page.to_toc, @page.to_html
+  end
+
   def list
     @list = nested_list(Page.list(locale))
   end
@@ -71,7 +85,7 @@ class PageNode
   end
 
   def locale
-    session[:language] || DEFAULT_LANGUAGE
+    session[:language] || Options.for(:wiki).default_language
   end
 
   private

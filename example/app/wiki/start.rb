@@ -1,6 +1,9 @@
 require 'innate'
 require 'innate/setup'
+require 'uv'
 require 'git'
+
+Uv.copy_files('xhtml', File.join(File.dirname(__FILE__), 'public'))
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'vendor/org/lib')
 require 'org'

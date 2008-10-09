@@ -2,6 +2,7 @@ Options.for(:wiki){|wiki|
   wiki.title = 'Ramaze Wiki'
   wiki.root = File.dirname(__FILE__)
   wiki.repo = File.expand_path(ENV['WIKI_HOME'] || File.join(wiki.root, 'pages'))
+  wiki.default_language = 'en'
 }
 
 require 'org/scope/org_mode'
@@ -60,8 +61,13 @@ module Org
       tag(:a, desc, :href => "irc://#{link}", :class => 'wiki-link-external')
     end
 
-    def link_wikipedia(link, desc)
-      tag(:a, desc, :href => "http://en.wikipedia.org/w/#{link}", :class => 'wiki-link-external')
+    # TODO: format for search or name of article.
+    #       "I'm feeling lucky" google search for wp might be best?
+    def link_wikipedia(term, desc)
+      # query = Rack::Utils.escape("site:wikipedia.org #{term}")
+      # href = "http://google.com/?q=#{query}"
+      term = Rack::Utils.escape(term)
+      tag(:a, desc, :href => "http://en.wikipedia.org/w/#{term}", :class => 'wiki-link-external')
     end
 
     # what a fantastically cheap hack :)

@@ -33,8 +33,12 @@ input.submit
       :padding 0.5em
     ul
       :padding-left 2em
+      :margin-top 1em
     code
       :background #eee
+    div.CodeRay
+      :margin 0.5em
+      :padding 0.5em
   .toc
     :clear right
     :font-size 0.8em
@@ -48,7 +52,8 @@ input.submit
       li
         :list-style-type none
         :margin-left 0.5em
-.mod
+
+.mod, .uv_select
   :margin 0.5em
   :font-size 0.8em
   :float right
@@ -60,9 +65,16 @@ input.submit
   :padding 1em
   table
     :border-collapse collapse
+    tr.current
+      :background #efe
+    tr.old
+      :background #ddd
     td
       :border 1px solid #ddd
       :padding 0.2em
+
+.diff
+  :margin-top 1em
 
 .head
   :background #38f

@@ -27,7 +27,7 @@ module Org
 
       if mode = @options[:start]
         # puts "Start #{mode}"
-        state.scope = scope.scopes[mode]
+        state.scope = mode.is_a?(Scope) ? mode : scope.scopes[mode]
         parent << token
         state.parent = token
       elsif mode = @options[:end]
