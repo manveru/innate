@@ -1,0 +1,24 @@
+.mod
+  %b Control: 
+  - if @page and @page.exists?
+    %a{:href => r(:edit, @name)} Edit
+    %a{:href => r(:delete, @name)} Delete
+    %a{:href => r(:history, @name)} History
+  - elsif @name
+    %a{:href => r(:edit, @name)} Create
+
+%h1= h "History of #{@name}"
+
+.history
+  %table
+    %tr
+      %td Message
+      %td Author
+      %td Date
+      %td ID
+    - @history.each do |log|
+      %tr
+        %td= h log.message
+        %td= h log.author.name
+        %td= h log.date
+        %td= h log.objectish

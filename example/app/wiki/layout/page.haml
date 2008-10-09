@@ -9,15 +9,13 @@
   %body
     .head
       .title
-        %a{:href => '/'}
+        %a{:href => '/Home', :alt => 'Home'}
           %h1 Innate Wiki
           %h2 A minimal git based wiki
       .menu
-        %a{:href => '/list'} List
-        %a{:href => r(:random)} Random
-        - if Page[@name].exists?
-          %a{:href => r(:edit, @name)} Edit
-          %a{:href => r(:delete, @name)} Delete
-        - elsif @name
-          %a{:href => r(:edit, @name)} Create
+        %a{:href => '/list'} List Pages
+        %a{:href => r(:random)} Random Page
+        .locale
+          %a{:href => r(:language, 'en')} English
+          %a{:href => r(:language, 'ja')} 日本語
     .content= content

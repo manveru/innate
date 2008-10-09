@@ -5,6 +5,7 @@ class Page
   GBLOB_CACHE = {}
   LOG_CACHE = {}
   EXT = '.org'
+  DEFAULT_LANGUAGE = 'en'
 
   begin
     G = Git.open(C.repo, :log => Innate::Log)
@@ -18,9 +19,13 @@ class Page
     new(name)
   end
 
+  def self.language
+    Innate::Current.session[:language] || DEFAULT_LANGUAGE
+  end
+
   def self.list
-    Dir["#{C.repo}/**/*#{EXT}"].map{|path|
-      path.gsub(C.repo, '').gsub(/#{EXT}$/, '')[1..-1]
+    Dir["#{C.repo}/#{language}/**/*#{EXT}"].map{|path|
+      path.gsub(C.repo, '').gsub(/#{language}\//, '').gsub(/#{EXT}$/, '')[1..-1]
     }
   end
 
@@ -49,7 +54,7 @@ class Page
 
   def revisions
     object = "-- #{repo_file}"
-    LOG_CACHE[object] ||= G.lib.log_commits(:object => object)
+    LOG_CACHE[object] = G.lib.log_commits(:object => object)
   rescue Git::GitExecuteError => ex
     p :revisions => ex
     []
@@ -86,6 +91,13 @@ class Page
     nil
   end
 
+  def history
+    pp revisions
+    G.lib.log_commits(repo_file).map do |rev|
+      G.gcommit(rev)
+    end
+  end
+
   def render(string = content)
     self.class.render(string)
   end
@@ -107,7 +119,11 @@ class Page
   end
 
   def repo_file(name = @name)
-    File.join *"#{name}#{EXT}".split('/')
+    File.join *"#{language}/#{name}#{EXT}".split('/')
+  end
+
+  def language
+    self.class.language
   end
 
   def content

@@ -6,7 +6,8 @@ class PageNode
   provide :html => :haml
 
   def index(*name)
-    @name = name.empty? ? 'Home' : name.join('/')
+    redirect r(:/, 'Home') if name.empty?
+    @name = name.join('/')
     @page = Page[@name]
     @title = to_title(@name)
     @toc, @html = @page.to_toc, @page.to_html
@@ -44,17 +45,33 @@ class PageNode
   end
 
   def delete(name)
+    raise "change"
     Page[name].delete
 
     redirect r(:/)
   end
 
+  def history(*name)
+    @name = name.join('/')
+    @page = Page[@name]
+    @history = @page.history
+  end
+
   def list
-    @list = nested_list(Page.list)
+    @list = nested_list(Page.list(locale))
   end
 
   def random
     redirect(r(:/, Page.list.sort_by{ rand }.first))
+  end
+
+  def language(name)
+    session[:language] = name
+    redirect_referrer
+  end
+
+  def locale
+    session[:language] || DEFAULT_LANGUAGE
   end
 
   private

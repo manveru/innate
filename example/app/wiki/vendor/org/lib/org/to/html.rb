@@ -41,7 +41,6 @@ module Org
       language, code = *values
       require 'coderay'
       language = 'nitro_xhtml' if language == 'ezamar'
-      p :language => language, :code => code
 
       case language
       when *%w[ruby c delphi html nitro_xhtml plaintext rhtml xml]

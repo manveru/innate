@@ -1,3 +1,7 @@
+*
+  :margin 0
+  :padding 0
+
 body
   :background #fff
   :margin 0
@@ -9,10 +13,56 @@ textarea
   :display block
   :padding 1em
 
-input
-
 input.submit
   :width 95%
+
+.content
+  :clear both
+  :padding 1em
+
+  .text, .list
+    h1, h2, h3
+      :margin 0
+    h2, h3, h4, h5, h6
+      :margin-top 1em
+    a.missing-wiki-link
+      :color #f00
+    a.existing-wiki-link
+      :color #00f
+    p
+      :padding 0.5em
+    ul
+      :padding-left 2em
+    code
+      :background #eee
+  .toc
+    :clear right
+    :font-size 0.8em
+    :float right
+    :padding 0.5em
+    :border 1px solid #ddd
+    :background #eee
+    ol
+      :list-style-type none
+      :margin-left 0.5em
+      li
+        :list-style-type none
+        :margin-left 0.5em
+.mod
+  :margin 0.5em
+  :font-size 0.8em
+  :float right
+  :padding 0.5em
+  :border 1px solid #ddd
+  :background #eee
+
+.history
+  :padding 1em
+  table
+    :border-collapse collapse
+    td
+      :border 1px solid #ddd
+      :padding 0.2em
 
 .head
   :background #38f
@@ -31,48 +81,14 @@ input.submit
       :padding-left 0.5em
       :font-size 1em
   .menu
-    :padding-right 6em
     :float right
+    :line-height 1.7em
+    :margin 0.5em
+    :text-align right
+    .locale
     a
-      :background #f60
-      :color #000
+      :color #fff
+      :padding 0.2em
       :text-decoration none
-      :line-height 6em
-      :padding 1em
-
-*
-  margin: 0
-  padding: 0
-
-.content
-  :clear both
-  :padding 1em
-
-  .text, .list
-    h1, h2, h3
-      :margin 0
-    h2, h3, h4, h5, h6
-      :margin-top 1em
-    a.missing-wiki-link
-      :color #f00
-    a.existing-wiki-link
-      :color #00f
-    p
-      padding: 0.5em
-    ul
-      padding-left: 2em
-    code
-      background: #eee
-
-  .toc
-    font-size: 0.8em
-    float: right
-    padding: 0.5em
-    border: 1px solid #ddd
-    background: #eee
-    ol
-      list-style-type: none
-      margin-left: 0.5em
-      li
-        list-style-type: none
-        margin-left: 0.5em
+      &:hover
+        :background #aaf
