@@ -83,8 +83,7 @@ module Org
       end
 
       b.target!
-    rescue SocketError => ex # so i can work on it local
-      pp ex
+    rescue SocketError # so i can work on it local
       link = '/home/manveru/feeds/rss_v2_0_msgs.xml'
       retry
     end
