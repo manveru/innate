@@ -9,6 +9,7 @@ require 'org/scope/org_mode'
 require 'org/to/html'
 require 'org/to/toc'
 require 'vendor/feed_convert'
+require 'builder'
 
 module Org
   class Token
@@ -45,7 +46,7 @@ module Org
     def link_internal(link, desc)
       this = Innate::Current::action.params.join('/')
       add_node(this, link)
-      exists = Page[link.split('#').first].exists?
+      exists = Page.new(link.split('#').first, :speedup).exists?
       style = "#{exists ? 'existing' : 'missing'}-wiki-link"
       tag(:a, desc, :href => PageNode.r(link), :class => style)
     end
@@ -66,7 +67,6 @@ module Org
 
     def link_feed(link, desc)
       feed = FeedConvert.parse(open(link))
-      require 'builder'
 
       b = Builder::XmlMarkup.new
 
