@@ -8,6 +8,7 @@ Options.for(:wiki){|wiki|
 require 'org/scope/org_mode'
 require 'org/to/html'
 require 'org/to/toc'
+require 'vendor/feed_convert'
 
 module Org
   class Token
@@ -29,6 +30,8 @@ module Org
           link_irc(rest, desc)
         when /^wp$/
           link_wikipedia(rest, desc)
+        when /^feed|rss|atom$/
+          link_feed(rest, desc)
         else
           link_external(link, desc || link)
         end
@@ -59,6 +62,31 @@ module Org
 
     def link_irc(link, desc)
       tag(:a, desc, :href => "irc://#{link}", :class => 'wiki-link-external')
+    end
+
+    def link_feed(link, desc)
+      feed = FeedConvert.parse(open(link))
+      require 'builder'
+
+      b = Builder::XmlMarkup.new
+
+      b.div(:class => 'feed') do
+        b.h2{ b.a(feed.title, :href => feed.link) } if desc
+
+        b.ul do
+          feed.items.map do |item|
+            b.li do
+              b.a(item.title, :href => item.link)
+            end
+          end
+        end
+      end
+
+      b.target!
+    rescue SocketError => ex # so i can work on it local
+      pp ex
+      link = '/home/manveru/feeds/rss_v2_0_msgs.xml'
+      retry
     end
 
     # TODO: format for search or name of article.

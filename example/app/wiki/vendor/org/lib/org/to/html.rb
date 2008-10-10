@@ -55,29 +55,6 @@ module Org
       end
     end
 
-#     def html_link(leader, href = nil, title = nil)
-#       case leader
-#       when 'http', 'https', 'ftp'
-#         link_out("#{leader}:#{href}", title)
-#       else
-#         if method = "link_#{leader}" and respond_to?(method)
-#           p self
-#           send("link_#{leader}", href, title)
-#         else
-#           link_in(leader, href)
-#         end
-#       end
-#     end
-
-#     def link_out(href, title)
-#       tag(:a, title || href, :href => href)
-#     end
-
-#     # Respond to [[name]] and [[name][title]]
-#     def link_in(href, title)
-#       tag(:a, title || href, :href => "/#{href}")
-#     end
-
     def tag(*args)
       Tag.new(*args)
     end
