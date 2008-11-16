@@ -7,10 +7,10 @@ module Innate
         into.extend(self)
       end
 
-      def r(name, *args)
+      def route(name, *args)
         hash = {}
         hashes, names = args.partition{|arg| arg.respond_to?(:merge!) }
-        hashes.each{|h| hash.merge!(h) }
+        hashes.each{|to_merge| hash.merge!(to_merge) }
 
         location = Innate.to(self) || Innate.to(self.class)
         front = Array[location, name, *names].join('/').squeeze('/')
@@ -18,11 +18,12 @@ module Innate
         if hash.empty?
           URI(front)
         else
-          u = Rack::Utils.method(:escape)
-          query = hash.map{|k,v| "#{u[k]}=#{u[v]}" }.join(';')
+          escape = Rack::Utils.method(:escape)
+          query = hash.map{|key, value| "#{escape[key]}=#{escapeu[value]}" }.join(';')
           URI("#{front}?#{query}")
         end
       end
+      alias r route
 
       # Usage, given Wiki is mapped to `/wiki`:
       #   Wiki.a(:home)                   # => '<a href="/wiki/home">home</a>'
@@ -30,11 +31,12 @@ module Innate
       #   Wiki.a('home', :/)              # => '<a href="/wiki/">home</a>'
       #   Wiki.a('foo', :/, :foo => :bar) # => '<a href="/wiki/?foo=bar">foo</a>'
 
-      def a(text, *args)
+      def anchor(text, *args)
         href = args.empty? ? r(text) : r(*args)
         text = Rack::Utils.escape_html(text)
         %(<a href="#{href}">#{text}</a>)
       end
+      alias a anchor
     end
   end
 end

@@ -154,10 +154,8 @@ module Innate
       return [] unless file
 
       app = Options.for('innate:app')
-      app_root = app[:root]
-      app_layout = app[:layout]
 
-      path = [app_root, app_layout, file]
+      path = [app[:root], app[:layout], file]
       path = File.join(*path)
       Dir["#{path}.*"]
     end
