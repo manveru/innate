@@ -32,6 +32,11 @@ module Rack
       @app = Rack::Cascade.new(apps)
     end
 
+    def static(path)
+      require 'rack/contrib'
+      Rack::ConditionalGet.new(Rack::ETag.new(Rack::File.new(path)))
+    end
+
     def call(env)
       compile
       @compiled.call(env)
