@@ -3,15 +3,17 @@ module Innate
     module Redirect
       DEFAULT << self
 
-      def respond(body, status, header)
+      def respond(body, status = 200, header = {})
         response.write body
         response.status = status
-        response.header = header
+        header['Content-Type'] ||= 'text/html'
+        header.each{|k,v| response[k] = v }
 
         throw(:respond)
       end
 
-      def respond!(body, status, header)
+      def respond!(body, status = 200, header = {})
+        header['Content-Type'] ||= 'text/html'
         throw(:respond, Response.new(body, status, header))
       end
 
