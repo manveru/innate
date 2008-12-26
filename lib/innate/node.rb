@@ -3,7 +3,7 @@ require 'set'
 module Innate
   module Node
     def self.included(obj)
-      obj.send(:include, Trinity, Helper)
+      obj.__send__(:include, Helper)
       obj.extend(Trinity, self)
       obj.provide(:html => :none) # provide .html with no interpolation
     end
