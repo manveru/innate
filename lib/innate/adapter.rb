@@ -11,9 +11,19 @@ module Rack
 end
 
 module Innate
+
+  # Lightweight wrapper around Rack::Handler, will apply our options in a
+  # unified manner and deal with adapters that don't like to do what we want or
+  # where Rack doesn't want to take a stand.
+
   module Adapter
     class << self
 
+      # Pass given app to the Handler, handler is chosen based on
+      # config.adapter option.
+      # If there is a method named start_name_of_adapter it will be run instead
+      # of the default run method of the handler, this makes it easy to define
+      # custom startup of handlers for your server of choice
       def start(app, config)
         name = config.adapter.to_s.downcase
         options = { :Host => config.host, :Port => config.port }
@@ -34,6 +44,8 @@ module Innate
         Rack::Handler.get('ebb').run(app, options)
       end
 
+      # We want webrick to use our logger.
+
       def start_webrick(app, options)
         handler = Rack::Handler.get('webrick')
         options = {
@@ -48,6 +60,8 @@ module Innate
         handler.run(app, options)
       end
 
+      # Thin shouldn't give excessive output, especially not to $stdout
+
       def start_thin(app, options)
         require 'thin'
         handler = Rack::Handler.get('thin')
@@ -55,11 +69,15 @@ module Innate
         handler.run(app, options)
       end
 
+      # swiftcore has its own handler outside of rack
+
       def start_emongrel(app, options)
         require 'swiftcore/evented_mongrel'
         handler = Rack::Handler.get('emongrel')
         handler.run(app, options)
       end
+
+      # swiftcore has its own handler outside of rack
 
       def start_smongrel(app, options)
         require 'swiftcore/swiftiplied_mongrel'
