@@ -1,10 +1,74 @@
 module Innate
+
   # Subclass Rack::Request and add some convenient methods.
+  #
+  # An instance is available via the #request method in your Node.
+  #
+  # NOTE:
+  #   Please make sure to read the documentation of Rack::Request together with
+  #   this, as there are a lot of features available.
+  #
+  # A list of methods from Rack::Request so you get a gist of it:
+  #
+  # ## Generally
+  #
+  # * body
+  # * cookies
+  # * env
+  # * fullpath
+  # * host
+  # * port
+  # * scheme
+  # * url
+  #
+  # ## ENV shortcuts
+  #
+  # * accept_encoding
+  # * content_charset
+  # * content_length
+  # * content_type
+  # * ip
+  # * media_type
+  # * media_type_params
+  # * path_info
+  # * path_info=
+  # * query_string
+  # * referrer
+  # * script_name
+  # * script_name=
+  # * xhr?
+  #
+  # ## Query request method
+  #
+  # * delete?
+  # * get?
+  # * head?
+  # * post?
+  # * put?
+  # * request_method
+  #
+  # ## parameter handling
+  #
+  # * []
+  # * []=
+  # * form_data?
+  # * params
+  # * values_at
+
   class Request < Rack::Request
+    # Currently handled request from Innate::STATE[:request]
+    # Call it from anywhere via Innate::Request.current
     def self.current
       Current.request
     end
 
+    # Let's allow #[] to act like #values_at.
+    #
+    # Usage given a GET request like /hey?foo=duh&bar=doh
+    #
+    #   request[:foo, :bar] # => ['duh', 'doh']
+    #
+    # Both +value+ and the elements of +keys+ will be turned into String by #to_s.
     def [](value, *keys)
       return super(value) if keys.empty?
       [value, *keys].map{|k| super(k) }
@@ -14,10 +78,26 @@ module Innate
       env['REQUEST_URI'] || env['PATH_INFO']
     end
 
+    # Answers with a subset of request.params with only the key/value pairs for
+    # which you pass the keys.
+    # Valid keys are objects that respond to :to_s
+    #
+    # Example:
+    #   request.params
+    #   # => {'name' => 'jason', 'age' => '45', 'job' => 'lumberjack'}
+    #   request.subset('name')
+    #   # => {'name' => 'jason'}
+    #   request.subset(:name, :job)
+    #   # => {'name' => 'jason', 'job' => 'lumberjack'}
+
     def subset(*keys)
       keys = keys.map{|k| k.to_s }
       params.reject{|k,v| not keys.include?(k) }
     end
+
+    # Try to figure out the domain we are running on, this might work for some
+    # deployments but fail for others, given the combination of servers in
+    # front.
 
     def domain(path = '/')
       scheme = env['rack.url_scheme'] || 'http'
