@@ -30,8 +30,14 @@ module Innate
 
     def call(env)
       path = env['PATH_INFO']
+      path << '/' if path.empty?
+
       try_resolve(path)
+
       response.finish
+    rescue Exception => exception
+      Log.error(exception)
+      raise(exception)
     end
 
     def try_resolve(path)
