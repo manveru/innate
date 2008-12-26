@@ -14,14 +14,7 @@ module Innate
       end
 
       def wrap
-        thread = ::Thread.new{
-          begin
-            yield
-          rescue Object => ex
-            ex
-          end
-        }
-        value = thread.value
+        value = ::Thread.new{ begin; yield; rescue Exception => ex; ex; end }.value
         raise(value) if Exception === value
         return value
       end
