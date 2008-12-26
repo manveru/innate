@@ -120,14 +120,14 @@ module Innate
     end
   end
 
-  def self.call(env)
+  def self.call(env, mw = :innate)
     this_file = File.expand_path(__FILE__)
     count = 0
-    caller_lines{|f, l, m| count += 1 if f == this_file }
+    caller_lines(caller){|f, l, m| count += 1 if f == this_file }
 
     raise RuntimeError, "Recursive loop in Innate::call" if count > 10
 
-    middleware.call(env)
+    middleware(mw).call(env)
   end
 
   def self.go_figure_root(options, backtrace)
