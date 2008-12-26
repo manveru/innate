@@ -44,7 +44,7 @@ module Innate
       if action = resolve(path)
         action_found(action)
       else
-        action_not_found
+        action_not_found(path)
       end
     end
 
@@ -57,9 +57,39 @@ module Innate
       end
     end
 
-    def action_not_found
+    # The default handler in case no action was found, kind of method_missing.
+    # Must modify the response in order to have any lasting effect.
+    #
+    # Reasoning:
+    # * We are doing this is in order to avoid tons of special error handling
+    #   code that would impact runtime and make the overall API more
+    #   complicated.
+    # * This cannot be a normal action is that methods defined in Innate::Node
+    #   will never be considered for actions.
+    # * Also, you should not use #try_resolve to do the dispatching manually,
+    #   as this may result in recursion until you get a SystemStackError
+    #
+    # To use a normal action with template do following:
+    #
+    #   class Hi
+    #     include Innate::Node
+    #     map '/'
+    #
+    #     def action_not_found(path)
+    #       # No normal action, runs on bare metal
+    #       action_found('/not_found')
+    #     end
+    #
+    #     def not_found
+    #       # Normal action
+    #       "Sorry, I do not exist"
+    #     end
+    #   end
+
+    def action_not_found(path)
       response.status = 404
-      response.write 'Action not found'
+      response['Content-Type'] = 'text/plain'
+      response.write("Action not found at: %p" % path)
     end
 
     def resolve(path)
