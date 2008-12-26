@@ -45,10 +45,10 @@ module Innate
     end
 
     def render
-      req, method = WISH_TRANSFORM[wish]
+      dependency, method = WISH_TRANSFORM[wish]
 
       if method
-        require req if req
+        require dependency if dependency
         node.response['Content-Type'] = content_type
         value.__send__(method)
       else
@@ -81,6 +81,11 @@ module Innate
       layout_action.view = layout
       layout_action.method = nil
       layout_action.layout = nil
+      instance.instance_variables.each{|iv|
+        iv_value = instance.instance_variable_get(iv)
+        iv_name = iv.to_s[1..-1]
+        layout_action.variables[iv_name] = iv_value
+      }
       layout_action.variables[:content] = yield
       layout_action.call
     end
