@@ -37,7 +37,7 @@ class FooNodeLink
   include Innate::Node
   map '/foo'
 
-  class_helper :link, :cgi
+  helper :extend => [:link, :cgi]
 end
 
 describe Innate::Helper::Link do

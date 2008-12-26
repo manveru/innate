@@ -5,6 +5,8 @@ Bacon.extend(Bacon::TestUnitOutput)
 
 require 'lib/innate'
 
+Innate.setup_middleware
+
 =begin
 Innate.start do
   use Rack::CommonLogger

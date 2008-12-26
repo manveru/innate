@@ -19,7 +19,7 @@ module Innate
           URI(front)
         else
           escape = Rack::Utils.method(:escape)
-          query = hash.map{|key, value| "#{escape[key]}=#{escapeu[value]}" }.join(';')
+          query = hash.map{|key, value| "#{escape[key]}=#{escape[value]}" }.join(';')
           URI("#{front}?#{query}")
         end
       end
