@@ -10,12 +10,11 @@ module Innate
       names.each do |name|
         if name.respond_to?(:to_hash)
           name.to_hash.each do |key, meth|
-            key, meth = key.to_sym, meth.to_sym
-            yield key, meth
+            yield(key.to_sym, meth.to_sym)
           end
         else
           key = meth = name.to_sym
-          yield key, meth
+          yield(key, meth)
         end
       end
     end
@@ -31,7 +30,7 @@ module Innate
     # Simple writer accessor to STATE[key]=
     def state_writer(*names)
       StateAccessor.each(*names) do |key, meth|
-        define_method("#{meth}="){|obj| STATE[key] = obj }
+        class_eval("def %s=(obj) STATE[%p] = obj; end" % [meth, key])
       end
     end
 
@@ -47,7 +46,7 @@ module Innate
             end
           end
         else
-          define_method(meth){ STATE[key] }
+          class_eval("def %s; STATE[%p]; end" % [meth, key])
         end
       end
     end
