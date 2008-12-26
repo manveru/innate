@@ -8,6 +8,7 @@ end
 # stdlib
 require 'pp'
 require 'set'
+require 'ipaddr'
 
 # 3rd party
 begin; require 'rubygems'; rescue LoadError; end
