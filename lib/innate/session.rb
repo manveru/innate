@@ -1,6 +1,10 @@
 require 'digest/sha1'
 
 module Innate
+
+  # Mostly ported from Ramaze, but behaves lazy, no session will be created if
+  # no session is used.
+
   class Session
     CACHE = {}
 
