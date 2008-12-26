@@ -1,8 +1,14 @@
 module Innate
-  # Acts as namespace for helpers
+
+  # Acts as name-space for helpers
+
   module Helper
     DEFAULT = Set.new
     LOOKUP = EXPOSE = Set.new
+
+    # Usually called from Innate::Node::included
+    # We also include Innate::Trinity here, as it may be needed in models when
+    # you use helper methods there.
 
     def self.included(into)
       into.extend(HelperAccess)
@@ -11,15 +17,34 @@ module Innate
     end
   end
 
-  # Provides access to ::helper and ::class_helper methods
-  module HelperAccess
-    public
+  # Provides access to #helper method
+  #
+  # Usage:
+  #
+  #   class Hi
+  #     extend Innate::HelperAccess
+  #     helper :cgi, :both => [:link, :aspect]
+  #   end
+  #
+  # This will include the cgi helper into Hi, and include/extend Hi with the link and aspect helpers
+  #
+  # NOTE:
+  #   The API for the helper method isn't set in stone yet, I'm torn between
+  #   making a single method that can handle both including and extending and
+  #   separate methods.
+  #   The current approach has some appeal, as it doesn't pollute the method
+  #   names-pace further, but might be less intuitive to someone encountering
+  #   one of the following:
+  #
+  #     helper :cgi, :link, :aspect
+  #     helper :both => :link
+  #     helper :extend => :link
+  #     helper :cgi, :both => :link
+  #     helper :both => [:link, :redirect]
 
-#     helper :cgi, :link, :aspect
-#     helper :both => :link
-#     helper :extend => :link
-#     helper :cgi, :both => :link
-#     helper :both => [:link, :redirect]
+  module HelperAccess
+
+    # see comments above
 
     def helper(*args)
       opts = {:include => [], :extend => [], :both => []}
@@ -46,11 +71,23 @@ module Innate
     end
   end
 
+  # Here come the utility methods used from the HelperAccess#helper method, we
+  # do this to keep method count at a minimum and because HelpersHelper is such
+  # an awesome name that just can't be wasted.
+
   module HelpersHelper
     EXTS = %w[rb so bundle]
+
+    # By default, lib/innate/ is added to the PATH, you may add your
+    # application root here so innate will look in your own helper/ directory.
     PATH = [ File.dirname(__FILE__) ]
 
+    # all of the following are singleton methods
+
     module_function
+
+    # Yield all the modules we can find for the given names of helpers, try to
+    # require them if not available.
 
     def each(*names)
       names.each do |name|
@@ -66,12 +103,22 @@ module Innate
       end
     end
 
+    # Based on a simple set of rules we will first construct the most likely
+    # name for the helper and then grep the constants in the Innate::Helper
+    # module for any matches.
+    #
+    # helper :foo_bar # => FooBar
+    # helper :foo # => Foo
+
     def get(name)
       name = name.to_s.split('_').map{|e| e.capitalize}.join
       if found = Helper.constants.grep(/^#{name}$/i).first
         Helper.const_get(found)
       end
     end
+
+    # Figure out files that might have the helper we ask for and then require
+    # the first we find, if any.
 
     def try_require(name)
       if found = Dir[glob(name)].first
@@ -81,9 +128,16 @@ module Innate
       end
     end
 
+    # Return a nice list of filenames in correct locations with correct
+    # filename-extensions.
+    #
+    # by the way: Array#* is an alias for Array#join
+
     def glob(name = '*')
       "{#{paths * ','}}/helper/#{name}.{#{EXTS * ','}}"
     end
+
+    # In case you want to do something better.
 
     def paths
       PATH
@@ -91,7 +145,8 @@ module Innate
   end
 end
 
-# Require default helpers as far as we can find them
+# Require default helpers as far as we can find them.
+# This is pure magic and way too DRY, anyone got a dispel handy?
 Dir[Innate::HelpersHelper.glob].each do |file|
   require file if File.read(file) =~ /^\s*DEFAULT/
 end
