@@ -32,6 +32,10 @@ module Innate
       Current.actions.delete(self)
     end
 
+    def content_type=(ct)
+      @content_type = ct
+    end
+
     private # think about internal API, don't expose it for now
 
     def setup
