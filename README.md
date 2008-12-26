@@ -91,3 +91,33 @@ How to build your own is discussed at [HowTo:View](http://ramaze.net/HowTo:View)
 Innate follows a different approach than most frameworks, making the controller
 subclassing obsolete. To make an object accessible from the outside simply
 include Innate::Node and map it to the location you would like.
+
+## Usage
+
+A simple example of using Innate that also shows you how to add your custom
+middleware, write specs and the overall concept:
+
+    require 'innate'
+
+    Innate.setup_middleware
+
+    Innate.map('/') do |env|
+      Rack::Response.new(['Hello, World!']).finish
+    end
+
+    Innate::Mock.get('/')
+
+And another example, using Node with a normal server:
+
+    require 'innate'
+
+    class Hi
+      include Innate::Node
+      map '/'
+
+      def index
+        "Hello, World!"
+      end
+    end
+
+    Innate.start :adapter => :mongrel
