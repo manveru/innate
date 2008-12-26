@@ -1,7 +1,13 @@
 module Innate
+
+  # This is a container module for wrappers of templating engines and handles
+  # lazy requiring of needed engines.
+
   module View
     ENGINE = {}
     TEMP = {}
+
+    # Try to obtain given engine by its registered name.
 
     def self.get(engine)
       return unless engine
@@ -20,6 +26,7 @@ module Innate
     # class will cause race conditions and one call may return the wrong class
     # on the first request (before TEMP is set).
     # No mutex is used in Fiber environment, see Innate::State and subclasses.
+
     def self.obtain(klass)
       STATE.sync do
         obj = Object
@@ -27,6 +34,12 @@ module Innate
         obj
       end
     end
+
+    # Register given templating engine wrapper and extensions for later usage.
+    #
+    # +name+ : the class name of the templating engine wrapper
+    # +exts+ : any number of arguments will be turned into strings via #to_s
+    #          that indicate which filename-extensions the templates may have.
 
     def self.register(klass, *exts)
       exts.each do |ext|
@@ -38,6 +51,8 @@ module Innate
         end
       end
     end
+
+    # Combine Kernel#autoload and Innate::View::register
 
     def self.auto_register(name, *exts)
       autoload(name, "innate/view/#{name}".downcase)
