@@ -1,7 +1,8 @@
 module Innate
-  $LOAD_PATH.unshift File.dirname(File.expand_path(__FILE__))
-  $LOAD_PATH.uniq!
   ROOT = File.expand_path(File.dirname(__FILE__))
+  unless $LOAD_PATH.any?{|lp| File.expand_path(lp) == ROOT }
+    $LOAD_PATH.unshift(ROOT)
+  end
 end
 
 # stdlib
