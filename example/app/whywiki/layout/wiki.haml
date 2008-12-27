@@ -1,0 +1,12 @@
+!!!
+!!! XML
+
+%html
+  %head
+    %title= "MicroWiki #{h @page}"
+    %style{:type => 'text/css'}
+      a.exists{ color: #00f; }
+      a.missing{ color: #f00; }
+      textarea{ width: 90%; height: 20em; }
+  %body
+    = content
