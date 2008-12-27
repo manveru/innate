@@ -9,4 +9,8 @@ module Innate
     STATE = State::Thread.new
     # Log.debug "Innate uses Thread"
   end
+
+  def self.sync(&block)
+    STATE.sync(&block)
+  end
 end
