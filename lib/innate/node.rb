@@ -172,8 +172,6 @@ module Innate
     #   complicated.
     # * This cannot be a normal action is that methods defined in Innate::Node
     #   will never be considered for actions.
-    # * Also, you should not use #try_resolve to do the dispatching manually,
-    #   as this may result in recursion until you get a SystemStackError
     #
     # To use a normal action with template do following:
     #
@@ -182,8 +180,9 @@ module Innate
     #     map '/'
     #
     #     def action_not_found(path)
+    #       return if path == '/not_found'
     #       # No normal action, runs on bare metal
-    #       action_found('/not_found')
+    #       try_resolve('/not_found')
     #     end
     #
     #     def not_found
