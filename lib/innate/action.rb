@@ -40,7 +40,7 @@ module Innate
 
     def setup
       self.instance = node.new
-      self.value = instance.send(method, *params) if method
+      self.value = instance.__send__(method, *params) if method
       self.view_value = File.read(view) if view
     end
 
