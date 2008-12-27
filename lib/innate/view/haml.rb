@@ -8,7 +8,7 @@ module Innate
       def render(action, string = nil)
         string ||= action.view
         action.options[:filename] ||= (action.view || '(haml)')
-        haml = ::Haml::Engine.new(string, action.options)
+        haml = ::Haml::Engine.new(string.to_s, action.options)
         haml.to_html(action.instance, action.variables)
       end
     end

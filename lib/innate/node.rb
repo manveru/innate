@@ -356,7 +356,7 @@ module Innate
       app = Options.for('innate:app')
 
       path = [app[:root], app[:layout], file]
-      path = File.join(*path)
+      path = File.join(*path.map{|pa| pa.to_s})
       Dir["#{path}.*"]
     end
 
