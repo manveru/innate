@@ -16,5 +16,5 @@ module Innate
   end
 
   Log = LogHub.new(logger)
-  Log.debug 'Logger initialized'
+  # Log.debug 'Logger initialized'
 end
