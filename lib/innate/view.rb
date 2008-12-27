@@ -66,5 +66,6 @@ module Innate
     auto_register :Haml,    :haml
     auto_register :Sass,    :sass
     auto_register :Tenjin,  :rbhtml
+    auto_register :Nagoro,  :xhtml
   end
 end
