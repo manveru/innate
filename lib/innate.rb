@@ -76,7 +76,9 @@ module Innate
     end
   }
 
-  def self.start(options = {})
+  module_function
+
+  def start(options = {})
     return if @config.started
     setup_middleware
 
@@ -89,24 +91,24 @@ module Innate
     Adapter.start(middleware(:innate), config)
   end
 
-  def self.stop(wait = 0)
+  def stop(wait = 0)
     Log.info "Shutdown Innate"
     exit!
   end
 
-  def self.config
+  def config
     @config
   end
 
-  def self.middleware(name, &block)
+  def middleware(name, &block)
     Rack::MiddlewareCompiler.build(name, &block)
   end
 
-  def self.middleware!(name, &block)
+  def middleware!(name, &block)
     Rack::MiddlewareCompiler.build!(name, &block)
   end
 
-  def self.setup_middleware
+  def setup_middleware
     middleware :innate do |m|
       # m.use Rack::CommonLogger # usually fast, depending on the output
       m.use Rack::ShowExceptions # fast
@@ -120,7 +122,7 @@ module Innate
     end
   end
 
-  def self.call(env, mw = :innate)
+  def call(env, mw = :innate)
     this_file = File.expand_path(__FILE__)
     count = 0
     caller_lines(caller){|f, l, m| count += 1 if f == this_file }
@@ -130,7 +132,7 @@ module Innate
     middleware(mw).call(env)
   end
 
-  def self.go_figure_root(options, backtrace)
+  def go_figure_root(options, backtrace)
     if file = options[:file]
       return File.dirname(file)
     elsif root = options[:root]
@@ -150,7 +152,7 @@ module Innate
   end
 
   # yields +file+, +line+, +method+
-  def self.caller_lines(backtrace)
+  def caller_lines(backtrace)
     backtrace.each do |line|
       if line =~ /^(.*?):(\d+):in `(.*)'$/
         file, line, method = $1, $2.to_i, $3
