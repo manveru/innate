@@ -2,6 +2,8 @@ require 'rake/rdoctask'
 require 'time'
 require 'pp'
 
+VERSION = Date.today.strftime("%Y.%m.%d")
+
 task :default => [:spec]
 
 desc "Run all specs"
@@ -9,6 +11,24 @@ task :spec do
   Dir['spec/innate/**/*.rb'].each do |rb|
     ruby rb
   end
+end
+
+task :reversion do
+  old_innate_rb = File.readlines('lib/innate.rb')
+
+  File.open('lib/innate.rb', 'w+') do |new_innate_rb|
+    while line = old_innate_rb.shift
+      line.gsub!(/VERSION = (['"])(.*)\1/){|m| "VERSION = %p" % VERSION }
+      new_innate_rb.puts(line)
+    end
+  end
+end
+
+task :release => [:reversion, :gemspec] do
+  sh('git add MANIFEST CHANGELOG innate.gemspec lib/innate.rb')
+  sh("git commit -m 'Version #{VERSION}'")
+  sh("git tag -d #{VERSION}")
+  # sh("git push")
 end
 
 task :manifest do
@@ -35,15 +55,13 @@ task :changelog do
 end
 
 task :gemspec => [:manifest, :changelog] do
-  version = File.readlines('lib/innate.rb').grep(/VERSION/).first
-  version = version[/\d+\.\d+/]
   manifest = File.read('MANIFEST').split("\n")
   files = manifest.map{|file| "    %p," % file }.join("\n")[0..-2]
 
 gemspec = <<-GEMSPEC
 Gem::Specification.new do |s|
   s.name = "innate"
-  s.version = "#{version}"
+  s.version = #{VERSION.inspect}
 
   s.summary = "Powerful web-framework wrapper for Rack."
   s.description = "Simple, straight-forward, base for web-frameworks."
