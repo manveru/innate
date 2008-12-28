@@ -2,7 +2,7 @@ require 'rake/rdoctask'
 require 'time'
 require 'pp'
 
-VERSION = Date.today.strftime("%Y.%m.%d")
+INNATE_VERSION = Date.today.strftime("%Y.%m.%d")
 
 task :default => [:spec]
 
@@ -18,7 +18,7 @@ task :reversion do
 
   File.open('lib/innate.rb', 'w+') do |new_innate_rb|
     while line = old_innate_rb.shift
-      line.gsub!(/VERSION = (['"])(.*)\1/){|m| "VERSION = %p" % VERSION }
+      line.gsub!(/VERSION = (['"])(.*)\1/){|m| "VERSION = %p" % INNATE_VERSION }
       new_innate_rb.puts(line)
     end
   end
@@ -26,8 +26,8 @@ end
 
 task :release => [:reversion, :gemspec] do
   sh('git add MANIFEST CHANGELOG innate.gemspec lib/innate.rb')
-  sh("git commit -m 'Version #{VERSION}'")
-  sh("git tag -d #{VERSION}")
+  p("git commit -m 'Version #{INNATE_VERSION}'")
+  p("git tag -d '#{INNATE_VERSION}'")
   # sh("git push")
 end
 
@@ -61,7 +61,7 @@ task :gemspec => [:manifest, :changelog] do
 gemspec = <<-GEMSPEC
 Gem::Specification.new do |s|
   s.name = "innate"
-  s.version = #{VERSION.inspect}
+  s.version = #{INNATE_VERSION.inspect}
 
   s.summary = "Powerful web-framework wrapper for Rack."
   s.description = "Simple, straight-forward, base for web-frameworks."
