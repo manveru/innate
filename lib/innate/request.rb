@@ -129,5 +129,34 @@ module Innate
     rescue ArgumentError => ex
       raise ArgumentError, ex unless ex.message == 'invalid address'
     end
+
+    # Parameter parsing based on PHP behaviour.
+    # This might contain some bugs somewhere, especially if the incoming data
+    # is malformed there is no guarantee of the outcome.
+    #
+    # It will turn Request#params into
+
+    def robust_params
+      @env['innate.request.robust_params'] ||= parse_robust_params
+    end
+
+    def parse_robust_params
+      result = {}
+
+      params.each do |key, value|
+        if key =~ /^(.*)(\[.*\])/
+          prim, nested = $~.captures
+          ref = result
+
+          splat = key.scan(/(^[^\[]+)|\[([^\]]+)\]/).flatten.compact
+          head, last = splat[0..-2], splat[-1]
+          head.inject(ref){|s,v| s[v] ||= {} }[last] = value
+        else
+          result[key] = value
+        end
+      end
+
+      return result
+    end
   end
 end
