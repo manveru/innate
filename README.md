@@ -25,7 +25,36 @@ Innate is the new core of Ramaze, but useful on its own.
 [2]: This includes: Ruby 1.8, Ruby 1.9.1, JRuby, Rubinius
 [3]: Fiber is available on 1.9 only at this point.
 [4]: However, we add String#each if it isn't there to be compatible with Rack.
-[5]: As far as 
+
+## Usage
+
+A simple example of using Innate that also shows you how to add your custom
+middleware, write specs and the overall concept:
+
+    require 'innate'
+
+    Innate.setup_middleware
+
+    Innate.map('/') do |env|
+      Rack::Response.new(['Hello, World!']).finish
+    end
+
+    Innate::Mock.get('/')
+
+And another example, using Node with a normal server:
+
+    require 'innate'
+
+    class Hi
+      include Innate::Node
+      map '/'
+
+      def index
+        "Hello, World!"
+      end
+    end
+
+    Innate.start :adapter => :mongrel
 
 ## Installation
 
@@ -91,33 +120,3 @@ How to build your own is discussed at [HowTo:View](http://ramaze.net/HowTo:View)
 Innate follows a different approach than most frameworks, making the controller
 subclassing obsolete. To make an object accessible from the outside simply
 include Innate::Node and map it to the location you would like.
-
-## Usage
-
-A simple example of using Innate that also shows you how to add your custom
-middleware, write specs and the overall concept:
-
-    require 'innate'
-
-    Innate.setup_middleware
-
-    Innate.map('/') do |env|
-      Rack::Response.new(['Hello, World!']).finish
-    end
-
-    Innate::Mock.get('/')
-
-And another example, using Node with a normal server:
-
-    require 'innate'
-
-    class Hi
-      include Innate::Node
-      map '/'
-
-      def index
-        "Hello, World!"
-      end
-    end
-
-    Innate.start :adapter => :mongrel
