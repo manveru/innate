@@ -328,26 +328,6 @@ module Innate
       possible.first
     end
 
-    # Like view_root, but for the layouts.
-    #
-    # You see, layouts will not be taken from the view directories anymore
-    # unless you explicitly say so.
-    #
-    # So your layouts will not be considered normal views anymore and you don't
-    # have to worry about anything dispatching to them.
-    #
-    # FIXME:
-    #   This is not used anywhere yet, all layouts are in a flat name-space at
-    #   innate:app:layout - determine if there's any demand for this feature.
-
-    def layout_root(location = nil)
-      if location
-        @layout_root = location
-      else
-        @layout_root ||= Innate.to(self)
-      end
-    end
-
     # Find the best matching file for the layout, if any.
 
     def to_layout(file)
