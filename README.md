@@ -293,4 +293,62 @@ And other things that should be moved into Ramaze proper:
 
 Neither of them will be added to Innate
 
+### Adapters
 
+These are entirely the responsibility of Rack/Innate now, Ramaze doesn't need
+to worry about that.
+WEBrick will stay default adapter since it is in stdlib.
+
+### Templating
+
+Templating will also be handled by Innate for the most part.
+
+#### Ezamar
+
+I have plans to make Ezamar a separate project.
+It's been stable since over a year and I think it's time to make it available
+for other projects.
+ERB will be the new default engine since it also is in stdlib.
+
+### Bacon
+
+Bacon will be a dependency for ramaze and innate specs, but we will not ship it
+anymore, it's stable and has all features we need included in the release.
+
+### Dispatcher
+
+Innate uses a stripped down version of the Ramaze dispatcher.
+The Ramaze dispatcher was strongly influenced by Nitro, but proved to be a
+difficult part. We are now using Racks URLMap directly, and have a minimal
+dispatching mechanism directly in Node (like we used to have one in
+Controller).
+
+A lot of the functionality that used to be in the different dispatchers is now
+provided by rack middleware.
+
+The Dispatcher itself isn't needed anymore, it used to setup
+Request/Response/Session, which was superseded by Current, this again is now
+superseded by STATE::wrap.
+We are going to remove all the other dispatchers as well, providing default
+ways and middleware to use.
+
+#### Dispatcher::Action
+
+This dispatcher was used to initiate the controller dispatching, this is now
+not needed anymore.
+
+#### Dispatcher::Directory
+
+Will also be removed, there is a directory listing middleware already
+
+#### Dispatcher::Error
+
+There's middleware for this as well, and a canonical way of routing errors to
+other actions, this used to be one of the most difficut parts of Ramaze and it
+will be removed to make things simpler.
+
+#### Dispatcher::File
+
+This is a combination of the etag and conditionalget middlewares, ergo Innate
+and Ramaze will not serve static files themselves anymore, but leave the job to
+Rack or external servers.
