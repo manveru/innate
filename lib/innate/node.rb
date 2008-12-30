@@ -283,7 +283,7 @@ module Innate
     def update_method_arities
       @method_arities = {}
 
-      ancestors.each do |ancestor|
+      ancestors.reverse_each do |ancestor|
         if ancestor >= Node
           next unless Helper::EXPOSE.include?(ancestor)
         end

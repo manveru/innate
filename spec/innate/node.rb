@@ -44,6 +44,12 @@ class SpecNodeProvideTemplate
   view_root 'node'
 end
 
+class SpecNodeSub < SpecNode
+  map '/sub'
+
+  def bar(arg) end
+end
+
 describe 'Innate::Node' do
   def get(*args)
     Innate::Mock.get(*args)
@@ -57,6 +63,7 @@ describe 'Innate::Node' do
 
   def compare(url, hash)
     result = SpecNode.resolve(url)
+    result.should.not.be.nil
     hash.each do |key, value|
       result[key.to_s].should == value
     end
@@ -116,5 +123,15 @@ describe 'Innate::Node' do
     got = get('/provide_template/foo.css')
     got.headers['Content-Type'].should == 'text/css'
     got.body.strip.should == "body {\n  background: #f00; }"
+  end
+
+  should 'inherit action methods from superclasses' do
+    SpecNodeSub.resolve('/foo').should.not.be.nil
+    SpecNodeSub.resolve('/foo/one/two').should.be.nil
+  end
+
+  should 'select correct method from subclasses' do
+    SpecNodeSub.resolve('/bar/one').should.not.be.nil
+    SpecNodeSub.resolve('/bar').should.be.nil
   end
 end
