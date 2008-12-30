@@ -1,5 +1,3 @@
-require 'set'
-
 module Innate
 
   # The nervous system of Innate, so you can relax.
@@ -96,6 +94,7 @@ module Innate
 
     def provide(formats = {})
       @provide ||= {}
+      return @provide if formats.empty?
 
       if formats.respond_to?(:each_pair)
         formats.each_pair{|k,v| @provide[k.to_s] = v }
@@ -261,8 +260,9 @@ module Innate
     def find_method(name, params)
       expected_arity = params.size
 
-      possible_methods(name) do |arity|
-        return name if arity == expected_arity or arity < 0
+      update_method_arities.each do |im, arity|
+        next unless im == name && (arity == expected_arity || arity < 0)
+        return name
       end
 
       return nil
@@ -280,6 +280,22 @@ module Innate
       end
     end
 
+    def update_method_arities
+      @method_arities = {}
+
+      ancestors.each do |ancestor|
+        if ancestor >= Node
+          next unless Helper::EXPOSE.include?(ancestor)
+        end
+
+        ancestor.instance_methods(false).each do |im|
+          @method_arities[im] = ancestor.instance_method(im).arity
+        end
+      end
+
+      @method_arities
+    end
+
     # Try to find the best template for the given basename and wish.
     # Also, having extraordinarily much fun with globs.
 
@@ -295,7 +311,7 @@ module Innate
       return [] unless path.all?
 
       path = File.join(*path)
-      exts = [@provide[wish], *@provide.keys].flatten.uniq.join(',')
+      exts = [provide[wish], *provide.keys].flatten.uniq.join(',')
 
       glob = "#{path}.{#{wish}.,#{wish},}{#{exts},}"
 
