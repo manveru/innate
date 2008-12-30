@@ -1,13 +1,9 @@
-require 'digest/sha1'
-
 module Innate
 
   # Mostly ported from Ramaze, but behaves lazy, no session will be created if
   # no session is used.
 
   class Session
-    CACHE = {}
-
     def initialize(request, response)
       @request, @response = request, response
       @cookie_set = false
@@ -15,13 +11,13 @@ module Innate
 
     def []=(key, value)
       set_cookie
-      CACHE[sid] ||= {}
-      CACHE[sid][key] = value
+      cache[sid] ||= {}
+      cache[sid][key] = value
     end
 
     def [](key)
-      CACHE[sid] ||= {}
-      CACHE[sid][key]
+      cache[sid] ||= {}
+      cache[sid][key]
     end
 
     def cookie
@@ -29,7 +25,7 @@ module Innate
     end
 
     def clear
-      CACHE.delete(sid)
+      cache.delete(sid)
     end
 
     def sid
@@ -37,7 +33,11 @@ module Innate
     end
 
     def options
-      @options ||= Options.for('innate:session')
+      Options.for('innate:session')
+    end
+
+    def cache
+      Innate::Cache.session
     end
 
     private
@@ -63,7 +63,7 @@ module Innate
     def generate_sid
       begin
         sid = Digest::SHA1.hexdigest(entropy.join)
-      end while CACHE[sid]
+      end while cache[sid]
 
       return sid
     end

@@ -8,7 +8,10 @@ end
 # stdlib
 require 'pp'
 require 'set'
+require 'pathname'
+require 'digest/sha1'
 require 'ipaddr'
+require 'socket'
 
 # 3rd party
 begin; require 'rubygems'; rescue LoadError; end
@@ -28,6 +31,7 @@ require 'innate/state'
 require 'innate/trinity'
 require 'innate/current'
 require 'innate/mock'
+require 'innate/cache'
 require 'innate/adapter'
 require 'innate/action'
 require 'innate/helper'
