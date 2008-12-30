@@ -136,7 +136,7 @@ Ramaze started out without any of the benefits that Rack gives us these days,
 especially regarding the server handlers, request/response, and middleware.
 
 Still it tried to provide everything one might need with the least effort,
-leading to a lot of inlining of dependencies (we have things like bacon,
+leading to a lot of incorporation of dependencies (we have things like bacon,
 simple_http, gettext, mime types, ...)
 
 ### Configuration
