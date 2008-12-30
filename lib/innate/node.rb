@@ -32,6 +32,7 @@ module Innate
   #   * If you want an action to act as a catch-all, use `def index(*args)`.
 
   module Node
+    attr_reader :method_arities
 
     # Upon inclusion we make ourselves comfortable.
 
@@ -204,6 +205,7 @@ module Innate
       name, *exts = path.split('.')
       wish = exts.last || 'html'
 
+      update_method_arities
       find_action(name, wish)
     end
 
@@ -260,7 +262,7 @@ module Innate
     def find_method(name, params)
       expected_arity = params.size
 
-      update_method_arities.each do |im, arity|
+      method_arities.each do |im, arity|
         next unless im == name && (arity == expected_arity || arity < 0)
         return name
       end
@@ -268,17 +270,22 @@ module Innate
       return nil
     end
 
-    # Takes a +name+ of the method to find and a block.
-    # The block takes the arity of the found method.
-
-    def possible_methods(name)
-      [self, *(Helper::EXPOSE & ancestors)].each do |object|
-        object.instance_methods(false).each do |im|
-          next unless im.to_s == name
-          yield object.instance_method(im).arity
-        end
-      end
-    end
+    # Answer with and set the @method_arities Hash, keys are method names,
+    # values are method arities.
+    #
+    # Usually called from Node::resolve
+    #
+    # NOTE:
+    #   * This will be executed once for every request, once we have settled
+    #     things down a bit more we can switch to update based on Reloader
+    #     hooks and update once on startup.
+    #     However, that may cause problems with dynamically created methods, so
+    #     let's play it safe for now.
+    #
+    # Example:
+    #
+    #   Hi.update_method_arities
+    #   # => {'index' => 0, 'foo' => -1, 'bar => 2}
 
     def update_method_arities
       @method_arities = {}
