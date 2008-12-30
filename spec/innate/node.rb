@@ -1,6 +1,6 @@
 require 'spec/helper'
 
-Options.for 'innate:app' do |app|
+Innate::Options.for 'innate:app' do |app|
   app.root = File.dirname(__FILE__)
   app.view = ''
 end
