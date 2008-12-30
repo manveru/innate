@@ -129,8 +129,8 @@ Innate throws a lot overboard; it doesn't provide all the bells and whistles
 that you may be used to.  This makes Ramaze a very good option for larger
 applications.
 
-This is the reason why Innate won't be a standalone framework, but rather the
-new core for Ramaze.
+For this reason, Innate won't just be a standalone framework, but will also
+become the new core for Ramaze.
 
 Ramaze started out without any of the benefits that Rack gives us these days,
 especially regarding the server handlers, request/response, and middleware.
