@@ -42,28 +42,36 @@ require 'rack/middleware_compiler'
 module Innate
   extend Trinity
 
-  @config = Options.for(:innate){|innate|
+  @options = Options.for(:innate){|innate|
     innate.root = Innate::ROOT
     innate.started = false
-
     innate.port = 7000
     innate.host = '0.0.0.0'
     innate.adapter = :webrick
+    innate.setup = [Innate::Cache]
 
     innate.header = {
       'Content-Type' => 'text/html',
       # 'Accept-Charset' => 'utf-8',
     }
 
-    innate.redirect_status = 302
+    innate.redirect{|redirect|
+      redirect.status = 302
+    }
 
-    innate.app do |app|
+    innate.env{|env|
+      env.host = `hostname`.strip # TODO: cross-platform
+      env.user = `whoami`.strip   # TODO: cross-platform
+    }
+
+    innate.app{|app|
+      app.name = 'pristine'
       app.root = '/'
       app.view = 'view'
       app.layout = 'layout'
-    end
+    }
 
-    innate.session do |session|
+    innate.session{|session|
       session.key = 'innate.sid'
       session.domain = false
       session.path = '/'
@@ -73,22 +81,30 @@ module Innate
       #   2038-01-19 03:14:07 UTC
       # Let's hope that by then we get a better ruby with a better Time class
       session.expires = Time.at(2147483647)
-    end
+    }
+
+    innate.cache{|cache|
+      cache.names = [:session]
+      cache.default = Innate::Cache::Memory
+      cache.session = cache.default
+    }
   }
 
   module_function
 
   def start(options = {})
-    return if @config.started
+    return if @options.started
+
+    setup_dependencies
     setup_middleware
 
-    config.app.root = go_figure_root(options, caller)
-    config.started = true
-    config.adapter = (options[:adapter] || @config.adapter).to_s
+    @options.app.root = go_figure_root(options, caller)
+    @options.started = true
+    @options.adapter = (options[:adapter] || @options.adapter).to_s
 
     trap('INT'){ stop }
 
-    Adapter.start(middleware(:innate), config)
+    Adapter.start(middleware(:innate), @options)
   end
 
   def stop(wait = 0)
@@ -96,9 +112,10 @@ module Innate
     exit!
   end
 
-  def config
-    @config
+  def options
+    @options
   end
+  alias config options
 
   def middleware(name, &block)
     Rack::MiddlewareCompiler.build(name, &block)
@@ -106,6 +123,10 @@ module Innate
 
   def middleware!(name, &block)
     Rack::MiddlewareCompiler.build!(name, &block)
+  end
+
+  def setup_dependencies
+    @options.setup.each{|obj| obj.setup }
   end
 
   def setup_middleware
