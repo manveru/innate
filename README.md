@@ -123,17 +123,18 @@ Innate follows a different approach than most frameworks, making the controller
 subclassing obsolete. To make an object accessible from the outside simply
 include Innate::Node and map it to the location you would like.
 
-## Differences to Ramaze
+## Differences from Ramaze
 
-Innate throws a lot over board that makes Ramaze a very good option for large
-apps and doesn't provide all the bells and whistles that you may be used to.
+Innate throws a lot overboard; it doesn't provide all the bells and whistles
+that you may be used to.  This makes Ramaze a very good option for larger
+applications.
 
-This is the reason why Innate won't only be a standalone framework but also the
+This is the reason why Innate won't be a standalone framework, but rather the
 new core for Ramaze.
 
 Ramaze started out without any of the benefits that Rack gives us these days,
-especially regarding the server handlers, request/response, and the various
-middlewares.
+especially regarding the server handlers, request/response, and middleware.
+
 Still it tried to provide everything one might need with the least effort,
 leading to a lot of inlining of dependencies (we have things like bacon,
 simple_http, gettext, mime types, ...)
@@ -406,7 +407,7 @@ all.
 Some things are better suited as middleware, I will move them to rack-contrib
 ASAP:
 * gzip_filter
-* profiling 
+* profiling
 
 Then there's things that don't see much use, they should stay in the future
 ramaze contrib or face removal:
