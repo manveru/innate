@@ -153,8 +153,8 @@ difficult.
 With Innate I hope to tackle this problem, it's currently not as fast as
 Ramaze::Global, but offers namespaces and inheritance.
 
-Where Ramaze::Global still excels, CLI arguments, documentation and annotation
-for options, will soon be integrated as well.
+The areas wherein Ramaze::Global excels (CLI arguments, documentation and
+annotation for options) will soon be integrated as well.
 
 Configuration namespaces will offer a nice way to merge different applications
 and reconcile their options in a unified manner, opening the way for slice-like
@@ -228,7 +228,7 @@ Innate/Ramaze.
 It won't have all the capabilities one might be used to out of the box, but
 extending them is easy.
 
-What provides means is that every Action has different ways of being rendered,
+Having "provides" means that every Action has different ways of being rendered,
 depending on so-called wishes.
 
 A wish may be anything related to the request object, and by default it will
