@@ -104,7 +104,8 @@ the list yet.
 
 ### View
 
-Innate supports multiple templating engines and it is very easy to add your own.
+Innate supports multiple templating engines and it is very easy to add your
+own.
 At the moment we offer following engines out of the box:
 
 * [Builder](http://builder.rubyforge.org)
@@ -113,7 +114,8 @@ At the moment we offer following engines out of the box:
 * [Erubis](http://rubyforge.org/projects/erubis)
 * [Tenjin](http://www.kuwata-lab.com/tenjin/)
 
-How to build your own is discussed at [HowTo:View](http://ramaze.net/HowTo:View).
+How to build your own is discussed at
+[HowTo:View](http://ramaze.net/HowTo:View).
 
 ### Controller
 
@@ -129,10 +131,126 @@ apps and doesn't provide all the bells and whistles that you may be used to.
 This is the reason why Innate won't only be a standalone framework but also the
 new core for Ramaze.
 
-Ramaze started out without any of the benefits that Rack gives us these days, especially regarding the server handlers, request/response, and the various middlewares.
+Ramaze started out without any of the benefits that Rack gives us these days,
+especially regarding the server handlers, request/response, and the various
+middlewares.
 Still it tried to provide everything one might need with the least effort,
 leading to a lot of inlining of dependencies (we have things like bacon,
 simple_http, gettext, mime types, ...)
+
+### Configuration
+
+Configurability has always been a major aspect of Ramaze, and I will keep it
+this way. The famous option.rb is the peak of what can be achieved with the
+approach of a single Struct for all options, making them approachable from the
+CLI, during runtime, on startup, in separate files, even loading from YAML...
+
+What was always missing was a way to add configuration to your own
+applications, and extending the Ramaze::Global for this purpose is very
+difficult.
+
+With Innate I hope to tackle this problem, it's currently not as fast as
+Ramaze::Global, but offers namespaces and inheritance.
+
+Where Ramaze::Global still excels, CLI arguments, documentation and annotation
+for options, will soon be integrated as well.
+
+Configuration namespaces will offer a nice way to merge different applications
+and reconcile their options in a unified manner, opening the way for slice-like
+behaviour.
+
+So for example, one can provide some slice that handles feeds:
+
+    Innate::Options.for(:feed_slice) do |feed|
+      feed.map = '/feeds'
+      feed.view_root = 'slice/feed/view'
+      feed.retrieve = lambda{ Post.all }
+    end
+
+    class Feeds
+      include Innate::Node
+      options :feed_slice
+    end
+
+It would be a requirement to set the options before requiring the slice itself,
+but that's just a minor issue that I think we can live with.
+
+### Controller
+
+Well, that's the part I worry most about. Every existing Ramaze application
+relies on the Ramaze::Controller.
+
+The major question is, should we switch Ramaze entirely to the Node approach or
+maybe just provide a Ramaze::Controller that has Innate::Node included?
+
+It does have drawbacks, such as decreased support for either approach, but
+might give people a familiar anchor when switching, and allow them to gradually
+adjust their applications.
+
+Other things are layouts and provides.
+
+#### Layouts
+
+Since layouts were an afterthought in Ramaze, they were made normal actions
+like every other on the respective controllers, leading to lots of confusion
+over the correct way to use layouts, the Controller::layout syntax in respect
+to the real location of layouts, how to exclude/include single actions, where
+layouts should be stored, how to prevent lookup from external requests, ...
+
+I made layouts just as important as views and methods for the Action in Innate,
+and they have their own root directory to live in and will not be considered as
+a normal view template, so they cannot be accidentally be rendered as their own
+actions.
+
+This strikes me as important, because I consider layouts to be superior to
+Ezamar elements and equal to render_partial or render_template, just about
+every application uses it, so they should be handled in the best way possible.
+
+The root directory for layouts is in line with the other default locations:
+
+/node
+/layout
+/view
+/model
+/public
+
+While none of these directories is necessary, they will be the default
+locations and should be included in a new proto for Ramaze.
+
+Innate will not have project generating capabilities, so we just have to
+document it very well and provide some example apps.
+
+#### Provides
+
+This is a major new feature stolen from Merb and adapted for the ease of use of
+Innate/Ramaze.
+It won't have all the capabilities one might be used to out of the box, but
+extending them is easy.
+
+What provides means is that every Action has different ways of being rendered,
+depending on so-called wishes.
+
+A wish may be anything related to the request object, and by default it will
+trigger on the filename extension asked for.
+This enables you to create a single action that can be rendered in
+json/rss/atom/yaml/xml/xhtml/html/wap or different languages...
+
+The dispatching in Node depends on the filename extension by default, but more
+decision paths can be added to Action by overriding some defaults.
+
+There is no convention yet of how layouts will map to these wishes, but I hope
+to specify this further once we have some specific requirements.
+
+This feature is very alien to Ramaze, which always has a 1:1 mapping between
+actions and their views and how they are rendered, which made people wonder how
+to serve sass as css or how to respond with json for a ajax request until they
+finally were pointed to setting content-type, using respond and setting up
+custom routes.
+
+I hope that adding this feature will make things simpler for people who care
+about it while it can be ignored by people who don't.
+
+### More specifics
 
 Here I try to list the most important things that Ramaze will offer but that
 are not included in Innate itself in terms of globs:
@@ -160,7 +278,8 @@ Let's go through them one by one and decide what's gonna happen to them:
 
 Caching is a very important concern and one of the most difficult things to get
 right for any web application.
-Ramaze tried to get caching done right and I consider it fairly successful when it comes to that.
+Ramaze tried to get caching done right and I consider it fairly successful when
+it comes to that.
 There are a myriad of options available for caching, different caching
 mechanisms such as marshal to filesystem, memcached, in-memory, yaml to
 filesystem, etc.
@@ -191,7 +310,8 @@ other ones might have to stick around.
 
 #### Tool::Create
 
-This has been used by `bin/ramaze --create` and I think it will stick around for some more time.
+This has been used by `bin/ramaze --create` and I think it will stick around
+for some more time.
 
 #### Tool::ProjectCreator
 
@@ -203,7 +323,9 @@ Another route would be to find a better tool and make it a dependency for
 
 ##### Tool::Daemonize
 
-Nothing but issues with this one although it is just a very thin wrapper for the daemons gem. Nobody has contributed to this so far despite the issues and it seems that there are a lot of different solutions for this problem.
+Nothing but issues with this one although it is just a very thin wrapper for
+the daemons gem. Nobody has contributed to this so far despite the issues and
+it seems that there are a lot of different solutions for this problem.
 This will be removed from both Ramaze and Innate.
 
 ##### Ramaze::Record
@@ -218,7 +340,8 @@ But so far I have never seen any usage for it.
 I and a lot of other people have used this over time and it has proven itself
 to be a very easy and straight-forward way of doing localization.
 
-It think it is better suited as a middleware which can be included into rack-contrib
+It think it is better suited as a middleware which can be included into
+rack-contrib
 and doesn't rely on the normal session but a simple unobfuscated cookie.
 
 ##### Tool::MIME
@@ -237,7 +360,8 @@ There will not be any other helpers in Innate, but Ramaze might provide a few
 standard ones to get up and running (hpricot, rexml).
 
 Regarding the spec output parsers, that's a different issue.
-Providing readable output while running specs is a major feature that must be included in order to keep frustration low.
+Providing readable output while running specs is a major feature that must be
+included in order to keep frustration low.
 We will provide a suitable logger replacement so one can simply extend Bacon
 with that in order to get nice summaries and good error output.
 
@@ -249,7 +373,8 @@ provide their own core extensions and interference is a major issue. Innate
 will keep everything as clean as possible, doing subclasses inside the Innate
 namespace where it needs to change things.
 Two things that we need are (currently) String#each, because Rack relies on it,
-and BasicObject as superclass for the Option class. They are only applied on demand.
+and BasicObject as superclass for the Option class. They are only applied on
+demand.
 These are in the directory called core_extensions, to make it very, very clear
 what we are doing and how we are doing it.
 
@@ -258,7 +383,10 @@ constantly strive to reduce them slowly.
 
 ### Gestalt
 
-Gestalt has been the first "templating_engine" for Ramaze and is still used in some fractions of the code and various applications. There are a lot of other html/xml builders out there these days so I think this is no good choice for inclusion into Innate.
+Gestalt has been the first "templating_engine" for Ramaze and is still used in
+some fractions of the code and various applications. There are a lot of other
+html/xml builders out there these days so I think this is no good choice for
+inclusion into Innate.
 I will keep it inside Ramaze.
 
 ### Ramaze::Store::Default
@@ -273,8 +401,10 @@ keep this around.
 
 ### Contrib
 
-There's a lot in there, and some of these things are used widely, others not at all.
-Some things are better suited as middleware, I will move them to rack-contrib ASAP:
+There's a lot in there, and some of these things are used widely, others not at
+all.
+Some things are better suited as middleware, I will move them to rack-contrib
+ASAP:
 * gzip_filter
 * profiling 
 
