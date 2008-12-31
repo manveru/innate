@@ -5,8 +5,51 @@ module Innate
   # at a minimum while still having short and meaningful method names for every
   # cache instance.
   #
+  # The default caching is specified in lib/innate.rb in the config section.
+  # At the time of writing it defaults to Innate::Cache::Memory but can be
+  # changed easily.
+  #
+  # Configuration has to be done before Innate::setup_dependencies is being
+  # called.
+  #
+  # Configuration:
+  #
+  #   Innate.options.cache do |cache|
+  #     cache.names = [:session, :user]
+  #     cache.session = Innate::Cache::Marshal
+  #     cache.user = Innate::Cache::YAML
+  #   end
+  #
+  # Usage for storing:
+  #
+  #   # Storing with a time to live (10 seconds)
+  #   Innate::Cache.user.store(:manveru, "Michael Fellinger", :ttl => 10)
+  #
+  #   # Storing indefinitely
+  #   Innate::Cache.user[:Pistos] = "unknown"
+  #   # or without :ttl argument
+  #   Innate::Cache.user.store(:Pistos, "unknown")
+  #
+  # Usage for retrieving:
+  #
+  #   # we stored this one for 10 seconds
+  #   Innate::Cache.user.fetch(:manveru, 'not here anymore')
+  #   # => "Michael Fellinger"
+  #   sleep 11
+  #   Innate::Cache.user.fetch(:manveru, 'not here anymore')
+  #   # => "not here anymore"
+  #
+  #   Innate::Cache.user[:Pistos]
+  #   # => "unknown"
+  #   Innate::Cache.user.fetch(:Pistos)
+  #   # => "unknown"
+  #
+  #
+  # For more details and to find out how to implement your own cache please
+  # read the documentation of Innate::Cache::API
+  #
   # NOTE:
-  #   * some caches might expose their contents for everyone else on the same
+  #   * Some caches might expose their contents for everyone else on the same
   #     system, or even on connected systems. The rule as usual is, not to
   #     cache sensitive information.
 

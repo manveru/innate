@@ -95,7 +95,6 @@ module Innate
     innate.cache{|cache|
       cache.names = [:session]
       cache.default = Innate::Cache::Memory
-      cache.session = cache.default
     }
   }
 
