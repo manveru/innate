@@ -11,10 +11,11 @@ module Innate
   #     cache sensitive information.
 
   class Cache
-    autoload :API, 'innate/cache/api'
-    autoload :YAML, 'innate/cache/yaml'
-    autoload :Memory, 'innate/cache/memory'
-    autoload :Marshal, 'innate/cache/marshal'
+    autoload :API,       'innate/cache/api'
+    autoload :YAML,      'innate/cache/yaml'
+    autoload :Memory,    'innate/cache/memory'
+    autoload :Marshal,   'innate/cache/marshal'
+    autoload :FileBased, 'innate/cache/file_based'
 
     attr_reader :name, :instance
 

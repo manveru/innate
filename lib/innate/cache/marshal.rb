@@ -7,6 +7,9 @@ module Innate
     # /tmp/innate-cache-marshal/delta-manveru-session.marshal
     class Marshal
       include Cache::API
+      include Cache::FileBased
+
+      STORE = ::PStore
 
       def cache_setup(*args)
         @prefix = args.compact.join('-')
@@ -16,28 +19,6 @@ module Innate
 
         @filename = File.join(@dir, @prefix + '.marshal')
         @store = ::PStore.new(@filename)
-      end
-
-      def cache_clear
-        FileUtils.mkdir_p(@dir)
-        FileUtils.rm_f(@filename)
-        @store = ::PStore.new(@filename)
-      end
-
-      def delete(key)
-        transaction{|store| store.delete(key) }
-      end
-
-      def [](key)
-        transaction{|store| store[key] }
-      end
-
-      def []=(key, value)
-        transaction{|store| store[key] = value }
-      end
-
-      def transaction(&block)
-        Innate.sync{ @store.transaction(&block) }
       end
     end
   end
