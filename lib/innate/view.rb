@@ -60,7 +60,7 @@ module Innate
     end
 
     auto_register :None, :css
-    auto_register :None, :html
+    auto_register :None, :html, :htm
 
     auto_register :Builder, :builder
     auto_register :Haml,    :haml
