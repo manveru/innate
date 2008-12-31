@@ -302,11 +302,10 @@ module Innate
     def update_method_arities
       @method_arities = {}
 
-      ancestors.reverse_each do |ancestor|
-        if ancestor >= Node
-          next unless Helper::EXPOSE.include?(ancestor)
-        end
+      exposed = ancestors & Helper::EXPOSE.to_a
+      higher = ancestors.select{|a| a < Innate::Node }
 
+      (higher + exposed).reverse_each do |ancestor|
         ancestor.instance_methods(false).each do |im|
           @method_arities[im] = ancestor.instance_method(im).arity
         end
