@@ -26,7 +26,8 @@ module Innate
   #     helper :cgi, :both => [:link, :aspect]
   #   end
   #
-  # This will include the cgi helper into Hi, and include/extend Hi with the link and aspect helpers
+  # This will include the cgi helper into Hi, and include/extend Hi with the
+  # link and aspect helpers
   #
   # NOTE:
   #   The API for the helper method isn't set in stone yet, I'm torn between
@@ -80,11 +81,30 @@ module Innate
 
     # By default, lib/innate/ is added to the PATH, you may add your
     # application root here so innate will look in your own helper/ directory.
-    PATH = [ File.dirname(__FILE__) ]
+    PATH = []
+
+    # The namespaces that may container helper modules.
+    # Lookup is done from left to right.
+    POOL = []
 
     # all of the following are singleton methods
 
     module_function
+
+    def add_pool(pool)
+      POOL.unshift(pool)
+      POOL.uniq!
+    end
+
+    add_pool(Helper)
+
+    def add_path(path)
+      PATH.unshift(File.expand_path(path))
+      PATH.uniq!
+    end
+
+    add_path(File.dirname(__FILE__))
+    add_path('')
 
     # Yield all the modules we can find for the given names of helpers, try to
     # require them if not available.
@@ -112,9 +132,13 @@ module Innate
 
     def get(name)
       name = name.to_s.split('_').map{|e| e.capitalize}.join
-      if found = Helper.constants.grep(/^#{name}$/i).first
-        Helper.const_get(found)
+      POOL.each do |namespace|
+        if found = namespace.constants.grep(/^#{name}$/i).first
+          return namespace.const_get(found)
+        end
       end
+
+      nil
     end
 
     # Figure out files that might have the helper we ask for and then require
