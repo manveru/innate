@@ -72,8 +72,6 @@ Gem::Specification.new do |s|
   s.author = "Michael 'manveru' Fellinger"
   s.email = "m.fellinger@gmail.com"
   s.homepage = "http://github.com/manveru/innate"
-  s.executables = ['innate']
-  s.bindir = "bin"
   s.require_path = "lib"
 
   s.add_dependency('rack', '>= 0.4.0')
