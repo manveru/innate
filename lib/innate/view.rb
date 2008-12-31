@@ -67,5 +67,6 @@ module Innate
     auto_register :Sass,    :sass
     auto_register :Tenjin,  :rbhtml
     auto_register :Nagoro,  :xhtml
+    auto_register :ERB,     :erb
   end
 end
