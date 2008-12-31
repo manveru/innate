@@ -1,3 +1,41 @@
+[2f70869 | Wed Dec 31 03:00:00 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove bin/innate from gespec
+
+[10acbc0 | Wed Dec 31 02:36:57 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2008.12.31
+
+[6e3a0d5 | Wed Dec 31 00:21:19 UTC 2008] Pistos <gitsomegrace.5.pistos@geoshell.com>
+
+  * Numerous minor English corrections and adjustments.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[b5ea6a4 | Tue Dec 30 13:20:10 UTC 2008] Pistos <gitsomegrace.5.pistos@geoshell.com>
+
+  * A few minor English adjustments in README.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[b85da01 | Tue Dec 30 03:02:41 UTC 2008] Pistos <gitsomegrace.5.pistos@geoshell.com>
+
+  * Corrected wrong statement about Innate.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[464a25e | Tue Dec 30 02:58:32 UTC 2008] Pistos <gitsomegrace.5.pistos@geoshell.com>
+
+  * One small change in choice of words.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[14e356e | Tue Dec 30 02:56:36 UTC 2008] Pistos <gitsomegrace.5.pistos@geoshell.com>
+
+  * Some English adjustments in README.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
 [2848eb6 | Tue Dec 30 09:01:57 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
 
   * Add spec for options, not passing yet
