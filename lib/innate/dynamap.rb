@@ -11,7 +11,11 @@ module Innate
     # Delegate the call to the current Rack::URLMap instance.
 
     def self.call(env)
-      CACHE[:map].call(env)
+      if app = CACHE[:map]
+        app.call(env)
+      else
+        raise "Nothing mapped yet"
+      end
     end
 
     # Map node to location, create a new Rack::URLMap instance and cache it.
