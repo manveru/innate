@@ -1,7 +1,7 @@
 # > What can be done with fewer assumptions is done in vain with more.
 #   -- William of Ockham (ca. 1285-1349)
+
 module Innate
-  VERSION = "2008.12.31"
   ROOT = File.expand_path(File.dirname(__FILE__))
 
   unless $LOAD_PATH.any?{|lp| File.expand_path(lp) == ROOT }
@@ -29,6 +29,7 @@ end
 require 'innate/core_compatibility/string'
 require 'innate/core_compatibility/basic_object'
 
+require 'innate/version'
 require 'innate/option'
 require 'innate/log'
 require 'innate/state'

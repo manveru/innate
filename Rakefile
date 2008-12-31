@@ -14,18 +14,15 @@ task :spec do
 end
 
 task :reversion do
-  old_innate_rb = File.readlines('lib/innate.rb')
-
-  File.open('lib/innate.rb', 'w+') do |new_innate_rb|
-    while line = old_innate_rb.shift
-      line.gsub!(/VERSION = (['"])(.*)\1/){|m| "VERSION = %p" % INNATE_VERSION }
-      new_innate_rb.puts(line)
-    end
+  File.open('lib/innate/version.rb', 'w+') do |file|
+    file.puts('module Innate')
+    file.puts('  VERSION = %p' % INNATE_VERSION)
+    file.puts('end')
   end
 end
 
 task :release => [:reversion, :gemspec] do
-  sh('git add MANIFEST CHANGELOG innate.gemspec lib/innate.rb')
+  sh('git add MANIFEST CHANGELOG innate.gemspec lib/innate/version.rb')
   puts "I added the relevant files, you can now run:", ''
   puts "git commit -m 'Version #{INNATE_VERSION}'"
   puts "git tag -d '#{INNATE_VERSION}'"
@@ -63,7 +60,7 @@ task :gemspec => [:manifest, :changelog] do
 gemspec = <<-GEMSPEC
 Gem::Specification.new do |s|
   s.name = "innate"
-  s.version = #{INNATE_VERSION.inspect}
+  s.version = #{INNATE_VERSION.dump}
 
   s.summary = "Powerful web-framework wrapper for Rack."
   s.description = "Simple, straight-forward, base for web-frameworks."
