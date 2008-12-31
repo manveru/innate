@@ -9,7 +9,6 @@ module Innate
       include Cache::API
 
       def cache_setup(*args)
-        p :args => args
         @prefix = args.compact.join('-')
 
         @dir = File.join(Dir.tmpdir, 'innate-cache-yaml')
@@ -26,21 +25,15 @@ module Innate
       end
 
       def delete(key)
-        transaction do |store|
-          store.delete(key)
-        end
+        transaction{|store| store.delete(key) }
       end
 
       def [](key)
-        transaction do |store|
-          store[key]
-        end
+        transaction{|store| store[key] }
       end
 
       def []=(key, value)
-        transaction do |store|
-          store[key] = value
-        end
+        transaction{|store| store[key] = value }
       end
 
       def transaction(&block)
