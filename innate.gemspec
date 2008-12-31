@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "innate"
-  s.version = "2008.12.28"
+  s.version = "2008.12.31"
 
   s.summary = "Powerful web-framework wrapper for Rack."
   s.description = "Simple, straight-forward, base for web-frameworks."
@@ -16,13 +16,17 @@ Gem::Specification.new do |s|
   s.add_dependency('rack', '>= 0.4.0')
 
   s.files = [
+    "CHANGELOG",
+    "COPYING",
+    "MANIFEST",
     "README.md",
+    "Rakefile",
     "example/app/retro_games.rb",
-    "example/app/whywiki/layout/wiki.haml",
-    "example/app/whywiki/spec/wiki.rb",
-    "example/app/whywiki/start.rb",
-    "example/app/whywiki/view/edit.haml",
-    "example/app/whywiki/view/index.haml",
+    "example/app/whywiki_haml/layout/wiki.haml",
+    "example/app/whywiki_haml/spec/wiki.rb",
+    "example/app/whywiki_haml/start.rb",
+    "example/app/whywiki_haml/view/edit.haml",
+    "example/app/whywiki_haml/view/index.haml",
     "example/app/whywiki_nagoro/layout/wiki.xhtml",
     "example/app/whywiki_nagoro/spec/wiki.rb",
     "example/app/whywiki_nagoro/start.rb",
@@ -42,6 +46,10 @@ Gem::Specification.new do |s|
     "lib/innate/adapter.rb",
     "lib/innate/adapter/fake.rb",
     "lib/innate/adapter/thin.rb",
+    "lib/innate/cache.rb",
+    "lib/innate/cache/api.rb",
+    "lib/innate/cache/memory.rb",
+    "lib/innate/cache/yaml.rb",
     "lib/innate/core_compatibility/basic_object.rb",
     "lib/innate/core_compatibility/string.rb",
     "lib/innate/current.rb",
@@ -77,12 +85,14 @@ Gem::Specification.new do |s|
     "lib/rack/profile.rb",
     "lib/rack/reloader.rb",
     "spec/helper.rb",
+    "spec/innate/cache/memory.rb",
+    "spec/innate/cache/yaml.rb",
     "spec/innate/helper.rb",
     "spec/innate/mock.rb",
     "spec/innate/node.rb",
     "spec/innate/node/bar.css",
     "spec/innate/node/foo.css.sass",
-    "spec/innate/request.rb",
+    "spec/innate/options.rb",
     "spec/innate/session.rb"
   ]
 end

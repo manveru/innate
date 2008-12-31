@@ -1,5 +1,9 @@
+# > What can be done with fewer assumptions is done in vain with more.
+#   -- William of Ockham (ca. 1285-1349)
 module Innate
+  VERSION = "2008.12.31"
   ROOT = File.expand_path(File.dirname(__FILE__))
+
   unless $LOAD_PATH.any?{|lp| File.expand_path(lp) == ROOT }
     $LOAD_PATH.unshift(ROOT)
   end
