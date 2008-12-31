@@ -68,5 +68,6 @@ module Innate
     auto_register :Tenjin,  :rbhtml
     auto_register :Nagoro,  :xhtml
     auto_register :ERB,     :erb
+    auto_register :Maruku,  :mkd, :md
   end
 end
