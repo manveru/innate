@@ -270,23 +270,21 @@ are not included in Innate itself in terms of globs:
 * dispatcher.rb
 * dispatcher/*.rb
 
-There might be a couple of things i've forgotten, but that's what a quick
+There might be a couple of things I've forgotten, but that's what a quick
 glance tells me.
 
-Let's go through them one by one and decide what's gonna happen to them:
+Let's go through them one by one and consider what's gonna happen to them:
 
 ### Cache
 
 Caching is a very important concern and one of the most difficult things to get
-right for any web application.
-Ramaze tried to get caching done right and I consider it fairly successful when
-it comes to that.
-There are a myriad of options available for caching, different caching
-mechanisms such as marshal to filesystem, memcached, in-memory, yaml to
-filesystem, etc.
-The granularity can be chosen depending on the usecase, distributed caching of
-sessions, actions, single key/value pairs, and so on, fine-tuning each of those
-to use a different mechanism is done as painless as possible.
+right for any web application.  Ramaze tried to get caching done right and I
+consider it fairly successful when it comes to that.  There are a myriad of
+options available for caching, different caching mechanisms such as marshal to
+filesystem, memcached, in-memory, yaml to filesystem, etc.  The granularity can
+be chosen depending on the use case, distributed caching of sessions, actions,
+single key/value pairs, and so on.  Fine-tuning each of those to use a different
+mechanism will be made as painless as possible.
 
 We have gone through a lot of difficulties, memory-leaks, disputes, and
 challenges to get this done, but most users won't realize this until they
@@ -332,18 +330,17 @@ This will be removed from both Ramaze and Innate.
 ##### Ramaze::Record
 
 Well, this might be the most obvious candidate for removal, maybe it can be
-revived as a middleware.
-The functionality itself is in the adapter and even that's only a few lines.
-But so far I have never seen any usage for it.
+revived as middleware.  The functionality itself is in the adapter and even
+that's only a few lines.  But so far I have never seen any usage for it.
 
 ##### Tool::Localize
 
 I and a lot of other people have used this over time and it has proven itself
 to be a very easy and straight-forward way of doing localization.
 
-It think it is better suited as a middleware which can be included into
-rack-contrib
-and doesn't rely on the normal session but a simple unobfuscated cookie.
+It think it is better suited as middleware which can be included into
+rack-contrib and doesn't rely on the normal session but a simple unobfuscated
+cookie.
 
 ##### Tool::MIME
 
@@ -354,17 +351,18 @@ This one will be removed, Rack::Mime is a viable alternative.
 Over the years, Ramaze has collected a wide variety of spec helpers that are
 not really compatible to each other and rely on real request/response with a
 running server.
+
 Innate provides a better alternative via Innate::Mock for its own specs,
 applications will need the power of a real scraping library and we will provide
 a canonical way of running a server in the background before running the specs.
 There will not be any other helpers in Innate, but Ramaze might provide a few
 standard ones to get up and running (hpricot, rexml).
 
-Regarding the spec output parsers, that's a different issue.
-Providing readable output while running specs is a major feature that must be
-included in order to keep frustration low.
-We will provide a suitable logger replacement so one can simply extend Bacon
-with that in order to get nice summaries and good error output.
+Regarding the spec output parsers, that's a different issue.  Providing
+readable output while running specs is a major feature that must be included in
+order to keep frustration low.  We will provide a suitable logger replacement
+so one can simply extend Bacon with that in order to get nice summaries and
+good error output.
 
 ### Snippets
 
@@ -373,9 +371,11 @@ provide those. Over the years there have been lots of libraries that all
 provide their own core extensions and interference is a major issue. Innate
 will keep everything as clean as possible, doing subclasses inside the Innate
 namespace where it needs to change things.
+
 Two things that we need are (currently) String#each, because Rack relies on it,
 and BasicObject as superclass for the Option class. They are only applied on
 demand.
+
 These are in the directory called core_extensions, to make it very, very clear
 what we are doing and how we are doing it.
 
@@ -385,10 +385,9 @@ constantly strive to reduce them slowly.
 ### Gestalt
 
 Gestalt has been the first "templating_engine" for Ramaze and is still used in
-some fractions of the code and various applications. There are a lot of other
+some fractions of the code and various applications.  There are a lot of other
 html/xml builders out there these days so I think this is no good choice for
-inclusion into Innate.
-I will keep it inside Ramaze.
+inclusion into Innate. I will keep it inside Ramaze.
 
 ### Ramaze::Store::Default
 
@@ -396,21 +395,22 @@ I will remove this class from both Innate and Ramaze. It started out as a
 simple wrapper for YAML::Store to make the tutorial easier, but I think it
 gives a wrong impression of being anything else.
 
-It's very slow, might raise under heavy load and a plain YAML::Store or PStore
-or any other persistence mechanism is generally a better choice, no need to
-keep this around.
+It's very slow, might raise exceptions under heavy load and a plain YAML::Store
+or PStore or any other persistence mechanism is generally a better choice, so
+there is no need to keep this around.
 
 ### Contrib
 
 There's a lot in there, and some of these things are used widely, others not at
-all.
-Some things are better suited as middleware, I will move them to rack-contrib
-ASAP:
+all.  Some things are better suited as middleware, I will move them to
+rack-contrib ASAP:
+
 * gzip_filter
 * profiling
 
-Then there's things that don't see much use, they should stay in the future
-ramaze contrib or face removal:
+Then there's things that don't see much use.  They should stay in the future
+Ramaze contrib or face removal:
+
 * facebook
 * gettext
 * maruku_uv
@@ -418,17 +418,18 @@ ramaze contrib or face removal:
 * rest
 
 And other things that should be moved into Ramaze proper:
+
 * email
 * file_cache (done)
 * gems
 
-Neither of them will be added to Innate
+None of these will be included in Innate.
 
 ### Adapters
 
 These are entirely the responsibility of Rack/Innate now, Ramaze doesn't need
-to worry about that.
-WEBrick will stay default adapter since it is in stdlib.
+to worry about that.  WEBrick will remain the default adapter since it is in
+the Ruby stdlib.
 
 ### Templating
 
@@ -436,32 +437,31 @@ Templating will also be handled by Innate for the most part.
 
 #### Ezamar
 
-I have plans to make Ezamar a separate project.
-It's been stable since over a year and I think it's time to make it available
-for other projects.
-ERB will be the new default engine since it also is in stdlib.
+I have plans to make Ezamar a separate project.  It's been stable since over a
+year and I think it's time to make it available for other projects.  ERB will
+be the new default engine since it also is in the stdlib.
 
 ### Bacon
 
-Bacon will be a dependency for ramaze and innate specs, but we will not ship it
+Bacon will be a dependency for Ramaze and Innate specs, but we will not ship it
 anymore, it's stable and has all features we need included in the release.
 
 ### Dispatcher
 
-Innate uses a stripped down version of the Ramaze dispatcher.
-The Ramaze dispatcher was strongly influenced by Nitro, but proved to be a
-difficult part. We are now using Racks URLMap directly, and have a minimal
-dispatching mechanism directly in Node (like we used to have one in
-Controller).
+Innate uses a stripped down version of the Ramaze dispatcher.  The Ramaze
+dispatcher was strongly influenced by Nitro, but proved to be a difficult
+part.  We are now using Rack's URLMap directly, and have a minimal dispatching
+mechanism directly in Node (like we used to have one in Controller).
 
 A lot of the functionality that used to be in the different dispatchers is now
-provided by rack middleware.
+provided by Rack middleware.
 
-The Dispatcher itself isn't needed anymore, it used to setup
+The Dispatcher itself isn't needed anymore.  It used to setup
 Request/Response/Session, which was superseded by Current, this again is now
 superseded by STATE::wrap.
+
 We are going to remove all the other dispatchers as well, providing default
-ways and middleware to use.
+ways to provide the same functionality, and various middleware to use.
 
 #### Dispatcher::Action
 
@@ -470,13 +470,13 @@ not needed anymore.
 
 #### Dispatcher::Directory
 
-Will also be removed, there is a directory listing middleware already
+This will also be removed.  There is a directory listing middleware already.
 
 #### Dispatcher::Error
 
 There's middleware for this as well, and a canonical way of routing errors to
-other actions, this used to be one of the most difficut parts of Ramaze and it
-will be removed to make things simpler.
+other actions.  This used to be one of the most difficult parts of Ramaze and
+it will be removed to make things simpler.
 
 #### Dispatcher::File
 
