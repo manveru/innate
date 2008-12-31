@@ -221,12 +221,24 @@ module Innate
 
         next unless view or method
 
-        layout = to_layout(@layout).first
+        layout = find_layout(name, wish)
 
         Action.create(:node => self, :params => params, :wish => wish,
                       :method => method, :view => view, :options => {},
                       :variables => {}, :layout => layout)
       }
+    end
+
+    def find_layout(name, wish)
+      return unless @layout
+
+      if found = to_layout(@layout).first
+        [:layout, found]
+      elsif found = find_view(@layout.to_s, wish, [])
+        [:view, found]
+      elsif found = find_method(@layout.to_s, [])
+        [:method, found]
+      end
     end
 
     # I hope this method talks for itself, we check arity if possible, but will

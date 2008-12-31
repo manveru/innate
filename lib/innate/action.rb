@@ -74,17 +74,30 @@ module Innate
       @content_type = Rack::Mime.mime_type(".#{wish}", fallback)
     end
 
+    # FIXME:
+    #   * I think this method is too long, should be split up.
+
     def wrap_in_layout
       return yield unless layout
 
       layout_action = dup
-      layout_action.view = layout
-      layout_action.method = nil
+      view = method = nil
+
+      case layout.first
+      when :layout, :view
+        view = layout.last
+      when :method
+        method = layout.last
+      end
+
+      layout_action.view = view
+      layout_action.method = method
       layout_action.layout = nil
+
       instance.instance_variables.each{|iv|
         iv_value = instance.instance_variable_get(iv)
         iv_name = iv.to_s[1..-1]
-        layout_action.variables[iv_name] = iv_value
+        layout_action.variables[iv_name.to_sym] = iv_value
       }
       layout_action.variables[:content] = yield
       layout_action.call
