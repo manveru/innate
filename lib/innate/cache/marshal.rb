@@ -10,16 +10,8 @@ module Innate
       include Cache::FileBased
 
       STORE = ::PStore
-
-      def cache_setup(*args)
-        @prefix = args.compact.join('-')
-
-        @dir = File.join(Dir.tmpdir, 'innate-cache-marshal')
-        FileUtils.mkdir_p(@dir)
-
-        @filename = File.join(@dir, @prefix + '.marshal')
-        @store = ::PStore.new(@filename)
-      end
+      DIR = 'innate-cache-marshal'
+      EXT = '.marshal'
     end
   end
 end
