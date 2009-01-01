@@ -109,6 +109,7 @@ module Innate
     @options.app.root = go_figure_root(options, caller)
     @options.started = true
     @options.adapter = (options[:adapter] || @options.adapter).to_s
+    @options.port = options.fetch(:port, @options.port).to_i
 
     trap('INT'){ stop }
 
