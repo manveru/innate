@@ -20,6 +20,11 @@ module Innate
       cache[sid][key]
     end
 
+    def delete(key)
+      c = cache[sid] || return
+      c.delete(key)
+    end
+
     def cookie
       @request.cookies[options.key]
     end
