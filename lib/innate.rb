@@ -30,7 +30,7 @@ require 'innate/core_compatibility/string'
 require 'innate/core_compatibility/basic_object'
 
 require 'innate/version'
-require 'innate/option'
+require 'innate/options'
 require 'innate/log'
 require 'innate/state'
 require 'innate/trinity'
@@ -51,80 +51,28 @@ require 'rack/middleware_compiler'
 module Innate
   extend Trinity
 
-  @options = Options.for(:innate){|innate|
-    innate.root = Innate::ROOT
-    innate.started = false
-    innate.port = 7000
-    innate.host = '0.0.0.0'
-    innate.adapter = :webrick
-    innate.setup = [Innate::Cache]
-
-    innate.header = {
-      'Content-Type' => 'text/html',
-      # 'Accept-Charset' => 'utf-8',
-    }
-
-    innate.redirect{|redirect|
-      redirect.status = 302
-    }
-
-    innate.env{|env|
-      env.host = `hostname`.strip # TODO: cross-platform
-      env.user = `whoami`.strip   # TODO: cross-platform
-    }
-
-    innate.app{|app|
-      app.name = 'pristine'
-      app.root = '/'
-      app.view = 'view'
-      app.layout = 'layout'
-    }
-
-    innate.session{|session|
-      session.key = 'innate.sid'
-      session.domain = false
-      session.path = '/'
-      session.secure = false
-
-      # The current value is a time at:
-      #   2038-01-19 03:14:07 UTC
-      # Let's hope that by then we get a better ruby with a better Time class
-      session.expires = Time.at(2147483647)
-    }
-
-    innate.cache{|cache|
-      cache.names = [:session]
-      cache.default = Innate::Cache::Memory
-    }
-  }
-
   module_function
 
-  def start(options = {})
-    return if @options.started
+  def start(parameter = {})
+    return if options[:started]
+    options[:started] = true
 
     setup_dependencies
     setup_middleware
 
-    @options.app.root = go_figure_root(options, caller)
-    @options.started = true
-    @options.adapter = (options[:adapter] || @options.adapter).to_s
-    @options.port = options.fetch(:port, @options.port).to_i
+    options[:app][:root] = go_figure_root(parameter, caller)
+    options[:adapter] = parameter[:adapter] if parameter[:adapter]
+    options[:port] = parameter.fetch(:port, options.port).to_i
 
     trap('INT'){ stop }
 
-    Adapter.start(middleware(:innate), @options)
+    Adapter.start(middleware(:innate), options)
   end
 
   def stop(wait = 0)
     Log.info "Shutdown Innate"
     exit!
   end
-
-  def options
-    @options
-  end
-  alias config options
 
   def middleware(name, &block)
     Rack::MiddlewareCompiler.build(name, &block)
@@ -135,7 +83,7 @@ module Innate
   end
 
   def setup_dependencies
-    @options.setup.each{|obj| obj.setup }
+    options[:setup].each{|obj| obj.setup }
   end
 
   def setup_middleware
@@ -152,6 +100,10 @@ module Innate
     end
   end
 
+  # Pass the +env+ to this method and it will be sent to the appropriate
+  # middleware called +mw+.
+  # Tries to avoid recursion.
+
   def call(env, mw = :innate)
     this_file = File.expand_path(__FILE__)
     count = 0
@@ -161,6 +113,17 @@ module Innate
 
     middleware(mw).call(env)
   end
+
+  # Innate can be started by:
+  #
+  #   Innate.start :file => __FILE__
+  #   Innate.start :root => '/path/to/here'
+  #
+  # In case these options are not passed we will try to figure out a file named
+  # `start.rb` in the backtrace and use the directory it resides in.
+  #
+  # TODO: better documentation and nice defaults, don't want to rely on a
+  #       filename, bad mojo.
 
   def go_figure_root(options, backtrace)
     if file = options[:file]
