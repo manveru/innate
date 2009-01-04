@@ -26,6 +26,9 @@ module Innate
     o "Headers that will be merged into the response before Node::call",
       :header, {'Content-Type' => 'text/html'}
 
+    o "Trap this signal to issue shutdown, nil/false to disable trap",
+      :trap, 'SIGINT'
+
     sub :redirect do
       o "Default response HTTP status on redirect",
         :status, 302

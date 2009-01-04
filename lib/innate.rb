@@ -64,13 +64,15 @@ module Innate
     options[:adapter] = parameter[:adapter] if parameter[:adapter]
     options[:port] = parameter.fetch(:port, options[:port]).to_i
 
-    trap('INT'){ stop }
+    trap(options[:trap]){ stop(3) } if options[:trap]
 
     Adapter.start(middleware(:innate), options)
   end
 
   def stop(wait = 0)
     Log.info "Shutdown Innate"
+    Timeout.timeout(wait){ exit }
+  ensure
     exit!
   end
 
