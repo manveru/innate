@@ -30,13 +30,13 @@ require 'innate/core_compatibility/string'
 require 'innate/core_compatibility/basic_object'
 
 require 'innate/version'
+require 'innate/cache'
 require 'innate/options'
 require 'innate/log'
 require 'innate/state'
 require 'innate/trinity'
 require 'innate/current'
 require 'innate/mock'
-require 'innate/cache'
 require 'innate/adapter'
 require 'innate/action'
 require 'innate/helper'
@@ -62,7 +62,7 @@ module Innate
 
     options[:app][:root] = go_figure_root(parameter, caller)
     options[:adapter] = parameter[:adapter] if parameter[:adapter]
-    options[:port] = parameter.fetch(:port, options.port).to_i
+    options[:port] = parameter.fetch(:port, options[:port]).to_i
 
     trap('INT'){ stop }
 

@@ -320,11 +320,10 @@ module Innate
     def to_view(file, wish)
       return [] unless file
 
-      app = Options.for('innate:app')
-      app_root = app[:root]
-      app_view = app[:view]
+      app_root = Innate.options[:app, :root]
+      app_view = Innate.options[:app, :view]
 
-      path = [app_root, app_view, view_root, file]
+      path = [app_root, app_view, view_root, file].map{|pa| pa.to_s }
 
       return [] unless path.all?
 
@@ -367,10 +366,12 @@ module Innate
     def to_layout(file)
       return [] unless file
 
-      app = Options.for('innate:app')
+      app_root = Innate.options[:app, :root]
+      app_layout = Innate.options[:app, :layout]
 
-      path = [app[:root], app[:layout], file]
-      path = File.join(*path.map{|pa| pa.to_s})
+      path = [app_root, app_layout, file].map{|pa| pa.to_s }
+      path = File.join(*path)
+
       Dir["#{path}.*"]
     end
 

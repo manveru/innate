@@ -5,6 +5,8 @@ module Innate
 
   def self.options; @options end
 
+  # This has to speak for itself.
+
   options.dsl do
     o "IP address or hostname that Ramaze will respond to - 0.0.0.0 for all",
       :host, "0.0.0.0", :short => :H
@@ -63,8 +65,9 @@ module Innate
     sub :cache do
       o "Assign a cache to each of these names on Innate::Cache::setup",
         :names, [:session]
-      o "Fallback to this backend if no configuration is found",
-        :default, Innate::Cache::Memory
+
+      default "If no option for the cache name exists, fall back to this",
+        Innate::Cache::Memory
     end
   end
 end

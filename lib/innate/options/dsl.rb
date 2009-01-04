@@ -74,6 +74,12 @@ module Innate
       @hash[key.to_sym] = other.merge(:doc => doc, :value => value)
     end
 
+    # To avoid lookup on the parent, we can set a default to the internal Hash.
+    # Parameters as in #o, but without the +key+.
+    def default(doc, value, other = {})
+      @hash.default = other.merge(:doc => doc, :value => value)
+    end
+
     # Try to retrieve the corresponding Hash for the passed keys, will try to
     # retrieve the key from a parent if no match is found on the current
     # instance. If multiple keys are passed it will try to find a matching
@@ -99,7 +105,7 @@ module Innate
     # Retrieve only the :value from the value hash if found via +keys+.
     def [](*keys)
       if value = get(*keys)
-        value[:value]
+        value.is_a?(Hash) ? value[:value] : value
       end
     end
 
@@ -119,6 +125,14 @@ module Innate
 
     def each(&block)
       @hash.each(&block)
+    end
+
+    def inspect
+      @hash.inspect
+    end
+
+    def pretty_print(q)
+      q.pp_hash @hash
     end
   end
 end
