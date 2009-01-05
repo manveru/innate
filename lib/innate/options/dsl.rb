@@ -60,7 +60,16 @@ module Innate
     # Create a new Options instance with +name+ and pass +block+ on to its #dsl.
     # Assigns the new instance to the +name+ Symbol on current instance.
     def sub(name, &block)
-      @hash[name.to_sym] = Options.new(name, self).dsl(&block)
+      name = name.to_sym
+
+      case found = @hash[name]
+      when Options
+        found.dsl(&block)
+      else
+        found = @hash[name] = Options.new(name, self).dsl(&block)
+      end
+
+      found
     end
 
     # Store an option in the Options instance.
@@ -118,6 +127,15 @@ module Innate
         ns[:value] = value
       else
         raise(ArgumentError, "No key for %p exists" % [key])
+      end
+    end
+
+    def method_missing(meth, *args)
+      case meth.to_s
+      when /^(.*)=$/
+        self[$1] = args.first
+      else
+        self[meth]
       end
     end
 
