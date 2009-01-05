@@ -1,5 +1,6 @@
 require 'rake/rdoctask'
 require 'time'
+require 'date'
 require 'pp'
 
 INNATE_VERSION = Date.today.strftime("%Y.%m.%d")
