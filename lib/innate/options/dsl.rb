@@ -41,9 +41,6 @@ module Innate
   #   Calculator.calculate(:plus, 4, 5)
   #   # => 9
   #
-  # TODO:
-  #   * method_missing
-  #   * specs
   class Options
     def initialize(name, parent = self, &block)
       @name, @parent, = name, parent
