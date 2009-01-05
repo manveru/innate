@@ -330,7 +330,7 @@ module Innate
       return [] unless path.all?
 
       path = File.join(*path)
-      exts = [provide[wish], *provide.keys].flatten.uniq.join(',')
+      exts = [provide[wish], *provide.keys].flatten.compact.uniq.join(',')
 
       glob = "#{path}.{#{wish}.,#{wish},}{#{exts},}"
 
