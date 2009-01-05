@@ -53,7 +53,7 @@ module Innate
 
     # Shortcut for instance_eval
     def dsl(&block)
-      instance_eval(&block)
+      instance_eval(&block) if block
       self
     end
 
