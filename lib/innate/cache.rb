@@ -71,9 +71,9 @@ module Innate
       @instance = klass.new
 
       @instance.cache_setup(
-        options[:env, :host],
-        options[:env, :user],
-        options[:app, :name],
+        options.env.host,
+        options.env.user,
+        options.app.name,
         @name
       )
 
@@ -81,7 +81,7 @@ module Innate
     end
 
     def self.setup
-      Innate.options[:cache, :names].each do |name|
+      Innate.options.cache.names.each do |name|
         register(new(name))
       end
     end
