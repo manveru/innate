@@ -4,23 +4,22 @@ module Innate
   # lazy requiring of needed engines.
 
   module View
-    ENGINE = {}
-    TEMP = {}
+    ENGINE, TEMP = {}, {}
 
     module_function
 
     # Try to obtain given engine by its registered name.
 
-    def get(engine)
-      return unless engine
-      engine = engine.to_s
+    def get(engine_or_ext)
+      return unless engine_or_ext
+      eoe = engine_or_ext.to_s
 
-      if klass = TEMP[engine]
+      if klass = TEMP[eoe]
         return klass
-      elsif klass = ENGINE[engine]
-        TEMP[engine] = obtain(klass)
+      elsif klass = ENGINE[eoe]
+        TEMP[eoe] = obtain(klass)
       else
-        TEMP[engine] = View::const_get(engine.capitalize)
+        TEMP[eoe] = const_get(eoe.capitalize)
       end
     end
 
@@ -58,7 +57,7 @@ module Innate
 
     def auto_register(name, *exts)
       autoload(name, "innate/view/#{name}".downcase)
-      register("Innate::View::#{name}", *exts)
+      register("#{self}::#{name}", *exts)
     end
 
     auto_register :None, :css
