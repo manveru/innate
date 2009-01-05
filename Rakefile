@@ -10,6 +10,7 @@ task :default => [:spec]
 desc "Run all specs"
 task :spec do
   Dir['spec/innate/**/*.rb'].each do |rb|
+    next if rb =~ /cache\/common\.rb/
     ruby rb
   end
 end
