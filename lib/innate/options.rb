@@ -29,6 +29,9 @@ module Innate
     o "Trap this signal to issue shutdown, nil/false to disable trap",
       :trap, 'SIGINT'
 
+    o "Keep state in Thread or Fiber, fall back to Thread if Fiber not available",
+      :state, :Fiber
+
     sub :redirect do
       o "Default response HTTP status on redirect",
         :status, 302

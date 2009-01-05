@@ -1,14 +1,20 @@
 module Innate
-  begin
-    require 'innate/state/fiber'
-    require 'innate/state/thread'
-    STATE = State::Fiber.new
-    # Log.debug "Innate uses Fiber"
-  rescue LoadError
+  state = options[:state]
+
+  if state == :Fiber
+    begin
+      require 'innate/state/fiber'
+      STATE = State::Fiber.new
+    rescue LoadError
+      require 'innate/state/thread'
+      STATE = State::Thread.new
+    end
+  else
     require 'innate/state/thread'
     STATE = State::Thread.new
-    # Log.debug "Innate uses Thread"
   end
+
+  Log.debug("Innate keeps state with %p" % STATE.class)
 
   def self.sync(&block)
     STATE.sync(&block)
