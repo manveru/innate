@@ -1,9 +1,7 @@
 require 'spec/helper'
 
-Innate::Options.for 'innate:app' do |app|
-  app.root = File.dirname(__FILE__)
-  app.view = ''
-end
+Innate.options.app.root = File.dirname(__FILE__)
+Innate.options.app.view = ''
 
 class SpecNode
   include Innate::Node
