@@ -2,53 +2,73 @@ module Innate
 
   # Mostly ported from Ramaze, but behaves lazy, no session will be created if
   # no session is used.
+  #
+  # The way we do it is to keep session data in memory until #flush is called,
+  # at which point it will be persisted completely into the cache, no question
+  # asked.
+  #
+  # NOTE:
+  #   * You may store anything in here that you may also store in the
+  #     corresponding store, usually it's best to keep it to things that are
+  #     safe to Marshal.
 
   class Session
+    attr_reader :cookie_set, :request, :response
+
     def initialize(request, response)
       @request, @response = request, response
       @cookie_set = false
+      @cache_sid = nil
     end
 
     def []=(key, value)
-      set_cookie
-      cache[sid] ||= {}
-      cache[sid][key] = value
+      cache_sid[key] = value
     end
 
     def [](key)
-      cache[sid] ||= {}
-      cache[sid][key]
+      cache_sid[key]
     end
 
     def delete(key)
-      c = cache[sid] || return
-      c.delete(key)
-    end
-
-    def cookie
-      @request.cookies[options.key]
+      cache_sid.delete(key)
     end
 
     def clear
       cache.delete(sid)
     end
 
+    def cache_sid
+      @cache_sid ||= cache[sid] || {}
+    end
+
+    def flush
+      return unless @cache_sid
+      return if @cache_sid.empty?
+      cache[sid] = cache_sid
+      set_cookie
+    end
+
     def sid
       @sid ||= cookie || generate_sid
     end
 
-    def options
-      Options.for('innate:session')
+    def cookie
+      @request.cookies[options.key]
     end
+
+    private
 
     def cache
       Innate::Cache.session
     end
 
-    private
+    def options
+      Innate.options[:session]
+    end
 
     def set_cookie
-      return if @cookie_set or cookie
+      return if @cookie_set || cookie
+
       @cookie_set = true
       @response.set_cookie(options.key, cookie_value)
     end
@@ -62,7 +82,7 @@ module Innate
     end
 
     def entropy
-      [ rand, Time.now.to_f, rand, $$, rand, object_id ]
+      [ srand, rand, Time.now.to_f, rand, $$, rand, object_id ]
     end
 
     def generate_sid

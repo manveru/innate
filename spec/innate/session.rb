@@ -29,31 +29,29 @@ class SessionSpec
   end
 end
 
-describe 'Innate::Session' do
-  def session
-    Innate::Mock.session do |session|
-      yield(session)
-    end
-  end
+Innate.options.cache.default = Innate::Cache::Memory
 
+Innate.setup_dependencies
+
+describe 'Innate::Session' do
   should 'initiate session as needed' do
-    session do |s|
-      response = s.get('/')
+    Innate::Mock.session do |session|
+      response = session.get('/')
       response.body.should == 'No session here'
       response['Set-Cookie'].should == nil
 
-      s.get('/init').body.should == '0'
+      session.get('/init').body.should == '0'
 
       1.upto(10) do |n|
-        s.get('/increment').body.should == n.to_s
+        session.get('/increment').body.should == n.to_s
       end
 
-      s.get('/reset')
-      s.get('/view').body.should == ''
-      s.get('/init').body.should == '0'
+      session.get('/reset')
+      session.get('/view').body.should == ''
+      session.get('/init').body.should == '0'
 
       -1.downto(-10) do |n|
-        s.get('/decrement').body.should == n.to_s
+        session.get('/decrement').body.should == n.to_s
       end
     end
   end

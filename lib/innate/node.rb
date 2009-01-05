@@ -137,6 +137,8 @@ module Innate
 
       try_resolve(path)
 
+      Current.session.flush
+
       response.finish
     rescue Exception => exception
       Log.error(exception)
