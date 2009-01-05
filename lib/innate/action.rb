@@ -42,6 +42,10 @@ module Innate
       @content_type = Rack::Mime.mime_type(".#{wish}", fallback)
     end
 
+    def binding
+      instance.__send__(:binding)
+    end
+
     private # think about internal API, don't expose it for now
 
     def setup
