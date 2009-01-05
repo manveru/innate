@@ -14,7 +14,7 @@ module Innate
     STATE = State::Thread.new
   end
 
-  Log.debug("Innate keeps state with %p" % STATE.class)
+  # Log.debug("Innate keeps state with %p" % STATE.class)
 
   def self.sync(&block)
     STATE.sync(&block)
