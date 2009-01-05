@@ -36,6 +36,12 @@ module Innate
       @content_type = ct
     end
 
+    def content_type
+      return @content_type if defined?(@content_type)
+      fallback = CONTENT_TYPE[wish] || 'text/plain'
+      @content_type = Rack::Mime.mime_type(".#{wish}", fallback)
+    end
+
     private # think about internal API, don't expose it for now
 
     def setup
@@ -66,12 +72,6 @@ module Innate
         return nil
         # raise
       end
-    end
-
-    def content_type
-      return @content_type if defined?(@content_type)
-      fallback = CONTENT_TYPE[wish] || 'text/plain'
-      @content_type = Rack::Mime.mime_type(".#{wish}", fallback)
     end
 
     # FIXME:
