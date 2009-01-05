@@ -69,7 +69,7 @@ module Innate
             if expires > Time.now
               value = entry[:value]
             else
-              value = cache_delete(key)
+              cache_delete(key)
             end
           else
             value = entry[:value]
