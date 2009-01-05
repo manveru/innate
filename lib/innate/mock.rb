@@ -22,6 +22,8 @@ module Innate
     end
 
     class Session
+      attr_accessor :cookie
+
       def initialize
         @cookie = nil
       end
