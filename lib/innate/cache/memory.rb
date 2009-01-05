@@ -5,6 +5,18 @@ module Innate
 
     class Memory < Hash
       include Cache::API
+
+      def cache_store(*args)
+        super{|key, value| self[key] = value }
+      end
+
+      def cache_fetch(*args)
+        super{|key| self[key] }
+      end
+
+      def cache_delete(*args)
+        super{|key| delete(key) }
+      end
     end
   end
 end

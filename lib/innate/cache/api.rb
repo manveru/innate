@@ -51,7 +51,7 @@ module Innate
       # If multiple keys were deleted, answer with an Array containing the values.
       def cache_delete(key, *keys)
         if keys.empty?
-          if value = delete(key)
+          if value = yield(key)
             value[:value]
           end
         else
@@ -62,19 +62,21 @@ module Innate
       # Answer with the value associated with the +key+, +nil+ if not found or
       # expired.
       def cache_fetch(key, default = nil)
-        if entry = self[key]
+        value = default
+
+        if entry = yield(key)
           if expires = entry[:expires]
             if expires > Time.now
-              return entry[:value]
+              value = entry[:value]
             else
-              cache_delete(key)
+              value = cache_delete(key)
             end
           else
-            return entry[:value]
+            value = entry[:value]
           end
         end
 
-        default
+        return value
       end
 
       # Set +key+ to +value+.
@@ -94,7 +96,9 @@ module Innate
 
         value_hash = {:value => value}
         value_hash[:expires] = Time.now + ttl if ttl
-        self[key] = value_hash
+
+        yield(key, value_hash)
+
         return value
       end
     end

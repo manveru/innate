@@ -19,16 +19,16 @@ module Innate
         @store = self.class::STORE.new(@filename)
       end
 
-      def delete(key)
-        transaction{|store| store.delete(key) }
+      def cache_store(*args)
+        super{|key, value| transaction{|store| store[key] = value } }
       end
 
-      def [](key)
-        transaction{|store| store[key] }
+      def cache_fetch(*args)
+        super{|key| transaction{|store| store[key] } }
       end
 
-      def []=(key, value)
-        transaction{|store| store[key] = value }
+      def cache_delete(*args)
+        super{|key| transaction{|store| store.delete(key) } }
       end
 
       def transaction(&block)
