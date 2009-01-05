@@ -46,6 +46,16 @@ module Innate
       instance.__send__(:binding)
     end
 
+    def sync_variables(from_action)
+      instance = from_action.instance
+
+      instance.instance_variables.each{|iv|
+        iv_value = instance.instance_variable_get(iv)
+        iv_name = iv.to_s[1..-1]
+        self.variables[iv_name.to_sym] = iv_value
+      }
+    end
+
     private # think about internal API, don't expose it for now
 
     def setup
@@ -97,12 +107,7 @@ module Innate
       layout_action.view = view
       layout_action.method = method
       layout_action.layout = nil
-
-      instance.instance_variables.each{|iv|
-        iv_value = instance.instance_variable_get(iv)
-        iv_name = iv.to_s[1..-1]
-        layout_action.variables[iv_name.to_sym] = iv_value
-      }
+      layout_action.sync_variables(self)
       layout_action.variables[:content] = yield
       layout_action.call
     end
