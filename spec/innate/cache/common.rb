@@ -1,11 +1,8 @@
 require 'spec/helper'
 
-Innate.options.cache do |cache|
-  cache.names = [:one, :two]
-  cache.one = $common_cache_class
-  cache.two = $common_cache_class
-end
-
+Innate.options.cache.names = [:one, :two]
+Innate.options.cache.one = $common_cache_class
+Innate.options.cache.two = $common_cache_class
 Innate.setup_dependencies
 
 describe $common_cache_class do
