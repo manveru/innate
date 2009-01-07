@@ -1,13 +1,13 @@
 # The minimal _why wiki in Innate
 
-%w[rubygems innate haml maruku yaml/store].each{|l| require(l) }
+%w[rubygems innate erb maruku yaml/store].each{|l| require(l) }
 
 DB = YAML::Store.new('wiki.yaml') unless defined?(DB)
 
 class Wiki
   include Innate::Node
   map '/'
-  provide :html => :haml
+  provide :html => :erb
   layout 'wiki'
 
   def index(page = 'Home')
