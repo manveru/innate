@@ -16,6 +16,7 @@ require 'pathname'
 require 'digest/sha1'
 require 'ipaddr'
 require 'socket'
+require 'logger'
 
 # 3rd party
 begin; require 'rubygems'; rescue LoadError; end

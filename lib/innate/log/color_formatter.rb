@@ -1,5 +1,6 @@
-module Innate
-  class ColorFormatter < Logger::Formatter
+class Logger
+  # Extended Formatter that supports ANSI colors.
+  class ColorFormatter < Formatter
     LEVEL_COLOR = {
       'DEBUG'   => :blue,
       'INFO'    => :white,
