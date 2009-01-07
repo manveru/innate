@@ -60,8 +60,13 @@ module Innate
 
     def setup
       self.instance = node.new
+
+      instance.call_aspect(:before, self.method.to_sym)
+
       self.value = instance.__send__(method, *params) if method
       self.view_value = File.read(view) if view
+
+      instance.call_aspect(:after, self.method.to_sym)
     end
 
     def render

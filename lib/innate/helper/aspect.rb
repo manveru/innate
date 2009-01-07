@@ -22,30 +22,25 @@ module Innate
 
       module SingletonMethods
         def before(name, &block)
-          init_aspect(:before, name, block)
+          AOP[self][:before][name] = block
         end
 
         def after(name, &block)
-          init_aspect(:after, name, block)
+          AOP[self][:after][name] = block
         end
 
         def wrap(name, &block)
           before(name, &block)
           after(name, &block)
         end
-
-        def init_aspect(direction, name, block)
-          AOP[self][direction][name] = block
-        end
       end
 
       module InstanceMethods
-        def call_aspect(direction, name)
+        def call_aspect(position, name)
           aop = Aspect.ancestral_aop(self.class)
 
-          if block = aop[direction][name]
-            block.call
-          end
+          block = aop[position][name]
+          block.call if block
         end
       end
     end
