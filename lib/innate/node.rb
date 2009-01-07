@@ -40,7 +40,7 @@ module Innate
       obj.__send__(:include, Helper)
       obj.extend(Trinity, self)
       obj.provide(:html => :none) # provide .html with no interpolation
-      obj.helper(:cgi, :link, :partial, :render, :redirect)
+      obj.helper(:cgi, :link, :partial, :render, :redirect, :flash)
     end
 
     # Shortcut to map or remap this Node
