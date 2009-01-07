@@ -74,6 +74,8 @@ module Innate
       [value, *keys].map{|k| super(k) }
     end
 
+    # the full request URI provided by Rack::Request
+    # e.g. "http://localhost:7000/controller/action?foo=bar.xhtml"
     def request_uri
       env['REQUEST_URI'] || env['PATH_INFO']
     end
@@ -100,8 +102,9 @@ module Innate
     # front.
 
     def domain(path = '/')
-      scheme = env['rack.url_scheme'] || 'http'
-      host = env['HTTP_HOST']
+      scheme = self.scheme || 'http'
+      host   = env['HTTP_HOST']
+
       URI("#{scheme}://#{host}#{path}")
     end
 
@@ -130,17 +133,48 @@ module Innate
       raise ArgumentError, ex unless ex.message == 'invalid address'
     end
 
-    # Parameter parsing based on PHP behaviour.
-    # This might contain some bugs somewhere, especially if the incoming data
-    # is malformed there is no guarantee of the outcome.
-    #
-    # It will turn Request#params into
+    INTERESTING_HTTP_VARIABLES =
+      (/USER|HOST|REQUEST|REMOTE|FORWARD|REFER|PATH|QUERY|VERSION|KEEP|CACHE/)
 
-    def robust_params
-      @env['innate.request.robust_params'] ||= parse_robust_params
+    # Interesting HTTP variables from env
+    def http_variables
+      env.reject{|key, value| key.to_s !~ INTERESTING_HTTP_VARIABLES }
+    end
+    alias http_vars http_variables
+
+    # Example Usage:
+    #
+    #  # Template:
+    #
+    #  <form action="/paste">
+    #    <input type="text" name="paste[name]" />
+    #    <input type="text" name="paste[syntax]" />
+    #    <input type="submit" />
+    #  </form>
+    #
+    #  # In your Node:
+    #
+    #  def paste
+    #    name, syntax = request.robust_params['paste'].values_at('name', 'syntax')
+    #    paste = Paste.create_with(:name => name, :syntax => syntax)
+    #    redirect '/'
+    #  end
+    #
+    #  # Or equivalent:
+    #
+    #  def paste
+    #    paste = Paste.create_with(request.robust_params['paste'])
+    #    redirect '/'
+    #  end
+
+    def robust_params(params = self.params)
+      @env['innate.request.robust_params'] ||= parse_robust_params(params)
     end
 
-    def parse_robust_params
+    # Parameter parsing based on some PHP (or Rails?) behaviour.
+    # This might contain some bugs somewhere, especially if the incoming data
+    # is malformed there is no guarantee of the outcome.
+    def parse_robust_params(params)
       result = {}
 
       params.each do |key, value|
@@ -157,6 +191,26 @@ module Innate
       end
 
       return result
+    end
+
+    REQUEST_STRING_FORMAT = "#<%s params=%p cookies=%p env=%p>"
+
+    def to_s
+      REQUEST_STRING_FORMAT % [self.class, params, cookies, http_variables]
+    end
+    alias inspect to_s
+
+    # Pretty prints current action with parameters, cookies and enviroment
+    # variables.
+    def pretty_print(pp)
+      pp.object_group(self){
+        group = { 'params' => params, 'cookies' => cookies, 'env' => http_vars }
+        group.each do |name, hash|
+          pp.breakable
+          pp.text " @#{name}="
+          pp.nest(name.size + 3){ pp.pp_hash(hash) }
+        end
+      }
     end
   end
 end
