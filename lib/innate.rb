@@ -43,6 +43,7 @@ require 'innate/helper'
 require 'innate/node'
 require 'innate/view'
 require 'innate/session'
+require 'innate/session/flash'
 require 'innate/dynamap'
 
 require 'rack/reloader'

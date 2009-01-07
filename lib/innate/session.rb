@@ -13,12 +13,13 @@ module Innate
   #     safe to Marshal.
 
   class Session
-    attr_reader :cookie_set, :request, :response
+    attr_reader :cookie_set, :request, :response, :flash
 
     def initialize(request, response)
       @request, @response = request, response
       @cookie_set = false
       @cache_sid = nil
+      @flash = Flash.new(self)
     end
 
     def []=(key, value)
@@ -44,6 +45,8 @@ module Innate
     def flush
       return unless @cache_sid
       return if @cache_sid.empty?
+
+      flash.rotate!
       cache[sid] = cache_sid
       set_cookie
     end
