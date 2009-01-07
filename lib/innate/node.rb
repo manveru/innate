@@ -141,9 +141,6 @@ module Innate
       Current.session.flush
 
       response.finish
-    rescue Exception => exception
-      Log.error(exception)
-      raise(exception)
     end
 
     # Let's try to find some valid action for given +path+.
