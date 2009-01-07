@@ -39,12 +39,13 @@ module Innate
   class LogHub
     include Logger::Severity
 
-    attr_accessor :loggers, :program
+    attr_accessor :loggers, :program, :active
 
     # +loggers+ should be a list of Logger instances
     def initialize(*loggers)
       @loggers = loggers.flatten
       @program = nil
+      @active = true
       self.level = DEBUG
     end
 
@@ -54,16 +55,18 @@ module Innate
       @level = lvl
     end
 
-    def method_missing(meth, *args, &block)
-      @loggers.each do |logger|
-        logger.send(meth, *args, &block)
-      end
+    def start; @active = true;  end
+    def stop;  @active = false; end
 
+    def method_missing(meth, *args, &block)
       eval %~
         def #{meth}(*args, &block)
+          return unless @active
           @loggers.each{|l| l.#{meth}(*args, &block) }
         end
       ~
+
+      send(meth, *args, &block)
     end
   end
 end
