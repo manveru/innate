@@ -61,12 +61,10 @@ module Innate
     def setup
       self.instance = node.new
 
-      instance.call_aspect(:before, self.method.to_sym)
-
-      self.value = instance.__send__(method, *params) if method
-      self.view_value = File.read(view) if view
-
-      instance.call_aspect(:after, self.method.to_sym)
+      wrap_in_aspects do
+        self.value = instance.__send__(method, *params) if method
+        self.view_value = File.read(view) if view
+      end
     end
 
     def render
@@ -115,6 +113,15 @@ module Innate
       layout_action.sync_variables(self)
       layout_action.variables[:content] = yield
       layout_action.call
+    end
+
+    def wrap_in_aspects
+      return yield unless method = self.method
+      method_sym = method.to_sym
+
+      instance.call_aspect(:before, method_sym)
+      yield
+      instance.call_aspect(:after, method_sym)
     end
   end
 end

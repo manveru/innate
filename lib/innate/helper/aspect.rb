@@ -37,10 +37,10 @@ module Innate
 
       module InstanceMethods
         def call_aspect(position, name)
-          aop = Aspect.ancestral_aop(self.class)
-
-          block = aop[position][name]
-          block.call if block
+          return unless aop = Aspect.ancestral_aop(self.class)
+          return unless block_holder = aop[position]
+          return unless block = block_holder[name]
+          block.call
         end
       end
     end
