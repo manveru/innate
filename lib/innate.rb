@@ -46,6 +46,7 @@ require 'innate/view'
 require 'innate/session'
 require 'innate/session/flash'
 require 'innate/dynamap'
+require 'innate/route'
 
 require 'rack/reloader'
 require 'rack/middleware_compiler'
@@ -99,6 +100,7 @@ module Innate
       # m.use Rack::Lint         # slow, use only while developing
       # m.use Rack::Profile      # slow, use only for debugging or tuning
       m.use Innate::Current      # necessary
+      m.use Innate::Route
 
       m.cascade Rack::File.new('public'), Innate::DynaMap
     end
