@@ -3,6 +3,7 @@ require 'spec/helper'
 class SessionSpec
   include Innate::Node
   map '/'
+  provide :html => :none
 
   def index
     'No session here'
