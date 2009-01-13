@@ -3,6 +3,7 @@ require 'spec/helper'
 class AspectSpec
   include Innate::Node
   map '/'
+  provide :html => :none
 
   before(:with_before){ $aspect_spec_before += 40 }
   def with_before; $aspect_spec_before += 2; end
