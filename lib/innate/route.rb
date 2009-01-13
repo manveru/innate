@@ -3,8 +3,7 @@ module Innate
   # Route are stored in a dictionary, which supports hash-like access but
   # preserves order, so routes are evaluated in the order they are added.
   #
-  # This middleware should be inserted before calling the application but after
-  # Innate::Current is called.
+  # This middleware should wrap Innate::DynaMap.
   #
   # String routers are the simplest way to route in Innate. One path is
   # translated into another:
@@ -40,17 +39,17 @@ module Innate
     ROUTES = []
 
     def self.[](key)
-      found = ROUTES.assoc(key)
+      found = self::ROUTES.assoc(key)
       found[1] if found
     end
 
     def self.[]=(key, value)
-      ROUTES.delete_if{|k,v| k == key }
-      ROUTES << [key, value]
+      self::ROUTES.delete_if{|k,v| k == key }
+      self::ROUTES << [key, value]
     end
 
     def self.clear
-      ROUTES.clear
+      self::ROUTES.clear
     end
 
     def initialize(app)
@@ -69,16 +68,20 @@ module Innate
     end
 
     def resolve(path)
-      ROUTES.each do |key, value|
-        case key
-        when Regexp
+      request = Current.request
+
+      self.class::ROUTES.each do |key, value|
+        if key.is_a?(Regexp)
           md = path.match(key)
           return value % md.to_a[1..-1] if md
-        when Proc
-          new_path = value.call(path, Current.request)
+
+        elsif value.respond_to?(:call)
+          new_path = value.call(path, Request.current)
           return new_path if new_path
-        when String
-          return value if key == path
+
+        elsif value.respond_to?(:to_str)
+          return value.to_str if path == key
+
         else
           Log.error("Invalid route %p => %p" % [key, value])
         end
@@ -88,7 +91,16 @@ module Innate
     end
   end
 
+  # Identical with Innate::Route, but is called before any Node::call is made
+  class Rewrite < Route
+    ROUTES = {}
+  end
+
   def self.Route(key, value = nil, &block)
     Route[key] = value || block
+  end
+
+  def self.Rewrite(key, value = nil, &block)
+    Rewrite[key] = value || block
   end
 end

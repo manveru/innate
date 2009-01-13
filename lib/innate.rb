@@ -100,9 +100,15 @@ module Innate
       # m.use Rack::Lint         # slow, use only while developing
       # m.use Rack::Profile      # slow, use only for debugging or tuning
       m.use Innate::Current      # necessary
-      m.use Innate::Route
 
-      m.cascade Rack::File.new('public'), Innate::DynaMap
+      m.cascade(
+        # try to find matching static file
+        Rack::File.new('public'),
+        # if 404, rewrite PATH_INFO and try Node routing
+        Innate::Rewrite.new(Innate::DynaMap),
+        # if 404, apply routes and try Node routing
+        Innate::Route.new(Innate::DynaMap)
+      )
     end
   end
 
