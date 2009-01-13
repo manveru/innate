@@ -99,6 +99,16 @@ describe 'Innate::Node' do
     compare '/default/1/2/3', :method => 'default', :params => %w[1 2 3]
   end
 
+  should 'inherit action methods from superclasses' do
+    SpecNodeSub.resolve('/foo').should.not.be.nil
+    SpecNodeSub.resolve('/foo/one/two').should.be.nil
+  end
+
+  should 'select correct method from subclasses' do
+    SpecNodeSub.resolve('/bar/one').should.not.be.nil
+    SpecNodeSub.resolve('/bar').should.be.nil
+  end
+
   def assert_wish(url, body, content_type)
     got = get(url)
     got.body.strip.should == body
@@ -126,26 +136,6 @@ describe 'Innate::Node' do
 
     expected = (0..9).map.join
     assert_wish('/provide_template/foo.html', expected, 'text/html')
-    assert_wish('/provide_template/foo.erb', expected, '')
-  end
-
-  should 'fulfill wish with templates' do
-    got = get('/provide_template/foo.html')
-    got.body.scan(/\d+/).should == (0..9).map{|n| n.to_s }
-    got.headers['Content-Type'].should == 'text/html'
-
-    got = get('/provide_template/foo')
-    got.body.scan(/\d+/).should == (0..9).map{|n| n.to_s }
-    got.headers['Content-Type'].should == 'text/html'
-  end
-
-  should 'inherit action methods from superclasses' do
-    SpecNodeSub.resolve('/foo').should.not.be.nil
-    SpecNodeSub.resolve('/foo/one/two').should.be.nil
-  end
-
-  should 'select correct method from subclasses' do
-    SpecNodeSub.resolve('/bar/one').should.not.be.nil
-    SpecNodeSub.resolve('/bar').should.be.nil
+    # assert_wish('/provide_template/foo.erb', expected, 'text/plain')
   end
 end
