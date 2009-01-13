@@ -158,9 +158,14 @@ module Innate
     end
 
     def action_found(action)
+      response.status = 200
+      response.body.clear
+      response.length = 0
+
       catch(:respond) do
         catch(:redirect) do
-          response.write(action.call)
+          body = action.call
+          response.write(body)
           response['Content-Type'] ||= action.content_type
         end
       end
