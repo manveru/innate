@@ -1,5 +1,5 @@
 require 'innate/request'
-# require 'innate/response'
+require 'innate/response'
 
 module Innate
   # Uses STATE to scope request/response/session per Fiber/Thread so we can
@@ -25,7 +25,7 @@ module Innate
 
     def setup(env)
       req = STATE[:request] = Request.new(env)
-      res = STATE[:response] = Rack::Response.new
+      res = STATE[:response] = Response.new
       STATE[:actions] = []
       STATE[:session] = Session.new(req, res)
     end
