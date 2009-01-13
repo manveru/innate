@@ -81,13 +81,14 @@ module Innate
 
     def fulfill_wish(string)
       way = File.basename(view).gsub!(/.*?#{wish}\./, '') if view
+      way ||= node.provide[wish]
+      way ||= node.provide['html']
 
-      if way ||= node.provide[wish]
+      if way
         node.response['Content-Type'] = content_type
         View.get(way).render(self, string)
       else
-        return nil
-        # raise
+        raise "No way!"
       end
     end
 

@@ -38,9 +38,12 @@ module Innate
 
     def self.included(obj)
       obj.__send__(:include, Helper)
-      obj.extend(Trinity, self)
-      obj.provide(:html => :none) # provide .html with no interpolation
       obj.helper(:cgi, :link, :partial, :redirect, :flash, :aspect)
+
+      obj.extend(Trinity, self)
+
+      # provide .html with no interpolation
+      obj.provide(:html => :erb, :yaml => :yaml, :json => :json)
     end
 
     # Shortcut to map or remap this Node
@@ -202,11 +205,20 @@ module Innate
     # html.
 
     def resolve(path)
-      name, *exts = path.split('.')
-      wish = exts.last || 'html'
-
+      name, wish = find_provide(path)
       update_method_arities
       find_action(name, wish)
+    end
+
+    def find_provide(path)
+      name, wish = path, 'html'
+
+      provide.find do |key, value|
+        next unless path =~ /^(.+)\.#{key}$/i
+        name, wish = $1, key
+      end
+
+      return name, wish
     end
 
     # Now we're talking Action, we try to find a matching template and method,
