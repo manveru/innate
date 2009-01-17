@@ -134,8 +134,8 @@ module Innate
   #       filename, bad mojo.
 
   def go_figure_root(options, backtrace)
-    if file = options[:file]
-      return File.dirname(file)
+    if o_file = options[:file]
+      return File.dirname(o_file)
     elsif root = options[:root]
       return root
     end

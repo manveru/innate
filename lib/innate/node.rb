@@ -255,8 +255,8 @@ module Innate
     # with an Action with everything we know so far about the demands of the
     # client.
 
-    def find_action(name, wish)
-      patterns_for(name){|name, params|
+    def find_action(given_name, wish)
+      patterns_for(given_name){|name, params|
         view = find_view(name, wish, params)
         method = find_method(name, params)
 

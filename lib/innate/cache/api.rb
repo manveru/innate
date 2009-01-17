@@ -55,7 +55,7 @@ module Innate
             value[:value]
           end
         else
-          [key, *keys].map{|key| cache_delete(key) }
+          [key, *keys].map{|k| cache_delete(k) }
         end
       end
 
