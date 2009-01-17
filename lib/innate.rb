@@ -63,13 +63,13 @@ module Innate
     options[:app][:root] = go_figure_root(parameter, caller)
     options.merge!(parameter)
 
-    trap(options[:trap]){ stop(3) } if options[:trap]
+    trap(options[:trap]){ stop(10) } if options[:trap]
 
     Adapter.start(middleware(:innate), options)
   end
 
-  def stop(wait = 0)
-    Log.info "Shutdown Innate"
+  def stop(wait = 3)
+    Log.info("Shutdown Innate within #{wait} seconds")
     Timeout.timeout(wait){ exit }
   ensure
     exit!
