@@ -22,10 +22,6 @@ require 'logger'
 begin; require 'rubygems'; rescue LoadError; end
 require 'rack'
 
-module Rack
-  autoload 'Profile', 'rack/profile'
-end
-
 # innate
 require 'innate/core_compatibility/string'
 require 'innate/core_compatibility/basic_object'
@@ -98,7 +94,6 @@ module Innate
       m.use Rack::ShowStatus     # fast
       m.use Rack::Reloader       # reasonably fast depending on settings
       # m.use Rack::Lint         # slow, use only while developing
-      # m.use Rack::Profile      # slow, use only for debugging or tuning
       m.use Innate::Current      # necessary
 
       m.cascade(
