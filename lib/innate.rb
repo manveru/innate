@@ -95,16 +95,15 @@ module Innate
       m.use Rack::RouteException # fast
       m.use Rack::Reloader       # reasonably fast depending on settings
       # m.use Rack::Lint         # slow, use only while developing
-      m.use Innate::Current      # necessary
 
       m.cascade(
         # try to find matching static file
         Rack::File.new('public'),
-        # if 404, rewrite PATH_INFO and try Node routing
-        Innate::Rewrite.new(Innate::DynaMap),
-        # if 404, apply routes and try Node routing
-        Innate::Route.new(Innate::DynaMap)
-      )
+        # otherwise start dispatching
+        Innate::Current.new(
+          Rack::Cascade.new(
+            Innate::Rewrite.new(Innate::DynaMap),
+            Innate::Route.new(Innate::DynaMap))))
     end
   end
 
