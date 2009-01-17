@@ -46,9 +46,9 @@ module Innate
 
     sub :env do
       o "Hostname of this machine",
-        :host, `hostname`.strip
+        :host, `hostname`.strip # FIXME: cross-platform
       o "Username executing the application",
-        :user, `whoami`.strip
+        :user, `whoami`.strip # FIXME: cross-platform
     end
 
     sub :app do

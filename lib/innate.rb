@@ -54,15 +54,14 @@ module Innate
   module_function
 
   def start(parameter = {})
-    return if options[:started]
-    options[:started] = true
+    return if options.started
+    options.started = true
 
     setup_dependencies
     setup_middleware
 
     options[:app][:root] = go_figure_root(parameter, caller)
-    options[:adapter] = parameter[:adapter] if parameter[:adapter]
-    options[:port] = parameter.fetch(:port, options[:port]).to_i
+    options.merge!(parameter)
 
     trap(options[:trap]){ stop(3) } if options[:trap]
 

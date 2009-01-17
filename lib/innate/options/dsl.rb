@@ -136,6 +136,12 @@ module Innate
       end
     end
 
+    def merge!(hash)
+      hash.each do |key, value|
+        self[key] = value
+      end
+    end
+
     include Enumerable
 
     def each(&block)
