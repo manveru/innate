@@ -21,7 +21,7 @@ module Innate
       :adapter, :webrick, :short => :a
 
     o "Will send ::setup to each element during Innate::start",
-      :setup, [Innate::Cache]
+      :setup, [Innate::Cache, Innate::Node]
 
     o "Headers that will be merged into the response before Node::call",
       :header, {'Content-Type' => 'text/html'}

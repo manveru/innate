@@ -32,18 +32,40 @@ module Innate
   #   * If you want an action to act as a catch-all, use `def index(*args)`.
 
   module Node
+    LIST = Set.new
+
     attr_reader :method_arities
 
     # Upon inclusion we make ourselves comfortable.
 
     def self.included(obj)
       obj.__send__(:include, Helper)
-      obj.helper(:cgi, :link, :partial, :redirect, :flash, :aspect)
+      obj.helper(:aspect, :cgi, :flash, :link, :partial, :redirect, :send_file)
 
       obj.extend(Trinity, self)
 
       # provide .html with no interpolation
       obj.provide(:html => :erb, :yaml => :yaml, :json => :json)
+      LIST << obj
+    end
+
+    def self.setup
+      count = LIST.size
+
+      LIST.each do |node|
+        node.automap(count) unless Innate.to(node)
+      end
+
+      Log.debug("Mapped Nodes: %p" % DynaMap::MAP)
+    end
+
+    def automap(count)
+      if count == 1
+        map '/'
+      else
+        snake = self.name.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase.gsub(' ', '_')
+        map "/#{snake}"
+      end
     end
 
     # Shortcut to map or remap this Node
