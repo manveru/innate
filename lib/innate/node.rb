@@ -179,10 +179,12 @@ module Innate
       end
     end
 
+    # Executed once an Action has been found.
+    # Reset the Response instance, catch :respond and :redirect.
+    # Action#call has to return a String.
+
     def action_found(action)
-      response.status = 200
-      response.body.clear
-      response.length = 0
+      response.reset
 
       catch(:respond) do
         catch(:redirect) do

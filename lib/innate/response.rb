@@ -6,5 +6,12 @@ module Innate
 
   class Response < Rack::Response
     attr_accessor :length
+
+    def reset
+      self.status = 200
+      body.clear
+      self.length = 0
+      self
+    end
   end
 end
