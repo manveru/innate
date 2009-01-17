@@ -32,6 +32,13 @@ module Innate
     o "Keep state in Thread or Fiber, fall back to Thread if Fiber not available",
       :state, :Fiber
 
+    sub :log do
+      o "Array of parameters for Logger.new",
+        :params, [$stderr]
+      o "Use ANSI colors for logging, nil does auto-detection by checking for #tty?",
+        :color, nil
+    end
+
     sub :redirect do
       o "Default response HTTP status on redirect",
         :status, 302

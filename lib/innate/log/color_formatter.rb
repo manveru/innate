@@ -35,5 +35,9 @@ class Logger
     def colorize(string, severity)
       "\e[#{COLOR_CODE[LEVEL_COLOR[severity]]}m#{string}\e[0m"
     end
+
+    def self.color?(logdev)
+      logdev.respond_to?(:tty?) and logdev.tty?
+    end
   end
 end
