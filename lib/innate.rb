@@ -46,6 +46,7 @@ require 'innate/route'
 
 require 'rack/reloader'
 require 'rack/middleware_compiler'
+require 'rack/route_exceptions'
 
 module Innate
   extend Trinity
@@ -92,6 +93,7 @@ module Innate
       # m.use Rack::CommonLogger # usually fast, depending on the output
       m.use Rack::ShowExceptions # fast
       m.use Rack::ShowStatus     # fast
+      m.use Rack::RouteException # fast
       m.use Rack::Reloader       # reasonably fast depending on settings
       # m.use Rack::Lint         # slow, use only while developing
       m.use Innate::Current      # necessary
