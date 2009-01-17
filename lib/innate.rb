@@ -89,21 +89,21 @@ module Innate
 
   def setup_middleware
     middleware :innate do |m|
-      # m.use Rack::CommonLogger # usually fast, depending on the output
-      m.use Rack::ShowExceptions # fast
-      m.use Rack::ShowStatus     # fast
-      m.use Rack::RouteException # fast
-      m.use Rack::Reloader       # reasonably fast depending on settings
-      # m.use Rack::Lint         # slow, use only while developing
+      # m.use Rack::CommonLogger  # usually fast, depending on the output
+      m.use Rack::ShowExceptions  # fast
+      m.use Rack::RouteExceptions # fast
+      m.use Rack::ShowStatus      # fast
+      m.use Rack::Reloader        # reasonably fast depending on settings
+      # m.use Rack::Lint          # slow, use only while developing
 
       m.cascade(
         # try to find matching static file
         Rack::File.new('public'),
         # otherwise start dispatching
         Innate::Current.new(
-          Rack::Cascade.new(
+          Rack::Cascade.new([
             Innate::Rewrite.new(Innate::DynaMap),
-            Innate::Route.new(Innate::DynaMap))))
+            Innate::Route.new(Innate::DynaMap)])))
     end
   end
 

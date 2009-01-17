@@ -224,6 +224,7 @@ module Innate
     #   end
 
     def action_not_found(path)
+      response.reset
       response.status = 404
       response['Content-Type'] = 'text/plain'
       response.write("Action not found at: %p" % path)
