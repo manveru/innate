@@ -1,5 +1,7 @@
 module Innate
   module Helper
+
+    # Provides before/after wrappers for actions
     module Aspect
       DEFAULT << self
 

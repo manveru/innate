@@ -116,6 +116,8 @@ module Innate
       layout_action.call
     end
 
+    # TODO:
+    #   * Should take templates into account as well.
     def wrap_in_aspects
       return yield unless method = self.method
       method_sym = method.to_sym
