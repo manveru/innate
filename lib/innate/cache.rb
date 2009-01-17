@@ -81,9 +81,7 @@ module Innate
     end
 
     def self.setup
-      Innate.options.cache.names.each do |name|
-        register(new(name))
-      end
+      Innate.options.cache.names.each{|name| add(name) }
     end
 
     def self.register(cache)
@@ -92,6 +90,10 @@ module Innate
                        def self.%s=(o) @%s = o; end" % [key, key, key, key])
 
       self.send("#{key}=", cache)
+    end
+
+    def self.add(name)
+      register(new(name))
     end
 
     def clear
