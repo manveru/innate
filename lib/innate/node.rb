@@ -368,11 +368,8 @@ module Innate
     # path relative to your application root to set it, otherwise you'll get
     # the current mapping.
     def view_root(location = nil)
-      if location
-        @view_root = location
-      else
-        @view_root ||= Innate.to(self)
-      end
+      return @view_root = location if location
+      @view_root ||= Innate.to(self)
     end
 
     # All of the above, get first match and lets you know if there's any
