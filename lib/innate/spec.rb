@@ -5,12 +5,10 @@ require 'bacon'
 Bacon.summary_on_exit
 Bacon.extend(Bacon::TestUnitOutput)
 
-Innate.middleware :innate do |m|
-  m.use Innate::Current
-  m.cascade(
-    Innate::Rewrite.new(Innate::DynaMap),
-    Innate::Route.new(Innate::DynaMap)
-  )
-end
+module Innate
+  # minimal middleware, no exception handling
+  middleware(:innate){|m| m.innate }
 
-Innate.options.started = true
+  # skip merging of options
+  options.started = true
+end
