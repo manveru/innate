@@ -26,9 +26,15 @@ class SpecRouter
   end
 end
 
-Route = Innate::Route
+Route, Rewrite = Innate::Route, Innate::Rewrite
 
 describe Innate::Route do
+  def check(uri, status, body = nil)
+    got = Innate::Mock.get(uri)
+    got.status.should == status
+    got.body.should == body if body
+  end
+
   should 'take lambda routers' do
     Route['string'] = lambda{|path, req|
       path if path =~ %r!^/string!
@@ -65,49 +71,33 @@ describe Innate::Route do
   end
 
   should 'be used at /float' do
-    r = Innate::Mock.get('/123.123')
-    r.status.should == 200
-    r.body.should == 'Float: 123.123'
+    check('/123.123', 200, 'Float: 123.123')
   end
 
   should 'be used at /string' do
-    r = Innate::Mock.get('/foo')
-    r.status.should == 200
-    r.body.should == 'String: foo'
+    check('/foo', 200, 'String: foo')
   end
 
   should 'use %.3f' do
-    r = Innate::Mock.get('/123.123456')
-    r.status.should == 200
-    r.body.should == 'Float: 123.123'
+    check('/123.123456', 200, 'Float: 123.123')
   end
 
   should 'resolve in the order added' do
-    r = Innate::Mock.get('/12.84')
-    r.status.should == 200
-    r.body.should == 'Price: $12.84'
+    check('/12.84', 200, 'Price: $12.84')
   end
 
   should 'use lambda routers' do
-    r = Innate::Mock.get('/string/abc')
-    r.status.should == 200
-    r.body.should == 'String: abc'
+    check('/string/abc', 200, 'String: abc')
 
-    r = Innate::Mock.get('/?do_calc=1&a=2&b=6')
-    r.status.should == 200
-    r.body.should == '62'
+    check('/?do_calc=1&a=2&b=6', 200, '62')
   end
 
   it 'should support Route() with blocks' do
-    r = Innate::Mock.get('/foo?bar=1')
-    r.status.should == 200
-    r.body.should == 'this is bar'
+    check('/foo?bar=1', 200, 'this is bar')
   end
 
   it 'should support string route translations' do
-    r = Innate::Mock.get('/foobar')
-    r.status.should == 200
-    r.body.should == 'this is bar'
+    check('/foobar', 200, 'this is bar')
   end
 
   it 'should clear routes' do
@@ -116,20 +106,24 @@ describe Innate::Route do
     Route::ROUTES.size.should == 0
   end
 
-  it 'should exclude existing actions' do
-    Innate::Route[ %r!^/(.+)$! ] = "/string/%s"
-    r = Innate::Mock.get('/hello')
-    r.status.should == 200
-    r.body.should == 'String: hello'
-
-    r = Innate::Mock.get('/bar')
-    r.status.should == 200
-    r.body.should == 'this is bar'
-  end
-
   it 'should not recurse given a bad route' do
     Innate::Route[ %r!^/good/(.+)$! ] = "/bad/%s"
-    r = Innate::Mock.get('/good/hi')
-    r.status.should == 404
+    check('/good/hi', 404)
+  end
+end
+
+describe Innate::Rewrite do
+  Innate::Rewrite[ %r!^/(.+)$! ] = "/string/%s"
+
+  it 'should rewrite on non-existent actions' do
+    got = Innate::Mock.get('/hello')
+    got.status.should == 200
+    got.body.should == 'String: hello'
+  end
+
+  it 'should exclude existing actions' do
+    got = Innate::Mock.get('/bar')
+    got.status.should == 200
+    got.body.should == 'this is bar'
   end
 end

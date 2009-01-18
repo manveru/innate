@@ -34,6 +34,9 @@ module Innate
   #   Innate::Route('name of route') do |path, request|
   #     '/bar' if path == '/foo' and request[:bar] == '1'
   #   end
+  #
+  # NOTE: Use self::ROUTES notation in singleton methods to force correct
+  #       lookup.
 
   class Route
     ROUTES = []
@@ -52,7 +55,7 @@ module Innate
       self::ROUTES.clear
     end
 
-    def initialize(app)
+    def initialize(app = Innate::DynaMap)
       @app = app
     end
 
@@ -93,7 +96,7 @@ module Innate
 
   # Identical with Innate::Route, but is called before any Node::call is made
   class Rewrite < Route
-    ROUTES = {}
+    ROUTES = []
   end
 
   def self.Route(key, value = nil, &block)
