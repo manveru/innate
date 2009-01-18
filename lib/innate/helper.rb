@@ -9,7 +9,6 @@ module Innate
     # Usually called from Innate::Node::included
     # We also include Innate::Trinity here, as it may be needed in models when
     # you use helper methods there.
-
     def self.included(into)
       into.extend(HelperAccess)
       into.__send__(:include, Trinity)
@@ -17,65 +16,60 @@ module Innate
     end
   end
 
-  # Provides access to #helper method
-  #
-  # Usage:
-  #
-  #   class Hi
-  #     extend Innate::HelperAccess
-  #     helper :cgi, :both => [:link, :aspect]
-  #   end
-  #
-  # This will include the cgi helper into Hi, and include/extend Hi with the
-  # link and aspect helpers
-  #
-  # NOTE:
-  #   The API for the helper method isn't set in stone yet, I'm torn between
-  #   making a single method that can handle both including and extending and
-  #   separate methods.
-  #   The current approach has some appeal, as it doesn't pollute the method
-  #   names-pace further, but might be less intuitive to someone encountering
-  #   one of the following:
-  #
-  #     helper :cgi, :link, :aspect
-  #     helper :both => :link
-  #     helper :extend => :link
-  #     helper :cgi, :both => :link
-  #     helper :both => [:link, :redirect]
-
+  # Provides access to #helper method without polluting the name-space any
+  # further.
   module HelperAccess
 
-    # see comments above
-
-    def helper(*args)
-      opts = {:include => [], :extend => [], :both => []}
-
-      args.each do |arg|
-        if arg.respond_to?(:each_pair)
-          arg.each_pair{|k,v| opts[k] << v }
-        else
-          opts[:include] << arg
-        end
-      end
-
-      opts.each do |meth, values|
-        values = values.flatten
-        next if values.empty?
-
-        case meth
-        when :include, :extend
-          HelpersHelper.each(*values){|mod| __send__(meth, mod) }
-        when :both
-          HelpersHelper.each(*values){|mod| include(mod); extend(mod) }
-        end
-      end
+    # Convenience method used by Innate::Node.
+    #
+    # Usage:
+    #
+    #   class Hi
+    #     extend Innate::HelperAccess
+    #     helper :cgi, :link, :aspect
+    #   end
+    #
+    # This will require the helpers and call:
+    #
+    #     Hi.include(Innate::Helper::CGI)
+    #     Hi.extend(Innate::Helper::CGI)
+    #
+    #     Hi.include(Innate::Helper::Link)
+    #     Hi.extend(Innate::Helper::Link)
+    #
+    #     Hi.include(Innate::Helper::Aspect)
+    #     Hi.extend(Innate::Helper::Aspect)
+    def helper(*helpers)
+      HelpersHelper.each_include(*helpers)
+      HelpersHelper.each_extend(*helpers)
     end
   end
 
   # Here come the utility methods used from the HelperAccess#helper method, we
   # do this to keep method count at a minimum and because HelpersHelper is such
   # an awesome name that just can't be wasted.
-
+  #
+  # Usage if you want to only extend with helpers:
+  #
+  #   class Hi
+  #     Innate::HelpersHelper.each_extend(self, :cgi, :link, :aspect)
+  #   end
+  #
+  # Usage if you only want to include helpers:
+  #
+  #   class Hi
+  #     Innate::HelpersHelper.each_include(self, :cgi, :link, :aspect)
+  #   end
+  #
+  # Usage for iteration:
+  #
+  #   Innate::HelpersHelper.each(:cgi, :link, :aspect) do |mod|
+  #     p mod
+  #   end
+  #
+  # Usage for translating helpers to modules:
+  #
+  #   p Innate::HelpersHelper.each(:cgi, :link, :aspect)
   module HelpersHelper
     EXTS = %w[rb so bundle]
 
@@ -108,19 +102,62 @@ module Innate
 
     # Yield all the modules we can find for the given names of helpers, try to
     # require them if not available.
+    #
+    # NOTE: Unlike usual #each, this will actually return an Array of the found
+    #       modules instead of the given +*names+
+    #
+    #
+    # Usage:
+    #
+    #   Innate::HelpersHelper.each(:cgi, :link, :aspect) do |mod|
+    #     p mod
+    #   end
 
     def each(*names)
-      names.each do |name|
+      names.map do |name|
         if name.class == Module
           yield(name)
+          name
         elsif mod = get(name)
           yield(mod)
+          mod
         elsif try_require(name)
           redo
         else
           raise LoadError, "Helper #{name} not found"
         end
       end
+    end
+
+    # Shortcut to extend +into+ with Helper modules corresponding to +*names+.
+    # +into+ has to respond to #extend.
+    #
+    # Usage:
+    #
+    #   class Hi
+    #     Innate::HelpersHelper.each_extend(self, :cgi, :link, :aspect)
+    #   end
+    def each_extend(into, *names)
+      into.extend(*each(*names))
+    end
+
+    # Shortcut to include Helper modules corresponding to +*names+ on +into+.
+    # +into+ has to respond to #include.
+    # #__send__(:include) is used in case #include raises due to being
+    # private/protected
+    #
+    # in case #include is a private/protected method.
+    #
+    # Usage:
+    #
+    #   class Hi
+    #     Innate::HelpersHelper.each_include(self, :cgi, :link, :aspect)
+    #   end
+    def each_include(into, *names)
+      mods = each(*names)
+      into.include(*mods)
+    rescue NoMethodError
+      into.__send__(:include, *mods)
     end
 
     # Based on a simple set of rules we will first construct the most likely
