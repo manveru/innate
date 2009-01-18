@@ -83,7 +83,7 @@ module Innate
     #     include Innate::Node
     #     map '/feed'
     #
-    #     provide :html => :haml, :rss => :haml, :atom => :haml
+    #     provide :html => :erb, :rss => :erb, :atom => :erb
     #
     #     def index
     #       @feed = build_some_feed
@@ -92,11 +92,11 @@ module Innate
     #
     # This will do following to these requests:
     #
-    # /feed      # => call Feeds#index with template /view/feed/index.haml
-    # /feed.atom # => call Feeds#index with template /view/feed/index.atom.haml
-    # /feed.rss  # => call Feeds#index with template /view/feed/index.rss.haml
+    # /feed      # => call Feeds#index with template /view/feed/index.erb
+    # /feed.atom # => call Feeds#index with template /view/feed/index.atom.erb
+    # /feed.rss  # => call Feeds#index with template /view/feed/index.rss.erb
     #
-    # If index.atom.haml isn't available we fall back to /view/feed/index.haml
+    # If index.atom.erb isn't available we fall back to /view/feed/index.erb
     #
     # So it's really easy to add your own content representation.
     # The correct Content-Type for the response will be retrieved from
@@ -117,7 +117,18 @@ module Innate
     #
     # So a request to
     #
-    # /feed.txt # => call Feeds#index with template /view/feed/index.txt.haml
+    # /feed.txt # => call Feeds#index with template /view/feed/index.txt.erb
+    #
+    # NOTE: provides also have effect on the chosen layout for the action.
+    #
+    # Given a Node at '/' with `layout('default')`:
+    #   /layout/default.erb
+    #   /layout/default.rss.erb
+    #   /view/index.erb
+    #   /view/feed.rss.erb
+    #
+    # /feed.rss will wrap /view/feed.rss.erb in /layout/default.rss.erb
+    # /index    will wrap /view/index.erb    in /layout/default.erb
 
     def provide(formats = {})
       @provide ||= {}
