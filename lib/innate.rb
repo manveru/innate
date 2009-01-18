@@ -51,14 +51,40 @@ require 'rack/route_exceptions'
 module Innate
   extend Trinity
 
+  # Note that `m.innate` takes away most of the boring part and leaves it up to
+  # you to select your middleware in your application.
+  #
+  # This expands to:
+  #
+  #   use Rack::ShowExceptions
+  #   use Rack::RouteExceptions
+  #   use Rack::ShowStatus
+  #   use Rack::Reloader
+  #   use Rack::Cascade.new([
+  #     Rack::File.new('public'),
+  #     Innate::Current.new(
+  #       Rack::Cascade.new([
+  #         Innate::Rewrite.new(Innate::DynaMap),
+  #         Innate::Route.new(Innate::DynaMap)])))
+  DEFAULT_MIDDLEWARE = lambda{|m|
+    # m.use Rack::CommonLogger  # usually fast, depending on the output
+    m.use Rack::ShowExceptions  # fast
+    m.use Rack::RouteExceptions # fast, use when you have custom error pages.
+    m.use Rack::ShowStatus      # fast
+    m.use Rack::Reloader        # reasonably fast depending on settings
+    # m.use Rack::Lint          # slow, use only while developing
+
+    m.innate
+  }
+
   module_function
 
-  def start(parameter = {})
+  def start(parameter = {}, &block)
     return if options.started
     options.started = true
 
     setup_dependencies
-    setup_middleware
+    setup_middleware(&block)
 
     options[:app][:root] = go_figure_root(parameter, caller)
     options.merge!(parameter)
@@ -87,24 +113,9 @@ module Innate
     options[:setup].each{|obj| obj.setup }
   end
 
-  def setup_middleware
-    middleware :innate do |m|
-      # m.use Rack::CommonLogger  # usually fast, depending on the output
-      m.use Rack::ShowExceptions  # fast
-      m.use Rack::RouteExceptions # fast
-      m.use Rack::ShowStatus      # fast
-      m.use Rack::Reloader        # reasonably fast depending on settings
-      # m.use Rack::Lint          # slow, use only while developing
-
-      m.cascade(
-        # try to find matching static file
-        Rack::File.new('public'),
-        # otherwise start dispatching
-        Innate::Current.new(
-          Rack::Cascade.new([
-            Innate::Rewrite.new(Innate::DynaMap),
-            Innate::Route.new(Innate::DynaMap)])))
-    end
+  # Set the default middleware for applications.
+  def setup_middleware(&block)
+    middleware(:innate, &(block || DEFAULT_MIDDLEWARE))
   end
 
   # Pass the +env+ to this method and it will be sent to the appropriate
