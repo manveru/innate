@@ -32,6 +32,13 @@ module Rack
       @app = Rack::Cascade.new(apps)
     end
 
+    # Default application for Innate
+    def innate
+      cascade(
+        Rack::File.new('public'),
+        Innate::Current.new(Innate::Route.new, Innate::Rewrite.new))
+    end
+
     def static(path)
       require 'rack/contrib'
       Rack::ConditionalGet.new(Rack::ETag.new(Rack::File.new(path)))

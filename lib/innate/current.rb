@@ -8,8 +8,12 @@ module Innate
   class Current
     extend Trinity
 
-    def initialize(app)
-      @app = app
+    def initialize(app, *rest)
+      if rest.empty?
+        @app = app
+      else
+        @app = Rack::Cascade.new([app, *rest])
+      end
     end
 
     # Wrap into STATE, run setup and call the app inside STATE.
