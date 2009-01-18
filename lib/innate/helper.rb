@@ -40,8 +40,8 @@ module Innate
     #     Hi.include(Innate::Helper::Aspect)
     #     Hi.extend(Innate::Helper::Aspect)
     def helper(*helpers)
-      HelpersHelper.each_include(*helpers)
-      HelpersHelper.each_extend(*helpers)
+      HelpersHelper.each_include(self, *helpers)
+      HelpersHelper.each_extend(self, *helpers)
     end
   end
 
@@ -116,10 +116,10 @@ module Innate
     def each(*names)
       names.map do |name|
         if name.class == Module
-          yield(name)
+          yield(name) if block_given?
           name
         elsif mod = get(name)
-          yield(mod)
+          yield(mod) if block_given?
           mod
         elsif try_require(name)
           redo
@@ -137,8 +137,9 @@ module Innate
     #   class Hi
     #     Innate::HelpersHelper.each_extend(self, :cgi, :link, :aspect)
     #   end
-    def each_extend(into, *names)
-      into.extend(*each(*names))
+    def each_extend(into, *names, &block)
+      return if names.empty?
+      into.extend(*each(*names, &block))
     end
 
     # Shortcut to include Helper modules corresponding to +*names+ on +into+.
@@ -153,8 +154,9 @@ module Innate
     #   class Hi
     #     Innate::HelpersHelper.each_include(self, :cgi, :link, :aspect)
     #   end
-    def each_include(into, *names)
-      mods = each(*names)
+    def each_include(into, *names, &block)
+      return if names.empty?
+      mods = each(*names, &block)
       into.include(*mods)
     rescue NoMethodError
       into.__send__(:include, *mods)
