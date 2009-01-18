@@ -13,7 +13,6 @@ module Innate
     end
 
     def start(options = {})
-      options[:caller] ||= caller
       Innate.start(options)
     end
 
