@@ -274,7 +274,7 @@ module Innate
     def find_layout(name, wish)
       return unless @layout
 
-      if found = to_layout(@layout).first
+      if found = to_layout(@layout, wish).first
         [:layout, found]
       elsif found = find_view(@layout.to_s, wish, [])
         [:view, found]
@@ -360,27 +360,13 @@ module Innate
     # Also, having extraordinarily much fun with globs.
 
     def to_view(file, wish)
-      return [] unless file
-
-      app_root = Innate.options[:app, :root]
-      app_view = Innate.options[:app, :view]
-
-      path = [app_root, app_view, view_root, file].map{|pa| pa.to_s }
-
-      return [] unless path.all?
-
-      path = File.join(*path)
-      exts = [provide[wish], *provide.keys].flatten.compact.uniq.join(',')
-
-      glob = "#{path}.{#{wish}.,#{wish},}{#{exts},}"
-
-      Dir[glob].uniq
+      path = [Innate.options.app.root, Innate.options.app.view, view_root, file]
+      to_template(path, wish)
     end
 
     # This is done to make you feel more at home, pass an absolute path or a
     # path relative to your application root to set it, otherwise you'll get
     # the current mapping.
-
     def view_root(location = nil)
       if location
         @view_root = location
@@ -391,7 +377,6 @@ module Innate
 
     # All of the above, get first match and lets you know if there's any
     # ambiguity.
-
     def find_view(name, wish, params)
       possible = to_view(name, wish)
 
@@ -404,17 +389,19 @@ module Innate
     end
 
     # Find the best matching file for the layout, if any.
+    def to_layout(file, wish)
+      path = [Innate.options.app.root, Innate.options.app.layout, file]
+      to_template(path, wish)
+    end
 
-    def to_layout(file)
-      return [] unless file
+    def to_template(path, wish)
+      return [] unless path.all?
 
-      app_root = Innate.options[:app, :root]
-      app_layout = Innate.options[:app, :layout]
+      path = File.join(*path.map{|pa| pa.to_s })
+      exts = [provide[wish], *provide.keys].flatten.compact.uniq.join(',')
+      glob = "#{path}.{#{wish}.,#{wish},}{#{exts},}"
 
-      path = [app_root, app_layout, file].map{|pa| pa.to_s }
-      path = File.join(*path)
-
-      Dir["#{path}.*"]
+      Dir[glob].uniq
     end
 
     # Set the +name+ of the layout you want, this takes only the basename
