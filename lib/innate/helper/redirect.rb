@@ -38,10 +38,19 @@ module Innate
       # Note that all options are optional and you may just pass a +target+.
 
       def redirect(target, options = {})
-        uri = URI(target.to_s)
+        target = target.to_s
+
+        case target
+        when /^http/, /^\//
+          uri = URI(target)
+        else
+          uri = URI("/#{target}")
+        end
+
         uri.scheme ||= options[:scheme] || request.scheme
         uri.host   ||= options[:host]   || request.host
         uri.port   ||= options[:port]   || request.port
+
         uri = URI(uri.to_s)
 
         yield(uri) if block_given?
