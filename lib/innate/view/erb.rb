@@ -8,7 +8,7 @@ module Innate
           action.instance.instance_variable_set("@#{iv}", value)
         end
 
-        erb = ::ERB.new(string, nil, '<%>')
+        erb = ::ERB.new(string, nil, '%<>')
         erb.filename = (action.view || action.method).to_s
         erb.result(action.binding)
       end
