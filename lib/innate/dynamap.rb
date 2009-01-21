@@ -3,13 +3,11 @@ module Innate
   # This is a dynamic routing mapper used to outsmart Rack::URLMap
   # Every time a mapping is changed a new Rack::URLMap will be put into
   # Innate::DynaMap::CACHE[:map]
-
   class DynaMap
     MAP = {}
     CACHE = {}
 
     # Delegate the call to the current Rack::URLMap instance.
-
     def self.call(env)
       if app = CACHE[:map]
         app.call(env)
@@ -19,7 +17,6 @@ module Innate
     end
 
     # Map node to location, create a new Rack::URLMap instance and cache it.
-
     def self.map(location, node)
       MAP[location] = node
       CACHE[:map] = Rack::URLMap.new(MAP)
@@ -28,20 +25,47 @@ module Innate
 
   module_function
 
-  # Example:
+  # Maps the given +object+ or +block+ to +location+, +object+ must respond to
+  # #call in order to be of any use.
+  #
+  # Usage with passed +object+:
   #
   #   Innate.map('/', lambda{|env| [200, {}, "Hello, World"] })
+  #   Innate.at('/').call({}) # => [200, {}, "Hello, World"]
   #
-
-  def map(location, node)
-    DynaMap.map(location, node)
+  # Usage with passed +block+:
+  #
+  #   Innate.map('/'){|env| [200, {}, ['Hello, World!']] }
+  #   Innate.at('/').call({})
+  def map(location, object = nil, &block)
+    DynaMap.map(location, object || block)
   end
 
+  # Answer with object at +location+.
+  #
+  # Usage:
+  #
+  #   class Hello
+  #     include Innate::Node
+  #     map '/'
+  #   end
+  #
+  #   Innate.at('/') # => Hello
   def at(location)
     DynaMap::MAP[location]
   end
 
-  def to(node)
-    DynaMap::MAP.invert[node]
+  # Returns one of the paths the given +object+ is mapped to.
+  #
+  # Usage:
+  #
+  #   class Hello
+  #     include Innate::Node
+  #     map '/'
+  #   end
+  #
+  #   Innate.to(Hello) # => '/'
+  def to(object)
+    DynaMap::MAP.invert[object]
   end
 end
