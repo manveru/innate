@@ -59,12 +59,10 @@ module Innate
     end
 
     def automap
-      if Innate::Node::LIST.size == 1
-        map '/'
-      else
-        snake = self.name.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase.gsub(' ', '_')
-        map "/#{snake}"
-      end
+      return map('/') if Innate::Node::LIST.size == 1
+
+      snake = self.name.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase
+      map "/#{snake}"
     end
 
     # Shortcut to map or remap this Node
