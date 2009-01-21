@@ -266,7 +266,7 @@ module Innate
 
     def find_action(given_name, wish)
       patterns_for(given_name){|name, params|
-        view = find_view(name, wish, params)
+        view = to_view(name, wish)
         method = find_method(name, params)
 
         next unless view or method
@@ -282,11 +282,11 @@ module Innate
     def find_layout(name, wish)
       return unless @layout
 
-      if found = to_layout(@layout, wish).first
+      if found = to_layout(@layout, wish)
         [:layout, found]
-      elsif found = find_view(@layout.to_s, wish, [])
+      elsif found = to_view(@layout, wish)
         [:view, found]
-      elsif found = find_method(@layout.to_s, [])
+      elsif found = find_method(@layout, [])
         [:method, found]
       end
     end
@@ -320,16 +320,12 @@ module Innate
     #
     #   def index(a = :a, b = :b)     # => -1
     #   def index(a = :a, b = :b, *r) # => -1
-
+    #
+    # NOTE: Once 1.9 is mainstream we can use Method#parameters to do accurate
+    #       prediction
     def find_method(name, params)
-      expected_arity = params.size
-
-      method_arities.each do |im, arity|
-        next unless im == name && (arity == expected_arity || arity < 0)
-        return name
-      end
-
-      return nil
+      arity = method_arities[name]
+      name if arity and arity == params.size || arity < 0
     end
 
     # Answer with and set the @method_arities Hash, keys are method names,
@@ -378,17 +374,9 @@ module Innate
       @view_root ||= Innate.to(self)
     end
 
-    # All of the above, get first match and lets you know if there's any
-    # ambiguity.
-    def find_view(name, wish, params)
-      possible = to_view(name, wish)
-
-      if possible.size > 1
-        interp = [possible.size, name, params, possible]
-        Log.warn "%d views found for %s:%p : %p" % interp
-      end
-
-      possible.first
+    def alias_view(to, from)
+      @alias_view ||= {}
+      @alias_view[to] = from
     end
 
     # Find the best matching file for the layout, if any.
@@ -398,13 +386,18 @@ module Innate
     end
 
     def to_template(path, wish)
-      return [] unless path.all?
+      return unless path.all?
 
       path = File.join(*path.map{|pa| pa.to_s })
       exts = [provide[wish], *provide.keys].flatten.compact.uniq.join(',')
-      glob = "#{path}.{#{wish}.,#{wish},}{#{exts},}"
+      found = Dir["#{path}.{#{wish}.,#{wish},}{#{exts},}"].uniq
 
-      Dir[glob].uniq
+      if found.size > 1
+        Log.warn("%d views found for %p | %p" % [found.size, path, wish])
+      end
+
+      template = found.first
+      (@alias_view[template] if @alias_view) || template
     end
 
     # Set the +name+ of the layout you want, this takes only the basename
