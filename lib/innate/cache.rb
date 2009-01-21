@@ -55,6 +55,7 @@ module Innate
 
   class Cache
     autoload :API,       'innate/cache/api'
+    autoload :DRb,       'innate/cache/drb'
     autoload :YAML,      'innate/cache/yaml'
     autoload :Memory,    'innate/cache/memory'
     autoload :Marshal,   'innate/cache/marshal'
