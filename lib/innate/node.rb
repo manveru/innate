@@ -52,17 +52,12 @@ module Innate
     end
 
     def self.setup
-      count = LIST.size
-
-      LIST.each do |node|
-        node.automap(count) unless Innate.to(node)
-      end
-
+      LIST.each{|node| node.automap unless Innate.to(node) }
       Log.debug("Mapped Nodes: %p" % DynaMap::MAP)
     end
 
-    def automap(count)
-      if count == 1
+    def automap
+      if Innate::Node::LIST.size == 1
         map '/'
       else
         snake = self.name.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase.gsub(' ', '_')
