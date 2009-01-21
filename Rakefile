@@ -9,9 +9,15 @@ task :default => [:spec]
 
 desc "Run all specs"
 task :spec do
+  exclude = [/cache\/common\.rb/]
+
   Dir['spec/innate/**/*.rb'].each do |rb|
-    next if rb =~ /cache\/common\.rb/
-    ruby rb
+    case rb
+    when *exclude
+    else
+      puts "", rb
+      ruby rb
+    end
   end
 end
 
