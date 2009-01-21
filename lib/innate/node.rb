@@ -174,11 +174,8 @@ module Innate
     # Otherwise we dispatch to action_not_found
 
     def try_resolve(path)
-      if action = resolve(path)
-        action_found(action)
-      else
-        action_not_found(path)
-      end
+      action = resolve(path)
+      action ? action_found(action) : action_not_found(path)
     end
 
     # Executed once an Action has been found.
