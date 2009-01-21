@@ -343,7 +343,7 @@ module Innate
       higher = ancestors.select{|a| a < Innate::Node }
 
       (higher + exposed).reverse_each do |ancestor|
-        ancestor.instance_methods(false).each do |im|
+        ancestor.public_instance_methods(false).each do |im|
           @method_arities[im] = ancestor.instance_method(im).arity
         end
       end
