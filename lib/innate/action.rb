@@ -9,10 +9,6 @@ module Innate
       new(*members.map{|m| hash[m.to_sym] })
     end
 
-    CONTENT_TYPE = {
-      'sass' => 'text/css',
-    }
-
     WISH_TRANSFORM = {
       'json' => ['json', :to_json],
       'yaml' => ['yaml', :to_yaml],
@@ -38,8 +34,7 @@ module Innate
 
     def content_type
       return @content_type if defined?(@content_type)
-      fallback = CONTENT_TYPE[wish] || 'text/plain'
-      @content_type = Rack::Mime.mime_type(".#{wish}", fallback)
+      @content_type = Rack::Mime.mime_type(".#{wish}", 'text/plain')
     end
 
     def binding
