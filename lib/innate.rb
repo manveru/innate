@@ -27,6 +27,7 @@ require 'innate/core_compatibility/string'
 require 'innate/core_compatibility/basic_object'
 
 require 'innate/version'
+require 'innate/traited'
 require 'innate/cache'
 require 'innate/node'
 require 'innate/options'

@@ -32,9 +32,13 @@ module Innate
   #   * If you want an action to act as a catch-all, use `def index(*args)`.
 
   module Node
+    include Traited
+
     LIST = Set.new
 
     attr_reader :method_arities
+
+    trait(:layout => nil, :alias_view => {}, :provide => {})
 
     # Upon inclusion we make ourselves comfortable.
     def self.included(obj)
@@ -45,8 +49,6 @@ module Innate
 
       # provide .html with no interpolation
       obj.provide(:html => :erb, :yaml => :yaml, :json => :json)
-
-      obj.layout(nil)
 
       LIST << obj
     end
@@ -128,20 +130,12 @@ module Innate
     # /index    will wrap /view/index.erb    in /layout/default.erb
 
     def provide(formats = {})
-      @provide ||= {}
-      return @provide if formats.empty?
+      return ancestral_trait[:provide] if formats.empty?
 
-      if formats.respond_to?(:each_pair)
-        formats.each_pair{|k,v| @provide[k.to_s] = v }
-      elsif formats.respond_to?(:to_sym)
-        formats[formats.to_sym.to_s] = formats
-      elsif formats.respond_to?(:to_str)
-        formats[formats.to_str] = formats
-      else
-        raise(ArgumentError, "provide(%p) is invalid parameter" % formats)
-      end
+      trait[:provide] ||= {}
+      formats.each{|pr, as| trait[:provide][pr.to_s] = as.to_s }
 
-      @provide
+      ancestral_trait[:provide]
     end
 
     # This makes the Node a valid application for Rack.
@@ -279,14 +273,15 @@ module Innate
       }
     end
 
+    # TODO: allow layouts combined of method and view... hairy :)
     def find_layout(name, wish)
-      return unless @layout
+      return unless found_layout = layout
 
-      if found = to_layout(@layout, wish)
+      if found = to_layout(found_layout, wish)
         [:layout, found]
-      elsif found = to_view(@layout, wish)
+      elsif found = to_view(found_layout, wish)
         [:view, found]
-      elsif found = find_method(@layout, [])
+      elsif found = find_method(found_layout, [])
         [:method, found]
       end
     end
@@ -375,8 +370,7 @@ module Innate
     end
 
     def alias_view(to, from)
-      @alias_view ||= {}
-      @alias_view[to] = from
+      trait[:alias_view][to] = from
     end
 
     # Find the best matching file for the layout, if any.
@@ -397,13 +391,13 @@ module Innate
       end
 
       template = found.first
-      (@alias_view[template] if @alias_view) || template
+      ancestral_trait[:alias_view][template] || template
     end
 
     # Set the +name+ of the layout you want, this takes only the basename
     # without any filename-extension or directory.
     def layout(name = nil)
-      @layout = name
+      name ? trait(:layout => name) : ancestral_trait[:layout]
     end
 
     # The innate beauty in Nitro, Ramaze, and Innate.
