@@ -3,14 +3,14 @@ require 'erb'
 module Innate
   module View
     module ERB
-      module_function
-
-      def render(action, string = action.view)
-        binding = action.instance.__send__(:binding)
+      def self.render(action, string = action.view)
         action.variables.each do |iv, value|
           action.instance.instance_variable_set("@#{iv}", value)
         end
-        ::ERB.new(string).result(binding)
+
+        erb = ::ERB.new(string, nil, '<%>')
+        erb.filename = (action.view || action.method).to_s
+        erb.result(action.binding)
       end
     end
   end
