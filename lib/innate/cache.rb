@@ -77,8 +77,6 @@ module Innate
         options.app.name,
         @name
       )
-
-      self.class.register(self)
     end
 
     def self.setup
@@ -87,8 +85,9 @@ module Innate
 
     def self.register(cache)
       key = cache.name
-      self.class_eval("def self.%s() @%s; end
-                       def self.%s=(o) @%s = o; end" % [key, key, key, key])
+      source = "def self.%s() @%s; end
+                def self.%s=(o) @%s = o; end" % [key, key, key, key]
+      self.class_eval(source, __FILE__, __LINE__)
 
       self.send("#{key}=", cache)
     end
