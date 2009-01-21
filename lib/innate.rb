@@ -67,9 +67,9 @@ module Innate
   #         Innate::Rewrite.new(Innate::DynaMap),
   #         Innate::Route.new(Innate::DynaMap)])))
   DEFAULT_MIDDLEWARE = lambda{|m|
-    # m.use Rack::CommonLogger  # usually fast, depending on the output
+    m.use Rack::CommonLogger  # usually fast, depending on the output
     m.use Rack::ShowExceptions  # fast
-    m.use Rack::RouteExceptions # fast, use when you have custom error pages.
+    # m.use Rack::RouteExceptions # fast, use when you have custom error pages.
     m.use Rack::ShowStatus      # fast
     m.use Rack::Reloader        # reasonably fast depending on settings
     # m.use Rack::Lint          # slow, use only while developing
