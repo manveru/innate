@@ -37,7 +37,6 @@ module Innate
     attr_reader :method_arities
 
     # Upon inclusion we make ourselves comfortable.
-
     def self.included(obj)
       obj.__send__(:include, Helper)
       obj.helper(:aspect, :cgi, :flash, :link, :partial, :redirect, :send_file)
@@ -46,6 +45,9 @@ module Innate
 
       # provide .html with no interpolation
       obj.provide(:html => :erb, :yaml => :yaml, :json => :json)
+
+      obj.layout(nil)
+
       LIST << obj
     end
 
@@ -351,7 +353,6 @@ module Innate
     #
     #   Hi.update_method_arities
     #   # => {'index' => 0, 'foo' => -1, 'bar => 2}
-
     def update_method_arities
       @method_arities = {}
 
@@ -369,7 +370,6 @@ module Innate
 
     # Try to find the best template for the given basename and wish.
     # Also, having extraordinarily much fun with globs.
-
     def to_view(file, wish)
       path = [Innate.options.app.root, Innate.options.app.view, view_root, file]
       to_template(path, wish)
@@ -448,7 +448,6 @@ module Innate
     #   {"foo__bar"=>["baz"]}
     #   {"foo"=>["bar", "baz"]}
     #   {"index"=>["foo", "bar", "baz"]}
-
     def patterns_for(path)
       atoms = path.split('/')
       atoms.delete('')
