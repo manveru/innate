@@ -76,8 +76,7 @@ module Innate
 
     def fulfill_wish(string)
       way = File.basename(view).gsub!(/.*?#{wish}\./, '') if view
-      way ||= node.provide[wish]
-      way ||= node.provide['html']
+      way ||= node.provide[wish] || node.provide['html']
 
       if way
         node.response['Content-Type'] = content_type
@@ -89,7 +88,6 @@ module Innate
 
     # FIXME:
     #   * I think this method is too long, should be split up.
-
     def wrap_in_layout
       return yield unless layout
 
