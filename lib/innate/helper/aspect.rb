@@ -7,17 +7,20 @@ module Innate
 
       def self.included(into)
         into.extend(SingletonMethods)
-        into.__send__(:include, InstanceMethods)
       end
 
       # Consider objects that have Aspect included
       def self.ancestral_aop(from)
         aop = {}
-        from.ancestors.reverse.map{|anc|
-          next unless anc < Aspect
-          aop.merge! AOP[anc]
-        }
+        from.ancestors.reverse.map{|anc| aop.merge!(AOP[anc]) if anc < Aspect }
         aop
+      end
+
+      def call_aspect(position, name)
+        return unless aop = Aspect.ancestral_aop(self.class)
+        return unless block_holder = aop[position]
+        return unless block = block_holder[name]
+        block.call
       end
 
       module SingletonMethods
@@ -32,15 +35,6 @@ module Innate
         def wrap(name, &block)
           before(name, &block)
           after(name, &block)
-        end
-      end
-
-      module InstanceMethods
-        def call_aspect(position, name)
-          return unless aop = Aspect.ancestral_aop(self.class)
-          return unless block_holder = aop[position]
-          return unless block = block_holder[name]
-          block.call
         end
       end
     end
