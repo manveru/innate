@@ -30,16 +30,10 @@ module Innate
     # This will require the helpers and call:
     #
     #     Hi.include(Innate::Helper::CGI)
-    #     Hi.extend(Innate::Helper::CGI)
-    #
     #     Hi.include(Innate::Helper::Link)
-    #     Hi.extend(Innate::Helper::Link)
-    #
     #     Hi.include(Innate::Helper::Aspect)
-    #     Hi.extend(Innate::Helper::Aspect)
     def helper(*helpers)
       HelpersHelper.each_include(self, *helpers)
-      HelpersHelper.each_extend(self, *helpers)
     end
   end
 
@@ -166,7 +160,6 @@ module Innate
     #
     # helper :foo_bar # => FooBar
     # helper :foo # => Foo
-
     def get(name)
       name = name.to_s.split('_').map{|e| e.capitalize}.join
       POOL.each do |namespace|
@@ -180,7 +173,6 @@ module Innate
 
     # Figure out files that might have the helper we ask for and then require
     # the first we find, if any.
-
     def try_require(name)
       if found = Dir[glob(name)].first
         require File.expand_path(found)
