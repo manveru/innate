@@ -84,7 +84,13 @@ module Innate
       end
 
       def redirect_referrer
-        redirect request.referer
+        if referer = request.referer and url = request.url
+          referer_uri, request_uri = URI(referer), URI(url)
+
+          redirect(referer) unless referer_uri == request_uri
+        end
+
+        redirect(fallback)
       end
       alias redirect_referer redirect_referrer
     end
