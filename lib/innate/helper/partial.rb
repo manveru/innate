@@ -81,8 +81,8 @@ module Innate
         action.call
       end
 
-      def render_action method, *params
-        render_partial(Rs(method), *params)
+      def render_action(method, *params)
+        render_partial(r(method), *params)
       end
     end
   end
