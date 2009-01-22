@@ -2,7 +2,7 @@
 #   -- William of Ockham (ca. 1285-1349)
 
 module Innate
-  ROOT = File.expand_path(File.dirname(__FILE__)) unless defined?(Innate::ROOT)
+  ROOT = File.expand_path(File.dirname(__FILE__))
 
   unless $LOAD_PATH.any?{|lp| File.expand_path(lp) == ROOT }
     $LOAD_PATH.unshift(ROOT)
