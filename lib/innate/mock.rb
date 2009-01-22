@@ -14,7 +14,7 @@ module Innate
     end
 
     def self.mock_request
-      Rack::MockRequest.new(Rack::Lint.new(Innate))
+      Rack::MockRequest.new(Innate)
     end
 
     def self.session
