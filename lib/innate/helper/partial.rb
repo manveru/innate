@@ -25,8 +25,6 @@ module Innate
     #     </body>
     #   </html>
     module Partial
-      DEFAULT << self
-
       module_function
 
       # Renders a url 'inline'.

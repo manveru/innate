@@ -1,8 +1,6 @@
 module Innate
   module Helper
     module Redirect
-      DEFAULT << self
-
       def respond(body, status = 200, header = {})
         response.write body
         response.status = status

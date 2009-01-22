@@ -4,8 +4,6 @@ module Innate
 
   module Helper
     module CGI
-      DEFAULT << self
-
       # shortcut for Rack::Utils.escape
       def url_encode(*args)
         Rack::Utils.escape(*args.map{|a| a.to_s })

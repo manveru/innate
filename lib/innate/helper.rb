@@ -1,9 +1,8 @@
 module Innate
 
   # Acts as name-space for helpers
-
   module Helper
-    DEFAULT = Set.new
+    # Public instance methods of helpers in here will be recognized as actions
     LOOKUP = EXPOSE = Set.new
 
     # Usually called from Innate::Node::included
@@ -12,7 +11,6 @@ module Innate
     def self.included(into)
       into.extend(HelperAccess)
       into.__send__(:include, Trinity)
-      into.helper(*DEFAULT)
     end
   end
 

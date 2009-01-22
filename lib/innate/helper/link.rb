@@ -1,8 +1,6 @@
 module Innate
   module Helper
     module Link
-      DEFAULT << self
-
       def self.included(into)
         into.extend(self)
       end

@@ -3,8 +3,6 @@ module Innate
 
     # Provides before/after wrappers for actions
     module Aspect
-      DEFAULT << self
-
       AOP = Hash.new{|h,k| h[k] = Hash.new{|hh,kk| hh[kk] = {} }}
 
       def self.included(into)
