@@ -183,15 +183,11 @@ module Innate
 
     # Return a nice list of filenames in correct locations with correct
     # filename-extensions.
-    #
-    # by the way: Array#* is an alias for Array#join
-
     def glob(name = '*')
-      "{#{paths * ','}}/helper/#{name}.{#{EXTS * ','}}"
+      "{#{paths.join(',')}}/helper/#{name}.{#{EXTS.join(',')}}"
     end
 
     # In case you want to do something better.
-
     def paths
       PATH
     end
