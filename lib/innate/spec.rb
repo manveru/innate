@@ -34,3 +34,9 @@ shared :session do
     Innate::Mock.session(&block)
   end
 end
+
+shared :mock do
+  def get(*args)
+    Innate::Mock.get(*args)
+  end
+end
