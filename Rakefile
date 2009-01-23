@@ -1,4 +1,5 @@
 require 'rake/rdoctask'
+require 'rake/clean'
 require 'time'
 require 'date'
 require 'pp'
@@ -6,6 +7,8 @@ require 'pp'
 INNATE_VERSION = Date.today.strftime("%Y.%m.%d")
 
 task :default => [:spec]
+
+CLEAN.include('*coverage*')
 
 desc "Run all specs"
 task :spec do
@@ -91,7 +94,7 @@ GEMSPEC
 end
 
 desc 'code coverage'
-task :rcov do
+task :rcov => :clean do
   specs = Dir['spec/innate/**/*.rb']
   specs -= Dir['spec/innate/cache/common.rb']
 
