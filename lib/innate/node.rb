@@ -161,7 +161,8 @@ module Innate
       path = env['PATH_INFO']
       path << '/' if path.empty?
 
-      try_resolve(path)
+      response.reset
+      response = try_resolve(path)
 
       Current.session.flush
 
@@ -181,14 +182,15 @@ module Innate
     # Action#call has to return a String.
 
     def action_found(action)
-      response.reset
+      body = catch(:respond){ catch(:redirect){ action.call }}
 
-      catch(:respond) do
-        catch(:redirect) do
-          body = action.call
-          response.write(body)
-          response['Content-Type'] ||= action.content_type
-        end
+      case body
+      when Response
+        body
+      else
+        response.write(body)
+        response['Content-Type'] ||= action.content_type
+        response
       end
     end
 
@@ -221,10 +223,11 @@ module Innate
     #   end
 
     def action_not_found(path)
-      response.reset
       response.status = 404
       response['Content-Type'] = 'text/plain'
       response.write("Action not found at: %p" % path)
+
+      response
     end
 
     # Let's get down to business, first check if we got any wishes regarding

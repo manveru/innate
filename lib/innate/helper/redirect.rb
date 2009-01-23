@@ -7,7 +7,7 @@ module Innate
         header['Content-Type'] ||= 'text/html'
         header.each{|k,v| response[k] = v }
 
-        throw(:respond)
+        throw(:respond, response)
       end
 
       def respond!(body, status = 200, header = {})
@@ -53,24 +53,11 @@ module Innate
 
         yield(uri) if block_given?
 
-        options[:raw!] ? raw_redirect!(uri, options) : raw_redirect(uri, options)
+        raw_redirect(uri, options)
       end
 
-      def raw_redirect(target, options = {})
-        target = target.to_s
-
-        response['Location'] = target
-        response.status = options[:status] || 302
-        response.write    options[:body]   || redirect_body(target)
-
-        Log.debug "Redirect to: #{target}"
-        throw(:redirect, response)
-      end
-
-      # Don't reuse the current response object
-
-      def raw_redirect!(target, options = {}, &block)
-        header = {'Location' => target}
+      def raw_redirect(target, options = {}, &block)
+        header = {'Location' => target.to_s}
         status = options[:status] || 302
         body   = options[:body] || redirect_body(target)
 

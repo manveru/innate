@@ -11,7 +11,7 @@ module Innate
         response['Content-Type'] = content_type
         response.status = 200
 
-        throw :respond
+        throw(:respond, response)
       end
     end
   end
