@@ -11,6 +11,7 @@ module Innate
     #   class MyController
     #     def index
     #     end
+    #
     #     def list
     #       plain = request['plain']
     #       "Hello World from List!  Plain List == #{plain}"
@@ -66,7 +67,7 @@ module Innate
         ext = ext[1..-1]
 
         action = Innate::Current.action.dup
-        action.view = action.node.find_view(basename, ext, action.params)
+        action.view   = action.node.find_view(basename, ext)
         action.method = action.node.find_method(basename, action.params)
         action.sync_variables(action)
         action.variables.merge!(variables)

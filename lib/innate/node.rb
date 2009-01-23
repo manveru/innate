@@ -255,7 +255,7 @@ module Innate
 
     def find_action(given_name, wish)
       patterns_for(given_name){|name, params|
-        view = to_view(name, wish)
+        view = find_view(name, wish)
         method = find_method(name, params)
 
         next unless view or method
@@ -274,7 +274,7 @@ module Innate
 
       if found = to_layout(found_layout, wish)
         [:layout, found]
-      elsif found = to_view(found_layout, wish)
+      elsif found = find_view(found_layout, wish)
         [:view, found]
       elsif found = find_method(found_layout, [])
         [:method, found]
@@ -351,7 +351,7 @@ module Innate
 
     # Try to find the best template for the given basename and wish.
     # Also, having extraordinarily much fun with globs.
-    def to_view(file, wish)
+    def find_view(file, wish)
       path = [Innate.options.app.root, Innate.options.app.view, view_root, file]
       to_template(path, wish)
     end
