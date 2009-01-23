@@ -24,13 +24,13 @@ class SpecRedirectHelper
   end
 
   def no_actual_redirect
-    catch(:redirect){ redirection }
-    'no_actual_redirect'
+    catch(:redirect){ redirect(:index) }
+    'no actual redirect'
   end
 
   def no_actual_double_redirect
     catch(:redirect){ double_redirection }
-    'no_actual_double_redirect'
+    'no actual double redirect'
   end
 
   def redirect_method
@@ -59,57 +59,71 @@ Innate.setup_dependencies
 Innate.setup_middleware
 
 describe Innate::Helper::Redirect do
+  behaves_like :mock
+
   @uri = 'http://localhost:7000'
 
   should 'retrieve index' do
-    Innate::Mock.get('/').body.should =='SpecRedirectHelper'
+    get('/').body.should =='SpecRedirectHelper'
   end
 
   should 'redirect' do
-    got = Innate::Mock.get("#@uri/redirection")
+    got = get("#@uri/redirection")
     got.status.should == 302
     got.headers['Location'].should == "#@uri/index"
   end
 
   should 'redirect twice' do
-    got = Innate::Mock.get("#@uri/double_redirection")
+    got = get("#@uri/double_redirection")
     got.status.should == 302
     got.headers['Location'].should == "#@uri/redirection"
   end
 
   should 'redirect to referer' do
-    got = Innate::Mock.get("#@uri/redirect_referer_action", 'HTTP_REFERER' => '/noop')
+    got = get("#@uri/redirect_referer_action", 'HTTP_REFERER' => '/noop')
     got.status.should == 302
     got.headers['Location'].should == "#@uri/noop"
   end
 
   should 'use #r' do
-    got = Innate::Mock.get("#@uri/redirect_method")
+    got = get("#@uri/redirect_method")
     got.status.should == 302
     got.headers['Location'].should == "#@uri/noop"
   end
 
   should 'work with absolute uris' do
-    got = Innate::Mock.get("#@uri/absolute_redirect")
+    got = get("#@uri/absolute_redirect")
     got.status.should == 302
     got.headers['Location'].should == "#@uri/noop"
   end
 
   should 'support #respond' do
-    got = Innate::Mock.get("#@uri/loop")
+    got = get("#@uri/loop")
     got.status.should == 200
     got.body.should == 'no loop'
   end
 
   should 'support #respond with status' do
-    got = Innate::Mock.get("#@uri/respond_with_status")
+    got = get("#@uri/respond_with_status")
     got.status.should == 404
     got.body.should == 'not found'
   end
 
   should 'redirect without modifying the target' do
-    got = Innate::Mock.get("#@uri/redirect_unmodified")
+    got = get("#@uri/redirect_unmodified")
     got.status.should == 302
     got.headers['Location'].should == '/noop'
+  end
+
+  should 'catch redirection' do
+    got = get("#@uri/no_actual_redirect")
+    got.status.should == 200
+    got.body.should == 'no actual redirect'
+  end
+
+  should 'catch double redirect' do
+    got = get("#@uri/no_actual_double_redirect")
+    got.status.should == 200
+    got.body.should == 'no actual double redirect'
   end
 end
