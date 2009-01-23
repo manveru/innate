@@ -47,15 +47,7 @@ class SpecNodeSub < SpecNode
 end
 
 describe 'Innate::Node' do
-  def get(*args)
-    Innate::Mock.get(*args)
-  end
-
-  def action(method, params)
-    Innate::Action.create(
-      :node => SpecNode, :method => method, :params => params, :exts => []
-    )
-  end
+  behaves_like :mock
 
   def compare(url, hash)
     result = SpecNode.resolve(url)

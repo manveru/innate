@@ -16,21 +16,23 @@ class AspectSpec
 end
 
 describe Innate::Helper::Aspect do
+  behaves_like :mock
+
   should 'execute before aspect' do
     $aspect_spec_before = 0
-    Innate::Mock.get('/with_before').body.should == '42'
+    get('/with_before').body.should == '42'
     $aspect_spec_before.should == 42
   end
 
   should 'execute after asepct' do
     $aspect_spec_after = 0
-    Innate::Mock.get('/with_after').body.should == '2'
+    get('/with_after').body.should == '2'
     $aspect_spec_after.should == 42
   end
 
   should 'execute wrap aspects' do
     $aspect_spec_wrap = 0
-    Innate::Mock.get('/with_wrap').body.should == '22'
+    get('/with_wrap').body.should == '22'
     $aspect_spec_wrap == 42
   end
 end
