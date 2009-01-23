@@ -1,3 +1,5 @@
+autoload(:CGI, 'cgi') # in case you want to use html_unescape
+
 module Innate
 
   # Shortcuts to some CGI methods
