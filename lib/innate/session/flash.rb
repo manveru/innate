@@ -57,6 +57,7 @@ module Innate
 
       # Delete a key
       def delete(key)
+        previous.delete(key)
         current.delete(key)
       end
 
