@@ -98,7 +98,8 @@ task :rcov => :clean do
   specs = Dir['spec/innate/**/*.rb']
   specs -= Dir['spec/innate/cache/common.rb']
 
-  ignore = %w[ gem rack bacon ]
+  # we ignore adapter as this has extensive specs in rack already.
+  ignore = %w[ gem rack bacon innate/adapter\.rb ]
   ignore << 'fiber\.rb' if RUBY_VERSION < '1.9'
 
   ignored = ignore.join(',')
