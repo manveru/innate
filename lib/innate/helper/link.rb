@@ -5,7 +5,7 @@ module Innate
         into.extend(self)
       end
 
-      def route(name, *args)
+      def route(name = '/', *args)
         hash = {}
         hashes, names = args.partition{|arg| arg.respond_to?(:merge!) }
         hashes.each{|to_merge| hash.merge!(to_merge) }
