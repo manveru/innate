@@ -85,6 +85,10 @@ module Innate
     return if options.started
     options.started = true
 
+    start!
+  end
+
+  def start!(parameter = {}, &block)
     setup_dependencies
     setup_middleware(&block)
 
