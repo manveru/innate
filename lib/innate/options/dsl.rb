@@ -99,12 +99,8 @@ module Innate
         else
           nil
         end
-      else
-        if sub_options = get(key)
-          sub_options.get(*keys)
-        else
-          get(*keys)
-        end
+      elsif sub_options = get(key)
+        sub_options.get(*keys)
       end
     end
 
