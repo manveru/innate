@@ -33,7 +33,7 @@ module Innate
       :state, :Fiber
 
     sub :log do
-      o "Array of parameters for Logger.new",
+      o "Array of parameters for Logger.new, default to stderr for CGI",
         :params, [$stderr]
       o "Use ANSI colors for logging, nil does auto-detection by checking for #tty?",
         :color, nil
@@ -46,9 +46,9 @@ module Innate
 
     sub :env do
       o "Hostname of this machine",
-        :host, `hostname`.strip # FIXME: cross-platform
+        :host, ENV['HOSTNAME'] # FIXME: cross-platform
       o "Username executing the application",
-        :user, `whoami`.strip # FIXME: cross-platform
+        :user, ENV['USER'] # FIXME: cross-platform
     end
 
     sub :app do
