@@ -82,5 +82,10 @@ module Innate
       default "If no option for the cache name exists, fall back to this",
         Innate::Cache::Memory
     end
+
+    sub :action do
+      o "wish => Action#method",
+        :wish => {'json' => :as_json, 'html' => :as_html, 'yaml' => :as_yaml}
+    end
   end
 end
