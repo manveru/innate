@@ -85,7 +85,7 @@ module Innate
     return if options.started
     options.started = true
 
-    start!
+    start!(parameter, &block)
   end
 
   def start!(parameter = {}, &block)
