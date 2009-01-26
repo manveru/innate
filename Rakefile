@@ -10,20 +10,6 @@ task :default => [:spec]
 
 CLEAN.include('*coverage*')
 
-desc "Run all specs"
-task :spec do
-  exclude = [/cache\/common\.rb/]
-
-  Dir['spec/innate/**/*.rb'].each do |rb|
-    case rb
-    when *exclude
-    else
-      puts "", rb
-      ruby rb
-    end
-  end
-end
-
 task :reversion do
   File.open('lib/innate/version.rb', 'w+') do |file|
     file.puts('module Innate')
@@ -110,5 +96,38 @@ task :rcov => :clean do
     puts '', "Gather coverage for #{spec} ..."
     html = specs.empty? ? 'html' : 'no-html'
     sh(cmd % [html, spec])
+  end
+end
+
+desc 'Run all specs'
+task :spec do
+  require 'open3'
+
+  specs = Dir['spec/innate/**/*.rb']
+  specs.delete_if{|f| f =~ /cache\/common\.rb/ }
+
+  total = specs.size
+  len = specs.sort.last.size
+  left_format = "%4d/%d: %-#{len + 11}s"
+
+  red, green = "\e[31m%s\e[0m", "\e[32m%s\e[0m"
+
+  specs.each_with_index do |spec, idx|
+    print(left_format % [idx + 1, total, spec])
+
+    Open3.popen3("#{RUBY} #{spec}") do |sin, sout, serr|
+      out = sout.read
+      err = serr.read
+
+      md = out.match(/(\d+) tests, (\d+) assertions, (\d+) failures, (\d+) errors/)
+      tests, assertions, failures, errors = all = md.captures.map{|c| c.to_i }
+
+      if failures + errors > 0
+        puts((red % "%5d tests, %d assertions, %d failures, %d errors") % all)
+        puts "", out, err, ""
+      else
+        puts((green % "%5d passed") % tests)
+      end
+    end
   end
 end
