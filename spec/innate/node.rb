@@ -2,6 +2,7 @@ require 'spec/helper'
 
 Innate.options.app.root = File.dirname(__FILE__)
 Innate.options.app.view = ''
+Innate.options.app.layout = 'node'
 
 class SpecNode
   include Innate::Node
@@ -44,6 +45,11 @@ class SpecNodeSub < SpecNode
   map '/sub'
 
   def bar(arg) end
+end
+
+class SpecNodeWithLayout < SpecNodeProvide
+  layout 'with_layout'
+  map '/layout'
 end
 
 describe 'Innate::Node' do
@@ -143,5 +149,17 @@ describe 'Innate::Node' do
   should 'respond with yaml' do
     assert_wish('/provide_template/bar.yaml', "--- |\n<h1>Hello, World!</h1>",
                 'text/yaml')
+  end
+
+  should 'respond with json' do
+    assert_wish('/provide_template/bar.json', '"<h1>Hello, World!<\\/h1>\\n"',
+                'application/json')
+  end
+
+  should 'wrap with layout' do
+    got = Innate::Mock.get('/layout/bar')
+    got.status.should == 200
+    got.body.should == %(<div class="content">\n  42\n</div>\n)
+    got['Content-Type'].should == 'text/html'
   end
 end
