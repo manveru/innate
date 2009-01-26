@@ -37,24 +37,24 @@ module Innate
         self.view_value = File.read(view) if view
       end
 
-      send(Innate.options.action.wish[wish] || :as_html)
+      content_type, body = send(Innate.options.action.wish[wish] || :as_html)
+      Current.response['Content-Type'] ||= content_type
+
+      body
     end
 
     def as_html
-      Current.response['Content-Type'] ||= 'text/html'
-      wrap_in_layout{ fulfill_wish(view_value || value) }
+      return 'text/html', wrap_in_layout{ fulfill_wish(view_value || value) }
     end
 
     def as_yaml
       require 'yaml'
-      Current.response['Content-Type'] = 'text/yaml'
-      (value || view_value).to_yaml
+      return 'text/yaml', (value || view_value).to_yaml
     end
 
     def as_json
       require 'json'
-      Current.response['Content-Type'] = 'application/json'
-      (value || view_value).to_json
+      return 'application/json', (value || view_value).to_json
     end
 
     def fulfill_wish(string)
@@ -81,8 +81,8 @@ module Innate
     end
 
     def layout_view_or_method(name, arg)
-      return nil, arg if name == :layout || name == :view
-      return arg, nil
+      return arg, nil if name == :layout || name == :view
+      return nil, arg
     end
   end
 end
