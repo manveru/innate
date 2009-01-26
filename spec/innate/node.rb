@@ -118,16 +118,30 @@ describe 'Innate::Node' do
   end
 
   should 'provide erb as wished' do
-    assert_wish('/provide/foo.erb', "<%= 21 * 2 %>", 'text/plain')
-    assert_wish('/provide/bar.erb', "<%= 84 / 2 %>", 'text/plain')
+    assert_wish('/provide/foo.erb', "<%= 21 * 2 %>", 'text/html')
+    assert_wish('/provide/bar.erb', "<%= 84 / 2 %>", 'text/html')
   end
 
   should 'fulfill wish with templates' do
-    assert_wish('/provide_template/bar.html', "<h1>Hello, World!</h1>", 'text/html')
-    assert_wish('/provide_template/bar.erb', "<h1>Hello, World!</h1>", 'text/plain')
+    assert_wish('/provide_template/bar.html', "<h1>Hello, World!</h1>",
+                'text/html')
+    assert_wish('/provide_template/bar.erb', "<h1>Hello, World!</h1>",
+                'text/html')
 
     expected = (0..9).map.join
     assert_wish('/provide_template/foo.html', expected, 'text/html')
     # assert_wish('/provide_template/foo.erb', expected, 'text/plain')
+  end
+
+  should 'respond with 404 if no action was found' do
+    got = Innate::Mock.get('/does_not_exist')
+    got.status.should == 404
+    got.body.should == 'Action not found at: "/does_not_exist"'
+    got['Content-Type'].should == 'text/plain'
+  end
+
+  should 'respond with yaml' do
+    assert_wish('/provide_template/bar.yaml', "--- |\n<h1>Hello, World!</h1>",
+                'text/yaml')
   end
 end

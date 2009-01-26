@@ -96,10 +96,6 @@ module Innate
     # If index.atom.erb isn't available we fall back to /view/feed/index.erb
     #
     # So it's really easy to add your own content representation.
-    # The correct Content-Type for the response will be retrieved from
-    # Rack::Mime and can be manually overwritten in the controller by e.g.
-    #
-    #   action.content_type = 'text/css'
     #
     # If no matching provider is found for the given extension it will fall
     # back to the one specified for html.
@@ -182,15 +178,13 @@ module Innate
     # Action#call has to return a String.
 
     def action_found(action)
-      body = catch(:respond){ catch(:redirect){ action.call }}
+      result = catch(:respond){ catch(:redirect){ action.call }}
 
-      case body
-      when Response
-        body
+      if result.respond_to?(:finish)
+        return result
       else
-        response.write(body)
-        response['Content-Type'] ||= action.content_type
-        response
+        Current.response.write(result)
+        return Current.response
       end
     end
 
@@ -442,6 +436,10 @@ module Innate
       end
 
       return nil
+    end
+
+    def wrap_action_call(action)
+      yield(action)
     end
   end
 end

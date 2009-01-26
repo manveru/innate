@@ -85,7 +85,7 @@ module Innate
 
     sub :action do
       o "wish => Action#method",
-        :wish => {'json' => :as_json, 'html' => :as_html, 'yaml' => :as_yaml}
+        :wish, {'json' => :as_json, 'html' => :as_html, 'yaml' => :as_yaml}
     end
   end
 end

@@ -16,11 +16,19 @@ module Innate
         aop
       end
 
-      def call_aspect(position, name)
+      def aspect_call(position, name)
         return unless aop = Aspect.ancestral_aop(self.class)
         return unless block_holder = aop[position]
-        return unless block = block_holder[name]
+        return unless block = block_holder[name.to_sym]
         block.call
+      end
+
+      def aspect_wrap(action)
+        return yield unless method = action.method
+
+        aspect_call(:before, method)
+        yield
+        aspect_call(:after, method)
       end
 
       module SingletonMethods

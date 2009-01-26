@@ -9,6 +9,7 @@ module Innate
 
     def reset
       self.status = 200
+      self.header.delete('Content-Type')
       body.clear
       self.length = 0
       self

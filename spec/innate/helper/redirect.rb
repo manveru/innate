@@ -71,30 +71,35 @@ describe Innate::Helper::Redirect do
     got = get("#@uri/redirection")
     got.status.should == 302
     got.headers['Location'].should == "#@uri/index"
+    got.headers['Content-Type'].should == "text/html"
   end
 
   should 'redirect twice' do
     got = get("#@uri/double_redirection")
     got.status.should == 302
     got.headers['Location'].should == "#@uri/redirection"
+    got.headers['Content-Type'].should == "text/html"
   end
 
   should 'redirect to referer' do
     got = get("#@uri/redirect_referer_action", 'HTTP_REFERER' => '/noop')
     got.status.should == 302
     got.headers['Location'].should == "#@uri/noop"
+    got.headers['Content-Type'].should == "text/html"
   end
 
   should 'use #r' do
     got = get("#@uri/redirect_method")
     got.status.should == 302
     got.headers['Location'].should == "#@uri/noop"
+    got.headers['Content-Type'].should == "text/html"
   end
 
   should 'work with absolute uris' do
     got = get("#@uri/absolute_redirect")
     got.status.should == 302
     got.headers['Location'].should == "#@uri/noop"
+    got.headers['Content-Type'].should == "text/html"
   end
 
   should 'support #respond' do

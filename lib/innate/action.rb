@@ -1,40 +1,18 @@
 module Innate
-  class Action < Struct.new(:node, :method, :params, :view, :layout, :instance,
-                            :exts, :wish, :options, :variables, :value,
-                            :view_value)
-  end unless defined?(Innate::Action)
+  ACTION_MEMBERS = [ :node, :method, :params, :view, :layout, :instance, :exts,
+                     :wish, :options, :variables, :value, :view_value ]
 
-  class Action
+  class Action < Struct.new(*ACTION_MEMBERS)
     def self.create(hash)
-      new(*members.map{|m| hash[m.to_sym] })
+      new(*hash.values_at(*ACTION_MEMBERS))
     end
-
-    WISH_TRANSFORM = {
-      'json' => ['json', :to_json],
-      'yaml' => ['yaml', :to_yaml],
-    }
 
     def call
-      wrap do
-        setup
-        render
-      end
-    end
-
-    def wrap
       Current.actions << self
-      yield
+      self.instance = node.new
+      render
     ensure
       Current.actions.delete(self)
-    end
-
-    def content_type=(ct)
-      @content_type = ct
-    end
-
-    def content_type
-      return @content_type if defined?(@content_type)
-      @content_type = Rack::Mime.mime_type(".#{wish}", 'text/plain')
     end
 
     def binding
@@ -51,27 +29,32 @@ module Innate
       }
     end
 
-    private # think about internal API, don't expose it for now
+    private
 
-    def setup
-      self.instance = node.new
-
-      wrap_in_aspects do
+    def render
+      instance.aspect_wrap(self) do
         self.value = instance.__send__(method, *params) if method
         self.view_value = File.read(view) if view
       end
+
+      send(Innate.options.action.wish[wish] || :as_html)
     end
 
-    def render
-      dependency, method = WISH_TRANSFORM[wish]
+    def as_html
+      Current.response['Content-Type'] ||= 'text/html'
+      wrap_in_layout{ fulfill_wish(view_value || value) }
+    end
 
-      if method
-        require dependency if dependency
-        node.response['Content-Type'] = content_type
-        value.__send__(method)
-      else
-        wrap_in_layout{ fulfill_wish(view_value || value) }
-      end
+    def as_yaml
+      require 'yaml'
+      Current.response['Content-Type'] = 'text/yaml'
+      (value || view_value).to_yaml
+    end
+
+    def as_json
+      require 'json'
+      Current.response['Content-Type'] = 'application/json'
+      (value || view_value).to_json
     end
 
     def fulfill_wish(string)
@@ -79,45 +62,27 @@ module Innate
       way ||= node.provide[wish] || node.provide['html']
 
       if way
-        node.response['Content-Type'] = content_type
+        # Rack::Mime.mime_type(".#{wish}", 'text/html')
         View.get(way).render(self, string)
       else
         raise "No way!"
       end
     end
 
-    # FIXME:
-    #   * I think this method is too long, should be split up.
     def wrap_in_layout
       return yield unless layout
 
-      layout_action = dup
-      view = method = nil
-
-      case layout.first
-      when :layout, :view
-        view = layout.last
-      when :method
-        method = layout.last
-      end
-
-      layout_action.view = view
-      layout_action.method = method
-      layout_action.layout = nil
-      layout_action.sync_variables(self)
-      layout_action.variables[:content] = yield
-      layout_action.call
+      action = dup
+      action.view, action.method = layout_view_or_method(*layout)
+      action.layout = nil
+      action.sync_variables(self)
+      action.variables[:content] = yield
+      action.call
     end
 
-    # TODO:
-    #   * Should take templates into account as well.
-    def wrap_in_aspects
-      return yield unless method = self.method
-      method_sym = method.to_sym
-
-      instance.call_aspect(:before, method_sym)
-      yield
-      instance.call_aspect(:after, method_sym)
+    def layout_view_or_method(name, arg)
+      return nil, arg if name == :layout || name == :view
+      return arg, nil
     end
   end
 end
