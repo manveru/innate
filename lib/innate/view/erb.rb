@@ -6,8 +6,12 @@ module Innate
       def self.render(action, string = action.view)
         return unless string.respond_to?(:to_str)
 
-        action.variables.each do |iv, value|
-          action.instance.instance_variable_set("@#{iv}", value)
+        if action.variables.any?
+          action.binding.eval('
+            action = Innate::Current.actions.last
+            action.variables.each do |iv, value|
+              instance_variable_set("@#{iv}", value)
+            end')
         end
 
         erb = ::ERB.new(string.to_str, nil, '%<>')

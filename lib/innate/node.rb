@@ -441,5 +441,10 @@ module Innate
     def wrap_action_call(action)
       yield(action)
     end
+
+    # Circumvent strange behaviour in 1.9:
+    # instance.__send__(:binding) would return binding for self of where the
+    # invocation was made.
+    def binding; super; end
   end
 end

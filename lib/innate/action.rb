@@ -10,13 +10,14 @@ module Innate
     def call
       Current.actions << self
       self.instance = node.new
+      self.variables[:content] ||= nil
       render
     ensure
       Current.actions.delete(self)
     end
 
     def binding
-      instance.__send__(:binding)
+      instance.binding
     end
 
     def sync_variables(from_action)
