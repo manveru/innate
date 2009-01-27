@@ -339,7 +339,7 @@ module Innate
 
       (higher + exposed).reverse_each do |ancestor|
         ancestor.public_instance_methods(false).each do |im|
-          @method_arities[im] = ancestor.instance_method(im).arity
+          @method_arities[im.to_s] = ancestor.instance_method(im).arity
         end
       end
 
