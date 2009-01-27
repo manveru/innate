@@ -20,7 +20,11 @@ require 'logger'
 require 'uri'
 
 # 3rd party
-begin; require 'rubygems'; rescue LoadError; end
+begin
+  require 'rubygems'
+  require 'rubygems/custom_require' unless respond_to?(:gem_original_require)
+rescue LoadError
+end
 require 'rack'
 
 # innate
