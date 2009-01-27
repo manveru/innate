@@ -60,6 +60,10 @@ module Innate
       @request.cookies[options.key]
     end
 
+    def inspect
+      cache.inspect
+    end
+
     private
 
     def cache
