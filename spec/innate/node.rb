@@ -134,7 +134,7 @@ describe 'Innate::Node' do
     assert_wish('/provide_template/bar.erb', "<h1>Hello, World!</h1>",
                 'text/html')
 
-    expected = (0..9).map.join
+    expected = (0..9).to_a.join
     assert_wish('/provide_template/foo.html', expected, 'text/html')
     # assert_wish('/provide_template/foo.erb', expected, 'text/plain')
   end

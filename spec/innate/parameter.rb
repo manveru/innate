@@ -50,7 +50,7 @@ class SpecParameter2
   end
 
   def keys
-    request.params.keys.to_s.dump
+    request.params.keys.inspect
   end
 end
 
@@ -149,6 +149,6 @@ describe "Simple Parameters" do
   end
 
   it 'should handle valueless params' do
-    handle('/jo/keys?foo').should == '"foo"'
+    handle('/jo/keys?foo').should == '["foo"]'
   end
 end
