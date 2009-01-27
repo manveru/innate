@@ -19,7 +19,6 @@ class Wiki
         %(<a href="#{r($1)}" class="#{DB[$1] ? 'exists' : 'missing'}">#{h($1)}</a>)
       end
     }
-    end
   end
 
   def edit(page)
