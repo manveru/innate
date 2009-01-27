@@ -18,7 +18,7 @@ module Innate
 
     # Map node to location, create a new Rack::URLMap instance and cache it.
     def self.map(location, node)
-      MAP[location] = node
+      MAP[location.to_s] = node
       CACHE[:map] = Rack::URLMap.new(MAP)
     end
   end
@@ -52,7 +52,7 @@ module Innate
   #
   #   Innate.at('/') # => Hello
   def at(location)
-    DynaMap::MAP[location]
+    DynaMap::MAP[location.to_s]
   end
 
   # Returns one of the paths the given +object+ is mapped to.
