@@ -251,7 +251,7 @@ module Innate
     # client.
 
     def find_action(given_name, wish)
-      patterns_for(given_name){|name, params|
+      patterns_for(given_name) do |name, params|
         view = find_view(name, wish)
         method = find_method(name, params)
 
@@ -259,10 +259,10 @@ module Innate
 
         layout = find_layout(name, wish)
 
-        Action.create(:node => self, :params => params, :wish => wish,
-                      :method => method, :view => view, :options => {},
-                      :variables => {}, :layout => layout)
-      }
+        Action.create(
+          :node => self, :params => params, :wish => wish, :method => method,
+          :view => view, :options => {}, :variables => {}, :layout => layout)
+      end
     end
 
     # TODO: allow layouts combined of method and view... hairy :)
