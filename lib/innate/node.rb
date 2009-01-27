@@ -159,8 +159,9 @@ module Innate
 
       response.reset
       response = try_resolve(path)
+      response['Content-Type'] ||= 'text/html'
 
-      Current.session.flush
+      Current.session.flush(response)
 
       response.finish
     end
