@@ -36,19 +36,20 @@ module Innate
 
     def clear
       cache.delete(sid)
+      @cache_sid = nil
     end
 
     def cache_sid
       @cache_sid ||= cache[sid] || {}
     end
 
-    def flush
+    def flush(response = @response)
       return unless @cache_sid
       return if @cache_sid.empty?
 
       flash.rotate!
       cache[sid] = cache_sid
-      set_cookie
+      set_cookie(response)
     end
 
     def sid
@@ -69,11 +70,11 @@ module Innate
       Innate.options[:session]
     end
 
-    def set_cookie
+    def set_cookie(response)
       return if @cookie_set || cookie
 
       @cookie_set = true
-      @response.set_cookie(options.key, cookie_value)
+      response.set_cookie(options.key, cookie_value)
     end
 
     def cookie_value
