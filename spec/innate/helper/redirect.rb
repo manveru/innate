@@ -50,6 +50,10 @@ class SpecRedirectHelper
     respond 'not found', 404
   end
 
+  def destructive_respond
+    respond! 'destructive'
+  end
+
   def redirect_unmodified
     raw_redirect '/noop'
   end
@@ -86,6 +90,10 @@ describe Innate::Helper::Redirect do
     got.status.should == 302
     got.headers['Location'].should == "#@uri/noop"
     got.headers['Content-Type'].should == "text/html"
+    got = get("#@uri/redirect_referer_action", 'HTTP_REFERER' => "#@uri/redirect_referer_action")
+    got.status.should == 302
+    got.headers['Location'].should == "#@uri/"
+    got.headers['Content-Type'].should == "text/html"
   end
 
   should 'use #r' do
@@ -112,6 +120,12 @@ describe Innate::Helper::Redirect do
     got = get("#@uri/respond_with_status")
     got.status.should == 404
     got.body.should == 'not found'
+  end
+
+  should 'support #respond!' do
+    got = get("#@uri/destructive_respond")
+    got.status.should == 200
+    got.body.should == 'destructive'
   end
 
   should 'redirect without modifying the target' do
