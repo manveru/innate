@@ -33,4 +33,4 @@ class Different
   end
 end
 
-Innate.start :adapter => :mongrel          
+Innate.start
