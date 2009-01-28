@@ -103,7 +103,7 @@ desc 'Run all specs'
 task :spec do
   require 'open3'
 
-  specs = Dir['spec/innate/**/*.rb']
+  specs = Dir['spec/{innate,example}/**/*.rb']
   specs.delete_if{|f| f =~ /cache\/common\.rb/ }
 
   total = specs.size
