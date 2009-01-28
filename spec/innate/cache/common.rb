@@ -21,6 +21,8 @@ describe $common_cache_class do
   should 'delete' do
     cache.delete(:hello).should == hello
     cache.fetch(:hello).should == nil
+    cache.store(:innate, 'innate').should == 'innate'
+    cache.delete(:hello, :innate).should == [hello, 'innate']
   end
 
   should 'store with ttl' do
