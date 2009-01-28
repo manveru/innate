@@ -30,6 +30,17 @@ module Innate
       }
     end
 
+    # Copy variables to given binding.
+    def copy_variables(binding = self.binding)
+      if variables.any?
+        binding.eval('
+          action = Innate::Current.actions.last
+          action.variables.each do |iv, value|
+            instance_variable_set("@#{iv}", value)
+          end')
+      end
+    end
+
     private
 
     def render
