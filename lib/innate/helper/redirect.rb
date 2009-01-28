@@ -70,7 +70,7 @@ module Innate
           "<a href='#{target}'>#{h target}</a>!"
       end
 
-      def redirect_referrer
+      def redirect_referrer(fallback = '/')
         if referer = request.referer and url = request.url
           referer_uri, request_uri = URI(referer), URI(url)
 
