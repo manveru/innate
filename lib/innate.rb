@@ -52,7 +52,6 @@ require 'innate/route'
 
 require 'rack/reloader'
 require 'rack/middleware_compiler'
-require 'rack/route_exceptions'
 
 module Innate
   extend Trinity
