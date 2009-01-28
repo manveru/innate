@@ -34,6 +34,7 @@ module Innate
   module Node
     include Traited
 
+    HELPERS = [:aspect, :cgi, :flash, :link, :partial, :redirect, :send_file]
     LIST = Set.new
 
     attr_reader :method_arities
@@ -43,7 +44,7 @@ module Innate
     # Upon inclusion we make ourselves comfortable.
     def self.included(obj)
       obj.__send__(:include, Helper)
-      obj.helper(:aspect, :cgi, :flash, :link, :partial, :redirect, :send_file)
+      obj.helper(*HELPERS)
 
       obj.extend(Trinity, self)
 
