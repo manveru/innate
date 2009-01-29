@@ -52,6 +52,15 @@ class SpecNodeWithLayout < SpecNodeProvide
   map '/layout'
 end
 
+class SpecNodeIndex
+  include Innate::Node
+  map '/spec_index'
+
+  def index
+    "I have no parameters"
+  end
+end
+
 describe 'Innate::Node' do
   behaves_like :mock
 
@@ -161,5 +170,11 @@ describe 'Innate::Node' do
     got.status.should == 200
     got.body.should == %(<div class="content">\n  42\n</div>\n)
     got['Content-Type'].should == 'text/html'
+  end
+
+  should 'not get an action with wrong parameters' do
+    got = Innate::Mock.get('/spec_index/bar')
+    got.status.should == 404
+    got.body.should == 'Action not found at: "/bar"'
   end
 end

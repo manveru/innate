@@ -8,9 +8,18 @@ module Innate
     CACHE = {}
 
     # Delegate the call to the current Rack::URLMap instance.
+    #
+    # NOTE: Currently Rack::URLMap will destructively modify PATH_INFO and
+    #       SCRIPT_NAME, which leads to incorrect routing as parts of the
+    #       PATH_INFO are cut out if they matched once.
+    #       Here I repair this damage and hope that my patch to rack will be
+    #       accepted.
     def self.call(env)
       if app = CACHE[:map]
-        app.call(env)
+        script_name, path_info = env['SCRIPT_NAME'], env['PATH_INFO']
+        answer = app.call(env)
+        env.merge!('SCRIPT_NAME' => script_name, 'PATH_INFO' => path_info)
+        answer
       else
         raise "Nothing mapped yet"
       end
