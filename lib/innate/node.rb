@@ -314,7 +314,7 @@ module Innate
     #       prediction
     def find_method(name, params)
       arity = method_arities[name]
-      name if arity and arity == params.size || arity < 0
+      name if arity && arity == params.size or arity < 0
     end
 
     # Answer with and set the @method_arities Hash, keys are method names,
