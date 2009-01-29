@@ -67,14 +67,6 @@ class SpecNodeWithLayoutMethod < SpecNodeProvide
   end
 end
 
-class SpecNoWay  < SpecNodeProvide
-  map '/noway'
-  provide :html => :haml
-  def index
-    '%li'
-  end
-end
-
 describe 'Innate::Node' do
   behaves_like :mock
 
