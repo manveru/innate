@@ -39,4 +39,4 @@ class Hello
   end
 end
 
-Innate.start :adapter => :thin
+Innate.start
