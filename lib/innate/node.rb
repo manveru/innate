@@ -37,9 +37,8 @@ module Innate
     HELPERS = [:aspect, :cgi, :flash, :link, :partial, :redirect, :send_file]
     LIST = Set.new
 
-    attr_reader :method_arities
-
-    trait(:layout => nil, :alias_view => {}, :provide => {})
+    trait(:layout => nil, :alias_view => {}, :provide => {},
+          :method_arities => {})
 
     # Upon inclusion we make ourselves comfortable.
     def self.included(obj)
@@ -313,8 +312,8 @@ module Innate
     # NOTE: Once 1.9 is mainstream we can use Method#parameters to do accurate
     #       prediction
     def find_method(name, params)
-      arity = method_arities[name]
-      name if arity && arity == params.size or arity < 0
+      return unless arity = trait[:method_arities][name]
+      name if arity == params.size or arity < 0
     end
 
     # Answer with and set the @method_arities Hash, keys are method names,
@@ -334,18 +333,18 @@ module Innate
     #   Hi.update_method_arities
     #   # => {'index' => 0, 'foo' => -1, 'bar => 2}
     def update_method_arities
-      @method_arities = {}
+      arities = trait[:method_arities] = {}
 
       exposed = ancestors & Helper::EXPOSE.to_a
       higher = ancestors.select{|a| a < Innate::Node }
 
       (higher + exposed).reverse_each do |ancestor|
         ancestor.public_instance_methods(false).each do |im|
-          @method_arities[im.to_s] = ancestor.instance_method(im).arity
+          arities[im.to_s] = ancestor.instance_method(im).arity
         end
       end
 
-      @method_arities
+      arities
     end
 
     # Try to find the best template for the given basename and wish.
