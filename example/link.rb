@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'innate'
 
 class Linking

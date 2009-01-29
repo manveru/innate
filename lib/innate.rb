@@ -20,17 +20,13 @@ require 'logger'
 require 'uri'
 
 # 3rd party
-begin
-  require 'rubygems'
-  require 'rubygems/custom_require' unless respond_to?(:gem_original_require)
-rescue LoadError
-end
 require 'rack'
 
-# innate
+# innate core patches
 require 'innate/core_compatibility/string'
 require 'innate/core_compatibility/basic_object'
 
+# innate core
 require 'innate/version'
 require 'innate/traited'
 require 'innate/cache'
