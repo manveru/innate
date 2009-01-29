@@ -1,8 +1,0 @@
-- unless @page == 'Home'
-  %a{:href => r('Home')}= "&lt; Home"
-%h1= h(@page)
-- if @text.empty?
-  %a{:href => r(:edit, @page)}= h("Create #@page")
-- else
-  %a{:href => r(:edit, @page)}= h("Edit #@page")
-  = Maruku.new(@text).to_html
