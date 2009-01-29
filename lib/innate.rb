@@ -81,13 +81,6 @@ module Innate
   module_function
 
   def start(parameter = {}, &block)
-    return if options.started
-    options.started = true
-
-    start!(parameter, &block)
-  end
-
-  def start!(parameter = {}, &block)
     setup_dependencies
     setup_middleware(&block)
 
@@ -96,6 +89,13 @@ module Innate
 
     trap(options[:trap]){ stop(10) } if options[:trap]
 
+    return if options.started
+    options.started = true
+
+    start!(options)
+  end
+
+  def start!(options = Innate.options)
     Adapter.start(middleware(:innate), options)
   end
 
