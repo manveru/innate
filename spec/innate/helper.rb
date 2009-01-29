@@ -63,4 +63,24 @@ describe Innate::Helper::Link do
     FNL.a('duh/bar', 'duh/bar', :x => :y).should == '<a href="/foo/duh/bar?x=y">duh/bar</a>'
     FNL.a('foo', :/, :x => :y).should == '<a href="/foo/?x=y">foo</a>'
   end
+
+  should 'return module when Module is given to #each' do
+    Innate::HelpersHelper.each_extend(self, Innate::Helper::Link) do |p|
+      p.should == Innate::Helper::Link
+    end
+  end
+
+  should 'raise if helpers are not found' do
+    lambda{
+      Innate::HelpersHelper.each(:foo, :bar)
+    }.should.raise(LoadError).
+      message.should == "Helper foo not found"
+  end
+
+  should 'raise if helper is not found' do
+    lambda{
+      Innate::HelpersHelper.try_require(:foo)
+    }.should.raise(LoadError).
+      message.should == "Helper foo not found"
+  end
 end
