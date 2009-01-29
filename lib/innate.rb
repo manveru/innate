@@ -87,10 +87,10 @@ module Innate
     options[:app][:root] = go_figure_root(parameter, caller)
     options.merge!(parameter)
 
-    trap(options[:trap]){ stop(10) } if options[:trap]
-
     return if options.started
     options.started = true
+
+    trap(options[:trap]){ stop(10) } if options[:trap]
 
     start!(options)
   end
