@@ -24,15 +24,15 @@ module Innate
       # If there is a method named start_name_of_adapter it will be run instead
       # of the default run method of the handler, this makes it easy to define
       # custom startup of handlers for your server of choice
-      def start(app, options)
-        name = options[:adapter].to_s.downcase
+      def start(app, options = Innate.options)
+        adapter_name = options[:adapter].to_s.downcase
         config = { :Host => options[:host], :Port => options[:port] }
-        Log.debug "Innate uses #{name}"
+        Log.debug "Innate uses #{adapter_name}"
 
-        if respond_to?(method = "start_#{name}")
+        if respond_to?(method = "start_#{adapter_name}")
           send(method, app, config)
         else
-          Rack::Handler.get(name).run(app, config)
+          Rack::Handler.get(adapter_name).run(app, config)
         end
       end
 
