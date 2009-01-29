@@ -18,6 +18,7 @@ module Innate
 
     # Map node to location, create a new Rack::URLMap instance and cache it.
     def self.map(location, node)
+      return unless location
       MAP[location.to_s] = node
       CACHE[:map] = Rack::URLMap.new(MAP)
     end

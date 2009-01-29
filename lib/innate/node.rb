@@ -48,22 +48,23 @@ module Innate
 
       obj.extend(Trinity, self)
 
+      LIST << obj
+
+      return if obj.provide.any?
       # provide .html with no interpolation
       obj.provide(:html => :erb, :yaml => :yaml, :json => :json)
-
-      LIST << obj
     end
 
     def self.setup
-      LIST.each{|node| node.automap unless Innate.to(node) }
+      LIST.each{|node| Innate.map(node.mapping, node) }
       Log.debug("Mapped Nodes: %p" % DynaMap::MAP)
     end
 
-    def automap
-      return map('/') if Innate::Node::LIST.size == 1
-
-      snake = self.name.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase
-      map "/#{snake}"
+    def mapping
+      mapped = Innate.to(self)
+      return mapped if mapped
+      return '/' if Innate::Node::LIST.size == 1
+      "/" << self.name.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase
     end
 
     # Shortcut to map or remap this Node
