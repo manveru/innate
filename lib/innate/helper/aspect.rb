@@ -34,16 +34,16 @@ module Innate
       end
 
       module SingletonMethods
-        def before_all(name, &block)
-          AOP[self][:before_all][name] = block
+        def before_all(&block)
+          AOP[self][:before_all] = block
         end
 
         def before(name, &block)
           AOP[self][:before][name] = block
         end
 
-        def after_all(name, &block)
-          AOP[self][:after_all][name] = block
+        def after_all(&block)
+          AOP[self][:after_all] = block
         end
 
         def after(name, &block)
