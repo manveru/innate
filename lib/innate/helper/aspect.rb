@@ -26,14 +26,24 @@ module Innate
       def aspect_wrap(action)
         return yield unless method = action.method
 
+        aspect_call(:before_all, method)
         aspect_call(:before, method)
         yield
         aspect_call(:after, method)
+        aspect_call(:after_all, method)
       end
 
       module SingletonMethods
+        def before_all(name, &block)
+          AOP[self][:before_all][name] = block
+        end
+
         def before(name, &block)
           AOP[self][:before][name] = block
+        end
+
+        def after_all(name, &block)
+          AOP[self][:after_all][name] = block
         end
 
         def after(name, &block)
