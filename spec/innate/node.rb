@@ -52,6 +52,7 @@ class SpecNodeWithLayout < SpecNodeProvide
   map '/layout'
 end
 
+<<<<<<< HEAD:spec/innate/node.rb
 class SpecNodeWithLayoutView < SpecNodeProvide
   view_root 'node/another_layout'
   layout 'another_layout'
@@ -64,6 +65,14 @@ class SpecNodeWithLayoutMethod < SpecNodeProvide
 
   def layout_method
     '<div class="content"><%= @content %></div>'
+=======
+class SpecNodeIndex
+  include Innate::Node
+  map '/spec_index'
+
+  def index
+    "I have no parameters"
+>>>>>>> manveru-master:spec/innate/node.rb
   end
 end
 
@@ -190,5 +199,10 @@ describe 'Innate::Node' do
     got.status.should == 200
     got.body.should == %(<div class="content">42</div>)
     got['Content-Type'].should == 'text/html'
+
+  should 'not get an action with wrong parameters' do
+    got = Innate::Mock.get('/spec_index/bar')
+    got.status.should == 404
+    got.body.should == 'Action not found at: "/bar"'
   end
 end
