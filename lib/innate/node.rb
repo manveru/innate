@@ -38,7 +38,7 @@ module Innate
     LIST = Set.new
 
     trait(:layout => nil, :alias_view => {}, :provide => {},
-          :method_arities => {})
+          :method_arities => {}, :wrap => [:aspect_wrap])
 
     # Upon inclusion we make ourselves comfortable.
     def self.included(obj)
@@ -440,8 +440,25 @@ module Innate
       return nil
     end
 
-    def wrap_action_call(action)
-      yield(action)
+    # This awesome piece of hackery implements action AOP, methods may register
+    # themself in the trait[:wrap] and will be called in left-to-right order,
+    # each being passed the action instance and a block that they have to yield
+    # to continue the chain.
+    #
+    # This enables things like action logging, caching, aspects,
+    # authentication, etc...
+    #
+    # @param [Action] action instance that is being passed to every registered method
+    # @param [Proc] block contains the instructions to call the action method if any
+    # @see Action#render
+    # @author manveru
+
+    def wrap_action_call(action, &block)
+      wrap = ancestral_trait[:wrap]
+
+      head, tail = wrap[0], wrap[1..-1].reverse
+      combined = tail.inject(block){|s,v| lambda{ __send__(v, action, &s) } }
+      __send__(head, action, &combined)
     end
 
     # Circumvent strange behaviour in 1.9:

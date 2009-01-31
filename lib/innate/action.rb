@@ -46,10 +46,8 @@ module Innate
       end
     end
 
-    private
-
     def render
-      instance.aspect_wrap(self) do
+      instance.wrap_action_call(self) do
         self.value = instance.__send__(method, *params) if method
         self.view_value = File.read(view) if view
       end
