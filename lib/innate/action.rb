@@ -3,10 +3,21 @@ module Innate
                      :wish, :options, :variables, :value, :view_value ]
 
   class Action < Struct.new(*ACTION_MEMBERS)
-    def self.create(hash)
+    # Create a new Action instance.
+    #
+    # @param [Hash, #values_at] hash used to seed new Action instance
+    # @return [Action] action with the given defaults from hash
+    # @author manveru
+    def self.create(hash = {})
       new(*hash.values_at(*ACTION_MEMBERS))
     end
 
+    # Call the Action instance, will insert itself temporarily into Current.actions during the render operation so even in nested calls one can still access all other Action instances.
+    # Will initialize the assigned node and call Action#render
+    #
+    # @return [String] The rendition of all nested calls
+    # @see Action#render Node#action_found
+    # @author manveru
     def call
       Current.actions << self
       self.instance = node.new
@@ -16,10 +27,21 @@ module Innate
       Current.actions.delete(self)
     end
 
+    # @return [Binding] binding of the instance for this Action
+    # @see Node#binding
+    # @author manveru
     def binding
       instance.binding
     end
 
+    # Copy the instance variable names and values from given
+    # from_action#instance into the Action#variables of the action this method
+    # is called on.
+    #
+    # @param [Action #instance] from_action
+    # @return [Action] from_action
+    # @see Action#wrap_in_layout
+    # @author manveru
     def sync_variables(from_action)
       instance = from_action.instance
 
@@ -28,9 +50,21 @@ module Innate
         iv_name = iv.to_s[1..-1]
         self.variables[iv_name.to_sym] = iv_value
       }
+
+      from_action
     end
 
-    # Copy variables to given binding.
+    # Copy Action#variables as instance variables into the given binding.
+    #
+    # This relies on Innate::STATE, so should be thread-safe and doesn't depend
+    # on Innate::Current::actions order.
+    # So we avoid nasty business with Objectspace#_id2ref which may not work on
+    # all ruby implementations and seems to cause other problems as well.
+    #
+    # @param [Binding #eval] binding
+    # @return [NilClass] there is no indication of failure or success
+    # @see View::ERB::render
+    # @author manveru
     def copy_variables(binding = self.binding)
       return unless variables.any?
 
@@ -58,20 +92,34 @@ module Innate
       body
     end
 
+    # @return [Array] Content-Type and rendered action
+    # @see Action#render Action#wrap_in_layout
+    # @author manveru
     def as_html
       return 'text/html', wrap_in_layout{ fulfill_wish(view_value || value) }
     end
 
+    # @return [Array] Content-Type and rendered action
+    # @see Action#render Action#wrap_in_layout
+    # @author manveru
     def as_yaml
       require 'yaml'
       return 'text/yaml', (value || view_value).to_yaml
     end
 
+    # @return [Array] Content-Type and rendered action
+    # @see Action#render Action#wrap_in_layout
+    # @author manveru
     def as_json
       require 'json'
       return 'application/json', (value || view_value).to_json
     end
 
+    # @param [String, #to_str] string to be rendered
+    # @return [String] The rendered result of the templating engine
+    # @raise [RuntimeError] if no suitable templating engine was found
+    # @see Action#as_html
+    # @author manveru
     def fulfill_wish(string)
       way = File.basename(view).gsub!(/.*?#{wish}\./, '') if view
       way ||= node.provide[wish] || node.provide['html']
@@ -80,7 +128,7 @@ module Innate
         # Rack::Mime.mime_type(".#{wish}", 'text/html')
         View.get(way).render(self, string)
       else
-        raise "No way!"
+        raise("No templating engine was found for %p" % way)
       end
     end
 

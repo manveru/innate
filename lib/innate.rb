@@ -1,6 +1,14 @@
-# > What can be done with fewer assumptions is done in vain with more.
-#   -- William of Ockham (ca. 1285-1349)
-
+# What can be done with fewer assumptions is done in vain with more.
+# -- William of Ockham (ca. 1285-1349)
+#
+# Name-space of Innate, just about everything goes in here.
+#
+# Exceptions are:
+#
+# * Logger::ColorFormatter
+# * In 1.8, we define ::BasicObject
+# * In 1.9, we define ::String#each
+#
 module Innate
   ROOT = File.expand_path(File.dirname(__FILE__))
 

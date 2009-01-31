@@ -461,9 +461,11 @@ module Innate
       __send__(head, action, &combined)
     end
 
-    # Circumvent strange behaviour in 1.9:
-    # instance.__send__(:binding) would return binding for self of where the
-    # invocation was made.
+    # For compatibility with new Kernel#binding behaviour in 1.9
+    #
+    # @return [Binding] binding of the instance being rendered.
+    # @see Action#binding
+    # @author manveru
     def binding; super; end
   end
 end
