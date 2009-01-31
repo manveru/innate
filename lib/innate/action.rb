@@ -32,12 +32,17 @@ module Innate
 
     # Copy variables to given binding.
     def copy_variables(binding = self.binding)
-      if variables.any?
+      return unless variables.any?
+
+      STATE.sync do
+        STATE[:action_variables] = self.variables
+
         binding.eval('
-          action = Innate::Current.actions.last
-          action.variables.each do |iv, value|
+          STATE[:action_variables].each do |iv, value|
             instance_variable_set("@#{iv}", value)
           end')
+
+        STATE[:action_variables] = nil
       end
     end
 
