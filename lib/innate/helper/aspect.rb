@@ -19,7 +19,8 @@ module Innate
       def aspect_call(position, name)
         return unless aop = Aspect.ancestral_aop(self.class)
         return unless block_holder = aop[position]
-        return unless block = block_holder[name.to_sym]
+        return unless block = 
+          block_holder.is_a?(Proc) ? block_holder : block_holder[name.to_sym]
         block.call
       end
 
