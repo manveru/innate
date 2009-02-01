@@ -142,57 +142,6 @@ module Innate
     end
     alias http_vars http_variables
 
-    # Example Usage:
-    #
-    #  # Template:
-    #
-    #  <form action="/paste">
-    #    <input type="text" name="paste[name]" />
-    #    <input type="text" name="paste[syntax]" />
-    #    <input type="submit" />
-    #  </form>
-    #
-    #  # In your Node:
-    #
-    #  def paste
-    #    name, syntax = request.robust_params['paste'].values_at('name', 'syntax')
-    #    paste = Paste.create_with(:name => name, :syntax => syntax)
-    #    redirect '/'
-    #  end
-    #
-    #  # Or equivalent:
-    #
-    #  def paste
-    #    paste = Paste.create_with(request.robust_params['paste'])
-    #    redirect '/'
-    #  end
-
-    def robust_params(params = self.params)
-      @env['innate.request.robust_params'] ||= parse_robust_params(params)
-    end
-
-    # Parameter parsing based on some PHP (or Rails?) behaviour.
-    # This might contain some bugs somewhere, especially if the incoming data
-    # is malformed there is no guarantee of the outcome.
-    def parse_robust_params(params)
-      result = {}
-
-      params.each do |key, value|
-        if key =~ /^(.*)(\[.*\])/
-          prim, nested = $~.captures
-          ref = result
-
-          splat = key.scan(/(^[^\[]+)|\[([^\]]+)\]/).flatten.compact
-          head, last = splat[0..-2], splat[-1]
-          head.inject(ref){|s,v| s[v] ||= {} }[last] = value
-        else
-          result[key] = value
-        end
-      end
-
-      return result
-    end
-
     REQUEST_STRING_FORMAT = "#<%s params=%p cookies=%p env=%p>"
 
     def to_s
