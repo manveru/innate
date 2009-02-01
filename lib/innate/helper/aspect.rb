@@ -26,7 +26,8 @@ module Innate
       end
 
       def aspect_wrap(action)
-        return yield unless method = action.method
+        return yield unless method = action.method || 
+          (action.view ? File.basename(action.view, '.*') : nil)
 
         aspect_call(:before_all, method)
         aspect_call(:before, method)
