@@ -21,7 +21,7 @@ module Innate
         return unless block_holder = aop[position]
         return unless block = 
           block_holder.is_a?(Proc) ? block_holder : block_holder[name.to_sym]
-        block.call
+        instance_eval(&block)
       end
 
       def aspect_wrap(action)
