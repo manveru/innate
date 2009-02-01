@@ -70,28 +70,4 @@ describe Innate::Request do
     r = request(@env).http_variables
     r.should.not.be.empty
   end
-
-  should 'provide #robust_params' do
-    params = {
-      'user[name]' => 'manveru',
-      'user[age]'  => '42',
-      'browser' => 'firefox',
-      'engine[webkit][version]' => '1.1',
-      'engine[webkit][browser]' => 'arora',
-      'engine[gecko][version]' => '1.2',
-      'engine[gecko][browser]' => 'firefox',
-    }
-    env = { 'rack.request.form_hash' => params }
-
-    request(env).robust_params.should == {
-      'user' => {'name' => 'manveru', 'age' => '42'},
-      'browser' => 'firefox',
-      'engine' => {
-        'webkit' => {
-          'version' => '1.1', 'browser' => 'arora'},
-        'gecko' => {
-          'version' => '1.2', 'browser' => 'firefox'}
-        }
-      }
-  end
 end
