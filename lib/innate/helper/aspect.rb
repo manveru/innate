@@ -18,9 +18,11 @@ module Innate
 
       def aspect_call(position, name)
         return unless aop = Aspect.ancestral_aop(self.class)
-        return unless block_holder = aop[position]
-        return unless block = block_holder[name.to_sym]
-        block.call
+        return unless block = at_position = aop[position]
+
+        block = at_position[name.to_sym] unless at_position.is_a?(Proc)
+
+        instance_eval(&block) if block
       end
 
       def aspect_wrap(action)
