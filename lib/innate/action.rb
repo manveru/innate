@@ -1,6 +1,6 @@
 module Innate
   ACTION_MEMBERS = [ :node, :method, :params, :view, :layout, :instance, :exts,
-                     :wish, :options, :variables, :value, :view_value ]
+                     :wish, :options, :variables, :value, :view_value, :name ]
 
   class Action < Struct.new(*ACTION_MEMBERS)
     # Create a new Action instance.
@@ -146,6 +146,11 @@ module Innate
     def layout_view_or_method(name, arg)
       return arg, nil if name == :layout || name == :view
       return nil, arg
+    end
+
+    #Try to figure out a sane name for current action.
+    def name
+      File.basename((method || view).to_s).split('.').first
     end
   end
 end
