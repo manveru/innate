@@ -93,6 +93,7 @@ module Innate
     setup_middleware(&block)
 
     options[:app][:root] = go_figure_root(parameter, caller)
+    parameter.reject!{|k, v| [:root, :file].include?(k) }
     options.merge!(parameter)
 
     return if options.started
