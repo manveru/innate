@@ -364,7 +364,7 @@ module Innate
     end
 
     def alias_view(to, from)
-      trait[:alias_view][to] = from
+      (trait[:alias_view] ||= {})[to] = from
     end
 
     # Find the best matching file for the layout, if any.
