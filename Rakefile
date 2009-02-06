@@ -10,6 +10,7 @@ task :default => [:spec]
 
 CLEAN.include('*coverage*')
 
+desc 'update lib/innate/version.rb'
 task :reversion do
   File.open('lib/innate/version.rb', 'w+') do |file|
     file.puts('module Innate')
@@ -18,24 +19,28 @@ task :reversion do
   end
 end
 
+desc 'publish to github'
 task :release => [:reversion, :gemspec] do
   sh('git add MANIFEST CHANGELOG innate.gemspec lib/innate/version.rb')
   puts "I added the relevant files, you can now run:", ''
   puts "git commit -m 'Version #{INNATE_VERSION}'"
-  puts "git tag -d '#{INNATE_VERSION}'"
+  puts "git tag -m '#{INNATE_VERSION}'"
   puts "git push"
   puts
 end
 
+desc 'update manifest'
 task :manifest do
   File.open('MANIFEST', 'w+') do|manifest|
     manifest.puts(`git ls-files`)
   end
 end
 
+desc 'update changelog'
 task :changelog do
   File.open('CHANGELOG', 'w+') do |changelog|
     `git log -z --abbrev-commit`.split("\0").each do |commit|
+      next if commit =~ /^Merge: \d*/
       ref, author, time, _, title, _, message = commit.split("\n", 7)
       ref    = ref[/commit ([0-9a-f]+)/, 1]
       author = author[/Author: (.*)/, 1].strip
@@ -50,6 +55,7 @@ task :changelog do
   end
 end
 
+desc 'generate gemspec'
 task :gemspec => [:manifest, :changelog] do
   manifest = File.read('MANIFEST').split("\n")
   files = manifest.map{|file| "    %p," % file }.join("\n")[0..-2]
