@@ -1,3 +1,781 @@
+[cc3f110 | Sun Feb 01 18:35:42 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * use view name as name of the method when method is unavailable.
+
+[20518d4 | Sun Feb 01 18:37:47 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * update aspect spec to check before/after_all, instance_eval and view without method.
+
+[ad974e8 | Mon Feb 02 04:28:20 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * instance_eval the aspect blocks
+
+[b180b45 | Sun Feb 01 07:50:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Rack now has nested parameter parsing
+
+[4ae1a01 | Sat Jan 31 12:45:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove useless adapters
+
+[f75e32d | Sat Jan 31 12:45:28 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some yard-style docs
+
+[a7c4120 | Sat Jan 31 12:45:03 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make Node#wrap_action_call work, for now only aspects are registered
+
+[46c35c0 | Sat Jan 31 12:43:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve Action#copy_variables
+
+[7076383 | Fri Jan 30 11:12:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix assignment for (before|after)_all
+
+[1335bf2 | Fri Jan 30 10:57:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add before_all/after_all aspects
+
+[b55cf95 | Thu Jan 29 15:21:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * trap only once
+
+[b41c42a | Thu Jan 29 13:39:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Work around issue in Rack::URLMap and add spec
+
+[9dde517 | Thu Jan 29 13:39:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve Node::setup, automap is now mapping and behaves like ramaze needs it
+
+[861ef4d | Thu Jan 29 13:38:36 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better naming and arguments for Adapter::start
+
+[456c144 | Thu Jan 29 13:38:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Even if started is true, still do basic setup
+
+[76e4b23 | Thu Jan 29 13:37:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't use custom adapter in example
+
+[6921322 | Thu Jan 29 13:37:23 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * method_arities is a trait now
+
+[3dab943 | Thu Jan 29 13:08:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix precedence issue in find_method
+
+[be40b43 | Thu Jan 29 11:04:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove requires for rubygems
+
+[21d17f3 | Thu Jan 29 11:02:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove whywiki_haml/whywiki_nagoro examples
+
+[9133eb2 | Wed Jan 28 14:38:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix cache specs, why the hell did they pass?
+
+[741a79c | Wed Jan 28 13:55:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add some specs for examples
+
+[122c35f | Wed Jan 28 12:04:20 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove require for route_exceptions
+
+[2405c23 | Wed Jan 28 11:56:31 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Node::HELPERS for helpers used on inclusion
+
+[94cde03 | Wed Jan 28 11:55:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Move code for copying Action#variables
+
+[4452766 | Wed Jan 28 11:55:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Rack::RouteExceptions is now in rack-contrib
+
+[2922c7b | Wed Jan 28 12:44:43 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Add some specs.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[cfc74b8 | Wed Jan 28 12:43:50 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Add missing fallback argument to redirect_referrer.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[e4534e1 | Tue Jan 27 08:37:21 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Fix typo in example.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[eeffc7d | Tue Jan 27 13:41:26 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Nicer inspect of session
+
+[1daeb8f | Tue Jan 27 13:41:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Set cookie on the response object returned, not the original one
+
+[c7f8f10 | Tue Jan 27 12:49:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix specs for 1.9
+
+[9075cff | Tue Jan 27 12:49:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * 1.9 will return symbols instead of strings as method names
+
+[fdd2197 | Tue Jan 27 12:48:48 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * A bit nicer code style
+
+[a2003fe | Tue Jan 27 12:48:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Map casts to #to_s, :/ is very common in ramaze code
+
+[06331c4 | Tue Jan 27 12:47:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix handling of binding for 1.9
+
+[e7070f2 | Tue Jan 27 12:46:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * In current 1.9 the original require won't work for some gems
+
+[d3304dd | Mon Jan 26 16:50:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * pass arguments to start to start!
+
+[8f37866 | Mon Jan 26 07:47:22 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Prettier output for rake spec
+
+[602c6c1 | Mon Jan 26 07:42:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * spec for provide json and layout
+
+[725f209 | Mon Jan 26 07:42:13 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix layout render
+
+[c71fca2 | Mon Jan 26 06:41:21 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove Content-Type before dispatch, only add if not set
+
+[07547ba | Sun Jan 25 09:09:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * add options.action.wish for higher order control over wishes
+
+[8394dc5 | Sun Jan 25 09:08:38 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * small fixes for options
+
+[aa53722 | Sat Jan 24 05:05:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Expand specs for options
+
+[67f124d | Sat Jan 24 05:05:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Expand specs for flash
+
+[e28bcda | Sat Jan 24 05:05:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix Flash#delete
+
+[a78085c | Sat Jan 24 05:04:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Prune never reached code from options dsl
+
+[dd778ba | Sat Jan 24 05:04:18 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Docs for Helper::Link#route
+
+[3013397 | Sat Jan 24 05:03:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Provide Innate::start! method
+
+[bdfe9da | Sat Jan 24 05:03:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Ignore adapter for coverage
+
+[2484dd4 | Sat Jan 24 03:34:36 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Innate::Helper::Link#route defaults to '/'
+
+[1e68525 | Sat Jan 24 03:34:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec Innate::Helper::Link
+
+[8d988f0 | Fri Jan 23 16:58:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add clean task
+
+[ce74581 | Fri Jan 23 15:53:00 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec Innate::Helper::CGI
+
+[6823756 | Fri Jan 23 15:52:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec Innate::Helper::Partial
+
+[27fa85a | Fri Jan 23 15:52:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add specs for DynaMap
+
+[8e1ee7d | Fri Jan 23 15:51:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec more of Request
+
+[766023a | Fri Jan 23 15:51:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Expand redirect spec
+
+[66229fc | Fri Jan 23 15:51:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use shared mock a bit
+
+[6e62527 | Fri Jan 23 15:50:39 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec that helper methods are no actions by default
+
+[b5dd53b | Fri Jan 23 15:50:06 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * add shared :mock
+
+[84a057d | Fri Jan 23 15:49:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix throw/catch around :respond/:redirect
+
+[f56dbe4 | Fri Jan 23 15:48:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Rename Node#to_view to Node#find_view
+
+[0ca8a71 | Fri Jan 23 15:47:21 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * add CGI to autoload, it's used very seldom
+
+[ce88e79 | Fri Jan 23 15:46:54 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * We need URI for Request
+
+[597b9a4 | Fri Jan 23 15:46:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add rcov task
+
+[a583746 | Thu Jan 22 15:01:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't try to use ERB for things that aren't strings
+
+[959e891 | Thu Jan 22 15:01:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some improvments for specs, add shared :session
+
+[d17596b | Thu Jan 22 15:00:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * redirect_referrer should work like in Ramaze
+
+[da7d7c6 | Thu Jan 22 15:00:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use r, not Rs
+
+[775fa4b | Thu Jan 22 15:00:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Clean up Helper::Aspect
+
+[1286960 | Thu Jan 22 14:59:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Nicer glob
+
+[5551462 | Thu Jan 22 14:58:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Innate::HelperAccess::helper doesn't extend anymore, do that in your helper as needed
+
+[b6675e0 | Thu Jan 22 14:57:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove Innate::Helper::DEFAULT
+
+[1a602c3 | Thu Jan 22 14:56:26 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't fret on existing Innate::ROOT
+
+[656c951 | Thu Jan 22 14:55:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec for flash
+
+[206a101 | Wed Jan 21 10:56:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Node automap doesn't need to replace spaces
+
+[c518707 | Wed Jan 21 10:53:21 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Seems like ERB likes this better
+
+[39f033b | Wed Jan 21 10:53:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Only search public instance methods
+
+[696d7af | Wed Jan 21 10:52:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Compact try_resolve
+
+[fd2bb5f | Wed Jan 21 10:52:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use Traited in Node, finally gives us inheritable configuration
+
+[3891bc2 | Wed Jan 21 10:51:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better fulfill_wish
+
+[3552421 | Wed Jan 21 10:50:58 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * remove Action::CONTENT_TYPE, we can add '.sass' in ramaze
+
+[5dbfec2 | Wed Jan 21 10:49:55 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Nicer output of specs
+
+[c6666eb | Wed Jan 21 10:49:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Specs for Traited
+
+[934ba5f | Wed Jan 21 10:49:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Traited, like Ramaze traits, but limited in scope
+
+[9b57ea4 | Wed Jan 21 04:17:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Refactor some Node code, faster arity check and warning on ambiguity for layouts
+
+[4853060 | Wed Jan 21 04:12:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Squeeze slack from Node::automap and Node::setup
+
+[4038a4d | Wed Jan 21 04:12:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Assign layout on include... gotta improve that for inherit
+
+[5b8c69b | Wed Jan 21 04:10:44 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't use RouteExceptions by default, but use CommonLogger
+
+[18ab6cb | Wed Jan 21 04:10:22 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove test code from hello example
+
+[c6e0016 | Wed Jan 21 04:10:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Simpler Innate::View::None
+
+[576fc84 | Wed Jan 21 04:09:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * ERB now initialized with '<%>' and sensible filename
+
+[42ced1f | Wed Jan 21 04:08:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add docs to Innate::DynaMap and accept block on Innate::map
+
+[782b029 | Wed Jan 21 04:07:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Clean up setup of caches, won't register on initialize anymore
+
+[cabc6b2 | Wed Jan 21 04:07:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Innate::Cache::DRb
+
+[82e0dae | Mon Jan 19 10:53:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve Helper::Redirect and port specs
+
+[255643c | Sun Jan 18 11:31:31 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Explain how layouts respect provides
+
+[87c30c9 | Sun Jan 18 11:20:38 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * A bit more compact code
+
+[27d7f2e | Sun Jan 18 11:18:18 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Unify layout/view file lookup so layout respects wish
+
+[ba91e65 | Sun Jan 18 11:02:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Reduce code needed to setup specs
+
+[f9d9ef1 | Sun Jan 18 11:02:31 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fixes and improvments for Helper
+
+[722336e | Sun Jan 18 11:02:08 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make Innate::middleware less boring
+
+[c8ca27e | Sun Jan 18 11:01:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Pass block to Innate::start to build your middleware
+
+[2124ae4 | Sun Jan 18 11:00:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Innate::Route and Innate::Rewrite behave correct now
+
+[96a3674 | Sun Jan 18 10:09:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Simplify Helper API and add some docs
+
+[64420a2 | Sun Jan 18 02:26:47 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't assign :caller
+
+[12f7119 | Sat Jan 17 08:20:21 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add example for error handling
+
+[e38b669 | Sat Jan 17 08:20:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix error handling
+
+[3bfe38c | Sat Jan 17 07:56:08 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Innate::Current isn't needed for static files
+
+[e9a9a03 | Sat Jan 17 07:55:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Heed shadow warnings
+
+[eec3639 | Sat Jan 17 07:54:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * More timeout on trap
+
+[7a8c8f2 | Sat Jan 17 07:54:34 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add merging for options
+
+[9ff7e94 | Sat Jan 17 07:34:58 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Exception handling by recall, can you feel the power?
+
+[c8e4bec | Sat Jan 17 05:12:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Check log.color option
+
+[97957b9 | Sat Jan 17 05:03:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove Rack::Profile, there's one in rack-contrib
+
+[91aab79 | Sat Jan 17 05:00:54 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Response#reset
+
+[2aa69fc | Sat Jan 17 05:00:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Port Helper::SendFile and spec
+
+[8dfca77 | Sat Jan 17 04:51:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't require rubygems twice on specs
+
+[db69ee3 | Sat Jan 17 04:50:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Simple logging options
+
+[1c81540 | Sat Jan 17 04:49:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Minor mod
+
+[fba8f58 | Sat Jan 17 04:49:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Automatic mapping for Node, '/' if only one Node exists
+
+[044b979 | Sat Jan 17 04:47:23 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Innate::Cache::add method like Ramaze::Cache::add
+
+[cda601a | Tue Jan 13 10:35:31 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Clean up Node spec
+
+[88866be | Tue Jan 13 10:32:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix Session spec
+
+[5974e23 | Tue Jan 13 10:32:39 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix Node spec
+
+[675e3bc | Tue Jan 13 10:32:05 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix aspect spec
+
+[1b9a1c8 | Tue Jan 13 10:31:43 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec Request
+
+[0932816 | Tue Jan 13 08:35:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Port specs for Node parameters
+
+[37b1392 | Tue Jan 13 08:35:39 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Port specs for Route
+
+[972e2de | Tue Jan 13 08:35:21 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Reset Response when action is found
+
+[58a9143 | Tue Jan 13 08:35:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Further fixes of provides, only modify the path if a provide is found
+
+[b87493f | Tue Jan 13 08:32:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix Innate::Route and add Innate::Rewrite
+
+[33be02f | Tue Jan 13 08:32:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Innate::Response
+
+[7cedab1 | Sat Jan 10 07:59:55 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add routing middleware
+
+[9459903 | Fri Jan 09 08:34:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adding aspect helper as default and squeeze out some bugs
+
+[170f032 | Wed Jan 07 14:01:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some additions and improvments to Request
+
+[79979ce | Wed Jan 07 13:12:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't rescue in Node::call so we don't get double backtraces
+
+[48f92c1 | Wed Jan 07 13:11:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * render is no helper
+
+[13584b8 | Wed Jan 07 13:11:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * LogHub can now be toggled on and off, so you don't have to modify the loggers
+
+[88d1c7f | Wed Jan 07 13:10:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Clean up logging a bit
+
+[6036864 | Wed Jan 07 12:55:41 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * flash is default helper as well
+
+[740015b | Wed Jan 07 12:52:34 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Helper::Flash
+
+[753ba5a | Wed Jan 07 12:52:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Innate::Session::Flash
+
+[e74d7ac | Wed Jan 07 11:09:54 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec for Helper::Aspect
+
+[f0ba7e7 | Wed Jan 07 11:09:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Activate default helpers on inclusion of Innate::Node
+
+[f1ff921 | Wed Jan 07 11:08:39 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Execute Helper::Aspect hooks in Action
+
+[6687cd6 | Wed Jan 07 11:03:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Helper::Partial from Ramaze
+
+[470bee9 | Tue Jan 06 12:28:18 UTC 2009] TJ Vanderpoel <bougy.man@gmail.com>
+
+  * fixed requires and Wiki#provide to refer to erb instead of haml
+
+[015034d | Tue Jan 06 12:26:53 UTC 2009] TJ Vanderpoel <bougy.man@gmail.com>
+
+  * converted haml templated to erb
+
+[a6fa567 | Mon Jan 05 14:15:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't be so noisy about state
+
+[44a11ec | Mon Jan 05 14:15:28 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Reduce view glob
+
+[2b5dad5 | Mon Jan 05 14:15:12 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Action#sync_variables
+
+[155d9ad | Mon Jan 05 14:14:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't define ROOT twice
+
+[bcce1e2 | Mon Jan 05 13:01:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * The cookie of Mock::Session may be changed
+
+[8cb296b | Mon Jan 05 12:10:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better lookup so Ramaze can integrate
+
+[b4f556d | Mon Jan 05 11:06:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Action#binding as shortcut
+
+[5f5602a | Mon Jan 05 10:15:03 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Move all templating engines that have dependencies to Ramaze
+
+[91da40d | Mon Jan 05 09:58:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove done todos
+
+[4e5f3f2 | Mon Jan 05 09:57:48 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Update specs for new options
+
+[24ef9cf | Mon Jan 05 09:57:31 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix options usage in node spec
+
+[2ce93fd | Mon Jan 05 09:57:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Only run Options#dsl instance_eval if block given
+
+[1613987 | Mon Jan 05 09:46:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Expired cache values should not be returned
+
+[9849a07 | Mon Jan 05 09:41:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * fix setup for cache spec
+
+[25c5303 | Mon Jan 05 09:39:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Unify requires for specs and don't use Lint
+
+[353ebb2 | Mon Jan 05 09:38:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow choice between Fiber and Threads via options
+
+[a814522 | Mon Jan 05 09:38:20 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use new options syntax
+
+[f8982ae | Mon Jan 05 09:32:44 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Refactor sessions, lazy, efficient, and deep
+
+[167e44a | Mon Jan 05 09:25:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Final draft of caching implementation, should fix all problems and be ready for arbitrary backends
+
+[8275eb8 | Mon Jan 05 09:24:00 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Action#content_type should be public
+
+[a565059 | Mon Jan 05 07:41:43 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't spec spec/innate/cache/common.rb
+
+[96caaf5 | Mon Jan 05 07:41:18 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Options#method_missing and #dsl reopens the previous Options instance
+
+[1b564e7 | Mon Jan 05 07:40:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Require date in rakefile
+
+[4fa57b7 | Sun Jan 04 09:58:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make trap optional
+
+[26d161c | Sun Jan 04 07:56:22 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some more functionality for Options, use it
+
+[3a535ea | Sat Jan 03 09:24:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better namespaced configuration, not as convenient or magical but much more effective
+
+[8522a01 | Thu Jan 01 15:00:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow deleting session data
+
+[9ef3b8a | Thu Jan 01 15:00:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove useless stuff from marshal store
+
+[75916be | Thu Jan 01 14:59:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow setting port
+
+[01fa845 | Wed Dec 31 10:51:18 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * the session cache defaults already, add more docs for Cache
+
+[1d3f663 | Wed Dec 31 10:20:34 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Unify Cache::(Marshal|YAML) and simplify specs
+
+[a496e6e | Wed Dec 31 10:10:06 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Clean up Cache::YAML
+
+[08c9bd0 | Wed Dec 31 10:09:50 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Cache::Marshal
+
+[95ec4fc | Wed Dec 31 09:32:13 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * HTML templates may have .htm extension
+
+[d2470a7 | Wed Dec 31 09:32:01 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Maruku templating engine
+
+[10bf350 | Wed Dec 31 09:23:13 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Only things that include Node are comparable with it
+
+[f41b1ea | Wed Dec 31 09:22:32 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Prepare Helper so Ramaze can inject its own path and namespace
+
+[940e3f6 | Wed Dec 31 09:21:54 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Break up if nothing is mapped
+
+[af1da32 | Wed Dec 31 09:21:12 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Layout may be a special layout file, a method or a normal template
+
+[68cf7c1 | Wed Dec 31 09:20:07 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Move VERSION into lib/innate/version.rb
+
+[e963c21 | Wed Dec 31 09:16:44 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add erb templating
+
+[9fe7fea | Wed Dec 31 03:00:33 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Update gemspec
+
 [2f70869 | Wed Dec 31 03:00:00 UTC 2008] Michael Fellinger <m.fellinger@gmail.com>
 
   * Remove bin/innate from gespec
