@@ -27,12 +27,14 @@ module Innate
 
       def aspect_wrap(action)
         return yield unless method = action.name
-        
+
         aspect_call(:before_all, method)
         aspect_call(:before, method)
-        yield
+        result = yield
         aspect_call(:after, method)
         aspect_call(:after_all, method)
+
+        result
       end
 
       module SingletonMethods
