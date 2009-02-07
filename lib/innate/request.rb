@@ -108,14 +108,49 @@ module Innate
       URI("#{scheme}://#{host}#{path}")
     end
 
-    # Try to find out which languages the client would like to have.
+    # Try to find out which languages the client would like to have and sort
+    # them by weight, (most wanted first).
+    #
     # Returns and array of locales from env['HTTP_ACCEPT_LANGUAGE].
     # e.g. ["fi", "en", "ja", "fr", "de", "es", "it", "nl", "sv"]
+    #
+    # Usage:
+    #
+    #   request.accept_language
+    #   # => ['en-us', 'en', 'de-at', 'de']
+    #
+    # @param [String #to_s] string the value of HTTP_ACCEPT_LANGUAGE
+    # @return [Array] list of locales
+    # @see Request#accept_language_with_weight
+    # @author manveru
+    def accept_language(string = env['HTTP_ACCEPT_LANGUAGE'])
+      return [] unless accept_language
 
-    def accept_language
-      env['HTTP_ACCEPT_LANGUAGE'].to_s.split(/(?:,|;q=[\d.,]+)/)
+      accept_language_with_weight(accept_language).map{|lang, weight| lang }
     end
     alias locales accept_language
+
+    # Transform the HTTP_ACCEPT_LANGUAGE header into an Array with:
+    #
+    #   [[lang, weight], [lang, weight], ...]
+    #
+    # This algorithm was taken and improved from the locales library.
+    #
+    # Usage:
+    #
+    #   request.accept_language_with_weight
+    #   # => [["en-us", 1.0], ["en", 0.8], ["de-at", 0.5], ["de", 0.3]]
+    #
+    # @param [String #to_s] string the value of HTTP_ACCEPT_LANGUAGE
+    # @return [Array] array of [lang, weight] arrays
+    # @see Request#accept_language
+    # @author manveru
+    def accept_language_with_weight(string = env['HTTP_ACCEPT_LANGUAGE'])
+      accept_language.to_s.gsub(/\s+/, '').split(',').
+            map{|chunk|        chunk.split(';q=', 2) }.
+            map{|lang, weight| [lang, weight ? weight.to_f : 1.0] }.
+        sort_by{|lang, weight| -weight }
+    end
 
     ipv4 = %w[ 127.0.0.1/32 192.168.0.0/16 172.16.0.0/12 10.0.0.0/8 169.254.0.0/16 ]
     ipv6 = %w[ fc00::/7 fe80::/10 fec0::/10 ::1 ]
