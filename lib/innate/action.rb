@@ -84,12 +84,12 @@ module Innate
       instance.wrap_action_call(self) do
         self.value = instance.__send__(method, *params) if method
         self.view_value = File.read(view) if view
+
+        content_type, body = send(Innate.options.action.wish[wish] || :as_html)
+        Current.response['Content-Type'] ||= content_type
+
+        body
       end
-
-      content_type, body = send(Innate.options.action.wish[wish] || :as_html)
-      Current.response['Content-Type'] ||= content_type
-
-      body
     end
 
     # @return [Array] Content-Type and rendered action
