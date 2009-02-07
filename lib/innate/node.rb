@@ -269,13 +269,14 @@ module Innate
 
     # TODO: allow layouts combined of method and view... hairy :)
     def find_layout(name, wish)
-      return unless found_layout = layout
+      return unless layout = ancestral_trait[:layout]
+      return unless layout = layout.call(name, wish) if layout.respond_to?(:call)
 
-      if found = to_layout(found_layout, wish)
+      if found = to_layout(layout, wish)
         [:layout, found]
-      elsif found = find_view(found_layout, wish)
+      elsif found = find_view(layout, wish)
         [:view, found]
-      elsif found = find_method(found_layout, [])
+      elsif found = find_method(layout, [])
         [:method, found]
       end
     end
@@ -388,10 +389,25 @@ module Innate
       ancestral_trait[:alias_view][template] || template
     end
 
-    # Set the +name+ of the layout you want, this takes only the basename
-    # without any filename-extension or directory.
-    def layout(name = nil)
-      name ? trait(:layout => name) : ancestral_trait[:layout]
+    # @param [String #to_s] name basename without extension of the layout to use
+    # @param [Proc #call] block called on every dispatch if no name given
+    # @return [Proc String] The assigned name or block
+    #
+    # NOTE:
+    #   The behaviour of #layout changed significantly from Ramaze, instead of
+    #   multitudes of obscure options and methods like deny_layout we simply
+    #   take a block and use the returned value as the name for the layout.
+    #   No layout will be used if the block returns nil.
+    def layout(name = nil, &block)
+      if name and block
+        trait(:layout => lambda{|n, w| name if block.call(n, w) })
+      elsif name
+        trait(:layout => name.to_s)
+      elsif block
+        trait(:layout => block)
+      end
+
+      return ancestral_trait[:layout]
     end
 
     # The innate beauty in Nitro, Ramaze, and Innate.
