@@ -92,8 +92,8 @@ module Innate
       self.send("#{key}=", cache)
     end
 
-    def self.add(name)
-      register(new(name))
+    def self.add(*names)
+      names.each{|name| register(new(name)) }
     end
 
     def clear
