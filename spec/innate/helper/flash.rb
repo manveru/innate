@@ -16,10 +16,6 @@ class SpecFlash
     "Bye #{flash[:name]}"
   end
 
-  def box
-    flashbox
-  end
-
   def check_empty
     flash.empty?.to_s
   end
@@ -33,13 +29,6 @@ class SpecFlash
   def delete_key
     flash.delete(:name)
     "Bye #{flash[:name]}"
-  end
-
-  def set(*hash)
-    Hash[*hash].each do |key, value|
-      flash[key] = value
-    end
-    hash.inspect
   end
 
   def merge!
