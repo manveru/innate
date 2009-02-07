@@ -124,9 +124,9 @@ module Innate
     # @see Request#accept_language_with_weight
     # @author manveru
     def accept_language(string = env['HTTP_ACCEPT_LANGUAGE'])
-      return [] unless accept_language
+      return [] unless string
 
-      accept_language_with_weight(accept_language).map{|lang, weight| lang }
+      accept_language_with_weight(string).map{|lang, weight| lang }
     end
     alias locales accept_language
 
@@ -146,7 +146,7 @@ module Innate
     # @see Request#accept_language
     # @author manveru
     def accept_language_with_weight(string = env['HTTP_ACCEPT_LANGUAGE'])
-      accept_language.to_s.gsub(/\s+/, '').split(',').
+      string.to_s.gsub(/\s+/, '').split(',').
             map{|chunk|        chunk.split(';q=', 2) }.
             map{|lang, weight| [lang, weight ? weight.to_f : 1.0] }.
         sort_by{|lang, weight| -weight }
