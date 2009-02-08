@@ -36,7 +36,7 @@ class SpecNodeProvideTemplate
   include Innate::Node
   map '/provide_template'
 
-  provide :html => :erb, :erb => :none
+  provide :html => :erb, :erb => :none, :yaml => :yaml, :json => :json
 
   view_root 'node'
 end
@@ -166,7 +166,7 @@ describe 'Innate::Node' do
   should 'respond with 404 if no action was found' do
     got = Innate::Mock.get('/does_not_exist')
     got.status.should == 404
-    got.body.should == 'Action not found at: "/does_not_exist"'
+    got.body.should == 'No action found at: "/does_not_exist"'
     got['Content-Type'].should == 'text/plain'
   end
 
@@ -204,6 +204,6 @@ describe 'Innate::Node' do
   should 'not get an action with wrong parameters' do
     got = Innate::Mock.get('/spec_index/bar')
     got.status.should == 404
-    got.body.should == 'Action not found at: "/bar"'
+    got.body.should == 'No action found at: "/bar"'
   end
 end
