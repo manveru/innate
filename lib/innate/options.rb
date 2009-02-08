@@ -32,6 +32,9 @@ module Innate
     o "Keep state in Thread or Fiber, fall back to Thread if Fiber not available",
       :state, :Fiber
 
+    o "Indicates which default middleware to use, (:dev|:live)",
+      :mode, :dev
+
     sub :log do
       o "Array of parameters for Logger.new, default to stderr for CGI",
         :params, [$stderr]
