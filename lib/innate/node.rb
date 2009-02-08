@@ -127,8 +127,9 @@ module Innate
     def provide(formats = {})
       return ancestral_trait[:provide] if formats.empty?
 
-      trait[:provide] ||= {}
-      formats.each{|pr, as| trait[:provide][pr.to_s] = as.to_s }
+      hash = {}
+      formats.each{|pr, as| hash[pr.to_s] = as.to_s }
+      trait(:provide => hash)
 
       ancestral_trait[:provide]
     end
