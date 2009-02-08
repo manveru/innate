@@ -1,13 +1,18 @@
 module Innate
   module Traited
-    TRAITS = Hash.new{|h,k| h[k] = {}}
+    TRAITS = {}
 
     def self.included(into)
       into.extend(self)
     end
 
     def trait(hash = nil)
-      hash ? TRAITS[self].update(hash) : TRAITS[self]
+      if hash
+        TRAITS[self] ||= {}
+        TRAITS[self].merge!(hash)
+      else
+        TRAITS[self] || {}
+      end
     end
 
     def ancestral_trait
