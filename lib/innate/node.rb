@@ -336,7 +336,8 @@ module Innate
     #   Hi.update_method_arities
     #   # => {'index' => 0, 'foo' => -1, 'bar => 2}
     def update_method_arities
-      arities = trait[:method_arities] = {}
+      arities = {}
+      trait(:method_arities => arities)
 
       exposed = ancestors & Helper::EXPOSE.to_a
       higher = ancestors.select{|a| a < Innate::Node }
