@@ -354,6 +354,7 @@ module Innate
     # Try to find the best template for the given basename and wish.
     # Also, having extraordinarily much fun with globs.
     def find_view(file, wish)
+      file = ancestral_trait[:alias_view][file] || file
       path = [Innate.options.app.root, Innate.options.app.view, view_root, file]
       to_template(path, wish)
     end
@@ -367,7 +368,8 @@ module Innate
     end
 
     def alias_view(to, from)
-      trait(:alias_view => {})[to] = from
+      trait[:alias_view] || trait(:alias_view => {})
+      trait[:alias_view][to.to_s] = from.to_s
     end
 
     # Find the best matching file for the layout, if any.
@@ -387,8 +389,7 @@ module Innate
         Log.warn("%d views found for %p | %p" % [found.size, path, wish])
       end
 
-      template = found.first
-      ancestral_trait[:alias_view][template] || template
+      found.first
     end
 
     # @param [String #to_s] name basename without extension of the layout to use
