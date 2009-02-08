@@ -61,6 +61,13 @@ class SpecNodeIndex
   end
 end
 
+class SpecNodeAliasView < SpecNodeProvideTemplate
+  map '/alias_view'
+  view_root 'node'
+
+  alias_view :aliased, :bar
+end
+
 describe 'Innate::Node' do
   behaves_like :mock
 
@@ -70,6 +77,12 @@ describe 'Innate::Node' do
     hash.each do |key, value|
       result[key.to_s].should == value
     end
+  end
+
+  def assert_wish(url, body, content_type)
+    got = get(url)
+    got.body.strip.should == body
+    got.headers['Content-Type'].should == content_type
   end
 
   should 'resolve actions with methods' do
@@ -114,12 +127,6 @@ describe 'Innate::Node' do
   should 'select correct method from subclasses' do
     SpecNodeSub.resolve('/bar/one').should.not.be.nil
     SpecNodeSub.resolve('/bar').should.be.nil
-  end
-
-  def assert_wish(url, body, content_type)
-    got = get(url)
-    got.body.strip.should == body
-    got.headers['Content-Type'].should == content_type
   end
 
   should 'provide html if no wish given' do
@@ -176,5 +183,10 @@ describe 'Innate::Node' do
     got = Innate::Mock.get('/spec_index/bar')
     got.status.should == 404
     got.body.should == 'No action found at: "/bar"'
+  end
+
+  should 'use alias_view' do
+    assert_wish('/alias_view/aliased.html', "<h1>Hello, World!</h1>",
+                'text/html')
   end
 end
