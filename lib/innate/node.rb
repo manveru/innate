@@ -356,7 +356,11 @@ module Innate
     # Try to find the best template for the given basename and wish.
     # Also, having extraordinarily much fun with globs.
     def find_view(file, wish)
-      file = ancestral_trait[:alias_view][file] || file
+      if aliased = ancestral_trait[:alias_view][file]
+        file, node = aliased
+        return node.find_view(file, wish) if node and node != self
+      end
+
       path = [Innate.options.app.root, Innate.options.app.view, view_root, file]
       to_template(path, wish)
     end
@@ -369,9 +373,35 @@ module Innate
       @view_root ||= Innate.to(self)
     end
 
-    def alias_view(to, from)
+    # Aliasing one view from another.
+    # The aliases are inherited, and the optional third +node+ parameter
+    # indicates the Node to take the view from.
+    #
+    # The argument order is identical with `alias` and `alias_method`, which
+    # quite honestly confuses me, but at least we stay consistent.
+    #
+    # Usage:
+    #   class Foo
+    #     include Innate::Node
+    #
+    #     # Use the 'foo' view when calling 'bar'
+    #     alias_view 'bar', 'foo'
+    #
+    #     # Use the 'foo' view from FooBar node when calling 'bar'
+    #     alias_view 'bar', 'foo', FooBar
+    #   end
+    #
+    # NOTE: The parameters have been simplified in comparision with
+    #       Ramaze::Controller::template where the second parameter may be a
+    #       Controller or the name of the template.
+    #       We take that now as an optional third parameter.
+    #
+    # @param [#to_s]      to   view that should be replaced
+    # @param [#to_s]      from view to use or Node.
+    # @param [#nil? Node] node optionally obtain view from this Node
+    def alias_view(to, from, node = nil)
       trait[:alias_view] || trait(:alias_view => {})
-      trait[:alias_view][to.to_s] = from.to_s
+      trait[:alias_view][to.to_s] = node ? [from.to_s, node] : from.to_s
     end
 
     # Find the best matching file for the layout, if any.
