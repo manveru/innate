@@ -89,6 +89,8 @@ module Innate
     sub :action do
       o "wish => Action#method",
         :wish, {'json' => :as_json, 'html' => :as_html, 'yaml' => :as_yaml}
+      o "Create actions that have no method associated",
+        :needs_method, false
     end
   end
 end

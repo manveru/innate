@@ -254,11 +254,14 @@ module Innate
     # client.
 
     def find_action(given_name, wish)
+      needs_method = Innate.options.action.needs_method
+
       patterns_for(given_name) do |name, params|
-        view = find_view(name, wish)
         method = find_method(name, params)
+        view = find_view(name, wish)
 
         next unless view or method
+        next unless method if needs_method
 
         layout = find_layout(name, wish)
 
