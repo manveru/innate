@@ -519,4 +519,12 @@ module Innate
     # @author manveru
     def binding; super; end
   end
+
+  module SingletonMethods
+    def node(location, node)
+      node.__send__(:include, Node)
+      node.map(location)
+      node
+    end
+  end
 end
