@@ -1,8 +1,9 @@
 require 'spec/helper'
 
+Innate.options.app.root = File.dirname(__FILE__)
+
 class SpecHelperPartial
-  include Innate::Node
-  map '/'
+  Innate.node '/'
 
   def index
     '<html><head><title><%= render_partial("/title") %></title></head></html>'
@@ -34,8 +35,6 @@ class SpecHelperPartial
     render_template('title')
   end
 end
-
-Innate.options.app.root = File.dirname(__FILE__)
 
 describe Innate::Helper::Partial do
   behaves_like :mock

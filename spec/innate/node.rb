@@ -5,7 +5,7 @@ Innate.options.app.view = ''
 Innate.options.app.layout = 'node'
 
 class SpecNode
-  Innate.node('/', self).provide(:html => :erb, :erb => :none)
+  Innate.node('/').provide(:html => :erb, :erb => :none)
 
   def foo; end
   def bar; end
@@ -16,7 +16,7 @@ class SpecNode
 end
 
 class SpecNodeProvide
-  Innate.node('/provide', self).provide(:html => :erb, :erb => :none)
+  Innate.node('/provide').provide(:html => :erb, :erb => :none)
 
   def foo
     '<%= 21 * 2 %>'
@@ -28,7 +28,7 @@ class SpecNodeProvide
 end
 
 class SpecNodeProvideTemplate
-  Innate.node('/provide_template', self)
+  Innate.node('/provide_template')
   provide(:html => :erb, :erb => :none, :yaml => :yaml, :json => :json)
 
   view_root 'node'
@@ -46,7 +46,7 @@ class SpecNodeWithLayout < SpecNodeProvide
 end
 
 class SpecNodeIndex
-  Innate.node('/spec_index', self)
+  Innate.node('/spec_index')
 
   def index
     "I have no parameters"
