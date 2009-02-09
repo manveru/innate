@@ -262,9 +262,8 @@ module Innate
 
         layout = find_layout(name, wish)
 
-        Action.create(
-          :node => self, :params => params, :wish => wish, :method => method,
-          :view => view, :options => {}, :variables => {}, :layout => layout)
+        Action.create(:method => method, :params => params, :layout => layout,
+                      :node => self, :view => view, :wish => wish)
       end
     end
 

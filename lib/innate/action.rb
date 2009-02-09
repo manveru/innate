@@ -3,16 +3,20 @@ module Innate
                      :wish, :options, :variables, :value, :view_value, :name ]
 
   class Action < Struct.new(*ACTION_MEMBERS)
+    DEFAULT = {:options => {}, :variables => {}, :params => []}
+
     # Create a new Action instance.
     #
-    # @param [Hash, #values_at] hash used to seed new Action instance
+    # @param [Hash, #to_hash] hash used to seed new Action instance
     # @return [Action] action with the given defaults from hash
     # @author manveru
     def self.create(hash = {})
-      new(*hash.values_at(*ACTION_MEMBERS))
+      new(*DEFAULT.merge(hash.to_hash).values_at(*ACTION_MEMBERS))
     end
 
-    # Call the Action instance, will insert itself temporarily into Current.actions during the render operation so even in nested calls one can still access all other Action instances.
+    # Call the Action instance, will insert itself temporarily into
+    # Current.actions during the render operation so even in nested calls one
+    # can still access all other Action instances.
     # Will initialize the assigned node and call Action#render
     #
     # @return [String] The rendition of all nested calls
@@ -20,8 +24,6 @@ module Innate
     # @author manveru
     def call
       Current.actions << self
-      self.instance = node.new
-      self.variables[:content] ||= nil
       render
     ensure
       Current.actions.delete(self)
@@ -81,12 +83,16 @@ module Innate
     end
 
     def render
+      self.instance = node.new
+      self.variables[:content] ||= nil
+
       instance.wrap_action_call(self) do
         self.value = instance.__send__(method, *params) if method
         self.view_value = File.read(view) if view
 
         content_type, body = send(Innate.options.action.wish[wish] || :as_html)
-        Current.response['Content-Type'] ||= content_type
+        response = Current.response
+        response['Content-Type'] ||= content_type if response
 
         body
       end
