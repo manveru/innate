@@ -26,8 +26,7 @@ class SpecHelperPartial
     'From Action | ' << render_template("partial.erb")
   end
 
-  def recursive(locals = false)
-    respond render_template('recursive_locals.erb', :n => 1) if locals
+  def recursive
     @n = 1
   end
 

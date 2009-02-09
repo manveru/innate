@@ -142,7 +142,7 @@ describe 'Innate::Node' do
     assert_wish('/provide_template/bar.erb', "<h1>Hello, World!</h1>",
                 'text/html')
 
-    expected = (0..9).to_a.join
+    expected = '0123456789'
     assert_wish('/provide_template/foo.html', expected, 'text/html')
     # assert_wish('/provide_template/foo.erb', expected, 'text/plain')
   end
@@ -178,7 +178,6 @@ describe 'Innate::Node' do
   end
 
   should 'use alias_view' do
-    assert_wish('/alias_view/aliased.html', "<h1>Hello, World!</h1>",
-                'text/html')
+    assert_wish('/alias_view/aliased', "<h1>Hello, World!</h1>", 'text/html')
   end
 end
