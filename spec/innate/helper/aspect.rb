@@ -3,9 +3,7 @@ Innate.options.app.root = File.dirname(__FILE__)
 Innate.options.app.view = ''
 
 class AspectSpec
-  include Innate::Node
-  map '/'
-  provide :html => :none
+  Innate.node('/', self).provide(:html => :none)
 
   before(:with_before){ $aspect_spec_before += 40 }
   def with_before; $aspect_spec_before += 2; end
@@ -15,15 +13,13 @@ class AspectSpec
 
   wrap(:with_wrap){ $aspect_spec_wrap += 20 }
   def with_wrap; $aspect_spec_wrap += 2; end
-  
+
   before(:with_instance_var){ @foo = 'Hello'; @bar = 'World' }
   def with_instance_var; "#{@foo} #{@bar}"; end
 end
 
 class AspectAllSpec
-  include Innate::Node
-  map '/all'
-  provide :html => :none
+  Innate.node('/all', self).provide(:html => :none)
 
   before_all{ $aspect_spec_before_all += 40; @foo = 'Hello'; @bar = 'World' }
   after_all{  $aspect_spec_after_all += 40 }
@@ -34,6 +30,7 @@ class AspectAllSpec
 end
 
 class AspecNoMethodSpec
+  Innate.node('/without_method', self)
   include Innate::Node
   map '/without_method'
   view_root 'view'

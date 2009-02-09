@@ -521,10 +521,38 @@ module Innate
   end
 
   module SingletonMethods
-    def node(location, node)
+    # Convenience method to include the Node module into +node+ and map to a
+    # +location+.
+    #
+    # @param [#to_s]    location where the node is mapped to
+    # @param [Node nil] node     the class that will be a node, will try to look it
+    #                            up if not given
+    # @return [Class] the node argument or detected class will be returned
+    # @see Innate::node_from_backtrace
+    # @author manveru
+    def node(location, node = nil)
+      node ||= node_from_backtrace(caller)
       node.__send__(:include, Node)
       node.map(location)
       node
+    end
+
+    # Cheap hack that works reasonably well to avoid passing self all the time
+    # to Innate::node
+    # We simply search the file that Innate::node was called in for the first
+    # class definition above the line that Innate::node was called and look up
+    # the constant.
+    # If there are any problems with this (filenames containing ':' or
+    # metaprogramming) just pass the node parameter explicitly to Innate::node
+    #
+    # @param [Array #[]] backtrace
+    # @see Innate::node
+    # @author manveru
+    def node_from_backtrace(backtrace)
+      file, line = backtrace[0].split(':', 2)
+      line = line.to_i
+      File.readlines(file)[0..line].reverse.find{|line| line =~ /^\s*class\s+(\S+)/ }
+      const_get($1)
     end
   end
 end
