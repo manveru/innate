@@ -264,6 +264,7 @@ module Innate
         next unless method if needs_method
 
         layout = find_layout(name, wish)
+        params ||= []
 
         Action.create(:method => method, :params => params, :layout => layout,
                       :node => self, :view => view, :wish => wish)
