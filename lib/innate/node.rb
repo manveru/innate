@@ -383,7 +383,7 @@ module Innate
     def to_template(path, wish)
       return unless path.all?
 
-      path = File.join(*path.map{|pa| pa.to_s })
+      path = File.join(*path.map{|pa| pa.to_s.split('__') }.flatten)
       exts = [provide[wish], *provide.keys].flatten.compact.uniq.join(',')
       found = Dir["#{path}.{#{wish}.,#{wish},}{#{exts},}"].uniq
 
