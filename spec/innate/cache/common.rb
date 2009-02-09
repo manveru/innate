@@ -19,14 +19,16 @@ describe $common_cache_class do
   end
 
   should 'delete' do
-    cache.delete(:hello).should == @hello
+    cache.delete(:hello)
     cache.fetch(:hello).should == nil
   end
 
   should 'delete two key/value pairs at once' do
     cache.store(:hello, @hello).should == @hello
     cache.store(:innate, 'innate').should == 'innate'
-    cache.delete(:hello, :innate).should == [@hello, 'innate']
+    cache.delete(:hello, :innate)
+    cache.fetch(:hello).should == nil
+    cache.fetch(:innate).should == nil
   end
 
   should 'store with ttl' do

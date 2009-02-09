@@ -29,17 +29,18 @@ module Innate
       # Some parameters identifying the current process will be passed so
       # caches that act in one global name-space can use them as a prefix.
       #
-      # Treat all arguments as Strings.
-      #
-      # +hostname+  the hostname of the machine.
-      # +username+  user executing this process.
-      # +appname+   identifier for the application being executed.
-      # +cachename+ name-space of the cache, like 'session' or 'action'
+      # @param [String #to_s] hostname  the hostname of the machine
+      # @param [String #to_s] username  user executing the process
+      # @param [String #to_s] appname   identifier for the application
+      # @param [String #to_s] cachename namespace, like 'session' or 'action'
+      # @author manveru
       def cache_setup(hostname, username, appname, cachename)
       end
 
       # Remove all key/value pairs from the cache.
       # Should behave as if #delete had been called with all +keys+ as argument.
+      #
+      # @author manveru
       def cache_clear
         clear
       end
@@ -49,6 +50,16 @@ module Innate
       #
       # If only one key was deleted, answer with the corresponding value.
       # If multiple keys were deleted, answer with an Array containing the values.
+      #
+      # NOTE: Due to differences in the underlying implementation in the
+      #       caches, some may not return the deleted value as it would mean
+      #       another lookup before deletion. This is the case for caches on
+      #       memcached or any database system.
+      #
+      # @param [Object] key the key for the value to delete
+      # @param [Object] keys any other keys to delete as well
+      # @return [Object Array nil]
+      # @author manveru
       def cache_delete(key, *keys)
         if keys.empty?
           if value = yield(key)
@@ -61,6 +72,12 @@ module Innate
 
       # Answer with the value associated with the +key+, +nil+ if not found or
       # expired.
+      #
+      # @param [Object] key     the key for which to fetch the value
+      # @param [Object] default will return this if no value was found
+      # @return [Object]
+      # @see Innate::Cache#fetch Innate::Cache#[]
+      # @author manveru
       def cache_fetch(key, default = nil)
         value = default
 
@@ -91,6 +108,11 @@ module Innate
       #   sleep 21
       #   Cache.value.fetch(:num) # => nil
       #
+      # @param [Object] key     the value is stored with this key
+      # @param [Object] value   the key points to this value
+      # @param [Hash]   options for now, only :ttl => Fixnum is used.
+      # @see Innate::Cache#store Innate::Cache#[]=
+      # @author manveru
       def cache_store(key, value, options = {})
         ttl = options[:ttl]
 
