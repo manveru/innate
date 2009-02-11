@@ -63,6 +63,8 @@ module Innate
         :view, '/view'
       o "Root directory for layout templates, relative to app subdir",
         :layout, '/layout'
+      o "Prefix of this application",
+        :prefix, '/'
     end
 
     sub :session do
