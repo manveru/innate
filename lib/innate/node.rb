@@ -128,7 +128,7 @@ module Innate
       return ancestral_trait[:provide] if formats.empty?
 
       hash = {}
-      formats.each{|pr, as| hash[pr.to_s] = as.to_s }
+      formats.each{|pr, as| hash[pr.to_s] = Array[*as].map{|a| a.to_s } }
       trait(:provide => hash)
 
       ancestral_trait[:provide]
@@ -415,8 +415,9 @@ module Innate
       return unless path.all?
 
       path = File.join(*path.map{|pa| pa.to_s.split('__') }.flatten)
-      exts = [provide[wish], *provide.keys].flatten.compact.uniq.join(',')
-      found = Dir["#{path}.{#{wish}.,#{wish},}{#{exts},}"].uniq
+      exts = (Array[provide[wish]] + provide.keys).flatten.compact.uniq.join(',')
+      glob = "#{path}.{#{wish}.,#{wish},}{#{exts},}"
+      found = Dir[glob].uniq
 
       if found.size > 1
         Log.warn("%d views found for %p | %p" % [found.size, path, wish])
@@ -425,6 +426,8 @@ module Innate
       found.first
     end
 
+    # Define a layout to use on this Node.
+    #
     # @param [String #to_s] name basename without extension of the layout to use
     # @param [Proc #call] block called on every dispatch if no name given
     # @return [Proc String] The assigned name or block
