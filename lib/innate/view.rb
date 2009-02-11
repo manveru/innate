@@ -12,7 +12,7 @@ module Innate
 
     def get(engine_or_ext)
       return unless engine_or_ext
-      eoe = engine_or_ext.to_s
+      eoe = Array[*engine_or_ext].first.to_s
 
       if klass = TEMP[eoe]
         return klass
