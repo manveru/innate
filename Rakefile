@@ -124,6 +124,7 @@ task :spec => :setup do
     Open3.popen3("#{RUBY} #{spec}") do |sin, sout, serr|
       out = sout.read
       err = serr.read
+      p :out => out, :err => err
 
       md = out.match(/(\d+) tests, (\d+) assertions, (\d+) failures, (\d+) errors/)
       tests, assertions, failures, errors = all = md.captures.map{|c| c.to_i }
