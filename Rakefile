@@ -151,6 +151,7 @@ task :setup do
     Gem.sources << github
 
     gem('rack', '>=0.9.1')
+    gem('bacon', '>=1.1.0')
 
     setup
   end
