@@ -56,6 +56,11 @@ module Innate
       from_action
     end
 
+    COPY_VARIABLES = '
+      STATE[:action_variables].each do |iv, value|
+        instance_variable_set("@#{iv}", value)
+      end'.strip.freeze
+
     # Copy Action#variables as instance variables into the given binding.
     #
     # This relies on Innate::STATE, so should be thread-safe and doesn't depend
@@ -73,10 +78,7 @@ module Innate
       STATE.sync do
         STATE[:action_variables] = self.variables
 
-        binding.eval('
-          STATE[:action_variables].each do |iv, value|
-            instance_variable_set("@#{iv}", value)
-          end')
+        eval(COPY_VARIABLES, binding)
 
         STATE[:action_variables] = nil
       end
