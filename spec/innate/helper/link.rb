@@ -54,6 +54,12 @@ describe Innate::Helper::Link do
       Two.route('/foo/bar', :a => :b).should == URI('/two/foo/bar?a=b')
       Two.route(:foo, :bar, :a => :b).should == URI('/two/foo/bar?a=b')
     end
+
+    should 'prefix the links as defined in the options' do
+      Innate.options.app.prefix = '/bar'
+      One.route('/foo').should == URI('/bar/foo')
+      Innate.options.app.prefix = '/'
+    end
   end
 
   describe '#anchor' do
