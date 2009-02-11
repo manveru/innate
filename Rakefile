@@ -112,6 +112,7 @@ task :spec => :setup do
   specs = Dir['spec/{innate,example}/**/*.rb']
   specs.delete_if{|f| f =~ /cache\/common\.rb/ }
 
+  some_failed = false
   total = specs.size
   len = specs.sort.last.size
   left_format = "%4d/%d: %-#{len + 11}s"
@@ -129,6 +130,7 @@ task :spec => :setup do
       tests, assertions, failures, errors = all = md.captures.map{|c| c.to_i }
 
       if failures + errors > 0
+        some_failed = true
         puts((red % "%5d tests, %d assertions, %d failures, %d errors") % all)
         puts "", out, err, ""
       else
@@ -136,6 +138,8 @@ task :spec => :setup do
       end
     end
   end
+
+  exit 1 if some_failed
 end
 
 desc 'Generate YARD documentation'
