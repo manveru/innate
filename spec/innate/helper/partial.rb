@@ -35,6 +35,14 @@ class SpecHelperPartial
   end
 end
 
+class SpecHelperPartialWithLayout < SpecHelperPartial
+  map '/with_layout'
+  layout 'layout'
+  def layout 
+    '<h1>with layout</h1><%= @content %>'
+  end
+end
+
 describe Innate::Helper::Partial do
   behaves_like :mock
 
@@ -60,5 +68,9 @@ describe Innate::Helper::Partial do
 
   should 'not require file extension' do
     get('/without_ext').body.should == 'Title'
+  end
+
+  should 'render template with layout' do
+    get('/with_layout/without_ext').body.should == '<h1>with layout</h1>Title'
   end
 end

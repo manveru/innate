@@ -75,6 +75,7 @@ module Innate
         ext = ext[1..-1]
 
         action = Innate::Current.action.dup
+        action.layout    = nil
         action.view      = action.node.find_view(basename, ext)
         action.method    = action.node.find_method(basename, action.params)
         action.variables = action.variables.merge(variables)
