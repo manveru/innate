@@ -1,7 +1,6 @@
 require 'spec/helper'
 
 Innate.options.app.root = File.dirname(__FILE__)
-
 class SpecHelperPartial
   Innate.node '/'
 
@@ -31,13 +30,15 @@ class SpecHelperPartial
   end
 
   def without_ext
-    render_template('title')
+    render_template('partial')
   end
 end
 
 class SpecHelperPartialWithLayout < SpecHelperPartial
-  map '/with_layout'
-  layout 'layout'
+  Innate.node '/with_layout'
+  layout('layout')
+  view_root '/'
+
   def layout 
     '<h1>with layout</h1><%= @content %>'
   end
@@ -67,10 +68,10 @@ describe Innate::Helper::Partial do
   end
 
   should 'not require file extension' do
-    get('/without_ext').body.should == 'Title'
+    get('/without_ext').body.should == "From Partial \n"
   end
 
   should 'render template with layout' do
-    get('/with_layout/without_ext').body.should == '<h1>with layout</h1>Title'
+    get('/with_layout/without_ext').body.should == "<h1>with layout</h1>From Partial \n"
   end
 end
