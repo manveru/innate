@@ -216,6 +216,8 @@ module Innate
         return dir if file == "start.rb"
       end
 
+      Log.warn("Couldn't find your application root, see Innate#go_figure_root")
+
       return nil
     end
 
