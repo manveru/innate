@@ -72,15 +72,15 @@ module Innate
 
         ext = File.extname(path)
         basename = File.basename(path, ext)
-        ext = ext[1..-1]
-
+        ext = ext[1..-1] || action.node.provide[action.wish].to_s
+        
         action = Innate::Current.action.dup
         action.layout    = nil
         action.view      = action.node.find_view(basename, ext)
         action.method    = action.node.find_method(basename, action.params)
         action.variables = action.variables.merge(variables)
         action.sync_variables(action)
-
+        
         action.call
       end
 
