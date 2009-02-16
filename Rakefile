@@ -7,6 +7,7 @@ require 'pp'
 INNATE_VERSION = Date.today.strftime("%Y.%m.%d")
 
 task :default => [:spec]
+task :publish => [:ydoc]
 
 CLEAN.include('*coverage*')
 
@@ -145,6 +146,18 @@ end
 desc 'Generate YARD documentation'
 task :ydoc do
   sh('yardoc -o ydoc -r README.md')
+end
+
+begin
+  require 'grancher/task'
+
+  Grancher::Task.new do |g|
+    g.branch = 'gh-pages'
+    g.message = 'Updated website'
+    g.directory 'ydoc', 'doc'
+  end
+rescue LoadError
+  # oh well :)
 end
 
 desc 'install dependencies'
