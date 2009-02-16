@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Class: Innate::Cache::DRb</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section class Innate_Cache_DRb">
+  <h1 class="title">Class: Innate::Cache::DRb</h1>
+  <div class="section mixins">
+  <h1>Included Modules</h1>
+  <p><a href="API.html" title="Innate::Cache::API">Innate::Cache::API</a></p>
+</div><div class="section docstring">
+  <p>
+Cache utilizing a DRb server.
+</p>
+<p>
+You will need to run a corresponding DRb server to use this cache. The
+example below is using a normal Hash, but it is recommended to use a
+thread-safe alternative like SyncHash.
+</p>
+<p>
+Example for DRb server:
+</p>
+<pre class="code">
+  <span class='require identifier id'>require</span> <span class='string val'>'drb'</span>
+
+  <span class='URI constant id'>URI</span> <span class='assign token'>=</span> <span class='string val'>&quot;druby://127.0.0.1:9069&quot;</span>
+  <span class='CACHE constant id'>CACHE</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='$SAFE gvar id'>$SAFE</span> <span class='assign token'>=</span> <span class='integer val'>1</span> <span class='comment val'># disable eval and friends</span>
+
+  <span class='DRb constant id'>DRb</span><span class='dot token'>.</span><span class='start_service identifier id'>start_service</span><span class='lparen token'>(</span><span class='URI constant id'>URI</span><span class='comma token'>,</span> <span class='CACHE constant id'>CACHE</span><span class='rparen token'>)</span>
+  <span class='DRb constant id'>DRb</span><span class='dot token'>.</span><span class='thread identifier id'>thread</span><span class='dot token'>.</span><span class='join identifier id'>join</span>
+</pre>
+<p>
+Usage for all caches:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='cache identifier id'>cache</span><span class='dot token'>.</span><span class='default identifier id'>default</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='colon2 op'>::</span><span class='DRb constant id'>DRb</span>
+</pre>
+<p>
+Usage for sessions only:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='cache identifier id'>cache</span><span class='dot token'>.</span><span class='session identifier id'>session</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='colon2 op'>::</span><span class='DRb constant id'>DRb</span>
+</pre>
+
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="OPTIONS-constant">OPTIONS</dt>
+      <dd>{:address =&gt; '127.0.0.1', :port =&gt; 9069}</dd>
+    
+  </dl>
+</div>
+
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_clear-instance_method" title="#cache_clear">#cache_clear</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_delete-instance_method" title="#cache_delete">#cache_delete</a></span><span class='args'>(*args)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_fetch-instance_method" title="#cache_fetch">#cache_fetch</a></span><span class='args'>(*args)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_setup-instance_method" title="#cache_setup">#cache_setup</a></span><span class='args'>(*args)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_store-instance_method" title="#cache_store">#cache_store</a></span><span class='args'>(*args)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_clear</h3>
+</div><div id="cache_clear-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>cache_clear</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+41
+42
+43</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/drb.rb', line 41</span>
+
+<span class='def def kw'>def</span> <span class='cache_clear identifier id'>cache_clear</span>
+  <span class='@store ivar id'>@store</span><span class='dot token'>.</span><span class='clear identifier id'>clear</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_delete</h3>
+</div><div id="cache_delete-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>cache_delete</span><span class='args'>(*args)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+53
+54
+55</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/drb.rb', line 53</span>
+
+<span class='def def kw'>def</span> <span class='cache_delete identifier id'>cache_delete</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='super super kw'>super</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='bitor op'>|</span> <span class='@store ivar id'>@store</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_fetch</h3>
+</div><div id="cache_fetch-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>cache_fetch</span><span class='args'>(*args)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+49
+50
+51</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/drb.rb', line 49</span>
+
+<span class='def def kw'>def</span> <span class='cache_fetch identifier id'>cache_fetch</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='super super kw'>super</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='bitor op'>|</span> <span class='@store ivar id'>@store</span><span class='lbrack token'>[</span><span class='key identifier id'>key</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_setup</h3>
+</div><div id="cache_setup-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>cache_setup</span><span class='args'>(*args)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+36
+37
+38
+39</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/drb.rb', line 36</span>
+
+<span class='def def kw'>def</span> <span class='cache_setup identifier id'>cache_setup</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='address identifier id'>address</span><span class='comma token'>,</span> <span class='port identifier id'>port</span> <span class='assign token'>=</span> <span class='OPTIONS constant id'>OPTIONS</span><span class='dot token'>.</span><span class='values_at identifier id'>values_at</span><span class='lparen token'>(</span><span class='symbol val'>:address</span><span class='comma token'>,</span> <span class='symbol val'>:port</span><span class='rparen token'>)</span>
+  <span class='@store ivar id'>@store</span> <span class='assign token'>=</span> <span class='DRbObject constant id'>DRbObject</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='dstring node'>&quot;druby://#{address}:#{port}&quot;</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_store</h3>
+</div><div id="cache_store-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>cache_store</span><span class='args'>(*args)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+45
+46
+47</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/drb.rb', line 45</span>
+
+<span class='def def kw'>def</span> <span class='cache_store identifier id'>cache_store</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='super super kw'>super</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='bitor op'>|</span> <span class='@store ivar id'>@store</span><span class='lbrack token'>[</span><span class='key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='value identifier id'>value</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

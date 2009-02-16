@@ -1,0 +1,1014 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::SingletonMethods</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_SingletonMethods">
+  <h1 class="title">Module: Innate::SingletonMethods</h1>
+  <div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#call-instance_method" title="#call">#call</a></span><span class='args'>(env, mw = :innate)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Pass the <tt>env</tt> to this method and it will be sent to the appropriate
+middleware called <tt>mw</tt>.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#caller_lines-instance_method" title="#caller_lines">#caller_lines</a></span><span class='args'>(backtrace)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+yields <tt>file</tt>, <tt>line</tt>, <tt>method</tt>.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#go_figure_root-instance_method" title="#go_figure_root">#go_figure_root</a></span><span class='args'>(options, backtrace)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Innate can be started by:.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#middleware-instance_method" title="#middleware">#middleware</a></span><span class='args'>(name, &amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#middleware%21-instance_method" title="#middleware!">#middleware!</a></span><span class='args'>(name, &amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#node-instance_method" title="#node">#node</a></span><span class='args'>(location, node = nil)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Convenience method to include the Node module into <tt>node</tt> and map to
+a <tt>location</tt>.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Class</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#node_from_backtrace-instance_method" title="#node_from_backtrace">#node_from_backtrace</a></span><span class='args'>(backtrace)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Cheap hack that works reasonably well to avoid passing self all the time to
+Innate::node We simply search the file that Innate::node was called in for
+the first class definition above the line that Innate::node was called and
+look up the constant.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#setup_dependencies-instance_method" title="#setup_dependencies">#setup_dependencies</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#setup_middleware-instance_method" title="#setup_middleware">#setup_middleware</a></span><span class='args'>(&amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Set the default middleware for applications.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#start-instance_method" title="#start">#start</a></span><span class='args'>(parameter = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#start%21-instance_method" title="#start!">#start!</a></span><span class='args'>(options = Innate.options)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#stop-instance_method" title="#stop">#stop</a></span><span class='args'>(wait = 3)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>call</h3>
+</div><div id="call-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>call</span><span class='args'>(env, mw = :innate)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Pass the <tt>env</tt> to this method and it will be sent to the appropriate
+middleware called <tt>mw</tt>. Tries to avoid recursion.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+182
+183
+184
+185
+186
+187
+188
+189
+190</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 182</span>
+
+<span class='def def kw'>def</span> <span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='env identifier id'>env</span><span class='comma token'>,</span> <span class='mw identifier id'>mw</span> <span class='assign token'>=</span> <span class='symbol val'>:innate</span><span class='rparen token'>)</span>
+  <span class='this_file identifier id'>this_file</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='__FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span>
+  <span class='count identifier id'>count</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+  <span class='caller_lines identifier id'>caller_lines</span><span class='lparen token'>(</span><span class='caller identifier id'>caller</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='f identifier id'>f</span><span class='comma token'>,</span> <span class='l identifier id'>l</span><span class='comma token'>,</span> <span class='m identifier id'>m</span><span class='bitor op'>|</span> <span class='count identifier id'>count</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span> <span class='if if_mod kw'>if</span> <span class='f identifier id'>f</span> <span class='eq op'>==</span> <span class='this_file identifier id'>this_file</span> <span class='rbrace token'>}</span>
+
+  <span class='raise identifier id'>raise</span><span class='lparen token'>(</span><span class='string val'>&quot;Recursive loop in Innate::call&quot;</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>10</span>
+
+  <span class='middleware identifier id'>middleware</span><span class='lparen token'>(</span><span class='mw identifier id'>mw</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='env identifier id'>env</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>caller_lines</h3>
+</div><div id="caller_lines-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>caller_lines</span><span class='args'>(backtrace)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+yields <tt>file</tt>, <tt>line</tt>, <tt>method</tt>
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 225</span>
+
+<span class='def def kw'>def</span> <span class='caller_lines identifier id'>caller_lines</span><span class='lparen token'>(</span><span class='backtrace identifier id'>backtrace</span><span class='rparen token'>)</span>
+  <span class='backtrace identifier id'>backtrace</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='line identifier id'>line</span><span class='bitor op'>|</span>
+    <span class='if if kw'>if</span> <span class='line identifier id'>line</span> <span class='match op'>=~</span> <span class='regexp val'>/^(.*?):(\d+):in `(.*)'$/</span>
+      <span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='line identifier id'>line</span><span class='comma token'>,</span> <span class='method identifier id'>method</span> <span class='assign token'>=</span> <span class='$1 nth_ref id'>$1</span><span class='comma token'>,</span> <span class='$2 nth_ref id'>$2</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='$3 nth_ref id'>$3</span>
+    <span class='elsif elsif kw'>elsif</span> <span class='line identifier id'>line</span> <span class='match op'>=~</span> <span class='regexp val'>/^(.*?):(\d+)$/</span>
+      <span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='line identifier id'>line</span><span class='comma token'>,</span> <span class='method identifier id'>method</span> <span class='assign token'>=</span> <span class='$1 nth_ref id'>$1</span><span class='comma token'>,</span> <span class='$2 nth_ref id'>$2</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span><span class='comma token'>,</span> <span class='nil nil kw'>nil</span>
+    <span class='end end kw'>end</span>
+
+    <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='line identifier id'>line</span><span class='comma token'>,</span> <span class='method identifier id'>method</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='file identifier id'>file</span> <span class='and and kw'>and</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='file? fid id'>file?</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>go_figure_root</h3>
+</div><div id="go_figure_root-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>go_figure_root</span><span class='args'>(options, backtrace)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Innate can be started by:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='start identifier id'>start</span> <span class='symbol val'>:file</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='__FILE__ __file__ kw'>__FILE__</span>
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='start identifier id'>start</span> <span class='symbol val'>:root</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'/path/to/here'</span>
+</pre>
+<p>
+In case these options are not passed we will try to figure out a file named
+`start.rb` in the backtrace and use the directory it resides in.
+</p>
+<p>
+TODO: better documentation and nice defaults, don&#8217;t want to rely on a
+</p>
+<pre class="code">
+      <span class='filename identifier id'>filename</span><span class='comma token'>,</span> <span class='bad identifier id'>bad</span> <span class='mojo identifier id'>mojo</span><span class='dot token'>.</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 203</span>
+
+<span class='def def kw'>def</span> <span class='go_figure_root identifier id'>go_figure_root</span><span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='comma token'>,</span> <span class='backtrace identifier id'>backtrace</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='o_file identifier id'>o_file</span> <span class='assign token'>=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='colon op'>:</span><span class='file identifier id'>file</span><span class='rbrack token'>]</span>
+    <span class='return return kw'>return</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='o_file identifier id'>o_file</span><span class='rparen token'>)</span>
+  <span class='elsif elsif kw'>elsif</span> <span class='root identifier id'>root</span> <span class='assign token'>=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:root</span><span class='rbrack token'>]</span>
+    <span class='return return kw'>return</span> <span class='root identifier id'>root</span>
+  <span class='end end kw'>end</span>
+
+  <span class='pwd identifier id'>pwd</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='dot token'>.</span><span class='pwd identifier id'>pwd</span>
+
+  <span class='return return kw'>return</span> <span class='pwd identifier id'>pwd</span> <span class='if if_mod kw'>if</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='file? fid id'>file?</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='pwd identifier id'>pwd</span><span class='comma token'>,</span> <span class='string val'>'start.rb'</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+  <span class='caller_lines identifier id'>caller_lines</span><span class='lparen token'>(</span><span class='backtrace identifier id'>backtrace</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='line identifier id'>line</span><span class='comma token'>,</span> <span class='method identifier id'>method</span><span class='bitor op'>|</span>
+    <span class='dir identifier id'>dir</span><span class='comma token'>,</span> <span class='file identifier id'>file</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='dir identifier id'>dir</span> <span class='if if_mod kw'>if</span> <span class='file identifier id'>file</span> <span class='eq op'>==</span> <span class='string val'>&quot;start.rb&quot;</span>
+  <span class='end end kw'>end</span>
+
+  <span class='Log constant id'>Log</span><span class='dot token'>.</span><span class='warn identifier id'>warn</span><span class='lparen token'>(</span><span class='string val'>&quot;Couldn't find your application root, see Innate#go_figure_root&quot;</span><span class='rparen token'>)</span>
+
+  <span class='return return kw'>return</span> <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>middleware</h3>
+</div><div id="middleware-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>middleware</span><span class='args'>(name, &amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+157
+158
+159</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 157</span>
+
+<span class='def def kw'>def</span> <span class='middleware identifier id'>middleware</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='MiddlewareCompiler constant id'>MiddlewareCompiler</span><span class='dot token'>.</span><span class='build identifier id'>build</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>middleware!</h3>
+</div><div id="middleware%21-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>middleware!</span><span class='args'>(name, &amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+161
+162
+163</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 161</span>
+
+<span class='def def kw'>def</span> <span class='middleware! fid id'>middleware!</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='MiddlewareCompiler constant id'>MiddlewareCompiler</span><span class='dot token'>.</span><span class='build! fid id'>build!</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>node</h3>
+</div><div id="node-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Class</tt></span>
+    <span class='name'>node</span><span class='args'>(location, node = nil)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Convenience method to include the Node module into <tt>node</tt> and map to
+a <tt>location</tt>.
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>#to_s</tt>]</span>
+        <span class='name'>location</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+where the node is mapped to
+</p>
+</span>
+      </dd>
+    
+  
+    
+      <dt>
+        <span class='type'>[<tt>Node nil</tt>]</span>
+        <span class='name'>node</span>
+        
+          <em class="default">(defaults to: <tt>nil</tt>)</em>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+the class that will be a node, will try to look it up if not given
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Class</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+the node argument or detected class will be returned
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt>Innate::node_from_backtrace</tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+537
+538
+539
+540
+541
+542</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 537</span>
+
+<span class='def def kw'>def</span> <span class='node identifier id'>node</span><span class='lparen token'>(</span><span class='location identifier id'>location</span><span class='comma token'>,</span> <span class='node identifier id'>node</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='node identifier id'>node</span> <span class='opasgn op'>||=</span> <span class='node_from_backtrace identifier id'>node_from_backtrace</span><span class='lparen token'>(</span><span class='caller identifier id'>caller</span><span class='rparen token'>)</span>
+  <span class='node identifier id'>node</span><span class='dot token'>.</span><span class='__send__ identifier id'>__send__</span><span class='lparen token'>(</span><span class='symbol val'>:include</span><span class='comma token'>,</span> <span class='Node constant id'>Node</span><span class='rparen token'>)</span>
+  <span class='node identifier id'>node</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lparen token'>(</span><span class='location identifier id'>location</span><span class='rparen token'>)</span>
+  <span class='node identifier id'>node</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>node_from_backtrace</h3>
+</div><div id="node_from_backtrace-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>node_from_backtrace</span><span class='args'>(backtrace)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Cheap hack that works reasonably well to avoid passing self all the time to
+Innate::node We simply search the file that Innate::node was called in for
+the first class definition above the line that Innate::node was called and
+look up the constant. If there are any problems with this (filenames
+containing &#8217;:&#8217; or metaprogramming) just pass the node parameter
+explicitly to Innate::node
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>Array #[]</tt>]</span>
+        <span class='name'>backtrace</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'></span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt>Innate::node</tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+555
+556
+557
+558
+559
+560</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 555</span>
+
+<span class='def def kw'>def</span> <span class='node_from_backtrace identifier id'>node_from_backtrace</span><span class='lparen token'>(</span><span class='backtrace identifier id'>backtrace</span><span class='rparen token'>)</span>
+  <span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='line identifier id'>line</span> <span class='assign token'>=</span> <span class='backtrace identifier id'>backtrace</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>':'</span><span class='comma token'>,</span> <span class='integer val'>2</span><span class='rparen token'>)</span>
+  <span class='line identifier id'>line</span> <span class='assign token'>=</span> <span class='line identifier id'>line</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span>
+  <span class='File constant id'>File</span><span class='dot token'>.</span><span class='readlines identifier id'>readlines</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='line identifier id'>line</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='line identifier id'>line</span><span class='bitor op'>|</span> <span class='line identifier id'>line</span> <span class='match op'>=~</span> <span class='regexp val'>/^\s*class\s+(\S+)/</span> <span class='rbrace token'>}</span>
+  <span class='const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='$1 nth_ref id'>$1</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>setup_dependencies</h3>
+</div><div id="setup_dependencies-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>setup_dependencies</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+165
+166
+167</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 165</span>
+
+<span class='def def kw'>def</span> <span class='setup_dependencies identifier id'>setup_dependencies</span>
+  <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:setup</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='setup identifier id'>setup</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>setup_middleware</h3>
+</div><div id="setup_middleware-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>setup_middleware</span><span class='args'>(&amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Set the default middleware for applications.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+170
+171
+172
+173
+174
+175
+176</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 170</span>
+
+<span class='def def kw'>def</span> <span class='setup_middleware identifier id'>setup_middleware</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='mode identifier id'>mode</span> <span class='assign token'>=</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='mode identifier id'>mode</span>
+  <span class='block identifier id'>block</span> <span class='opasgn op'>||=</span> <span class='MIDDLEWARE constant id'>MIDDLEWARE</span><span class='lbrack token'>[</span><span class='mode identifier id'>mode</span><span class='rbrack token'>]</span>
+  <span class='raise identifier id'>raise</span><span class='lparen token'>(</span><span class='string val'>&quot;No Middleware for mode: %p found&quot;</span> <span class='mod op'>%</span> <span class='mode identifier id'>mode</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='block identifier id'>block</span>
+
+  <span class='middleware identifier id'>middleware</span><span class='lparen token'>(</span><span class='symbol val'>:innate</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>start</h3>
+</div><div id="start-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>start</span><span class='args'>(parameter = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 130</span>
+
+<span class='def def kw'>def</span> <span class='start identifier id'>start</span><span class='lparen token'>(</span><span class='parameter identifier id'>parameter</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:app</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:root</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='go_figure_root identifier id'>go_figure_root</span><span class='lparen token'>(</span><span class='parameter identifier id'>parameter</span><span class='comma token'>,</span> <span class='caller identifier id'>caller</span><span class='rparen token'>)</span>
+  <span class='parameter identifier id'>parameter</span><span class='dot token'>.</span><span class='reject! fid id'>reject!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='comma token'>,</span> <span class='v identifier id'>v</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='symbol val'>:root</span><span class='comma token'>,</span> <span class='symbol val'>:file</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='k identifier id'>k</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='merge! fid id'>merge!</span><span class='lparen token'>(</span><span class='parameter identifier id'>parameter</span><span class='rparen token'>)</span>
+
+  <span class='setup_dependencies identifier id'>setup_dependencies</span>
+  <span class='setup_middleware identifier id'>setup_middleware</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+
+  <span class='return return kw'>return</span> <span class='if if_mod kw'>if</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='started identifier id'>started</span>
+  <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='started identifier id'>started</span> <span class='assign token'>=</span> <span class='true true kw'>true</span>
+
+  <span class='trap identifier id'>trap</span><span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:trap</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='stop identifier id'>stop</span><span class='lparen token'>(</span><span class='integer val'>10</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span> <span class='if if_mod kw'>if</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:trap</span><span class='rbrack token'>]</span>
+
+  <span class='start! fid id'>start!</span><span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>start!</h3>
+</div><div id="start%21-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>start!</span><span class='args'>(options = Innate.options)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+146
+147
+148</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 146</span>
+
+<span class='def def kw'>def</span> <span class='start! fid id'>start!</span><span class='lparen token'>(</span><span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='rparen token'>)</span>
+  <span class='Adapter constant id'>Adapter</span><span class='dot token'>.</span><span class='start identifier id'>start</span><span class='lparen token'>(</span><span class='middleware identifier id'>middleware</span><span class='lparen token'>(</span><span class='symbol val'>:innate</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>stop</h3>
+</div><div id="stop-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>stop</span><span class='args'>(wait = 3)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+150
+151
+152
+153
+154
+155</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate.rb', line 150</span>
+
+<span class='def def kw'>def</span> <span class='stop identifier id'>stop</span><span class='lparen token'>(</span><span class='wait identifier id'>wait</span> <span class='assign token'>=</span> <span class='integer val'>3</span><span class='rparen token'>)</span>
+  <span class='Log constant id'>Log</span><span class='dot token'>.</span><span class='info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Shutdown Innate within #{wait} seconds&quot;</span><span class='rparen token'>)</span>
+  <span class='Timeout constant id'>Timeout</span><span class='dot token'>.</span><span class='timeout identifier id'>timeout</span><span class='lparen token'>(</span><span class='wait identifier id'>wait</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='exit identifier id'>exit</span> <span class='rbrace token'>}</span>
+<span class='ensure ensure kw'>ensure</span>
+  <span class='exit! fid id'>exit!</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

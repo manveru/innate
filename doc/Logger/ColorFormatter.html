@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Class: Logger::ColorFormatter</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section class Logger_ColorFormatter">
+  <h1 class="title">Class: Logger::ColorFormatter</h1>
+  <div class="section inheritance">
+  <ul>
+  <li>Formatter</li><ul><li>Logger::ColorFormatter</li>
+  </ul></ul>
+</div><div class="section docstring">
+  <p>
+Extended Formatter that supports ANSI colors.
+</p>
+
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="COLOR_CODE-constant">COLOR_CODE</dt>
+      <dd>{
+  :reset =&gt; 0, :bold =&gt; 1, :dark =&gt; 2, :underline =&gt; 4, :blink =&gt; 5,
+  :negative =&gt; 7, :black =&gt; 30, :red =&gt; 31, :green =&gt; 32, :yellow =&gt; 33,
+  :blue =&gt; 34, :magenta =&gt; 35, :cyan =&gt; 36, :white =&gt; 37,
+}</dd>
+    
+      <dt id="FORMAT_LINE-constant">FORMAT_LINE</dt>
+      <dd>&quot;%s [%s $%d] %5s | %s: %s\n&quot;</dd>
+    
+      <dt id="FORMAT_TIME-constant">FORMAT_TIME</dt>
+      <dd>&quot;%Y-%m-%d %H:%M:%S&quot;</dd>
+    
+      <dt id="LEVEL_COLOR-constant">LEVEL_COLOR</dt>
+      <dd>{
+  'DEBUG'   =&gt; :blue,
+  'INFO'    =&gt; :white,
+  'WARN'    =&gt; :yellow,
+  'ERROR'   =&gt; :red,
+  'FATAL'   =&gt; :red,
+  'UNKNOWN' =&gt; :green,
+}</dd>
+    
+  </dl>
+</div>
+
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#color%3F-class_method" title="color?">color?</a></span><span class='args'>(logdev)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#call-instance_method" title="#call">#call</a></span><span class='args'>(severity, time, program, message)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#colorize-instance_method" title="#colorize">#colorize</a></span><span class='args'>(string, severity)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#format_time-instance_method" title="#format_time">#format_time</a></span><span class='args'>(time)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>color?</h3>
+</div><div id="color%3F-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>color?</span><span class='args'>(logdev)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+39
+40
+41</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/log/color_formatter.rb', line 39</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='color? fid id'>color?</span><span class='lparen token'>(</span><span class='logdev identifier id'>logdev</span><span class='rparen token'>)</span>
+  <span class='logdev identifier id'>logdev</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:tty?</span><span class='rparen token'>)</span> <span class='and and kw'>and</span> <span class='logdev identifier id'>logdev</span><span class='dot token'>.</span><span class='tty? fid id'>tty?</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>call</h3>
+</div><div id="call-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>call</span><span class='args'>(severity, time, program, message)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+22
+23
+24
+25
+26
+27
+28
+29</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/log/color_formatter.rb', line 22</span>
+
+<span class='def def kw'>def</span> <span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='severity identifier id'>severity</span><span class='comma token'>,</span> <span class='time identifier id'>time</span><span class='comma token'>,</span> <span class='program identifier id'>program</span><span class='comma token'>,</span> <span class='message identifier id'>message</span><span class='rparen token'>)</span>
+  <span class='hint identifier id'>hint</span> <span class='assign token'>=</span> <span class='severity identifier id'>severity</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='comma token'>,</span><span class='integer val'>1</span><span class='rbrack token'>]</span>
+  <span class='time identifier id'>time</span> <span class='assign token'>=</span> <span class='format_time identifier id'>format_time</span><span class='lparen token'>(</span><span class='time identifier id'>time</span><span class='rparen token'>)</span>
+  <span class='pid identifier id'>pid</span> <span class='assign token'>=</span> <span class='$$ gvar id'>$$</span>
+  <span class='string identifier id'>string</span> <span class='assign token'>=</span> <span class='colorize identifier id'>colorize</span><span class='lparen token'>(</span><span class='msg2str identifier id'>msg2str</span><span class='lparen token'>(</span><span class='message identifier id'>message</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='severity identifier id'>severity</span><span class='rparen token'>)</span>
+
+  <span class='FORMAT_LINE constant id'>FORMAT_LINE</span> <span class='mod op'>%</span> <span class='lbrack token'>[</span><span class='hint identifier id'>hint</span><span class='comma token'>,</span> <span class='time identifier id'>time</span><span class='comma token'>,</span> <span class='pid identifier id'>pid</span><span class='comma token'>,</span> <span class='severity identifier id'>severity</span><span class='comma token'>,</span> <span class='program identifier id'>program</span><span class='comma token'>,</span> <span class='string identifier id'>string</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>colorize</h3>
+</div><div id="colorize-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>colorize</span><span class='args'>(string, severity)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+35
+36
+37</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/log/color_formatter.rb', line 35</span>
+
+<span class='def def kw'>def</span> <span class='colorize identifier id'>colorize</span><span class='lparen token'>(</span><span class='string identifier id'>string</span><span class='comma token'>,</span> <span class='severity identifier id'>severity</span><span class='rparen token'>)</span>
+  <span class='dstring node'>&quot;\e[#{COLOR_CODE[LEVEL_COLOR[severity]]}m#{string}\e[0m&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>format_time</h3>
+</div><div id="format_time-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>format_time</span><span class='args'>(time)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+31
+32
+33</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/log/color_formatter.rb', line 31</span>
+
+<span class='def def kw'>def</span> <span class='format_time identifier id'>format_time</span><span class='lparen token'>(</span><span class='time identifier id'>time</span><span class='rparen token'>)</span>
+  <span class='time identifier id'>time</span><span class='dot token'>.</span><span class='strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='FORMAT_TIME constant id'>FORMAT_TIME</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

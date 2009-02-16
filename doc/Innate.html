@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate">
+  <h1 class="title">Module: Innate</h1>
+  <div class="section docstring">
+  <p>
+What can be done with fewer assumptions is done in vain with more. &#8212;
+William of Ockham (ca. 1285-1349)
+</p>
+<p>
+Name-space of Innate, just about everything goes in here.
+</p>
+<p>
+Exceptions are:
+</p>
+<ul>
+<li>Logger::ColorFormatter
+
+</li>
+<li>In 1.8, we define ::BasicObject
+
+</li>
+<li>In 1.9, we define ::String#each
+
+</li>
+</ul>
+
+</div><div class="section attributes">
+  <h1>Attributes</h1>
+
+  
+    <div class="class">
+      <h2>Class Attributes</h2>
+      <table>
+      
+        <tr>
+          <th class="name">options</td>
+          <td class="readwrite">
+            [<span id='options-class_method'>R</span><span id='options%3D-class_method'>W</span>] 
+          </td>
+          <td class="visibility">
+            public
+          </td>
+          <td class="docstring">
+            <p>
+Sets the attribute <tt>options</tt>.
+</p>
+
+            
+          </td>
+        </tr>
+      
+      </table>
+    </div>
+  
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="ACTION_MEMBERS-constant">ACTION_MEMBERS</dt>
+      <dd>[ :node, :method, :params, :view, :layout, :instance, :exts,                     :wish, :options, :variables, :value, :view_value, :name ]</dd>
+    
+      <dt id="Log-constant">Log</dt>
+      <dd>LogHub.new(logger)</dd>
+    
+      <dt id="MIDDLEWARE-constant">MIDDLEWARE</dt>
+      <dd>{
+  :dev =&gt; lambda{|m|
+    m.use(Rack::Lint, Rack::CommonLogger, Rack::ShowExceptions,
+          Rack::ShowStatus, Rack::ConditionalGet, Rack::Head, Rack::Reloader)
+    m.innate },
+  :live =&gt; lambda{|m|
+    m.use(Rack::CommonLogger, Rack::ShowStatus, Rack::ConditionalGet,
+          Rack::Head)
+    m.innate }
+}</dd>
+    
+      <dt id="ROOT-constant">ROOT</dt>
+      <dd>File.expand_path(File.dirname(__FILE__))</dd>
+    
+      <dt id="VERSION-constant">VERSION</dt>
+      <dd>&quot;2009.02.06&quot;</dd>
+    
+  </dl>
+</div>
+
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#setup-class_method" title="setup">setup</a></span><span class='args'>(&amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#sync-class_method" title="sync">sync</a></span><span class='args'>(&amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Log.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#at-instance_method" title="#at">#at</a></span><span class='args'>(location)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Answer with object at <tt>location</tt>.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#map-instance_method" title="#map">#map</a></span><span class='args'>(location, object = nil, &amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Maps the given <tt>object</tt> or <tt>block</tt> to <tt>location</tt>,
+<tt>object</tt> must respond to #call in order to be of any use.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#to-instance_method" title="#to">#to</a></span><span class='args'>(object)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Returns one of the paths the given <tt>object</tt> is mapped to.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>setup</h3>
+</div><div id="setup-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>setup</span><span class='args'>(&amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+2
+3
+4</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/setup.rb', line 2</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='setup identifier id'>setup</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='Setup constant id'>Setup</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>sync</h3>
+</div><div id="sync-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>sync</span><span class='args'>(&amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Log.debug(&quot;Innate keeps state with %p&quot; % STATE.class)
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+19
+20
+21</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/state.rb', line 19</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='sync identifier id'>sync</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='STATE constant id'>STATE</span><span class='dot token'>.</span><span class='sync identifier id'>sync</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>at</h3>
+</div><div id="at-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>at</span><span class='args'>(location)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Answer with object at <tt>location</tt>.
+</p>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Hello constant id'>Hello</span>
+    <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span>
+    <span class='map identifier id'>map</span> <span class='string val'>'/'</span>
+  <span class='end end kw'>end</span>
+
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='at identifier id'>at</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span> <span class='comment val'># =&gt; Hello</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+64
+65
+66</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/dynamap.rb', line 64</span>
+
+<span class='def def kw'>def</span> <span class='at identifier id'>at</span><span class='lparen token'>(</span><span class='location identifier id'>location</span><span class='rparen token'>)</span>
+  <span class='DynaMap constant id'>DynaMap</span><span class='colon2 op'>::</span><span class='MAP constant id'>MAP</span><span class='lbrack token'>[</span><span class='location identifier id'>location</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>map</h3>
+</div><div id="map-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>map</span><span class='args'>(location, object = nil, &amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Maps the given <tt>object</tt> or <tt>block</tt> to <tt>location</tt>,
+<tt>object</tt> must respond to #call in order to be of any use.
+</p>
+<p>
+Usage with passed <tt>object</tt>:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='comma token'>,</span> <span class='lambda identifier id'>lambda</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='env identifier id'>env</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='integer val'>200</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='string val'>&quot;Hello, World&quot;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='at identifier id'>at</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='comment val'># =&gt; [200, {}, &quot;Hello, World&quot;]</span>
+</pre>
+<p>
+Usage with passed <tt>block</tt>:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='env identifier id'>env</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='integer val'>200</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>'Hello, World!'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='at identifier id'>at</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+50
+51
+52</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/dynamap.rb', line 50</span>
+
+<span class='def def kw'>def</span> <span class='map identifier id'>map</span><span class='lparen token'>(</span><span class='location identifier id'>location</span><span class='comma token'>,</span> <span class='object identifier id'>object</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='DynaMap constant id'>DynaMap</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lparen token'>(</span><span class='location identifier id'>location</span><span class='comma token'>,</span> <span class='object identifier id'>object</span> <span class='orop op'>||</span> <span class='block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>to</h3>
+</div><div id="to-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>to</span><span class='args'>(object)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Returns one of the paths the given <tt>object</tt> is mapped to.
+</p>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Hello constant id'>Hello</span>
+    <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span>
+    <span class='map identifier id'>map</span> <span class='string val'>'/'</span>
+  <span class='end end kw'>end</span>
+
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='to identifier id'>to</span><span class='lparen token'>(</span><span class='Hello constant id'>Hello</span><span class='rparen token'>)</span> <span class='comment val'># =&gt; '/'</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+78
+79
+80</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/dynamap.rb', line 78</span>
+
+<span class='def def kw'>def</span> <span class='to identifier id'>to</span><span class='lparen token'>(</span><span class='object identifier id'>object</span><span class='rparen token'>)</span>
+  <span class='DynaMap constant id'>DynaMap</span><span class='colon2 op'>::</span><span class='MAP constant id'>MAP</span><span class='dot token'>.</span><span class='invert identifier id'>invert</span><span class='lbrack token'>[</span><span class='object identifier id'>object</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

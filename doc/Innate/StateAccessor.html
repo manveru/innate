@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::StateAccessor</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_StateAccessor">
+  <h1 class="title">Module: Innate::StateAccessor</h1>
+  <div class="section docstring">
+  <p>
+Simplify accessing STATE variables.
+</p>
+<p>
+Example:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Foo constant id'>Foo</span>
+    <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='StateAccessor constant id'>StateAccessor</span>
+    <span class='state_accessor identifier id'>state_accessor</span> <span class='symbol val'>:session</span>
+
+    <span class='def def kw'>def</span> <span class='calculate identifier id'>calculate</span>
+      <span class='session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:num1</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:num2</span><span class='rbrack token'>]</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+Foo#calculate can now be called from anywhere in your application and it
+will have direct access to the session in the current request/response
+cycle in a thread-safe way without the need to explicitly pass the session
+along.
+</p>
+
+</div><div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#each-class_method" title="each">each</a></span><span class='args'>(*names)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Iterate over the names and yield accordingly.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#state_accessor-instance_method" title="#state_accessor">#state_accessor</a></span><span class='args'>(*names, &amp;initializer)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Combined state_writer and state_reader.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#state_reader-instance_method" title="#state_reader">#state_reader</a></span><span class='args'>(*names, &amp;initializer)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Reader accessor for STATE[key].
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#state_writer-instance_method" title="#state_writer">#state_writer</a></span><span class='args'>(*names)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Writer accessor to STATE[key]=.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>each</h3>
+</div><div id="each-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>each</span><span class='args'>(*names)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Iterate over the names and yield accordingly. names are either objects
+responding to #to_sym or hashes.
+</p>
+<p>
+It&#8217;s only used within this module to make the code readable.
+</p>
+<p>
+Used below.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/state/accessor.rb', line 29</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='rparen token'>)</span>
+  <span class='names identifier id'>names</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='bitor op'>|</span>
+    <span class='if if kw'>if</span> <span class='name identifier id'>name</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='colon op'>:</span><span class='to_hash identifier id'>to_hash</span><span class='rparen token'>)</span>
+      <span class='name identifier id'>name</span><span class='dot token'>.</span><span class='to_hash identifier id'>to_hash</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='meth identifier id'>meth</span><span class='bitor op'>|</span>
+        <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='meth identifier id'>meth</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='else else kw'>else</span>
+      <span class='key identifier id'>key</span> <span class='assign token'>=</span> <span class='meth identifier id'>meth</span> <span class='assign token'>=</span> <span class='name identifier id'>name</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
+      <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='meth identifier id'>meth</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>state_accessor</h3>
+</div><div id="state_accessor-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>state_accessor</span><span class='args'>(*names, &amp;initializer)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Combined state_writer and state_reader. <tt>initializer</tt> is a block
+that may be given and its result will be the new value in case the method
+created by state_reader was never called before and the value wasn&#8217;t
+set before.
+</p>
+<p>
+Example:
+</p>
+<pre class="code">
+  <span class='state_accessor identifier id'>state_accessor</span><span class='lparen token'>(</span><span class='symbol val'>:session</span><span class='rparen token'>)</span>
+  <span class='state_accessor identifier id'>state_accessor</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+52
+53
+54
+55</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/state/accessor.rb', line 52</span>
+
+<span class='def def kw'>def</span> <span class='state_accessor identifier id'>state_accessor</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='initializer identifier id'>initializer</span><span class='rparen token'>)</span>
+  <span class='state_writer identifier id'>state_writer</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='rparen token'>)</span>
+  <span class='state_reader identifier id'>state_reader</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='initializer identifier id'>initializer</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>state_reader</h3>
+</div><div id="state_reader-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>state_reader</span><span class='args'>(*names, &amp;initializer)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Reader accessor for STATE[key]
+</p>
+<p>
+Example:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Foo constant id'>Foo</span>
+    <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='StateAccessor constant id'>StateAccessor</span>
+    <span class='state_reader identifier id'>state_reader</span><span class='lparen token'>(</span><span class='symbol val'>:session</span><span class='rparen token'>)</span>
+    <span class='state_reader identifier id'>state_reader</span><span class='lparen token'>(</span><span class='symbol val'>:random</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='rand identifier id'>rand</span><span class='lparen token'>(</span><span class='integer val'>100_000</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+
+    <span class='def def kw'>def</span> <span class='calculate identifier id'>calculate</span>
+      <span class='val1 identifier id'>val1</span> <span class='assign token'>=</span> <span class='session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:num1</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:num2</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='random identifier id'>random</span>
+      <span class='val2 identifier id'>val2</span> <span class='assign token'>=</span> <span class='session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:num1</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:num2</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='random identifier id'>random</span>
+      <span class='val1 identifier id'>val1</span> <span class='eq op'>==</span> <span class='val2 identifier id'>val2</span> <span class='comment val'># =&gt; true</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+NOTE:
+</p>
+<pre class="code">
+  <span class='If constant id'>If</span> <span class='given identifier id'>given</span> <span class='lt op'>&lt;</span><span class='tt identifier id'>tt</span><span class='gt op'>&gt;</span><span class='initializer identifier id'>initializer</span><span class='lt op'>&lt;</span><span class='regexp val'>/tt&gt;, there will be some performance impact since we
+  cannot use class_eval and have to use define_method instead, we also
+  have to check every time whether the initializer was executed already.
+
+  In 1.8.x the overhead of define_method is 3x that of class_eval/</span><span class='def def kw'>def</span>
+  <span class='In constant id'>In</span> <span class='float val'>1.9</span><span class='integer val'>.1</span> <span class='the identifier id'>the</span> <span class='overhead identifier id'>overhead</span> <span class='of identifier id'>of</span> <span class='define_method identifier id'>define_method</span> <span class='is identifier id'>is</span> <span class='float val'>1.5</span><span class='x identifier id'>x</span> <span class='that identifier id'>that</span> <span class='of identifier id'>of</span> <span class='class_eval identifier id'>class_eval</span><span class='div op'>/</span><span class='def def kw'>def</span>
+
+  <span class='This constant id'>This</span> <span class='may identifier id'>may</span> <span class='only identifier id'>only</span> <span class='be identifier id'>be</span> <span class='an identifier id'>an</span> <span class='issue identifier id'>issue</span> <span class='for for kw'>for</span> <span class='readers identifier id'>readers</span> <span class='that identifier id'>that</span> <span class='are identifier id'>are</span> <span class='called identifier id'>called</span> <span class='a identifier id'>a</span> <span class='lot identifier id'>lot</span> <span class='of identifier id'>of</span> <span class='times identifier id'>times</span><span class='dot token'>.</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/state/accessor.rb', line 114</span>
+
+<span class='def def kw'>def</span> <span class='state_reader identifier id'>state_reader</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='initializer identifier id'>initializer</span><span class='rparen token'>)</span>
+  <span class='StateAccessor constant id'>StateAccessor</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='meth identifier id'>meth</span><span class='bitor op'>|</span>
+    <span class='if if kw'>if</span> <span class='initializer identifier id'>initializer</span>
+      <span class='define_method identifier id'>define_method</span><span class='lparen token'>(</span><span class='meth identifier id'>meth</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+        <span class='unless unless kw'>unless</span> <span class='STATE constant id'>STATE</span><span class='dot token'>.</span><span class='key? fid id'>key?</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='rparen token'>)</span>
+          <span class='STATE constant id'>STATE</span><span class='lbrack token'>[</span><span class='key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='instance_eval identifier id'>instance_eval</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='initializer identifier id'>initializer</span><span class='rparen token'>)</span>
+        <span class='else else kw'>else</span>
+          <span class='STATE constant id'>STATE</span><span class='lbrack token'>[</span><span class='key identifier id'>key</span><span class='rbrack token'>]</span>
+        <span class='end end kw'>end</span>
+      <span class='end end kw'>end</span>
+    <span class='else else kw'>else</span>
+      <span class='class_eval identifier id'>class_eval</span><span class='lparen token'>(</span><span class='string val'>&quot;def %s; STATE[%p]; end&quot;</span> <span class='mod op'>%</span> <span class='lbrack token'>[</span><span class='meth identifier id'>meth</span><span class='comma token'>,</span> <span class='key identifier id'>key</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>state_writer</h3>
+</div><div id="state_writer-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>state_writer</span><span class='args'>(*names)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Writer accessor to STATE[key]=
+</p>
+<pre class="code">
+  <span class='Example constant id'>Example</span><span class='colon op'>:</span>
+
+  <span class='class class kw'>class</span> <span class='Foo constant id'>Foo</span>
+    <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='StateAccessor constant id'>StateAccessor</span>
+    <span class='state_writer identifier id'>state_writer</span><span class='lparen token'>(</span><span class='symbol val'>:result</span><span class='rparen token'>)</span>
+
+    <span class='def def kw'>def</span> <span class='calculate identifier id'>calculate</span>
+      <span class='self self kw'>self</span><span class='dot token'>.</span><span class='result identifier id'>result</span> <span class='assign token'>=</span> <span class='integer val'>42</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='class class kw'>class</span> <span class='Bar constant id'>Bar</span>
+    <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='StateAccessor constant id'>StateAccessor</span>
+    <span class='state_reader identifier id'>state_reader</span><span class='lparen token'>(</span><span class='symbol val'>:result</span><span class='rparen token'>)</span>
+
+    <span class='def def kw'>def</span> <span class='calculcate identifier id'>calculcate</span>
+      <span class='result identifier id'>result</span> <span class='mult op'>*</span> <span class='result identifier id'>result</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='Foo constant id'>Foo</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='dot token'>.</span><span class='calculate identifier id'>calculate</span> <span class='comment val'># =&gt; 42</span>
+  <span class='Bar constant id'>Bar</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='dot token'>.</span><span class='calculate identifier id'>calculate</span> <span class='comment val'># =&gt; 1764</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+82
+83
+84
+85
+86</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/state/accessor.rb', line 82</span>
+
+<span class='def def kw'>def</span> <span class='state_writer identifier id'>state_writer</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='rparen token'>)</span>
+  <span class='StateAccessor constant id'>StateAccessor</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='meth identifier id'>meth</span><span class='bitor op'>|</span>
+    <span class='class_eval identifier id'>class_eval</span><span class='lparen token'>(</span><span class='string val'>&quot;def %s=(obj) STATE[%p] = obj; end&quot;</span> <span class='mod op'>%</span> <span class='lbrack token'>[</span><span class='meth identifier id'>meth</span><span class='comma token'>,</span> <span class='key identifier id'>key</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

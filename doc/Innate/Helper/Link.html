@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::Helper::Link</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_Helper_Link">
+  <h1 class="title">Module: Innate::Helper::Link</h1>
+  <div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#included-class_method" title="included">included</a></span><span class='args'>(into)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#anchor-instance_method" title="#anchor">#anchor</a></span><span class='args'>(text, *args)</span>
+        <span class='block'></span>
+        
+          <span class='alias'>#a</span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Create a link tag.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt><a href="../../String.html" title="String">String</a></tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#route-instance_method" title="#route">#route</a></span><span class='args'>(name = '/', *args)</span>
+        <span class='block'></span>
+        
+          <span class='alias'>#r</span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Provide the path to given Node and actions.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>URI</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>included</h3>
+</div><div id="included-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>included</span><span class='args'>(into)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+4
+5
+6</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/link.rb', line 4</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='included identifier id'>included</span><span class='lparen token'>(</span><span class='into identifier id'>into</span><span class='rparen token'>)</span>
+  <span class='into identifier id'>into</span><span class='dot token'>.</span><span class='extend identifier id'>extend</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>anchor</h3>
+</div><div id="anchor-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt><a href="../../String.html" title="String">String</a></tt></span>
+    <span class='name'>anchor</span><span class='args'>(text, *args)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+<p class="aliases">
+  <span class="aka">Also known as:</span>
+  
+    <tt id="a-instance_method">a</tt>
+  
+</p>
+</div><div class="section docstring">
+  <p>
+Create a link tag
+</p>
+<p>
+Usage, given Wiki is mapped to `/wiki`:
+</p>
+<pre class="code">
+  <span class='Wiki constant id'>Wiki</span><span class='dot token'>.</span><span class='a identifier id'>a</span><span class='lparen token'>(</span><span class='symbol val'>:home</span><span class='rparen token'>)</span>                   <span class='comment val'># =&gt; '&lt;a href=&quot;/wiki/home&quot;&gt;home&lt;/a&gt;'</span>
+  <span class='Wiki constant id'>Wiki</span><span class='dot token'>.</span><span class='a identifier id'>a</span><span class='lparen token'>(</span><span class='string val'>'home'</span><span class='comma token'>,</span> <span class='symbol val'>:home</span><span class='rparen token'>)</span>           <span class='comment val'># =&gt; '&lt;a href=&quot;/wiki/home&quot;&gt;home&lt;/a&gt;'</span>
+  <span class='Wiki constant id'>Wiki</span><span class='dot token'>.</span><span class='a identifier id'>a</span><span class='lparen token'>(</span><span class='string val'>'home'</span><span class='comma token'>,</span> <span class='symbol val'>:/</span><span class='rparen token'>)</span>              <span class='comment val'># =&gt; '&lt;a href=&quot;/wiki/&quot;&gt;home&lt;/a&gt;'</span>
+  <span class='Wiki constant id'>Wiki</span><span class='dot token'>.</span><span class='a identifier id'>a</span><span class='lparen token'>(</span><span class='string val'>'foo'</span><span class='comma token'>,</span> <span class='symbol val'>:/</span><span class='comma token'>,</span> <span class='symbol val'>:foo</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:bar</span><span class='rparen token'>)</span> <span class='comment val'># =&gt; '&lt;a href=&quot;/wiki/?foo=bar&quot;&gt;foo&lt;/a&gt;'</span>
+</pre>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt><a href="../../String.html" title="String">String</a></tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'></span>
+    </dd>
+  
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+54
+55
+56
+57
+58</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/link.rb', line 54</span>
+
+<span class='def def kw'>def</span> <span class='anchor identifier id'>anchor</span><span class='lparen token'>(</span><span class='text identifier id'>text</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='href identifier id'>href</span> <span class='assign token'>=</span> <span class='args identifier id'>args</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span> <span class='integer val'>? </span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='text identifier id'>text</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='text identifier id'>text</span> <span class='assign token'>=</span> <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Utils constant id'>Utils</span><span class='dot token'>.</span><span class='escape_html identifier id'>escape_html</span><span class='lparen token'>(</span><span class='text identifier id'>text</span><span class='rparen token'>)</span>
+  <span class='dstring node'>%(&lt;a href=&quot;#{href}&quot;&gt;#{text}&lt;/a&gt;)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>route</h3>
+</div><div id="route-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>URI</tt></span>
+    <span class='name'>route</span><span class='args'>(name = '/', *args)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+<p class="aliases">
+  <span class="aka">Also known as:</span>
+  
+    <tt id="r-instance_method">r</tt>
+  
+</p>
+</div><div class="section docstring">
+  <p>
+Provide the path to given Node and actions. Escapes GET parameters.
+</p>
+<p>
+Usage, mapping is Pages =&gt; &#8217;/&#8217;, Users =&gt;
+&#8217;/users&#8217;:
+</p>
+<pre class="code">
+  <span class='Pages constant id'>Pages</span><span class='dot token'>.</span><span class='r identifier id'>r</span>                       <span class='comment val'># =&gt; URI('/')</span>
+  <span class='Pages constant id'>Pages</span><span class='dot token'>.</span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='symbol val'>:foo</span><span class='rparen token'>)</span>                 <span class='comment val'># =&gt; URI('/foo')</span>
+  <span class='Pages constant id'>Pages</span><span class='dot token'>.</span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='symbol val'>:foo</span><span class='comma token'>,</span> <span class='symbol val'>:bar</span><span class='rparen token'>)</span>           <span class='comment val'># =&gt; URI('/foo/bar')</span>
+  <span class='Pages constant id'>Pages</span><span class='dot token'>.</span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='symbol val'>:foo</span><span class='comma token'>,</span> <span class='symbol val'>:a</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:b</span><span class='rparen token'>)</span>       <span class='comment val'># =&gt; URI('/foo?a=b')</span>
+  <span class='Pages constant id'>Pages</span><span class='dot token'>.</span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='symbol val'>:foo</span><span class='comma token'>,</span> <span class='symbol val'>:bar</span><span class='comma token'>,</span> <span class='symbol val'>:a</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:b</span><span class='rparen token'>)</span> <span class='comment val'># =&gt; URI('/foo/bar?a=b')</span>
+
+  <span class='Users constant id'>Users</span><span class='dot token'>.</span><span class='r identifier id'>r</span>                       <span class='comment val'># =&gt; URI('/users/')</span>
+  <span class='Users constant id'>Users</span><span class='dot token'>.</span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='symbol val'>:foo</span><span class='rparen token'>)</span>                 <span class='comment val'># =&gt; URI('/users/foo')</span>
+  <span class='Users constant id'>Users</span><span class='dot token'>.</span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='symbol val'>:foo</span><span class='comma token'>,</span> <span class='symbol val'>:bar</span><span class='rparen token'>)</span>           <span class='comment val'># =&gt; URI('/users/foo/bar')</span>
+  <span class='Users constant id'>Users</span><span class='dot token'>.</span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='symbol val'>:foo</span><span class='comma token'>,</span> <span class='symbol val'>:a</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:b</span><span class='rparen token'>)</span>       <span class='comment val'># =&gt; URI('/users/foo?a=b')</span>
+  <span class='Users constant id'>Users</span><span class='dot token'>.</span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='symbol val'>:foo</span><span class='comma token'>,</span> <span class='symbol val'>:bar</span><span class='comma token'>,</span> <span class='symbol val'>:a</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:b</span><span class='rparen token'>)</span> <span class='comment val'># =&gt; URI('/users/foo/bar?a=b')</span>
+</pre>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>URI</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+to the location
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/link.rb', line 26</span>
+
+<span class='def def kw'>def</span> <span class='route identifier id'>route</span><span class='lparen token'>(</span><span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='string val'>'/'</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='hashes identifier id'>hashes</span><span class='comma token'>,</span> <span class='names identifier id'>names</span> <span class='assign token'>=</span> <span class='args identifier id'>args</span><span class='dot token'>.</span><span class='partition identifier id'>partition</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='arg identifier id'>arg</span><span class='bitor op'>|</span> <span class='arg identifier id'>arg</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:merge!</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='hashes identifier id'>hashes</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='to_merge identifier id'>to_merge</span><span class='bitor op'>|</span> <span class='hash identifier id'>hash</span><span class='dot token'>.</span><span class='merge! fid id'>merge!</span><span class='lparen token'>(</span><span class='to_merge identifier id'>to_merge</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+
+  <span class='prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='app identifier id'>app</span><span class='dot token'>.</span><span class='prefix identifier id'>prefix</span>
+  <span class='location identifier id'>location</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='to identifier id'>to</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='to identifier id'>to</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='rparen token'>)</span>
+  <span class='front identifier id'>front</span> <span class='assign token'>=</span> <span class='Array constant id'>Array</span><span class='lbrack token'>[</span><span class='prefix identifier id'>prefix</span><span class='comma token'>,</span> <span class='location identifier id'>location</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='names identifier id'>names</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='squeeze identifier id'>squeeze</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span>
+
+  <span class='if if kw'>if</span> <span class='hash identifier id'>hash</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+    <span class='URI constant id'>URI</span><span class='lparen token'>(</span><span class='front identifier id'>front</span><span class='rparen token'>)</span>
+  <span class='else else kw'>else</span>
+    <span class='escape identifier id'>escape</span> <span class='assign token'>=</span> <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Utils constant id'>Utils</span><span class='dot token'>.</span><span class='method identifier id'>method</span><span class='lparen token'>(</span><span class='symbol val'>:escape</span><span class='rparen token'>)</span>
+    <span class='query identifier id'>query</span> <span class='assign token'>=</span> <span class='hash identifier id'>hash</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{escape[key]}=#{escape[value]}&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>';'</span><span class='rparen token'>)</span>
+    <span class='URI constant id'>URI</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{front}?#{query}&quot;</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

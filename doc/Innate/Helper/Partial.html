@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::Helper::Partial</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_Helper_Partial">
+  <h1 class="title">Module: Innate::Helper::Partial</h1>
+  <div class="section docstring">
+  <h1>Helper::Partial</h1>
+<h3>Example Usage</h3>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='MyController constant id'>MyController</span>
+    <span class='def def kw'>def</span> <span class='index identifier id'>index</span>
+    <span class='end end kw'>end</span>
+
+    <span class='def def kw'>def</span> <span class='list identifier id'>list</span>
+      <span class='plain identifier id'>plain</span> <span class='assign token'>=</span> <span class='request identifier id'>request</span><span class='lbrack token'>[</span><span class='string val'>'plain'</span><span class='rbrack token'>]</span>
+      <span class='dstring node'>&quot;Hello World from List!  Plain List == #{plain}&quot;</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='lt op'>&lt;</span><span class='html identifier id'>html</span><span class='gt op'>&gt;</span>
+    <span class='lt op'>&lt;</span><span class='head identifier id'>head</span><span class='gt op'>&gt;</span><span class='lt op'>&lt;</span><span class='title identifier id'>title</span><span class='gt op'>&gt;</span><span class='Partial constant id'>Partial</span> <span class='Render constant id'>Render</span> <span class='Index constant id'>Index</span><span class='lt op'>&lt;</span><span class='regexp val'>/title&gt;&lt;/</span><span class='head identifier id'>head</span><span class='gt op'>&gt;</span>
+    <span class='lt op'>&lt;</span><span class='body identifier id'>body</span><span class='gt op'>&gt;</span>
+      <span class='comment val'>#{render_partial(Rs(:list), 'plain' =&gt; true)}</span>
+    <span class='lt op'>&lt;</span><span class='regexp val'>/body&gt;
+  &lt;/</span><span class='html identifier id'>html</span><span class='gt op'>&gt;</span>
+</pre>
+
+</div><div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#render_action-instance_method" title="#render_action">#render_action</a></span><span class='args'>(method, *params)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#render_partial-instance_method" title="#render_partial">#render_partial</a></span><span class='args'>(url, options = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Renders a url &#8216;inline&#8217;.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#render_template-instance_method" title="#render_template">#render_template</a></span><span class='args'>(path, variables = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Render the template file in view_root of the current controller.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>render_action</h3>
+</div><div id="render_action-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>render_action</span><span class='args'>(method, *params)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+87
+88
+89</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/partial.rb', line 87</span>
+
+<span class='def def kw'>def</span> <span class='render_action identifier id'>render_action</span><span class='lparen token'>(</span><span class='method identifier id'>method</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='render_partial identifier id'>render_partial</span><span class='lparen token'>(</span><span class='r identifier id'>r</span><span class='lparen token'>(</span><span class='method identifier id'>method</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='params identifier id'>params</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>render_partial</h3>
+</div><div id="render_partial-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>render_partial</span><span class='args'>(url, options = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Renders a url &#8216;inline&#8217;.
+</p>
+<p>
+<tt>url</tt> normal URL, like you&#8217;d use for redirecting.
+<tt>options</tt> optional, will be used as request parameters.
+</p>
+<p>
+Issues a mock request to the given <tt>url</tt> with <tt>options</tt>
+turned into query arguments.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/partial.rb', line 38</span>
+
+<span class='def def kw'>def</span> <span class='render_partial identifier id'>render_partial</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='URI constant id'>URI</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='rparen token'>)</span>
+  <span class='query identifier id'>query</span> <span class='assign token'>=</span> <span class='options identifier id'>options</span> <span class='comment val'># Innate::Current.request.params.merge(options)</span>
+  <span class='uri identifier id'>uri</span><span class='dot token'>.</span><span class='query identifier id'>query</span> <span class='assign token'>=</span> <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Utils constant id'>Utils</span><span class='dot token'>.</span><span class='build_query identifier id'>build_query</span><span class='lparen token'>(</span><span class='query identifier id'>query</span><span class='rparen token'>)</span>
+
+  <span class='body identifier id'>body</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Mock constant id'>Mock</span><span class='dot token'>.</span><span class='session identifier id'>session</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='session identifier id'>session</span><span class='bitor op'>|</span>
+    <span class='cookie identifier id'>cookie</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='session identifier id'>session</span><span class='dot token'>.</span><span class='cookie identifier id'>cookie</span>
+    <span class='session identifier id'>session</span><span class='dot token'>.</span><span class='cookie identifier id'>cookie</span> <span class='assign token'>=</span> <span class='cookie identifier id'>cookie</span>
+    <span class='body identifier id'>body</span> <span class='assign token'>=</span> <span class='session identifier id'>session</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='uri identifier id'>uri</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='body identifier id'>body</span>
+  <span class='end end kw'>end</span>
+
+  <span class='body identifier id'>body</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>render_template</h3>
+</div><div id="render_template-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>render_template</span><span class='args'>(path, variables = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Render the template file in view_root of the current controller.
+</p>
+<p>
+TODO:
+</p>
+<ul>
+<li>Doesn&#8217;t work for absolute paths, but there are no specs for that yet.
+
+</li>
+<li>the local variable hack isn&#8217;t working because innate allocates a new
+binding. For now one can simply use instance variables, which I prefer
+anyway.
+
+</li>
+</ul>
+<p>
+the local binding hack:
+</p>
+<pre class="code">
+  <span class='variables identifier id'>variables</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='bitor op'>|</span>
+    <span class='value identifier id'>value</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;ObjectSpace._id2ref(#{value.object_id})&quot;</span>
+    <span class='eval identifier id'>eval</span> <span class='dstring node'>&quot;#{key} = #{value}&quot;</span><span class='comma token'>,</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='binding identifier id'>binding</span>
+  <span class='end end kw'>end</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/partial.rb', line 70</span>
+
+<span class='def def kw'>def</span> <span class='render_template identifier id'>render_template</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='variables identifier id'>variables</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='path identifier id'>path</span> <span class='assign token'>=</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
+
+  <span class='ext identifier id'>ext</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='extname identifier id'>extname</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='basename identifier id'>basename</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='basename identifier id'>basename</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='ext identifier id'>ext</span><span class='rparen token'>)</span>
+  <span class='ext identifier id'>ext</span> <span class='assign token'>=</span> <span class='ext identifier id'>ext</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>-1</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='node identifier id'>node</span><span class='dot token'>.</span><span class='provide identifier id'>provide</span><span class='lbrack token'>[</span><span class='action identifier id'>action</span><span class='dot token'>.</span><span class='wish identifier id'>wish</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
+  
+  <span class='action identifier id'>action</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='action identifier id'>action</span><span class='dot token'>.</span><span class='dup identifier id'>dup</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='layout identifier id'>layout</span>    <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='view identifier id'>view</span>      <span class='assign token'>=</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='node identifier id'>node</span><span class='dot token'>.</span><span class='find_view identifier id'>find_view</span><span class='lparen token'>(</span><span class='basename identifier id'>basename</span><span class='comma token'>,</span> <span class='ext identifier id'>ext</span><span class='rparen token'>)</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='method identifier id'>method</span>    <span class='assign token'>=</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='node identifier id'>node</span><span class='dot token'>.</span><span class='find_method identifier id'>find_method</span><span class='lparen token'>(</span><span class='basename identifier id'>basename</span><span class='comma token'>,</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='variables identifier id'>variables</span> <span class='assign token'>=</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='variables identifier id'>variables</span><span class='dot token'>.</span><span class='merge identifier id'>merge</span><span class='lparen token'>(</span><span class='variables identifier id'>variables</span><span class='rparen token'>)</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='sync_variables identifier id'>sync_variables</span><span class='lparen token'>(</span><span class='action identifier id'>action</span><span class='rparen token'>)</span>
+  
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='call identifier id'>call</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

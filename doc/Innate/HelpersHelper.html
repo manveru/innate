@@ -1,0 +1,742 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::HelpersHelper</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_HelpersHelper">
+  <h1 class="title">Module: Innate::HelpersHelper</h1>
+  <div class="section docstring">
+  <p>
+Here come the utility methods used from the HelperAccess#helper method, we
+do this to keep method count at a minimum and because HelpersHelper is such
+an awesome name that just can&#8217;t be wasted.
+</p>
+<p>
+Usage if you want to only extend with helpers:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Hi constant id'>Hi</span>
+    <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='HelpersHelper constant id'>HelpersHelper</span><span class='dot token'>.</span><span class='each_extend identifier id'>each_extend</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:cgi</span><span class='comma token'>,</span> <span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='symbol val'>:aspect</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+Usage if you only want to include helpers:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Hi constant id'>Hi</span>
+    <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='HelpersHelper constant id'>HelpersHelper</span><span class='dot token'>.</span><span class='each_include identifier id'>each_include</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:cgi</span><span class='comma token'>,</span> <span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='symbol val'>:aspect</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+Usage for iteration:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='HelpersHelper constant id'>HelpersHelper</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lparen token'>(</span><span class='symbol val'>:cgi</span><span class='comma token'>,</span> <span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='symbol val'>:aspect</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='mod identifier id'>mod</span><span class='bitor op'>|</span>
+    <span class='p identifier id'>p</span> <span class='mod identifier id'>mod</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+Usage for translating helpers to modules:
+</p>
+<pre class="code">
+  <span class='p identifier id'>p</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='HelpersHelper constant id'>HelpersHelper</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lparen token'>(</span><span class='symbol val'>:cgi</span><span class='comma token'>,</span> <span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='symbol val'>:aspect</span><span class='rparen token'>)</span>
+</pre>
+
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="EXTS-constant">EXTS</dt>
+      <dd>%w[rb so bundle]</dd>
+    
+      <dt id="PATH-constant">PATH</dt>
+      <dd>[]</dd>
+    
+      <dt id="POOL-constant">POOL</dt>
+      <dd>[]</dd>
+    
+  </dl>
+</div>
+
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#add_path-instance_method" title="#add_path">#add_path</a></span><span class='args'>(path)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#add_pool-instance_method" title="#add_pool">#add_pool</a></span><span class='args'>(pool)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#each-instance_method" title="#each">#each</a></span><span class='args'>(*names)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Yield all the modules we can find for the given names of helpers, try to
+require them if not available.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#each_extend-instance_method" title="#each_extend">#each_extend</a></span><span class='args'>(into, *names, &amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Shortcut to extend <tt>into</tt> with Helper modules corresponding to
+<tt>*names</tt>.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#each_include-instance_method" title="#each_include">#each_include</a></span><span class='args'>(into, *names, &amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Shortcut to include Helper modules corresponding to <tt>*names</tt> on
+<tt>into</tt>.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#get-instance_method" title="#get">#get</a></span><span class='args'>(name)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Based on a simple set of rules we will first construct the most likely name
+for the helper and then grep the constants in the Innate::Helper module for
+any matches.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#glob-instance_method" title="#glob">#glob</a></span><span class='args'>(name = '*')</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Return a nice list of filenames in correct locations with correct
+filename-extensions.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#paths-instance_method" title="#paths">#paths</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+In case you want to do something better.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#try_require-instance_method" title="#try_require">#try_require</a></span><span class='args'>(name)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Figure out files that might have the helper we ask for and then require the
+first we find, if any.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>add_path</h3>
+</div><div id="add_path-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>add_path</span><span class='args'>(path)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+87
+88
+89
+90</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 87</span>
+
+<span class='def def kw'>def</span> <span class='add_path identifier id'>add_path</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='PATH constant id'>PATH</span><span class='dot token'>.</span><span class='unshift identifier id'>unshift</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='PATH constant id'>PATH</span><span class='dot token'>.</span><span class='uniq! fid id'>uniq!</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>add_pool</h3>
+</div><div id="add_pool-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>add_pool</span><span class='args'>(pool)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+80
+81
+82
+83</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 80</span>
+
+<span class='def def kw'>def</span> <span class='add_pool identifier id'>add_pool</span><span class='lparen token'>(</span><span class='pool identifier id'>pool</span><span class='rparen token'>)</span>
+  <span class='POOL constant id'>POOL</span><span class='dot token'>.</span><span class='unshift identifier id'>unshift</span><span class='lparen token'>(</span><span class='pool identifier id'>pool</span><span class='rparen token'>)</span>
+  <span class='POOL constant id'>POOL</span><span class='dot token'>.</span><span class='uniq! fid id'>uniq!</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>each</h3>
+</div><div id="each-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>each</span><span class='args'>(*names)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Yield all the modules we can find for the given names of helpers, try to
+require them if not available.
+</p>
+<p>
+NOTE: Unlike usual #each, this will actually return an Array of the found
+</p>
+<pre class="code">
+      <span class='modules identifier id'>modules</span> <span class='instead identifier id'>instead</span> <span class='of identifier id'>of</span> <span class='the identifier id'>the</span> <span class='given identifier id'>given</span> <span class='lt op'>&lt;</span><span class='tt identifier id'>tt</span><span class='gt op'>&gt;</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='lt op'>&lt;</span><span class='regexp val'>/tt&gt;
+</span></pre>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='HelpersHelper constant id'>HelpersHelper</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lparen token'>(</span><span class='symbol val'>:cgi</span><span class='comma token'>,</span> <span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='symbol val'>:aspect</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='mod identifier id'>mod</span><span class='bitor op'>|</span>
+    <span class='p identifier id'>p</span> <span class='mod identifier id'>mod</span>
+  <span class='end end kw'>end</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 108</span>
+
+<span class='def def kw'>def</span> <span class='each identifier id'>each</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='rparen token'>)</span>
+  <span class='names identifier id'>names</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='bitor op'>|</span>
+    <span class='if if kw'>if</span> <span class='name identifier id'>name</span><span class='dot token'>.</span><span class='class identifier id'>class</span> <span class='eq op'>==</span> <span class='Module constant id'>Module</span>
+      <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+      <span class='name identifier id'>name</span>
+    <span class='elsif elsif kw'>elsif</span> <span class='mod identifier id'>mod</span> <span class='assign token'>=</span> <span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+      <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='mod identifier id'>mod</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+      <span class='mod identifier id'>mod</span>
+    <span class='elsif elsif kw'>elsif</span> <span class='try_require identifier id'>try_require</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+      <span class='redo redo kw'>redo</span>
+    <span class='else else kw'>else</span>
+      <span class='raise identifier id'>raise</span> <span class='LoadError constant id'>LoadError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Helper #{name} not found&quot;</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>each_extend</h3>
+</div><div id="each_extend-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>each_extend</span><span class='args'>(into, *names, &amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Shortcut to extend <tt>into</tt> with Helper modules corresponding to
+<tt>*names</tt>. <tt>into</tt> has to respond to #extend.
+</p>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Hi constant id'>Hi</span>
+    <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='HelpersHelper constant id'>HelpersHelper</span><span class='dot token'>.</span><span class='each_extend identifier id'>each_extend</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:cgi</span><span class='comma token'>,</span> <span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='symbol val'>:aspect</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+132
+133
+134
+135</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 132</span>
+
+<span class='def def kw'>def</span> <span class='each_extend identifier id'>each_extend</span><span class='lparen token'>(</span><span class='into identifier id'>into</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='names identifier id'>names</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='if if_mod kw'>if</span> <span class='names identifier id'>names</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='into identifier id'>into</span><span class='dot token'>.</span><span class='extend identifier id'>extend</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='each identifier id'>each</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>each_include</h3>
+</div><div id="each_include-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>each_include</span><span class='args'>(into, *names, &amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Shortcut to include Helper modules corresponding to <tt>*names</tt> on
+<tt>into</tt>. <tt>into</tt> has to respond to #include.
+#<em>send</em>(:include) is used in case #include raises due to being
+private/protected
+</p>
+<p>
+in case #include is a private/protected method.
+</p>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Hi constant id'>Hi</span>
+    <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='HelpersHelper constant id'>HelpersHelper</span><span class='dot token'>.</span><span class='each_include identifier id'>each_include</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:cgi</span><span class='comma token'>,</span> <span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='symbol val'>:aspect</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+149
+150
+151
+152
+153
+154
+155</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 149</span>
+
+<span class='def def kw'>def</span> <span class='each_include identifier id'>each_include</span><span class='lparen token'>(</span><span class='into identifier id'>into</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='names identifier id'>names</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='if if_mod kw'>if</span> <span class='names identifier id'>names</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='each identifier id'>each</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='into identifier id'>into</span><span class='dot token'>.</span><span class='include identifier id'>include</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='mods identifier id'>mods</span><span class='rparen token'>)</span>
+<span class='rescue rescue kw'>rescue</span> <span class='NoMethodError constant id'>NoMethodError</span>
+  <span class='into identifier id'>into</span><span class='dot token'>.</span><span class='__send__ identifier id'>__send__</span><span class='lparen token'>(</span><span class='symbol val'>:include</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='mods identifier id'>mods</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>get</h3>
+</div><div id="get-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>get</span><span class='args'>(name)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Based on a simple set of rules we will first construct the most likely name
+for the helper and then grep the constants in the Innate::Helper module for
+any matches.
+</p>
+<p>
+helper :foo_bar # =&gt; FooBar helper :foo # =&gt; Foo
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 163</span>
+
+<span class='def def kw'>def</span> <span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='name identifier id'>name</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>'_'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='capitalize identifier id'>capitalize</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='join identifier id'>join</span>
+  <span class='POOL constant id'>POOL</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='namespace identifier id'>namespace</span><span class='bitor op'>|</span>
+    <span class='if if kw'>if</span> <span class='found identifier id'>found</span> <span class='assign token'>=</span> <span class='namespace identifier id'>namespace</span><span class='dot token'>.</span><span class='constants identifier id'>constants</span><span class='dot token'>.</span><span class='grep identifier id'>grep</span><span class='lparen token'>(</span><span class='dregexp node'>/^#{name}$/i</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+      <span class='return return kw'>return</span> <span class='namespace identifier id'>namespace</span><span class='dot token'>.</span><span class='const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='found identifier id'>found</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>glob</h3>
+</div><div id="glob-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>glob</span><span class='args'>(name = '*')</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Return a nice list of filenames in correct locations with correct
+filename-extensions.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+186
+187
+188</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 186</span>
+
+<span class='def def kw'>def</span> <span class='glob identifier id'>glob</span><span class='lparen token'>(</span><span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='string val'>'*'</span><span class='rparen token'>)</span>
+  <span class='dstring node'>&quot;{#{paths.join(',')}}/helper/#{name}.{#{EXTS.join(',')}}&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>paths</h3>
+</div><div id="paths-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>paths</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+In case you want to do something better.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+191
+192
+193</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 191</span>
+
+<span class='def def kw'>def</span> <span class='paths identifier id'>paths</span>
+  <span class='PATH constant id'>PATH</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>try_require</h3>
+</div><div id="try_require-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>try_require</span><span class='args'>(name)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Figure out files that might have the helper we ask for and then require the
+first we find, if any.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+176
+177
+178
+179
+180
+181
+182</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 176</span>
+
+<span class='def def kw'>def</span> <span class='try_require identifier id'>try_require</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='found identifier id'>found</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='lbrack token'>[</span><span class='glob identifier id'>glob</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+    <span class='require identifier id'>require</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='found identifier id'>found</span><span class='rparen token'>)</span>
+  <span class='else else kw'>else</span>
+    <span class='raise identifier id'>raise</span> <span class='LoadError constant id'>LoadError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Helper #{name} not found&quot;</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

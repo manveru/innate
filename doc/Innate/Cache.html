@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Class: Innate::Cache</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section class Innate_Cache">
+  <h1 class="title">Class: Innate::Cache</h1>
+  <div class="section docstring">
+  <p>
+Cache manager and wrapper.
+</p>
+<p>
+Provides a convenient wrapper around caches to keep method name confusion
+at a minimum while still having short and meaningful method names for every
+cache instance.
+</p>
+<p>
+The default caching is specified in lib/innate.rb in the config section. At
+the time of writing it defaults to Innate::Cache::Memory but can be changed
+easily.
+</p>
+<p>
+Configuration has to be done before Innate::setup_dependencies is being
+called.
+</p>
+<p>
+Configuration:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='cache identifier id'>cache</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='cache identifier id'>cache</span><span class='bitor op'>|</span>
+    <span class='cache identifier id'>cache</span><span class='dot token'>.</span><span class='names identifier id'>names</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='comma token'>,</span> <span class='symbol val'>:user</span><span class='rbrack token'>]</span>
+    <span class='cache identifier id'>cache</span><span class='dot token'>.</span><span class='session identifier id'>session</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='colon2 op'>::</span><span class='Marshal constant id'>Marshal</span>
+    <span class='cache identifier id'>cache</span><span class='dot token'>.</span><span class='user identifier id'>user</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='colon2 op'>::</span><span class='YAML constant id'>YAML</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+Usage for storing:
+</p>
+<pre class="code">
+  <span class='comment val'># Storing with a time to live (10 seconds)</span>
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='dot token'>.</span><span class='store identifier id'>store</span><span class='lparen token'>(</span><span class='symbol val'>:manveru</span><span class='comma token'>,</span> <span class='string val'>&quot;Michael Fellinger&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:ttl</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Storing indefinitely</span>
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='lbrack token'>[</span><span class='symbol val'>:Pistos</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;unknown&quot;</span>
+  <span class='comment val'># or without :ttl argument</span>
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='dot token'>.</span><span class='store identifier id'>store</span><span class='lparen token'>(</span><span class='symbol val'>:Pistos</span><span class='comma token'>,</span> <span class='string val'>&quot;unknown&quot;</span><span class='rparen token'>)</span>
+</pre>
+<p>
+Usage for retrieving:
+</p>
+<pre class="code">
+  <span class='comment val'># we stored this one for 10 seconds</span>
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='dot token'>.</span><span class='fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:manveru</span><span class='comma token'>,</span> <span class='string val'>'not here anymore'</span><span class='rparen token'>)</span>
+  <span class='comment val'># =&gt; &quot;Michael Fellinger&quot;</span>
+  <span class='sleep identifier id'>sleep</span> <span class='integer val'>11</span>
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='dot token'>.</span><span class='fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:manveru</span><span class='comma token'>,</span> <span class='string val'>'not here anymore'</span><span class='rparen token'>)</span>
+  <span class='comment val'># =&gt; &quot;not here anymore&quot;</span>
+
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='lbrack token'>[</span><span class='symbol val'>:Pistos</span><span class='rbrack token'>]</span>
+  <span class='comment val'># =&gt; &quot;unknown&quot;</span>
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='dot token'>.</span><span class='fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:Pistos</span><span class='rparen token'>)</span>
+  <span class='comment val'># =&gt; &quot;unknown&quot;</span>
+</pre>
+<p>
+For more details and to find out how to implement your own cache please
+read the documentation of Innate::Cache::API
+</p>
+<p>
+NOTE:
+</p>
+<pre class="code">
+  <span class='mult op'>*</span> <span class='Some constant id'>Some</span> <span class='caches identifier id'>caches</span> <span class='might identifier id'>might</span> <span class='expose identifier id'>expose</span> <span class='their identifier id'>their</span> <span class='contents identifier id'>contents</span> <span class='for for kw'>for</span> <span class='everyone identifier id'>everyone</span> <span class='else else kw'>else</span> <span class='on identifier id'>on</span> <span class='the identifier id'>the</span> <span class='same identifier id'>same</span>
+    <span class='system identifier id'>system</span><span class='comma token'>,</span> <span class='or or kw'>or</span> <span class='even identifier id'>even</span> <span class='on identifier id'>on</span> <span class='connected identifier id'>connected</span> <span class='systems identifier id'>systems</span><span class='dot token'>.</span> <span class='The constant id'>The</span> <span class='rule identifier id'>rule</span> <span class='as identifier id'>as</span> <span class='usual identifier id'>usual</span> <span class='is identifier id'>is</span><span class='comma token'>,</span> <span class='not not kw'>not</span> <span class='to identifier id'>to</span>
+    <span class='cache identifier id'>cache</span> <span class='sensitive identifier id'>sensitive</span> <span class='information identifier id'>information</span><span class='dot token'>.</span>
+</pre>
+
+</div><div class="section attributes">
+  <h1>Attributes</h1>
+
+  
+    <div class="instance">
+      <h2>Instance Attributes</h2>
+      <table>
+      
+        <tr>
+          <th class="name">instance</td>
+          <td class="readwrite">
+            [<span id='instance-instance_method'>R</span>W] 
+          </td>
+          <td class="visibility">
+            public
+          </td>
+          <td class="docstring">
+            <p>
+Returns the value of attribute <tt>instance</tt>.
+</p>
+
+            
+          </td>
+        </tr>
+      
+        <tr>
+          <th class="name">name</td>
+          <td class="readwrite">
+            [<span id='name-instance_method'>R</span>W] 
+          </td>
+          <td class="visibility">
+            public
+          </td>
+          <td class="docstring">
+            <p>
+Returns the value of attribute <tt>name</tt>.
+</p>
+
+            
+          </td>
+        </tr>
+      
+      </table>
+    </div>
+  
+</div><div class="section constants">
+  
+</div><div class="section constructor">
+<h1>Constructor Summary</h1>
+  <div id="initialize-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>initialize</span><span class='args'>(name, klass = nil)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache.rb', line 66</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='@name ivar id'>@name</span> <span class='assign token'>=</span> <span class='name identifier id'>name</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='dup identifier id'>dup</span><span class='dot token'>.</span><span class='freeze identifier id'>freeze</span>
+
+  <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span>
+
+  <span class='klass identifier id'>klass</span> <span class='opasgn op'>||=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:cache</span><span class='comma token'>,</span> <span class='@name ivar id'>@name</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span>
+  <span class='@instance ivar id'>@instance</span> <span class='assign token'>=</span> <span class='klass identifier id'>klass</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
+
+  <span class='@instance ivar id'>@instance</span><span class='dot token'>.</span><span class='cache_setup identifier id'>cache_setup</span><span class='lparen token'>(</span>
+    <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='env identifier id'>env</span><span class='dot token'>.</span><span class='host identifier id'>host</span><span class='comma token'>,</span>
+    <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='env identifier id'>env</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='comma token'>,</span>
+    <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='app identifier id'>app</span><span class='dot token'>.</span><span class='name identifier id'>name</span><span class='comma token'>,</span>
+    <span class='@name ivar id'>@name</span>
+  <span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#add-class_method" title="add">add</a></span><span class='args'>(*names)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#register-class_method" title="register">register</a></span><span class='args'>(cache)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#setup-class_method" title="setup">setup</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#clear-instance_method" title="#clear">#clear</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#delete-instance_method" title="#delete">#delete</a></span><span class='args'>(*keys)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#fetch-instance_method" title="#fetch">#fetch</a></span><span class='args'>(key, default = nil)</span>
+        <span class='block'></span>
+        
+          <span class='alias'>#[]</span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#store-instance_method" title="#store">#store</a></span><span class='args'>(key, value, options = )</span>
+        <span class='block'></span>
+        
+          <span class='alias'>#[]=</span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>add</h3>
+</div><div id="add-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>add</span><span class='args'>(*names)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+95
+96
+97</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache.rb', line 95</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='add identifier id'>add</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='names identifier id'>names</span><span class='rparen token'>)</span>
+  <span class='names identifier id'>names</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='bitor op'>|</span> <span class='register identifier id'>register</span><span class='lparen token'>(</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>register</h3>
+</div><div id="register-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>register</span><span class='args'>(cache)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91
+92
+93</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache.rb', line 86</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='register identifier id'>register</span><span class='lparen token'>(</span><span class='cache identifier id'>cache</span><span class='rparen token'>)</span>
+  <span class='key identifier id'>key</span> <span class='assign token'>=</span> <span class='cache identifier id'>cache</span><span class='dot token'>.</span><span class='name identifier id'>name</span>
+  <span class='source identifier id'>source</span> <span class='assign token'>=</span> <span class='string val'>&quot;def self.%s() @%s; end
+            def self.%s=(o) @%s = o; end&quot;</span> <span class='mod op'>%</span> <span class='lbrack token'>[</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='key identifier id'>key</span><span class='rbrack token'>]</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='class_eval identifier id'>class_eval</span><span class='lparen token'>(</span><span class='source identifier id'>source</span><span class='comma token'>,</span> <span class='__FILE__ __file__ kw'>__FILE__</span><span class='comma token'>,</span> <span class='__LINE__ __line__ kw'>__LINE__</span><span class='rparen token'>)</span>
+
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{key}=&quot;</span><span class='comma token'>,</span> <span class='cache identifier id'>cache</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>setup</h3>
+</div><div id="setup-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>setup</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+82
+83
+84</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache.rb', line 82</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='setup identifier id'>setup</span>
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='cache identifier id'>cache</span><span class='dot token'>.</span><span class='names identifier id'>names</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='bitor op'>|</span> <span class='add identifier id'>add</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>clear</h3>
+</div><div id="clear-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>clear</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+99
+100
+101</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache.rb', line 99</span>
+
+<span class='def def kw'>def</span> <span class='clear identifier id'>clear</span>
+  <span class='instance identifier id'>instance</span><span class='dot token'>.</span><span class='cache_clear identifier id'>cache_clear</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>delete</h3>
+</div><div id="delete-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>delete</span><span class='args'>(*keys)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+103
+104
+105</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache.rb', line 103</span>
+
+<span class='def def kw'>def</span> <span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='keys identifier id'>keys</span><span class='rparen token'>)</span>
+  <span class='instance identifier id'>instance</span><span class='dot token'>.</span><span class='cache_delete identifier id'>cache_delete</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='keys identifier id'>keys</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>fetch</h3>
+</div><div id="fetch-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>fetch</span><span class='args'>(key, default = nil)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+<p class="aliases">
+  <span class="aka">Also known as:</span>
+  
+    <tt id="%5B%5D-instance_method">[]</tt>
+  
+</p>
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+107
+108
+109</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache.rb', line 107</span>
+
+<span class='def def kw'>def</span> <span class='fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='default identifier id'>default</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='instance identifier id'>instance</span><span class='dot token'>.</span><span class='cache_fetch identifier id'>cache_fetch</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='default identifier id'>default</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>store</h3>
+</div><div id="store-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>store</span><span class='args'>(key, value, options = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+<p class="aliases">
+  <span class="aka">Also known as:</span>
+  
+    <tt id="%5B%5D%3D-instance_method">[]=</tt>
+  
+</p>
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+112
+113
+114</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache.rb', line 112</span>
+
+<span class='def def kw'>def</span> <span class='store identifier id'>store</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='instance identifier id'>instance</span><span class='dot token'>.</span><span class='cache_store identifier id'>cache_store</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

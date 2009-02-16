@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::HelperAccess</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_HelperAccess">
+  <h1 class="title">Module: Innate::HelperAccess</h1>
+  <div class="section docstring">
+  <p>
+Provides access to #helper method without polluting the name-space any
+further.
+</p>
+
+</div><div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#helper-instance_method" title="#helper">#helper</a></span><span class='args'>(*helpers)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Convenience method used by Innate::Node.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>helper</h3>
+</div><div id="helper-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>helper</span><span class='args'>(*helpers)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Convenience method used by Innate::Node.
+</p>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Hi constant id'>Hi</span>
+    <span class='extend identifier id'>extend</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='HelperAccess constant id'>HelperAccess</span>
+    <span class='helper identifier id'>helper</span> <span class='symbol val'>:cgi</span><span class='comma token'>,</span> <span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='symbol val'>:aspect</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+This will require the helpers and call:
+</p>
+<pre class="code">
+    <span class='Hi constant id'>Hi</span><span class='dot token'>.</span><span class='include identifier id'>include</span><span class='lparen token'>(</span><span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Helper constant id'>Helper</span><span class='colon2 op'>::</span><span class='CGI constant id'>CGI</span><span class='rparen token'>)</span>
+    <span class='Hi constant id'>Hi</span><span class='dot token'>.</span><span class='include identifier id'>include</span><span class='lparen token'>(</span><span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Helper constant id'>Helper</span><span class='colon2 op'>::</span><span class='Link constant id'>Link</span><span class='rparen token'>)</span>
+    <span class='Hi constant id'>Hi</span><span class='dot token'>.</span><span class='include identifier id'>include</span><span class='lparen token'>(</span><span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Helper constant id'>Helper</span><span class='colon2 op'>::</span><span class='Aspect constant id'>Aspect</span><span class='rparen token'>)</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+35
+36
+37</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper.rb', line 35</span>
+
+<span class='def def kw'>def</span> <span class='helper identifier id'>helper</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='helpers identifier id'>helpers</span><span class='rparen token'>)</span>
+  <span class='HelpersHelper constant id'>HelpersHelper</span><span class='dot token'>.</span><span class='each_include identifier id'>each_include</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='helpers identifier id'>helpers</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

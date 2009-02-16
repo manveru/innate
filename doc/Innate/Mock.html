@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::Mock</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_Mock">
+  <h1 class="title">Module: Innate::Mock</h1>
+  <div class="section attributes">
+  <h1>Attributes</h1>
+
+  
+    <div class="instance">
+      <h2>Instance Attributes</h2>
+      <table>
+      
+        <tr>
+          <th class="name">cookie</td>
+          <td class="readwrite">
+            [<span id='cookie-instance_method'>R</span><span id='cookie%3D-instance_method'>W</span>] 
+          </td>
+          <td class="visibility">
+            public
+          </td>
+          <td class="docstring">
+            <p>
+Sets the attribute <tt>cookie</tt>.
+</p>
+
+            
+          </td>
+        </tr>
+      
+      </table>
+    </div>
+  
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="HTTP_METHODS-constant">HTTP_METHODS</dt>
+      <dd>%w[ CONNECT DELETE GET HEAD OPTIONS POST PUT TRACE ]</dd>
+    
+  </dl>
+</div>
+
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#extract_cookie-instance_method" title="#extract_cookie">#extract_cookie</a></span><span class='args'>(method, path, hash = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>extract_cookie</h3>
+</div><div id="extract_cookie-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>extract_cookie</span><span class='args'>(method, path, hash = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/mock.rb', line 37</span>
+
+<span class='def def kw'>def</span> <span class='extract_cookie identifier id'>extract_cookie</span><span class='lparen token'>(</span><span class='method identifier id'>method</span><span class='comma token'>,</span> <span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'HTTP_COOKIE'</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='@cookie ivar id'>@cookie</span> <span class='if if_mod kw'>if</span> <span class='@cookie ivar id'>@cookie</span>
+  <span class='response identifier id'>response</span> <span class='assign token'>=</span> <span class='Mock constant id'>Mock</span><span class='colon2 op'>::</span><span class='mock identifier id'>mock</span><span class='lparen token'>(</span><span class='method identifier id'>method</span><span class='comma token'>,</span> <span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='hash identifier id'>hash</span><span class='rparen token'>)</span>
+
+  <span class='if if kw'>if</span> <span class='cookie identifier id'>cookie</span> <span class='assign token'>=</span> <span class='response identifier id'>response</span><span class='lbrack token'>[</span><span class='string val'>'Set-Cookie'</span><span class='rbrack token'>]</span>
+    <span class='@cookie ivar id'>@cookie</span> <span class='assign token'>=</span> <span class='cookie identifier id'>cookie</span>
+  <span class='end end kw'>end</span>
+
+  <span class='response identifier id'>response</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Class: Innate::Request</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section class Innate_Request">
+  <h1 class="title">Class: Innate::Request</h1>
+  <div class="section inheritance">
+  <ul>
+  <li>Rack::Request</li><ul><li>Innate::Request</li>
+  </ul></ul>
+</div><div class="section docstring">
+  <p>
+Subclass Rack::Request and add some convenient methods.
+</p>
+<p>
+An instance is available via the #request method in your Node.
+</p>
+<p>
+NOTE:
+</p>
+<pre class="code">
+  <span class='Please constant id'>Please</span> <span class='make identifier id'>make</span> <span class='sure identifier id'>sure</span> <span class='to identifier id'>to</span> <span class='read identifier id'>read</span> <span class='the identifier id'>the</span> <span class='documentation identifier id'>documentation</span> <span class='of identifier id'>of</span> <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Request constant id'>Request</span> <span class='together identifier id'>together</span> <span class='with identifier id'>with</span>
+  <span class='this identifier id'>this</span><span class='comma token'>,</span> <span class='as identifier id'>as</span> <span class='there identifier id'>there</span> <span class='are identifier id'>are</span> <span class='a identifier id'>a</span> <span class='lot identifier id'>lot</span> <span class='of identifier id'>of</span> <span class='features identifier id'>features</span> <span class='available identifier id'>available</span><span class='dot token'>.</span>
+</pre>
+<p>
+A list of methods from Rack::Request so you get a gist of it:
+</p>
+<p>
+## Generally
+</p>
+<ul>
+<li>body
+
+</li>
+<li>cookies
+
+</li>
+<li>env
+
+</li>
+<li>fullpath
+
+</li>
+<li>host
+
+</li>
+<li>port
+
+</li>
+<li>scheme
+
+</li>
+<li>url
+
+</li>
+</ul>
+<p>
+## ENV shortcuts
+</p>
+<ul>
+<li>accept_encoding
+
+</li>
+<li>content_charset
+
+</li>
+<li>content_length
+
+</li>
+<li>content_type
+
+</li>
+<li>ip
+
+</li>
+<li>media_type
+
+</li>
+<li>media_type_params
+
+</li>
+<li>path_info
+
+</li>
+<li>path_info=
+
+</li>
+<li>query_string
+
+</li>
+<li>referrer
+
+</li>
+<li>script_name
+
+</li>
+<li>script_name=
+
+</li>
+<li>xhr?
+
+</li>
+</ul>
+<p>
+## Query request method
+</p>
+<ul>
+<li>delete?
+
+</li>
+<li>get?
+
+</li>
+<li>head?
+
+</li>
+<li>post?
+
+</li>
+<li>put?
+
+</li>
+<li>request_method
+
+</li>
+</ul>
+<p>
+## parameter handling
+</p>
+<ul>
+<li>[]
+
+</li>
+<li>[]=
+
+</li>
+<li>form_data?
+
+</li>
+<li>params
+
+</li>
+<li>values_at
+
+</li>
+</ul>
+
+</div><div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#current-class_method" title="current">current</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Currently handled request from Innate::STATE[:request] Call it from
+anywhere via Innate::Request.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#%5B%5D-instance_method" title="#[]">#[]</a></span><span class='args'>(value, *keys)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Let&#8217;s allow #[] to act like #values_at.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#accept_language-instance_method" title="#accept_language">#accept_language</a></span><span class='args'>(string = env['HTTP_ACCEPT_LANGUAGE'])</span>
+        <span class='block'></span>
+        
+          <span class='alias'>#locales</span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Try to find out which languages the client would like to have and sort them
+by weight, (most wanted first).
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Array</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#accept_language_with_weight-instance_method" title="#accept_language_with_weight">#accept_language_with_weight</a></span><span class='args'>(string = env['HTTP_ACCEPT_LANGUAGE'])</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Transform the HTTP_ACCEPT_LANGUAGE header into an Array with:.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Array</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#domain-instance_method" title="#domain">#domain</a></span><span class='args'>(path = '/')</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Try to figure out the domain we are running on, this might work for some
+deployments but fail for others, given the combination of servers in front.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#http_variables-instance_method" title="#http_variables">#http_variables</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+          <span class='alias'>#http_vars</span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Interesting HTTP variables from env.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#local_net%3F-instance_method" title="#local_net?">#local_net?</a></span><span class='args'>(address = ip)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Request is from a local network? Checks both IPv4 and IPv6 Answer is true
+if the IP address making the request is from local network.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#pretty_print-instance_method" title="#pretty_print">#pretty_print</a></span><span class='args'>(pp)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Pretty prints current action with parameters, cookies and enviroment
+variables.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#request_uri-instance_method" title="#request_uri">#request_uri</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+the full request URI provided by Rack::Request e.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#subset-instance_method" title="#subset">#subset</a></span><span class='args'>(*keys)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Answers with a subset of request.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#to_s-instance_method" title="#to_s">#to_s</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+          <span class='alias'>#inspect</span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>current</h3>
+</div><div id="current-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>current</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Currently handled request from Innate::STATE[:request] Call it from
+anywhere via Innate::Request.current
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+61
+62
+63</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 61</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='current identifier id'>current</span>
+  <span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='request identifier id'>request</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>[]</h3>
+</div><div id="%5B%5D-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>[]</span><span class='args'>(value, *keys)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Let&#8217;s allow #[] to act like #values_at.
+</p>
+<p>
+Usage given a GET request like /hey?foo=duh&amp;bar=doh
+</p>
+<pre class="code">
+  <span class='request identifier id'>request</span><span class='lbrack token'>[</span><span class='symbol val'>:foo</span><span class='comma token'>,</span> <span class='symbol val'>:bar</span><span class='rbrack token'>]</span> <span class='comment val'># =&gt; ['duh', 'doh']</span>
+</pre>
+<p>
+Both <tt>value</tt> and the elements of <tt>keys</tt> will be turned into
+String by #to_s.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+72
+73
+74
+75</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 72</span>
+
+<span class='def def kw'>def</span> <span class='aref op'>[]</span><span class='lparen token'>(</span><span class='value identifier id'>value</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='keys identifier id'>keys</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='super super kw'>super</span><span class='lparen token'>(</span><span class='value identifier id'>value</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='keys identifier id'>keys</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='lbrack token'>[</span><span class='value identifier id'>value</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='keys identifier id'>keys</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='bitor op'>|</span> <span class='super super kw'>super</span><span class='lparen token'>(</span><span class='k identifier id'>k</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>accept_language</h3>
+</div><div id="accept_language-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Array</tt></span>
+    <span class='name'>accept_language</span><span class='args'>(string = env['HTTP_ACCEPT_LANGUAGE'])</span>
+    <span class='block'></span>
+  </tt>
+</div>
+<p class="aliases">
+  <span class="aka">Also known as:</span>
+  
+    <tt id="locales-instance_method">locales</tt>
+  
+</p>
+</div><div class="section docstring">
+  <p>
+Try to find out which languages the client would like to have and sort them
+by weight, (most wanted first).
+</p>
+<p>
+Returns and array of locales from env[&#8216;HTTP_ACCEPT_LANGUAGE]. e.g.
+[&quot;fi&quot;, &quot;en&quot;, &quot;ja&quot;, &quot;fr&quot;,
+&quot;de&quot;, &quot;es&quot;, &quot;it&quot;, &quot;nl&quot;,
+&quot;sv&quot;]
+</p>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='accept_language identifier id'>accept_language</span>
+  <span class='comment val'># =&gt; ['en-us', 'en', 'de-at', 'de']</span>
+</pre>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>String #to_s</tt>]</span>
+        <span class='name'>string</span>
+        
+          <em class="default">(defaults to: <tt>env['HTTP_ACCEPT_LANGUAGE']</tt>)</em>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+the value of HTTP_ACCEPT_LANGUAGE
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Array</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+list of locales
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="#accept_language_with_weight-instance_method" title="Request#accept_language_with_weight">Request#accept_language_with_weight</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+126
+127
+128
+129
+130</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 126</span>
+
+<span class='def def kw'>def</span> <span class='accept_language identifier id'>accept_language</span><span class='lparen token'>(</span><span class='string identifier id'>string</span> <span class='assign token'>=</span> <span class='env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>'HTTP_ACCEPT_LANGUAGE'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='unless unless_mod kw'>unless</span> <span class='string identifier id'>string</span>
+
+  <span class='accept_language_with_weight identifier id'>accept_language_with_weight</span><span class='lparen token'>(</span><span class='string identifier id'>string</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='lang identifier id'>lang</span><span class='comma token'>,</span> <span class='weight identifier id'>weight</span><span class='bitor op'>|</span> <span class='lang identifier id'>lang</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>accept_language_with_weight</h3>
+</div><div id="accept_language_with_weight-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Array</tt></span>
+    <span class='name'>accept_language_with_weight</span><span class='args'>(string = env['HTTP_ACCEPT_LANGUAGE'])</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Transform the HTTP_ACCEPT_LANGUAGE header into an Array with:
+</p>
+<pre class="code">
+  <span class='lbrack token'>[</span><span class='lbrack token'>[</span><span class='lang identifier id'>lang</span><span class='comma token'>,</span> <span class='weight identifier id'>weight</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='lang identifier id'>lang</span><span class='comma token'>,</span> <span class='weight identifier id'>weight</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='dot3 op'>...</span><span class='rbrack token'>]</span>
+</pre>
+<p>
+This algorithm was taken and improved from the locales library.
+</p>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='accept_language_with_weight identifier id'>accept_language_with_weight</span>
+  <span class='comment val'># =&gt; [[&quot;en-us&quot;, 1.0], [&quot;en&quot;, 0.8], [&quot;de-at&quot;, 0.5], [&quot;de&quot;, 0.3]]</span>
+</pre>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>String #to_s</tt>]</span>
+        <span class='name'>string</span>
+        
+          <em class="default">(defaults to: <tt>env['HTTP_ACCEPT_LANGUAGE']</tt>)</em>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+the value of HTTP_ACCEPT_LANGUAGE
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Array</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+array of [lang, weight] arrays
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="#accept_language-instance_method" title="Request#accept_language">Request#accept_language</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+148
+149
+150
+151
+152
+153</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 148</span>
+
+<span class='def def kw'>def</span> <span class='accept_language_with_weight identifier id'>accept_language_with_weight</span><span class='lparen token'>(</span><span class='string identifier id'>string</span> <span class='assign token'>=</span> <span class='env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>'HTTP_ACCEPT_LANGUAGE'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='string identifier id'>string</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\s+/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>','</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+        <span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='chunk identifier id'>chunk</span><span class='bitor op'>|</span>        <span class='chunk identifier id'>chunk</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>';q='</span><span class='comma token'>,</span> <span class='integer val'>2</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
+        <span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='lang identifier id'>lang</span><span class='comma token'>,</span> <span class='weight identifier id'>weight</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='lang identifier id'>lang</span><span class='comma token'>,</span> <span class='weight identifier id'>weight</span> <span class='integer val'>? </span><span class='weight identifier id'>weight</span><span class='dot token'>.</span><span class='to_f identifier id'>to_f</span> <span class='colon op'>:</span> <span class='float val'>1.0</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
+    <span class='sort_by identifier id'>sort_by</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='lang identifier id'>lang</span><span class='comma token'>,</span> <span class='weight identifier id'>weight</span><span class='bitor op'>|</span> <span class='minus op'>-</span><span class='weight identifier id'>weight</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>domain</h3>
+</div><div id="domain-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>domain</span><span class='args'>(path = '/')</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Try to figure out the domain we are running on, this might work for some
+deployments but fail for others, given the combination of servers in front.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+104
+105
+106
+107
+108
+109</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 104</span>
+
+<span class='def def kw'>def</span> <span class='domain identifier id'>domain</span><span class='lparen token'>(</span><span class='path identifier id'>path</span> <span class='assign token'>=</span> <span class='string val'>'/'</span><span class='rparen token'>)</span>
+  <span class='scheme identifier id'>scheme</span> <span class='assign token'>=</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='scheme identifier id'>scheme</span> <span class='orop op'>||</span> <span class='string val'>'http'</span>
+  <span class='host identifier id'>host</span>   <span class='assign token'>=</span> <span class='env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>'HTTP_HOST'</span><span class='rbrack token'>]</span>
+
+  <span class='URI constant id'>URI</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{scheme}://#{host}#{path}&quot;</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>http_variables</h3>
+</div><div id="http_variables-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>http_variables</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+<p class="aliases">
+  <span class="aka">Also known as:</span>
+  
+    <tt id="http_vars-instance_method">http_vars</tt>
+  
+</p>
+</div><div class="section docstring">
+  <p>
+Interesting HTTP variables from env
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+175
+176
+177</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 175</span>
+
+<span class='def def kw'>def</span> <span class='http_variables identifier id'>http_variables</span>
+  <span class='env identifier id'>env</span><span class='dot token'>.</span><span class='reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='bitor op'>|</span> <span class='key identifier id'>key</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span> <span class='nmatch op'>!~</span> <span class='INTERESTING_HTTP_VARIABLES constant id'>INTERESTING_HTTP_VARIABLES</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>local_net?</h3>
+</div><div id="local_net%3F-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>local_net?</span><span class='args'>(address = ip)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Request is from a local network? Checks both IPv4 and IPv6 Answer is true
+if the IP address making the request is from local network. Optional
+argument address can be used to check any IP address.
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="raise">
+  <h3>Raises:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>ArgumentError</tt>]</span>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'></span>
+    </dd>
+  
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+164
+165
+166
+167
+168
+169</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 164</span>
+
+<span class='def def kw'>def</span> <span class='local_net? fid id'>local_net?</span><span class='lparen token'>(</span><span class='address identifier id'>address</span> <span class='assign token'>=</span> <span class='ip identifier id'>ip</span><span class='rparen token'>)</span>
+  <span class='addr identifier id'>addr</span> <span class='assign token'>=</span> <span class='IPAddr constant id'>IPAddr</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='address identifier id'>address</span><span class='rparen token'>)</span>
+  <span class='LOCAL constant id'>LOCAL</span><span class='dot token'>.</span><span class='find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='range identifier id'>range</span><span class='bitor op'>|</span> <span class='range identifier id'>range</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='addr identifier id'>addr</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+<span class='rescue rescue kw'>rescue</span> <span class='ArgumentError constant id'>ArgumentError</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='ex identifier id'>ex</span>
+  <span class='raise identifier id'>raise</span> <span class='ArgumentError constant id'>ArgumentError</span><span class='comma token'>,</span> <span class='ex identifier id'>ex</span> <span class='unless unless_mod kw'>unless</span> <span class='ex identifier id'>ex</span><span class='dot token'>.</span><span class='message identifier id'>message</span> <span class='eq op'>==</span> <span class='string val'>'invalid address'</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>pretty_print</h3>
+</div><div id="pretty_print-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>pretty_print</span><span class='args'>(pp)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Pretty prints current action with parameters, cookies and enviroment
+variables.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 189</span>
+
+<span class='def def kw'>def</span> <span class='pretty_print identifier id'>pretty_print</span><span class='lparen token'>(</span><span class='pp identifier id'>pp</span><span class='rparen token'>)</span>
+  <span class='pp identifier id'>pp</span><span class='dot token'>.</span><span class='object_group identifier id'>object_group</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+    <span class='group identifier id'>group</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='string val'>'params'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='params identifier id'>params</span><span class='comma token'>,</span> <span class='string val'>'cookies'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='cookies identifier id'>cookies</span><span class='comma token'>,</span> <span class='string val'>'env'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='http_vars identifier id'>http_vars</span> <span class='rbrace token'>}</span>
+    <span class='group identifier id'>group</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='hash identifier id'>hash</span><span class='bitor op'>|</span>
+      <span class='pp identifier id'>pp</span><span class='dot token'>.</span><span class='breakable identifier id'>breakable</span>
+      <span class='pp identifier id'>pp</span><span class='dot token'>.</span><span class='text identifier id'>text</span> <span class='dstring node'>&quot; @#{name}=&quot;</span>
+      <span class='pp identifier id'>pp</span><span class='dot token'>.</span><span class='nest identifier id'>nest</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='dot token'>.</span><span class='size identifier id'>size</span> <span class='plus op'>+</span> <span class='integer val'>3</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='pp identifier id'>pp</span><span class='dot token'>.</span><span class='pp_hash identifier id'>pp_hash</span><span class='lparen token'>(</span><span class='hash identifier id'>hash</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='end end kw'>end</span>
+  <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>request_uri</h3>
+</div><div id="request_uri-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>request_uri</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+the full request URI provided by Rack::Request e.g.
+&quot;http://localhost:7000/controller/action?foo=bar.xhtml&quot;
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+79
+80
+81</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 79</span>
+
+<span class='def def kw'>def</span> <span class='request_uri identifier id'>request_uri</span>
+  <span class='env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>'REQUEST_URI'</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>'PATH_INFO'</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>subset</h3>
+</div><div id="subset-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>subset</span><span class='args'>(*keys)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Answers with a subset of request.params with only the key/value pairs for
+which you pass the keys. Valid keys are objects that respond to :to_s
+</p>
+<p>
+Example:
+</p>
+<pre class="code">
+  <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='params identifier id'>params</span>
+  <span class='comment val'># =&gt; &lt;tt&gt;=&amp;gt; 'jason', 'age' =&amp;gt; '45', 'job' =&amp;gt; 'lumberjack'&lt;/tt&gt;</span>
+  <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='subset identifier id'>subset</span><span class='lparen token'>(</span><span class='string val'>'name'</span><span class='rparen token'>)</span>
+  <span class='comment val'># =&gt; &lt;tt&gt;=&amp;gt; 'jason'&lt;/tt&gt;</span>
+  <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='subset identifier id'>subset</span><span class='lparen token'>(</span><span class='symbol val'>:name</span><span class='comma token'>,</span> <span class='symbol val'>:job</span><span class='rparen token'>)</span>
+  <span class='comment val'># =&gt; &lt;tt&gt;=&amp;gt; 'jason', 'job' =&amp;gt; 'lumberjack'&lt;/tt&gt;</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+95
+96
+97
+98</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 95</span>
+
+<span class='def def kw'>def</span> <span class='subset identifier id'>subset</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='keys identifier id'>keys</span><span class='rparen token'>)</span>
+  <span class='keys identifier id'>keys</span> <span class='assign token'>=</span> <span class='keys identifier id'>keys</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='bitor op'>|</span> <span class='k identifier id'>k</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span> <span class='rbrace token'>}</span>
+  <span class='params identifier id'>params</span><span class='dot token'>.</span><span class='reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='comma token'>,</span><span class='v identifier id'>v</span><span class='bitor op'>|</span> <span class='not not kw'>not</span> <span class='keys identifier id'>keys</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='k identifier id'>k</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>to_s</h3>
+</div><div id="to_s-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>to_s</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+<p class="aliases">
+  <span class="aka">Also known as:</span>
+  
+    <tt id="inspect-instance_method">inspect</tt>
+  
+</p>
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+182
+183
+184</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/request.rb', line 182</span>
+
+<span class='def def kw'>def</span> <span class='to_s identifier id'>to_s</span>
+  <span class='REQUEST_STRING_FORMAT constant id'>REQUEST_STRING_FORMAT</span> <span class='mod op'>%</span> <span class='lbrack token'>[</span><span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='comma token'>,</span> <span class='params identifier id'>params</span><span class='comma token'>,</span> <span class='cookies identifier id'>cookies</span><span class='comma token'>,</span> <span class='http_variables identifier id'>http_variables</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <title>README</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section docstring readme">
+        <h1>Innate</h1>
+
+<p>Innate is the new core of Ramaze, but useful on its own.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Powerful Helper system</li>
+<li>Nodes[1] simply include Innate::Node, so class inheritance is your choice.</li>
+<li>The only hard dependency is Rack</li>
+<li>Easy to get started</li>
+<li>Compatible with major Ruby implementations[2].</li>
+<li>Usage of Fiber[3] instead of Thread if possible.</li>
+<li>Namespaced serializable configuration system</li>
+<li>Simple testing without need of a running server</li>
+<li>No clutter in your application directory structure, scales from a single file
+upwards</li>
+<li>Seamless integration with Rack middleware</li>
+<li>No patching[4] of ruby core or stdlib.</li>
+<li>Direct access to the current Request, Response, and Session from anywhere via
+Trinity</li>
+<li>Supporting numerous templating engines.</li>
+<li>Any action can be presented in multiple ways.</li>
+</ul>
+
+<p>[1]: What you may think of as Controller.
+[2]: This includes: Ruby 1.8, Ruby 1.9.1, JRuby, Rubinius
+[3]: Fiber is available on 1.9 only at this point.
+[4]: However, we add String#each if it isn't there to be compatible with Rack.</p>
+
+<h2>Usage</h2>
+
+<p>A simple example of using Innate that also shows you how to add your custom
+middleware, write specs and the overall concept:</p>
+
+<pre class="code"><span class='require identifier id'>require</span> <span class='string val'>'innate'</span>
+
+<span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='setup_middleware identifier id'>setup_middleware</span>
+
+<span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='env identifier id'>env</span><span class='bitor op'>|</span>
+  <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Response constant id'>Response</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>'Hello, World!'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='finish identifier id'>finish</span>
+<span class='end end kw'>end</span>
+
+<span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Mock constant id'>Mock</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span>
+</pre>
+
+<p>And another example, using Node with a normal server:</p>
+
+<pre class="code"><span class='require identifier id'>require</span> <span class='string val'>'innate'</span>
+
+<span class='class class kw'>class</span> <span class='Hi constant id'>Hi</span>
+  <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span>
+  <span class='map identifier id'>map</span> <span class='string val'>'/'</span>
+
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span>
+    <span class='string val'>&quot;Hello, World!&quot;</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+
+<span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='start identifier id'>start</span> <span class='symbol val'>:adapter</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:mongrel</span>
+</pre>
+
+<h2>Installation</h2>
+
+<h3>Via git (recommended)</h3>
+
+<p>Installing Innate from git is highly recommended, since it gives you easy
+access to alternate branches, bugfixes, and new features.</p>
+
+<pre class="code"><span class='git identifier id'>git</span> <span class='clone identifier id'>clone</span> <span class='git identifier id'>git</span><span class='symbol val'>:/</span><span class='regexp val'>/github.com/</span><span class='manveru identifier id'>manveru</span><span class='div op'>/</span><span class='innate identifier id'>innate</span><span class='dot token'>.</span><span class='git identifier id'>git</span>
+</pre>
+
+<p>And add the innate/lib directory to your <code>RUBYLIB</code> environment variable.</p>
+
+<p>For unixish systems you may want to add it to <code>~/.bashrc</code> or the equivalent for
+your shell:</p>
+
+<pre class="code"><span class='export identifier id'>export</span> <span class='RUBYLIB constant id'>RUBYLIB</span><span class='assign token'>=</span><span class='string val'>&quot;~/path/to/innate/lib:$RUBYLIB&quot;</span>
+</pre>
+
+<h3>Via gem install</h3>
+
+<h4>From Github</h4>
+
+<pre class="code"><span class='gem identifier id'>gem</span> <span class='install identifier id'>install</span> <span class='manveru identifier id'>manveru</span><span class='minus op'>-</span><span class='innate identifier id'>innate</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='source identifier id'>source</span><span class='assign token'>=</span><span class='http identifier id'>http</span><span class='symbol val'>:/</span><span class='regexp val'>/gems.github.com
+</span></pre>
+
+<h4>From Rubyforge</h4>
+
+<p>Not yet, and not sure when I'll get around to do this, feel free to ask if you
+want to maintain the project at rubyforge.</p>
+
+<h2>Concepts</h2>
+
+<p>First let's see about the good old MVC:</p>
+
+<h3>Model</h3>
+
+<p>Innate doesn't have any ties to models, it does not offer helpers or rake tasks
+or whatever you may be expecting, there is no M, use whatever you like.
+Innate is, however, known to be compatible with the ORMs listed below:</p>
+
+<ul>
+<li>ActiveRecord</li>
+<li>DataMapper</li>
+<li>M4DBI</li>
+<li>Og</li>
+<li>Sequel</li>
+</ul>
+
+<p>Please consider giving us a heads up about what worked for you if it isn't in
+the list yet.</p>
+
+<h3>View</h3>
+
+<p>Innate supports multiple templating engines and it is very easy to add your
+own.
+At the moment we offer following engines out of the box:</p>
+
+<ul>
+<li><a href="http://builder.rubyforge.org">Builder</a></li>
+<li><a href="http://haml.hamptoncatlin.com/">Haml</a></li>
+<li><a href="http://haml.hamptoncatlin.com/docs/sass">Sass</a></li>
+<li><a href="http://rubyforge.org/projects/erubis">Erubis</a></li>
+<li><a href="http://www.kuwata-lab.com/tenjin/">Tenjin</a></li>
+</ul>
+
+<p>How to build your own is discussed at
+<a href="http://ramaze.net/HowTo:View">HowTo:View</a>.</p>
+
+<h3>Controller</h3>
+
+<p>Innate follows a different approach than most frameworks, making the controller
+subclassing obsolete. To make an object accessible from the outside simply
+include Innate::Node and map it to the location you would like.</p>
+
+<h2>Differences from Ramaze</h2>
+
+<p>Innate throws a lot overboard; it doesn't provide all the bells and whistles
+that you may be used to.  This makes Ramaze a very good option for larger
+applications.</p>
+
+<p>For this reason, Innate won't just be a standalone framework, but will also
+become the new core for Ramaze.</p>
+
+<p>Ramaze started out without any of the benefits that Rack gives us these days,
+especially regarding the server handlers, request/response, and middleware.</p>
+
+<p>Still it tried to provide everything one might need with the least effort,
+leading to a lot of incorporation of dependencies (we have things like bacon,
+simple_http, gettext, mime types, ...)</p>
+
+<h3>Configuration</h3>
+
+<p>Configurability has always been a major aspect of Ramaze, and I will keep it
+this way. The famous option.rb is the peak of what can be achieved with the
+approach of a single Struct for all options, making them approachable from the
+CLI, during runtime, on startup, in separate files, even loading from YAML...</p>
+
+<p>What was always missing was a way to add configuration to your own
+applications, and extending the Ramaze::Global for this purpose is very
+difficult.</p>
+
+<p>With Innate I hope to tackle this problem, it's currently not as fast as
+Ramaze::Global, but offers namespaces and inheritance.</p>
+
+<p>The areas wherein Ramaze::Global excels (CLI arguments, documentation and
+annotation for options) will soon be integrated as well.</p>
+
+<p>Configuration namespaces will offer a nice way to merge different applications
+and reconcile their options in a unified manner, opening the way for slice-like
+behaviour.</p>
+
+<p>So for example, one can provide some slice that handles feeds:</p>
+
+<pre class="code"><span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Options constant id'>Options</span><span class='dot token'>.</span><span class='for identifier id'>for</span><span class='lparen token'>(</span><span class='symbol val'>:feed_slice</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='feed identifier id'>feed</span><span class='bitor op'>|</span>
+  <span class='feed identifier id'>feed</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='assign token'>=</span> <span class='string val'>'/feeds'</span>
+  <span class='feed identifier id'>feed</span><span class='dot token'>.</span><span class='view_root identifier id'>view_root</span> <span class='assign token'>=</span> <span class='string val'>'slice/feed/view'</span>
+  <span class='feed identifier id'>feed</span><span class='dot token'>.</span><span class='retrieve identifier id'>retrieve</span> <span class='assign token'>=</span> <span class='lambda identifier id'>lambda</span><span class='lbrace token'>{</span> <span class='Post constant id'>Post</span><span class='dot token'>.</span><span class='all identifier id'>all</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+
+<span class='class class kw'>class</span> <span class='Feeds constant id'>Feeds</span>
+  <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span>
+  <span class='options identifier id'>options</span> <span class='symbol val'>:feed_slice</span>
+<span class='end end kw'>end</span>
+</pre>
+
+<p>It would be a requirement to set the options before requiring the slice itself,
+but that's just a minor issue that I think we can live with.</p>
+
+<h3>Controller</h3>
+
+<p>Well, that's the part I worry most about. Every existing Ramaze application
+relies on the Ramaze::Controller.</p>
+
+<p>The major question is, should we switch Ramaze entirely to the Node approach or
+maybe just provide a Ramaze::Controller that has Innate::Node included?</p>
+
+<p>It does have drawbacks, such as decreased support for either approach, but
+might give people a familiar anchor when switching, and allow them to gradually
+adjust their applications.</p>
+
+<p>Other things are layouts and provides.</p>
+
+<h4>Layouts</h4>
+
+<p>Since layouts were an afterthought in Ramaze, they were made normal actions
+like every other on the respective controllers, leading to lots of confusion
+over the correct way to use layouts, the Controller::layout syntax in respect
+to the real location of layouts, how to exclude/include single actions, where
+layouts should be stored, how to prevent lookup from external requests, ...</p>
+
+<p>I made layouts just as important as views and methods for the Action in Innate,
+and they have their own root directory to live in and will not be considered as
+a normal view template, so they cannot be accidentally be rendered as their own
+actions.</p>
+
+<p>This strikes me as important, because I consider layouts to be superior to
+Ezamar elements and equal to render<em>partial or render</em>template, just about
+every application uses it, so they should be handled in the best way possible.</p>
+
+<p>The root directory for layouts is in line with the other default locations:</p>
+
+<p>/node
+/layout
+/view
+/model
+/public</p>
+
+<p>While none of these directories is necessary, they will be the default
+locations and should be included in a new proto for Ramaze.</p>
+
+<p>Innate will not have project generating capabilities, so we just have to
+document it very well and provide some example apps.</p>
+
+<h4>Provides</h4>
+
+<p>This is a major new feature stolen from Merb and adapted for the ease of use of
+Innate/Ramaze.
+It won't have all the capabilities one might be used to out of the box, but
+extending them is easy.</p>
+
+<p>Having "provides" means that every Action has different ways of being rendered,
+depending on so-called wishes.</p>
+
+<p>A wish may be anything related to the request object, and by default it will
+trigger on the filename extension asked for.
+This enables you to create a single action that can be rendered in
+json/rss/atom/yaml/xml/xhtml/html/wap or different languages...</p>
+
+<p>The dispatching in Node depends on the filename extension by default, but more
+decision paths can be added to Action by overriding some defaults.</p>
+
+<p>There is no convention yet of how layouts will map to these wishes, but I hope
+to specify this further once we have some specific requirements.</p>
+
+<p>This feature is very alien to Ramaze, which always has a 1:1 mapping between
+actions and their views and how they are rendered, which made people wonder how
+to serve sass as css or how to respond with json for a ajax request until they
+finally were pointed to setting content-type, using respond and setting up
+custom routes.</p>
+
+<p>I hope that adding this feature will make things simpler for people who care
+about it while it can be ignored by people who don't.</p>
+
+<h3>More specifics</h3>
+
+<p>Here I try to list the most important things that Ramaze will offer but that
+are not included in Innate itself in terms of globs:</p>
+
+<ul>
+<li>cache.rb and cache/*.rb</li>
+<li>current/response.rb</li>
+<li>tool/{create,mime,localize,daemonize,record,project_creator}.rb</li>
+<li>spec/helper/*.rb</li>
+<li>snippets/*<em>/</em>.rb</li>
+<li>gestalt.rb</li>
+<li>store/default.rb</li>
+<li>contrib.rb or any contribs</li>
+<li>adapter/*.rb (superseded by a lightweight adapter.rb)</li>
+<li>template/ezamar<em>/</em></li>
+<li>bacon.rb</li>
+<li>dispatcher.rb</li>
+<li>dispatcher/*.rb</li>
+</ul>
+
+<p>There might be a couple of things I've forgotten, but that's what a quick
+glance tells me.</p>
+
+<p>Let's go through them one by one and consider what's gonna happen to them:</p>
+
+<h3>Cache</h3>
+
+<p>Caching is a very important concern and one of the most difficult things to get
+right for any web application.  Ramaze tried to get caching done right and I
+consider it fairly successful when it comes to that.  There are a myriad of
+options available for caching, different caching mechanisms such as marshal to
+filesystem, memcached, in-memory, yaml to filesystem, etc.  The granularity can
+be chosen depending on the use case, distributed caching of sessions, actions,
+single key/value pairs, and so on.  Fine-tuning each of those to use a different
+mechanism will be made as painless as possible.</p>
+
+<p>We have gone through a lot of difficulties, memory-leaks, disputes, and
+challenges to get this done, but most users won't realize this until they
+encounter a problem.</p>
+
+<p>At this point I would really like to thank all of the people who contributed to
+caching as it is today.</p>
+
+<p>I will move caching in a lighter form to Innate, mostly what is needed for
+distributed sessions, giving Ramaze the opportunity to add new kinds.</p>
+
+<h3>Response</h3>
+
+<p>This was always a very little class since Rack started providing more features,
+I think it's time to retire it and lobby for integration of features into Rack
+itself.</p>
+
+<h3>Tools</h3>
+
+<p>Ramaze acquired quite a lot of tools, some of those are not useful anymore,
+other ones might have to stick around.</p>
+
+<h4>Tool::Create</h4>
+
+<p>This has been used by <code>bin/ramaze --create</code> and I think it will stick around
+for some more time.</p>
+
+<h4>Tool::ProjectCreator</h4>
+
+<p>Dependency for Tool::Create, should get a lot more documentation and exposure
+because I think it can be very useful for sharing and creating basic
+application skeletons.
+Another route would be to find a better tool and make it a dependency for
+<code>ramaze --create</code>, but that would give a terrible out-of-the-box experience.</p>
+
+<h5>Tool::Daemonize</h5>
+
+<p>Nothing but issues with this one although it is just a very thin wrapper for
+the daemons gem. Nobody has contributed to this so far despite the issues and
+it seems that there are a lot of different solutions for this problem.
+This will be removed from both Ramaze and Innate.</p>
+
+<h5>Ramaze::Record</h5>
+
+<p>Well, this might be the most obvious candidate for removal, maybe it can be
+revived as middleware.  The functionality itself is in the adapter and even
+that's only a few lines.  But so far I have never seen any usage for it.</p>
+
+<h5>Tool::Localize</h5>
+
+<p>I and a lot of other people have used this over time and it has proven itself
+to be a very easy and straight-forward way of doing localization.</p>
+
+<p>It think it is better suited as middleware which can be included into
+rack-contrib and doesn't rely on the normal session but a simple unobfuscated
+cookie.</p>
+
+<h5>Tool::MIME</h5>
+
+<p>This one will be removed, Rack::Mime is a viable alternative.</p>
+
+<h3>Spec helpers</h3>
+
+<p>Over the years, Ramaze has collected a wide variety of spec helpers that are
+not really compatible to each other and rely on real request/response with a
+running server.</p>
+
+<p>Innate provides a better alternative via Innate::Mock for its own specs,
+applications will need the power of a real scraping library and we will provide
+a canonical way of running a server in the background before running the specs.
+There will not be any other helpers in Innate, but Ramaze might provide a few
+standard ones to get up and running (hpricot, rexml).</p>
+
+<p>Regarding the spec output parsers, that's a different issue.  Providing
+readable output while running specs is a major feature that must be included in
+order to keep frustration low.  We will provide a suitable logger replacement
+so one can simply extend Bacon with that in order to get nice summaries and
+good error output.</p>
+
+<h3>Snippets</h3>
+
+<p>Snippets have been in Ramaze since day 1, but I think it is wrong for Innate to
+provide those. Over the years there have been lots of libraries that all
+provide their own core extensions and interference is a major issue. Innate
+will keep everything as clean as possible, doing subclasses inside the Innate
+namespace where it needs to change things.</p>
+
+<p>Two things that we need are (currently) String#each, because Rack relies on it,
+and BasicObject as superclass for the Option class. They are only applied on
+demand.</p>
+
+<p>These are in the directory called core_extensions, to make it very, very clear
+what we are doing and how we are doing it.</p>
+
+<p>Ramaze has still a lot of these snippets and will continue to, although I will
+constantly strive to reduce them slowly.</p>
+
+<h3>Gestalt</h3>
+
+<p>Gestalt has been the first "templating_engine" for Ramaze and is still used in
+some fractions of the code and various applications.  There are a lot of other
+html/xml builders out there these days so I think this is no good choice for
+inclusion into Innate. I will keep it inside Ramaze.</p>
+
+<h3>Ramaze::Store::Default</h3>
+
+<p>I will remove this class from both Innate and Ramaze. It started out as a
+simple wrapper for YAML::Store to make the tutorial easier, but I think it
+gives a wrong impression of being anything else.</p>
+
+<p>It's very slow, might raise exceptions under heavy load and a plain YAML::Store
+or PStore or any other persistence mechanism is generally a better choice, so
+there is no need to keep this around.</p>
+
+<h3>Contrib</h3>
+
+<p>There's a lot in there, and some of these things are used widely, others not at
+all.  Some things are better suited as middleware, I will move them to
+rack-contrib ASAP:</p>
+
+<ul>
+<li>gzip_filter</li>
+<li>profiling</li>
+</ul>
+
+<p>Then there's things that don't see much use.  They should stay in the future
+Ramaze contrib or face removal:</p>
+
+<ul>
+<li>facebook</li>
+<li>gettext</li>
+<li>maruku_uv</li>
+<li>sequel_cache</li>
+<li>rest</li>
+</ul>
+
+<p>And other things that should be moved into Ramaze proper:</p>
+
+<ul>
+<li>email</li>
+<li>file_cache (done)</li>
+<li>gems</li>
+</ul>
+
+<p>None of these will be included in Innate.</p>
+
+<h3>Adapters</h3>
+
+<p>These are entirely the responsibility of Rack/Innate now, Ramaze doesn't need
+to worry about that.  WEBrick will remain the default adapter since it is in
+the Ruby stdlib.</p>
+
+<h3>Templating</h3>
+
+<p>Templating will also be handled by Innate for the most part.</p>
+
+<h4>Ezamar</h4>
+
+<p>I have plans to make Ezamar a separate project.  It's been stable since over a
+year and I think it's time to make it available for other projects.  ERB will
+be the new default engine since it also is in the stdlib.</p>
+
+<h3>Bacon</h3>
+
+<p>Bacon will be a dependency for Ramaze and Innate specs, but we will not ship it
+anymore, it's stable and has all features we need included in the release.</p>
+
+<h3>Dispatcher</h3>
+
+<p>Innate uses a stripped down version of the Ramaze dispatcher.  The Ramaze
+dispatcher was strongly influenced by Nitro, but proved to be a difficult
+part.  We are now using Rack's URLMap directly, and have a minimal dispatching
+mechanism directly in Node (like we used to have one in Controller).</p>
+
+<p>A lot of the functionality that used to be in the different dispatchers is now
+provided by Rack middleware.</p>
+
+<p>The Dispatcher itself isn't needed anymore.  It used to setup
+Request/Response/Session, which was superseded by Current, this again is now
+superseded by STATE::wrap.</p>
+
+<p>We are going to remove all the other dispatchers as well, providing default
+ways to provide the same functionality, and various middleware to use.</p>
+
+<h4>Dispatcher::Action</h4>
+
+<p>This dispatcher was used to initiate the controller dispatching, this is now
+not needed anymore.</p>
+
+<h4>Dispatcher::Directory</h4>
+
+<p>This will also be removed.  There is a directory listing middleware already.</p>
+
+<h4>Dispatcher::Error</h4>
+
+<p>There's middleware for this as well, and a canonical way of routing errors to
+other actions.  This used to be one of the most difficult parts of Ramaze and
+it will be removed to make things simpler.</p>
+
+<h4>Dispatcher::File</h4>
+
+<p>This is a combination of the etag and conditionalget middlewares, ergo Innate
+and Ramaze will not serve static files themselves anymore, but leave the job to
+Rack or external servers.</p>
+      </div>
+    </div>
+  </body>
+</html>

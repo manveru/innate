@@ -1,0 +1,614 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Class: Rack::Reloader</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section class Rack_Reloader">
+  <h1 class="title">Class: Rack::Reloader</h1>
+  <div class="section mixins">
+  <h1>Included Modules</h1>
+  <p><a href="Reloader/Hooks.html" title="Rack::Reloader::Hooks">Rack::Reloader::Hooks</a></p>
+</div><div class="section docstring">
+  <p>
+High performant source reloader
+</p>
+<p>
+This class acts as Rack middleware.
+</p>
+<p>
+It does not depend on Ramaze itself, but you might have to adjust the
+Reloader::Hooks module or include your own module to override the hooks.
+You also might have to set the Log constant.
+</p>
+<p>
+What makes it especially suited for use in a production environment is that
+any file will only be checked once and there will only be made one system
+call stat(2).
+</p>
+<p>
+Please note that this will not reload files in the background, it does so
+only when actively called In case of Ramaze it is performing a check/reload
+cycle at the start of every request, but also respects a cool down time,
+during which nothing will be done.
+</p>
+<p>
+After every reload the OPTIONS hash will be checked for changed options and
+assigned to the instance, so you may change options during the lifetime of
+your application.
+</p>
+<p>
+A number of hooks will be executed during the reload cycle, see
+Ramaze::ReloaderHooks for more information.
+</p>
+
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="OPTIONS-constant">OPTIONS</dt>
+      <dd>{
+  # At most check every n seconds
+  # nil/false will never trigger the reload cycle
+  # 0 will cycle on every call
+  :cooldown =&gt; 2,
+
+  # Compiled files cannot be reloaded during runtime
+  :ignore =&gt; /\.so$/,
+
+  # Run cycle in a Thread.exclusive, by default no threads are used.
+  :thread =&gt; false,
+
+  # If you assign a block here it will be instance_evaled instead of
+  # calling cycle. This allows you to use for example EventMachine for
+  # well performing asynchronous cycling.
+  :control =&gt; nil, # lambda{ cycle },
+}</dd>
+    
+  </dl>
+</div>
+
+</div><div class="section constructor">
+<h1>Constructor Summary</h1>
+  <div id="initialize-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>initialize</span><span class='args'>(app)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+59
+60
+61
+62</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 59</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='rparen token'>)</span>
+  <span class='@app ivar id'>@app</span> <span class='assign token'>=</span> <span class='app identifier id'>app</span>
+  <span class='options_reload identifier id'>options_reload</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#call-instance_method" title="#call">#call</a></span><span class='args'>(env)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cycle-instance_method" title="#cycle">#cycle</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#figure_path-instance_method" title="#figure_path">#figure_path</a></span><span class='args'>(file, paths)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#options_reload-instance_method" title="#options_reload">#options_reload</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#rotation-instance_method" title="#rotation">#rotation</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#safe_load-instance_method" title="#safe_load">#safe_load</a></span><span class='args'>(file, mtime)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+A safe Kernel::load, issuing the hooks depending on the results.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table><div class="included">
+  
+  <div>
+    <h1>Public Instance Methods Included from <a href="Reloader/Hooks.html" title="Rack::Reloader::Hooks">Rack::Reloader::Hooks</a></h1>
+    <p><span class='name'><a href="Reloader/Hooks.html#after_cycle-instance_method" title="after_cycle">after_cycle</a></span>, <span class='name'><a href="Reloader/Hooks.html#after_safe_load-instance_method" title="after_safe_load">after_safe_load</a></span>, <span class='name'><a href="Reloader/Hooks.html#after_safe_load_failed-instance_method" title="after_safe_load_failed">after_safe_load_failed</a></span>, <span class='name'><a href="Reloader/Hooks.html#after_safe_load_succeed-instance_method" title="after_safe_load_succeed">after_safe_load_succeed</a></span>, <span class='name'><a href="Reloader/Hooks.html#before_cycle-instance_method" title="before_cycle">before_cycle</a></span>, <span class='name'><a href="Reloader/Hooks.html#before_safe_load-instance_method" title="before_safe_load">before_safe_load</a></span></p>
+  </div>
+  
+</div>
+<div class="clear"></div>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>call</h3>
+</div><div id="call-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>call</span><span class='args'>(env)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 69</span>
+
+<span class='def def kw'>def</span> <span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='env identifier id'>env</span><span class='rparen token'>)</span>
+  <span class='options_reload identifier id'>options_reload</span>
+
+  <span class='if if kw'>if</span> <span class='@cooldown ivar id'>@cooldown</span> <span class='and and kw'>and</span> <span class='Time constant id'>Time</span><span class='dot token'>.</span><span class='now identifier id'>now</span> <span class='gt op'>&gt;</span> <span class='@@last ivar id'>@@last</span> <span class='plus op'>+</span> <span class='@cooldown ivar id'>@cooldown</span>
+    <span class='if if kw'>if</span> <span class='@control ivar id'>@control</span>
+      <span class='instance_eval identifier id'>instance_eval</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='@control ivar id'>@control</span><span class='rparen token'>)</span>
+    <span class='elsif elsif kw'>elsif</span> <span class='@thread ivar id'>@thread</span>
+      <span class='Thread constant id'>Thread</span><span class='dot token'>.</span><span class='exclusive identifier id'>exclusive</span><span class='lbrace token'>{</span> <span class='cycle identifier id'>cycle</span> <span class='rbrace token'>}</span>
+    <span class='else else kw'>else</span>
+      <span class='cycle identifier id'>cycle</span>
+    <span class='end end kw'>end</span>
+
+    <span class='@@last ivar id'>@@last</span> <span class='assign token'>=</span> <span class='Time constant id'>Time</span><span class='dot token'>.</span><span class='now identifier id'>now</span>
+  <span class='end end kw'>end</span>
+
+  <span class='@app ivar id'>@app</span><span class='dot token'>.</span><span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='env identifier id'>env</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cycle</h3>
+</div><div id="cycle-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>cycle</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 87</span>
+
+<span class='def def kw'>def</span> <span class='cycle identifier id'>cycle</span>
+  <span class='before_cycle identifier id'>before_cycle</span>
+
+  <span class='rotation identifier id'>rotation</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='stat identifier id'>stat</span><span class='bitor op'>|</span>
+    <span class='if if kw'>if</span> <span class='mtime identifier id'>mtime</span> <span class='assign token'>=</span> <span class='stat identifier id'>stat</span><span class='dot token'>.</span><span class='mtime identifier id'>mtime</span>
+      <span class='if if kw'>if</span> <span class='mtime identifier id'>mtime</span> <span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='@@mtimes ivar id'>@@mtimes</span><span class='lbrack token'>[</span><span class='file identifier id'>file</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='mtime identifier id'>mtime</span><span class='rparen token'>)</span>
+        <span class='safe_load identifier id'>safe_load</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='mtime identifier id'>mtime</span><span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='else else kw'>else</span>
+      <span class='@@cache ivar id'>@@cache</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='after_cycle identifier id'>after_cycle</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>figure_path</h3>
+</div><div id="figure_path-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>figure_path</span><span class='args'>(file, paths)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 132</span>
+
+<span class='def def kw'>def</span> <span class='figure_path identifier id'>figure_path</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='cached identifier id'>cached</span> <span class='assign token'>=</span> <span class='@@cache ivar id'>@@cache</span><span class='lbrack token'>[</span><span class='file identifier id'>file</span><span class='rbrack token'>]</span>
+    <span class='stat identifier id'>stat</span> <span class='assign token'>=</span> <span class='colon3 op'>::</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='stat identifier id'>stat</span><span class='lparen token'>(</span><span class='cached identifier id'>cached</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='cached identifier id'>cached</span><span class='comma token'>,</span> <span class='stat identifier id'>stat</span> <span class='if if_mod kw'>if</span> <span class='stat identifier id'>stat</span><span class='dot token'>.</span><span class='file? fid id'>file?</span>
+  <span class='elsif elsif kw'>elsif</span> <span class='Pathname constant id'>Pathname</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='absolute? fid id'>absolute?</span>
+    <span class='stat identifier id'>stat</span> <span class='assign token'>=</span> <span class='colon3 op'>::</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='stat identifier id'>stat</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='stat identifier id'>stat</span> <span class='if if_mod kw'>if</span> <span class='stat identifier id'>stat</span><span class='dot token'>.</span><span class='file? fid id'>file?</span> <span class='comment val'># do directories really end up in $&quot; ?</span>
+  <span class='end end kw'>end</span>
+
+  <span class='paths identifier id'>paths</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='possible_path identifier id'>possible_path</span><span class='bitor op'>|</span>
+    <span class='path identifier id'>path</span> <span class='assign token'>=</span> <span class='colon3 op'>::</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='possible_path identifier id'>possible_path</span><span class='comma token'>,</span> <span class='file identifier id'>file</span><span class='rparen token'>)</span>
+
+    <span class='begin begin kw'>begin</span>
+      <span class='stat identifier id'>stat</span> <span class='assign token'>=</span> <span class='colon3 op'>::</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='stat identifier id'>stat</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+      <span class='return return kw'>return</span> <span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='stat identifier id'>stat</span> <span class='if if_mod kw'>if</span> <span class='stat identifier id'>stat</span><span class='dot token'>.</span><span class='file? fid id'>file?</span>
+    <span class='rescue rescue kw'>rescue</span> <span class='Errno constant id'>Errno</span><span class='colon2 op'>::</span><span class='ENOENT constant id'>ENOENT</span><span class='comma token'>,</span> <span class='Errno constant id'>Errno</span><span class='colon2 op'>::</span><span class='ENOTDIR constant id'>ENOTDIR</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='return return kw'>return</span> <span class='nil nil kw'>nil</span>
+<span class='rescue rescue kw'>rescue</span> <span class='Errno constant id'>Errno</span><span class='colon2 op'>::</span><span class='ENOENT constant id'>ENOENT</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='ex identifier id'>ex</span>
+  <span class='@@cache ivar id'>@@cache</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+  <span class='retry retry kw'>retry</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>options_reload</h3>
+</div><div id="options_reload-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>options_reload</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+64
+65
+66
+67</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 64</span>
+
+<span class='def def kw'>def</span> <span class='options_reload identifier id'>options_reload</span>
+  <span class='@cooldown ivar id'>@cooldown</span><span class='comma token'>,</span> <span class='@ignore ivar id'>@ignore</span><span class='comma token'>,</span> <span class='@control ivar id'>@control</span><span class='comma token'>,</span> <span class='@thread ivar id'>@thread</span> <span class='assign token'>=</span>
+    <span class='OPTIONS constant id'>OPTIONS</span><span class='dot token'>.</span><span class='values_at identifier id'>values_at</span><span class='lparen token'>(</span><span class='symbol val'>:cooldown</span><span class='comma token'>,</span> <span class='symbol val'>:ignore</span><span class='comma token'>,</span> <span class='symbol val'>:control</span><span class='comma token'>,</span> <span class='symbol val'>:thread</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>rotation</h3>
+</div><div id="rotation-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>rotation</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 115</span>
+
+<span class='def def kw'>def</span> <span class='rotation identifier id'>rotation</span>
+  <span class='files identifier id'>files</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='$0 gvar id'>$0</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='$LOADED_FEATURES gvar id'>$LOADED_FEATURES</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='uniq identifier id'>uniq</span>
+  <span class='paths identifier id'>paths</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>'./'</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='$LOAD_PATH gvar id'>$LOAD_PATH</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='uniq identifier id'>uniq</span>
+
+  <span class='files identifier id'>files</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='file identifier id'>file</span><span class='bitor op'>|</span>
+    <span class='next next kw'>next</span> <span class='if if_mod kw'>if</span> <span class='file identifier id'>file</span> <span class='match op'>=~</span> <span class='@ignore ivar id'>@ignore</span>
+    <span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='stat identifier id'>stat</span> <span class='assign token'>=</span> <span class='figure_path identifier id'>figure_path</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='paths identifier id'>paths</span><span class='rparen token'>)</span>
+
+    <span class='if if kw'>if</span> <span class='path identifier id'>path</span> <span class='and and kw'>and</span> <span class='stat identifier id'>stat</span>
+      <span class='@@cache ivar id'>@@cache</span><span class='lbrack token'>[</span><span class='file identifier id'>file</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='path identifier id'>path</span>
+      <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='stat identifier id'>stat</span><span class='rparen token'>)</span>
+    <span class='else else kw'>else</span>
+      <span class='comment val'># Mostly harmless</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>safe_load</h3>
+</div><div id="safe_load-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>safe_load</span><span class='args'>(file, mtime)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+A safe Kernel::load, issuing the hooks depending on the results
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 104</span>
+
+<span class='def def kw'>def</span> <span class='safe_load identifier id'>safe_load</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='mtime identifier id'>mtime</span><span class='rparen token'>)</span>
+  <span class='before_safe_load identifier id'>before_safe_load</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+  <span class='load identifier id'>load</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+  <span class='after_safe_load_succeed identifier id'>after_safe_load_succeed</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+<span class='rescue rescue kw'>rescue</span> <span class='Object constant id'>Object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='ex identifier id'>ex</span>
+  <span class='puts identifier id'>puts</span> <span class='ex identifier id'>ex</span>
+  <span class='after_safe_load_failed identifier id'>after_safe_load_failed</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='ex identifier id'>ex</span><span class='rparen token'>)</span>
+<span class='ensure ensure kw'>ensure</span>
+  <span class='@@mtimes ivar id'>@@mtimes</span><span class='lbrack token'>[</span><span class='file identifier id'>file</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='mtime identifier id'>mtime</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

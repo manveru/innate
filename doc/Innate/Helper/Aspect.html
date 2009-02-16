@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::Helper::Aspect</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_Helper_Aspect">
+  <h1 class="title">Module: Innate::Helper::Aspect</h1>
+  <div class="section docstring">
+  <p>
+Provides before/after wrappers for actions
+</p>
+
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="AOP-constant">AOP</dt>
+      <dd>Hash.new{|h,k| h[k] = Hash.new{|hh,kk| hh[kk] = {} }}</dd>
+    
+  </dl>
+</div>
+
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#ancestral_aop-class_method" title="ancestral_aop">ancestral_aop</a></span><span class='args'>(from)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Consider objects that have Aspect included.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#included-class_method" title="included">included</a></span><span class='args'>(into)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#aspect_call-instance_method" title="#aspect_call">#aspect_call</a></span><span class='args'>(position, name)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#aspect_wrap-instance_method" title="#aspect_wrap">#aspect_wrap</a></span><span class='args'>(action)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>ancestral_aop</h3>
+</div><div id="ancestral_aop-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>ancestral_aop</span><span class='args'>(from)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Consider objects that have Aspect included
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+13
+14
+15
+16
+17</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/aspect.rb', line 13</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='ancestral_aop identifier id'>ancestral_aop</span><span class='lparen token'>(</span><span class='from identifier id'>from</span><span class='rparen token'>)</span>
+  <span class='aop identifier id'>aop</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='from identifier id'>from</span><span class='dot token'>.</span><span class='ancestors identifier id'>ancestors</span><span class='dot token'>.</span><span class='reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='anc identifier id'>anc</span><span class='bitor op'>|</span> <span class='aop identifier id'>aop</span><span class='dot token'>.</span><span class='merge! fid id'>merge!</span><span class='lparen token'>(</span><span class='AOP constant id'>AOP</span><span class='lbrack token'>[</span><span class='anc identifier id'>anc</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='anc identifier id'>anc</span> <span class='lt op'>&lt;</span> <span class='Aspect constant id'>Aspect</span> <span class='rbrace token'>}</span>
+  <span class='aop identifier id'>aop</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>included</h3>
+</div><div id="included-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>included</span><span class='args'>(into)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+8
+9
+10</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/aspect.rb', line 8</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='included identifier id'>included</span><span class='lparen token'>(</span><span class='into identifier id'>into</span><span class='rparen token'>)</span>
+  <span class='into identifier id'>into</span><span class='dot token'>.</span><span class='extend identifier id'>extend</span><span class='lparen token'>(</span><span class='SingletonMethods constant id'>SingletonMethods</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>aspect_call</h3>
+</div><div id="aspect_call-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>aspect_call</span><span class='args'>(position, name)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25
+26</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/aspect.rb', line 19</span>
+
+<span class='def def kw'>def</span> <span class='aspect_call identifier id'>aspect_call</span><span class='lparen token'>(</span><span class='position identifier id'>position</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='unless unless_mod kw'>unless</span> <span class='aop identifier id'>aop</span> <span class='assign token'>=</span> <span class='Aspect constant id'>Aspect</span><span class='dot token'>.</span><span class='ancestral_aop identifier id'>ancestral_aop</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='unless unless_mod kw'>unless</span> <span class='block identifier id'>block</span> <span class='assign token'>=</span> <span class='at_position identifier id'>at_position</span> <span class='assign token'>=</span> <span class='aop identifier id'>aop</span><span class='lbrack token'>[</span><span class='position identifier id'>position</span><span class='rbrack token'>]</span>
+
+  <span class='block identifier id'>block</span> <span class='assign token'>=</span> <span class='at_position identifier id'>at_position</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span> <span class='unless unless_mod kw'>unless</span> <span class='at_position identifier id'>at_position</span><span class='dot token'>.</span><span class='is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='Proc constant id'>Proc</span><span class='rparen token'>)</span>
+
+  <span class='instance_eval identifier id'>instance_eval</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='block identifier id'>block</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>aspect_wrap</h3>
+</div><div id="aspect_wrap-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>aspect_wrap</span><span class='args'>(action)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/aspect.rb', line 28</span>
+
+<span class='def def kw'>def</span> <span class='aspect_wrap identifier id'>aspect_wrap</span><span class='lparen token'>(</span><span class='action identifier id'>action</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='yield yield kw'>yield</span> <span class='unless unless_mod kw'>unless</span> <span class='method identifier id'>method</span> <span class='assign token'>=</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='name identifier id'>name</span>
+
+  <span class='aspect_call identifier id'>aspect_call</span><span class='lparen token'>(</span><span class='symbol val'>:before_all</span><span class='comma token'>,</span> <span class='method identifier id'>method</span><span class='rparen token'>)</span>
+  <span class='aspect_call identifier id'>aspect_call</span><span class='lparen token'>(</span><span class='symbol val'>:before</span><span class='comma token'>,</span> <span class='method identifier id'>method</span><span class='rparen token'>)</span>
+  <span class='result identifier id'>result</span> <span class='assign token'>=</span> <span class='yield yield kw'>yield</span>
+  <span class='aspect_call identifier id'>aspect_call</span><span class='lparen token'>(</span><span class='symbol val'>:after</span><span class='comma token'>,</span> <span class='method identifier id'>method</span><span class='rparen token'>)</span>
+  <span class='aspect_call identifier id'>aspect_call</span><span class='lparen token'>(</span><span class='symbol val'>:after_all</span><span class='comma token'>,</span> <span class='method identifier id'>method</span><span class='rparen token'>)</span>
+
+  <span class='result identifier id'>result</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

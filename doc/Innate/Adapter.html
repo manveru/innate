@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::Adapter</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_Adapter">
+  <h1 class="title">Module: Innate::Adapter</h1>
+  <div class="section docstring">
+  <p>
+Lightweight wrapper around Rack::Handler, will apply our options in a
+unified manner and deal with adapters that don&#8217;t like to do what we
+want or where Rack doesn&#8217;t want to take a stand.
+</p>
+
+</div><div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#start-class_method" title="start">start</a></span><span class='args'>(app, options = Innate.options)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Pass given app to the Handler, handler is chosen based on config.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#start_ebb-class_method" title="start_ebb">start_ebb</a></span><span class='args'>(app, config)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Due to buggy autoload on Ruby 1.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#start_emongrel-class_method" title="start_emongrel">start_emongrel</a></span><span class='args'>(app, config)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+swiftcore has its own handler outside of rack.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#start_smongrel-class_method" title="start_smongrel">start_smongrel</a></span><span class='args'>(app, config)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+swiftcore has its own handler outside of rack.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#start_thin-class_method" title="start_thin">start_thin</a></span><span class='args'>(app, config)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Thin shouldn&#8217;t give excessive output, especially not to $stdout.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#start_webrick-class_method" title="start_webrick">start_webrick</a></span><span class='args'>(app, config)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+We want webrick to use our logger.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>start</h3>
+</div><div id="start-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>start</span><span class='args'>(app, options = Innate.options)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Pass given app to the Handler, handler is chosen based on config.adapter
+option. If there is a method named start_name_of_adapter it will be run
+instead of the default run method of the handler, this makes it easy to
+define custom startup of handlers for your server of choice
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/adapter.rb', line 27</span>
+
+<span class='def def kw'>def</span> <span class='start identifier id'>start</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='rparen token'>)</span>
+  <span class='adapter_name identifier id'>adapter_name</span> <span class='assign token'>=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:adapter</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='downcase identifier id'>downcase</span>
+  <span class='config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:Host</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:host</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:Port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+  <span class='Log constant id'>Log</span><span class='dot token'>.</span><span class='debug identifier id'>debug</span> <span class='dstring node'>&quot;Innate uses #{adapter_name}&quot;</span>
+
+  <span class='if if kw'>if</span> <span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='method identifier id'>method</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;start_#{adapter_name}&quot;</span><span class='rparen token'>)</span>
+    <span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='method identifier id'>method</span><span class='comma token'>,</span> <span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='else else kw'>else</span>
+    <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Handler constant id'>Handler</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='adapter_name identifier id'>adapter_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='run identifier id'>run</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>start_ebb</h3>
+</div><div id="start_ebb-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>start_ebb</span><span class='args'>(app, config)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Due to buggy autoload on Ruby 1.8 we have to require &#8216;ebb&#8217;
+manually. This most likely happens because autoload doesn&#8217;t respect
+the require of rubygems and uses the C require directly.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+42
+43
+44
+45</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/adapter.rb', line 42</span>
+
+<span class='def def kw'>def</span> <span class='start_ebb identifier id'>start_ebb</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='require identifier id'>require</span> <span class='string val'>'ebb'</span>
+  <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Handler constant id'>Handler</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'ebb'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='run identifier id'>run</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>start_emongrel</h3>
+</div><div id="start_emongrel-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>start_emongrel</span><span class='args'>(app, config)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+swiftcore has its own handler outside of rack
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+74
+75
+76
+77
+78</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/adapter.rb', line 74</span>
+
+<span class='def def kw'>def</span> <span class='start_emongrel identifier id'>start_emongrel</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='require identifier id'>require</span> <span class='string val'>'swiftcore/evented_mongrel'</span>
+  <span class='handler identifier id'>handler</span> <span class='assign token'>=</span> <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Handler constant id'>Handler</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'emongrel'</span><span class='rparen token'>)</span>
+  <span class='handler identifier id'>handler</span><span class='dot token'>.</span><span class='run identifier id'>run</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>start_smongrel</h3>
+</div><div id="start_smongrel-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>start_smongrel</span><span class='args'>(app, config)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+swiftcore has its own handler outside of rack
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+82
+83
+84
+85
+86</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/adapter.rb', line 82</span>
+
+<span class='def def kw'>def</span> <span class='start_smongrel identifier id'>start_smongrel</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='require identifier id'>require</span> <span class='string val'>'swiftcore/swiftiplied_mongrel'</span>
+  <span class='handler identifier id'>handler</span> <span class='assign token'>=</span> <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Handler constant id'>Handler</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'smongrel'</span><span class='rparen token'>)</span>
+  <span class='handler identifier id'>handler</span><span class='dot token'>.</span><span class='run identifier id'>run</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>start_thin</h3>
+</div><div id="start_thin-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>start_thin</span><span class='args'>(app, config)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Thin shouldn&#8217;t give excessive output, especially not to $stdout
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+65
+66
+67
+68
+69
+70</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/adapter.rb', line 65</span>
+
+<span class='def def kw'>def</span> <span class='start_thin identifier id'>start_thin</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='require identifier id'>require</span> <span class='string val'>'thin'</span>
+  <span class='handler identifier id'>handler</span> <span class='assign token'>=</span> <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Handler constant id'>Handler</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'thin'</span><span class='rparen token'>)</span>
+  <span class='colon3 op'>::</span><span class='Thin constant id'>Thin</span><span class='colon2 op'>::</span><span class='Logging constant id'>Logging</span><span class='dot token'>.</span><span class='silent identifier id'>silent</span> <span class='assign token'>=</span> <span class='true true kw'>true</span>
+  <span class='handler identifier id'>handler</span><span class='dot token'>.</span><span class='run identifier id'>run</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>start_webrick</h3>
+</div><div id="start_webrick-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>start_webrick</span><span class='args'>(app, config)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+We want webrick to use our logger.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/adapter.rb', line 49</span>
+
+<span class='def def kw'>def</span> <span class='start_webrick identifier id'>start_webrick</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='handler identifier id'>handler</span> <span class='assign token'>=</span> <span class='Rack constant id'>Rack</span><span class='colon2 op'>::</span><span class='Handler constant id'>Handler</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'webrick'</span><span class='rparen token'>)</span>
+  <span class='config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:BindAddress</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='config identifier id'>config</span><span class='lbrack token'>[</span><span class='symbol val'>:Host</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='symbol val'>:Port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='config identifier id'>config</span><span class='lbrack token'>[</span><span class='symbol val'>:Port</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='symbol val'>:Logger</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='Log constant id'>Log</span><span class='comma token'>,</span>
+    <span class='symbol val'>:AccessLog</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span>
+      <span class='lbrack token'>[</span><span class='Log constant id'>Log</span><span class='comma token'>,</span> <span class='colon3 op'>::</span><span class='WEBrick constant id'>WEBrick</span><span class='colon2 op'>::</span><span class='AccessLog constant id'>AccessLog</span><span class='colon2 op'>::</span><span class='COMMON_LOG_FORMAT constant id'>COMMON_LOG_FORMAT</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+      <span class='lbrack token'>[</span><span class='Log constant id'>Log</span><span class='comma token'>,</span> <span class='colon3 op'>::</span><span class='WEBrick constant id'>WEBrick</span><span class='colon2 op'>::</span><span class='AccessLog constant id'>AccessLog</span><span class='colon2 op'>::</span><span class='REFERER_LOG_FORMAT constant id'>REFERER_LOG_FORMAT</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+  <span class='rbrace token'>}</span>
+
+  <span class='handler identifier id'>handler</span><span class='dot token'>.</span><span class='run identifier id'>run</span><span class='lparen token'>(</span><span class='app identifier id'>app</span><span class='comma token'>,</span> <span class='config identifier id'>config</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

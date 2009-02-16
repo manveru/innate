@@ -1,0 +1,2331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::Node</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_Node">
+  <h1 class="title">Module: Innate::Node</h1>
+  <div class="section mixins">
+  <h1>Included Modules</h1>
+  <p><a href="Node/Traited.html" title="Innate::Traited">Innate::Traited</a></p>
+</div><div class="section docstring">
+  <p>
+The nervous system of Innate, so you can relax.
+</p>
+<p>
+Node may be included into any class to make it a valid responder to
+requests.
+</p>
+<p>
+The major difference between this and the Ramaze controller is that every
+Node acts as a standalone application with its own dispatcher.
+</p>
+<p>
+What&#8217;s also an important difference is the fact that Node is a
+module, so we don&#8217;t have to spend a lot of time designing the perfect
+subclassing scheme.
+</p>
+<p>
+This makes dispatching more fun, avoids a lot of processing that is done by
+Rack anyway and lets you tailor your application down to the last action
+exactly the way you want without worrying about side-effects to other
+nodes.
+</p>
+<p>
+Upon inclusion, it will also include Innate::Trinity and Innate::Helper to
+provide you with request/response objects, a session and all the standard
+helper methods as well as the ability to simply add other helpers.
+</p>
+<p>
+NOTE:
+</p>
+<pre class="code">
+  <span class='mult op'>*</span> <span class='Although constant id'>Although</span> <span class='I constant id'>I</span> <span class='tried identifier id'>tried</span> <span class='to identifier id'>to</span> <span class='minimize identifier id'>minimize</span> <span class='the identifier id'>the</span> <span class='amount identifier id'>amount</span> <span class='of identifier id'>of</span> <span class='code identifier id'>code</span> <span class='in in kw'>in</span> <span class='here identifier id'>here</span> <span class='there identifier id'>there</span> <span class='is identifier id'>is</span> <span class='still identifier id'>still</span>
+    <span class='quite identifier id'>quite</span> <span class='a identifier id'>a</span> <span class='number identifier id'>number</span> <span class='of identifier id'>of</span> <span class='methods identifier id'>methods</span> <span class='left identifier id'>left</span> <span class='in in kw'>in</span> <span class='order identifier id'>order</span> <span class='to identifier id'>to</span> <span class='do do kw'>do</span> <span class='ramaze identifier id'>ramaze</span><span class='minus op'>-</span><span class='style identifier id'>style</span> <span class='lookups identifier id'>lookups</span><span class='dot token'>.</span>
+    <span class='Those constant id'>Those</span> <span class='methods identifier id'>methods</span><span class='comma token'>,</span> <span class='and and kw'>and</span> <span class='all identifier id'>all</span> <span class='other identifier id'>other</span> <span class='methods identifier id'>methods</span> <span class='occurring identifier id'>occurring</span> <span class='in in kw'>in</span> <span class='the identifier id'>the</span> <span class='ancestors identifier id'>ancestors</span> <span class='after identifier id'>after</span>
+    <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span> <span class='will identifier id'>will</span> <span class='not not kw'>not</span> <span class='be identifier id'>be</span> <span class='considered identifier id'>considered</span> <span class='valid identifier id'>valid</span> <span class='action identifier id'>action</span> <span class='methods identifier id'>methods</span> <span class='and and kw'>and</span> <span class='will identifier id'>will</span> <span class='be identifier id'>be</span>
+    <span class='ignored identifier id'>ignored</span><span class='dot token'>.</span>
+  <span class='mult op'>*</span> <span class='This constant id'>This</span> <span class='also identifier id'>also</span> <span class='means identifier id'>means</span> <span class='that identifier id'>that</span> <span class='method_missing identifier id'>method_missing</span> <span class='will identifier id'>will</span> <span class='not not kw'>not</span> <span class='see identifier id'>see</span> <span class='any identifier id'>any</span> <span class='of identifier id'>of</span> <span class='the identifier id'>the</span> <span class='requests identifier id'>requests</span>
+    <span class='coming identifier id'>coming</span> <span class='in in kw'>in</span><span class='dot token'>.</span>
+  <span class='mult op'>*</span> <span class='If constant id'>If</span> <span class='you identifier id'>you</span> <span class='want identifier id'>want</span> <span class='an identifier id'>an</span> <span class='action identifier id'>action</span> <span class='to identifier id'>to</span> <span class='act identifier id'>act</span> <span class='as identifier id'>as</span> <span class='a identifier id'>a</span> <span class='catch identifier id'>catch</span><span class='minus op'>-</span><span class='all identifier id'>all</span><span class='comma token'>,</span> <span class='use identifier id'>use</span> <span class='xstring val'>`def index(*args)`</span><span class='dot token'>.</span>
+</pre>
+
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="HELPERS-constant">HELPERS</dt>
+      <dd>[:aspect, :cgi, :flash, :link, :partial, :redirect, :send_file]</dd>
+    
+      <dt id="LIST-constant">LIST</dt>
+      <dd>Set.new</dd>
+    
+  </dl>
+</div>
+
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#included-class_method" title="included">included</a></span><span class='args'>(obj)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Upon inclusion we make ourselves comfortable.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#setup-class_method" title="setup">setup</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#action_found-instance_method" title="#action_found">#action_found</a></span><span class='args'>(action)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Executed once an Action has been found.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#action_not_found-instance_method" title="#action_not_found">#action_not_found</a></span><span class='args'>(path)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+The default handler in case no action was found, kind of method_missing.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#alias_view-instance_method" title="#alias_view">#alias_view</a></span><span class='args'>(to, from, node = nil)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Aliasing one view from another.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#binding-instance_method" title="#binding">#binding</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+For compatibility with new Kernel#binding behaviour in 1.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Binding</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#call-instance_method" title="#call">#call</a></span><span class='args'>(env)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+This makes the Node a valid application for Rack.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#find_action-instance_method" title="#find_action">#find_action</a></span><span class='args'>(given_name, wish)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Now we&#8217;re talking Action, we try to find a matching template and
+method, if we can&#8217;t find either we go to the next pattern, otherwise
+we answer with an Action with everything we know so far about the demands
+of the client.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#find_layout-instance_method" title="#find_layout">#find_layout</a></span><span class='args'>(name, wish)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+TODO: allow layouts combined of method and view.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#find_method-instance_method" title="#find_method">#find_method</a></span><span class='args'>(name, params)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+I hope this method talks for itself, we check arity if possible, but will
+happily dispatch to any method that has default parameters.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#find_provide-instance_method" title="#find_provide">#find_provide</a></span><span class='args'>(path)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#find_view-instance_method" title="#find_view">#find_view</a></span><span class='args'>(file, wish)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Try to find the best template for the given basename and wish.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#layout-instance_method" title="#layout">#layout</a></span><span class='args'>(name = nil, &amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Define a layout to use on this Node.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Proc String</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#map-instance_method" title="#map">#map</a></span><span class='args'>(location)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Shortcut to map or remap this Node.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#mapping-instance_method" title="#mapping">#mapping</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#patterns_for-instance_method" title="#patterns_for">#patterns_for</a></span><span class='args'>(path)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+The innate beauty in Nitro, Ramaze, and Innate.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#provide-instance_method" title="#provide">#provide</a></span><span class='args'>(formats = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+This little piece of nasty looking code enables you to provide different
+content from a single action.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#resolve-instance_method" title="#resolve">#resolve</a></span><span class='args'>(path)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Let&#8217;s get down to business, first check if we got any wishes
+regarding the representation from the client, otherwise we will assume he
+wants html.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#to_layout-instance_method" title="#to_layout">#to_layout</a></span><span class='args'>(file, wish)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Find the best matching file for the layout, if any.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#to_template-instance_method" title="#to_template">#to_template</a></span><span class='args'>(path, wish)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#try_resolve-instance_method" title="#try_resolve">#try_resolve</a></span><span class='args'>(path)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Let&#8217;s try to find some valid action for given <tt>path</tt>.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#update_method_arities-instance_method" title="#update_method_arities">#update_method_arities</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Answer with and set the @method_arities Hash, keys are method names, values
+are method arities.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#view_root-instance_method" title="#view_root">#view_root</a></span><span class='args'>(location = nil)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+This is done to make you feel more at home, pass an absolute path or a path
+relative to your application root to set it, otherwise you&#8217;ll get the
+current mapping.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#wrap_action_call-instance_method" title="#wrap_action_call">#wrap_action_call</a></span><span class='args'>(action, &amp;block)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+This awesome piece of hackery implements action AOP, methods may register
+themself in the trait[:wrap] and will be called in left-to-right order,
+each being passed the action instance and a block that they have to yield
+to continue the chain.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table><div class="included">
+  
+  <div>
+    <h1>Public Instance Methods Included from <a href="Node/Traited.html" title="Innate::Traited">Innate::Traited</a></h1>
+    <p><span class='name'><a href="Traited.html#ancestral_trait-instance_method" title="ancestral_trait">ancestral_trait</a></span>, <span class='name'><a href="Traited.html#trait-instance_method" title="trait">trait</a></span></p>
+  </div>
+  
+</div>
+<div class="clear"></div>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>included</h3>
+</div><div id="included-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>included</span><span class='args'>(obj)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Upon inclusion we make ourselves comfortable.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 44</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='included identifier id'>included</span><span class='lparen token'>(</span><span class='obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='__send__ identifier id'>__send__</span><span class='lparen token'>(</span><span class='symbol val'>:include</span><span class='comma token'>,</span> <span class='Helper constant id'>Helper</span><span class='rparen token'>)</span>
+  <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='helper identifier id'>helper</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='HELPERS constant id'>HELPERS</span><span class='rparen token'>)</span>
+
+  <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='extend identifier id'>extend</span><span class='lparen token'>(</span><span class='Trinity constant id'>Trinity</span><span class='comma token'>,</span> <span class='self self kw'>self</span><span class='rparen token'>)</span>
+
+  <span class='LIST constant id'>LIST</span> <span class='lshft op'>&lt;&lt;</span> <span class='obj identifier id'>obj</span>
+
+  <span class='return return kw'>return</span> <span class='if if_mod kw'>if</span> <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='provide identifier id'>provide</span><span class='dot token'>.</span><span class='any? fid id'>any?</span>
+  <span class='comment val'># provide .html with no interpolation</span>
+  <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='provide identifier id'>provide</span><span class='lparen token'>(</span><span class='symbol val'>:html</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:erb</span><span class='comma token'>,</span> <span class='symbol val'>:yaml</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:yaml</span><span class='comma token'>,</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:json</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>setup</h3>
+</div><div id="setup-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>setup</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+57
+58
+59
+60</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 57</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='setup identifier id'>setup</span>
+  <span class='LIST constant id'>LIST</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='node identifier id'>node</span><span class='bitor op'>|</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lparen token'>(</span><span class='node identifier id'>node</span><span class='dot token'>.</span><span class='mapping identifier id'>mapping</span><span class='comma token'>,</span> <span class='node identifier id'>node</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='Log constant id'>Log</span><span class='dot token'>.</span><span class='debug identifier id'>debug</span><span class='lparen token'>(</span><span class='string val'>&quot;Mapped Nodes: %p&quot;</span> <span class='mod op'>%</span> <span class='DynaMap constant id'>DynaMap</span><span class='colon2 op'>::</span><span class='MAP constant id'>MAP</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>action_found</h3>
+</div><div id="action_found-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>action_found</span><span class='args'>(action)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Executed once an Action has been found. Reset the Response instance, catch
+:respond and :redirect. Action#call has to return a String.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 183</span>
+
+<span class='def def kw'>def</span> <span class='action_found identifier id'>action_found</span><span class='lparen token'>(</span><span class='action identifier id'>action</span><span class='rparen token'>)</span>
+  <span class='result identifier id'>result</span> <span class='assign token'>=</span> <span class='catch identifier id'>catch</span><span class='lparen token'>(</span><span class='symbol val'>:respond</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='catch identifier id'>catch</span><span class='lparen token'>(</span><span class='symbol val'>:redirect</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='call identifier id'>call</span> <span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+
+  <span class='if if kw'>if</span> <span class='result identifier id'>result</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='colon op'>:</span><span class='finish identifier id'>finish</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='result identifier id'>result</span>
+  <span class='else else kw'>else</span>
+    <span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='response identifier id'>response</span><span class='dot token'>.</span><span class='write identifier id'>write</span><span class='lparen token'>(</span><span class='result identifier id'>result</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='response identifier id'>response</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>action_not_found</h3>
+</div><div id="action_not_found-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>action_not_found</span><span class='args'>(path)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+The default handler in case no action was found, kind of method_missing.
+Must modify the response in order to have any lasting effect.
+</p>
+<p>
+Reasoning:
+</p>
+<ul>
+<li>We are doing this is in order to avoid tons of special error handling code
+that would impact runtime and make the overall API more complicated.
+
+</li>
+<li>This cannot be a normal action is that methods defined in Innate::Node will
+never be considered for actions.
+
+</li>
+</ul>
+<p>
+To use a normal action with template do following:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Hi constant id'>Hi</span>
+    <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span>
+    <span class='map identifier id'>map</span> <span class='string val'>'/'</span>
+
+    <span class='def def kw'>def</span> <span class='action_not_found identifier id'>action_not_found</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+      <span class='return return kw'>return</span> <span class='if if_mod kw'>if</span> <span class='path identifier id'>path</span> <span class='eq op'>==</span> <span class='string val'>'/not_found'</span>
+      <span class='comment val'># No normal action, runs on bare metal</span>
+      <span class='try_resolve identifier id'>try_resolve</span><span class='lparen token'>(</span><span class='string val'>'/not_found'</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+
+    <span class='def def kw'>def</span> <span class='not_found identifier id'>not_found</span>
+      <span class='comment val'># Normal action</span>
+      <span class='string val'>&quot;Sorry, I do not exist&quot;</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+222
+223
+224
+225
+226
+227
+228</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 222</span>
+
+<span class='def def kw'>def</span> <span class='action_not_found identifier id'>action_not_found</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='status identifier id'>status</span> <span class='assign token'>=</span> <span class='integer val'>404</span>
+  <span class='response identifier id'>response</span><span class='lbrack token'>[</span><span class='string val'>'Content-Type'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'text/plain'</span>
+  <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='write identifier id'>write</span><span class='lparen token'>(</span><span class='string val'>&quot;No action found at: %p&quot;</span> <span class='mod op'>%</span> <span class='path identifier id'>path</span><span class='rparen token'>)</span>
+
+  <span class='response identifier id'>response</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>alias_view</h3>
+</div><div id="alias_view-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>alias_view</span><span class='args'>(to, from, node = nil)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Aliasing one view from another. The aliases are inherited, and the optional
+third <tt>node</tt> parameter indicates the Node to take the view from.
+</p>
+<p>
+The argument order is identical with `alias` and `alias_method`, which
+quite honestly confuses me, but at least we stay consistent.
+</p>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Foo constant id'>Foo</span>
+    <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span>
+
+    <span class='comment val'># Use the 'foo' view when calling 'bar'</span>
+    <span class='alias_view identifier id'>alias_view</span> <span class='string val'>'bar'</span><span class='comma token'>,</span> <span class='string val'>'foo'</span>
+
+    <span class='comment val'># Use the 'foo' view from FooBar node when calling 'bar'</span>
+    <span class='alias_view identifier id'>alias_view</span> <span class='string val'>'bar'</span><span class='comma token'>,</span> <span class='string val'>'foo'</span><span class='comma token'>,</span> <span class='FooBar constant id'>FooBar</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+NOTE: The parameters have been simplified in comparision with
+</p>
+<pre class="code">
+      <span class='Ramaze constant id'>Ramaze</span><span class='colon2 op'>::</span><span class='Controller constant id'>Controller</span><span class='colon2 op'>::</span><span class='template identifier id'>template</span> <span class='where identifier id'>where</span> <span class='the identifier id'>the</span> <span class='second identifier id'>second</span> <span class='parameter identifier id'>parameter</span> <span class='may identifier id'>may</span> <span class='be identifier id'>be</span> <span class='a identifier id'>a</span>
+      <span class='Controller constant id'>Controller</span> <span class='or or kw'>or</span> <span class='the identifier id'>the</span> <span class='name identifier id'>name</span> <span class='of identifier id'>of</span> <span class='the identifier id'>the</span> <span class='template identifier id'>template</span><span class='dot token'>.</span>
+      <span class='We constant id'>We</span> <span class='take identifier id'>take</span> <span class='that identifier id'>that</span> <span class='now identifier id'>now</span> <span class='as identifier id'>as</span> <span class='an identifier id'>an</span> <span class='optional identifier id'>optional</span> <span class='third identifier id'>third</span> <span class='parameter identifier id'>parameter</span><span class='dot token'>.</span>
+</pre>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>#to_s</tt>]</span>
+        <span class='name'>to</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+view that should be replaced
+</p>
+</span>
+      </dd>
+    
+  
+    
+      <dt>
+        <span class='type'>[<tt>#to_s</tt>]</span>
+        <span class='name'>from</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+view to use or Node.
+</p>
+</span>
+      </dd>
+    
+  
+    
+      <dt>
+        <span class='type'>[<tt>#nil? Node</tt>]</span>
+        <span class='name'>node</span>
+        
+          <em class="default">(defaults to: <tt>nil</tt>)</em>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+optionally obtain view from this Node
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div>
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+403
+404
+405
+406</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 403</span>
+
+<span class='def def kw'>def</span> <span class='alias_view identifier id'>alias_view</span><span class='lparen token'>(</span><span class='to identifier id'>to</span><span class='comma token'>,</span> <span class='from identifier id'>from</span><span class='comma token'>,</span> <span class='node identifier id'>node</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='trait identifier id'>trait</span><span class='lbrack token'>[</span><span class='symbol val'>:alias_view</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='trait identifier id'>trait</span><span class='lparen token'>(</span><span class='symbol val'>:alias_view</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='trait identifier id'>trait</span><span class='lbrack token'>[</span><span class='symbol val'>:alias_view</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='to identifier id'>to</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='node identifier id'>node</span> <span class='integer val'>? </span><span class='lbrack token'>[</span><span class='from identifier id'>from</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='node identifier id'>node</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='from identifier id'>from</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>binding</h3>
+</div><div id="binding-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Binding</tt></span>
+    <span class='name'>binding</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+For compatibility with new Kernel#binding behaviour in 1.9
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Binding</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+binding of the instance being rendered.
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="Action.html#binding-instance_method" title="Action#binding">Action#binding</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+524</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 524</span>
+
+<span class='def def kw'>def</span> <span class='binding identifier id'>binding</span><span class='semicolon token'>;</span> <span class='super super kw'>super</span><span class='semicolon token'>;</span> <span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>call</h3>
+</div><div id="call-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>call</span><span class='args'>(env)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+This makes the Node a valid application for Rack. <tt>env</tt> is the
+environment hash passed from the Rack::Handler
+</p>
+<p>
+We rely on correct PATH_INFO.
+</p>
+<p>
+As defined by the Rack spec, PATH_INFO may be empty if it wants the root of
+the application, so we insert &#8217;/&#8217; to make our dispatcher
+simple.
+</p>
+<p>
+Innate will not rescue any errors for you or do any error handling, this
+should be done by an underlying middleware.
+</p>
+<p>
+We do however log errors at some vital points in order to provide you with
+feedback in your logs.
+</p>
+<p>
+NOTE:
+</p>
+<pre class="code">
+  <span class='mult op'>*</span> <span class='A constant id'>A</span> <span class='lot identifier id'>lot</span> <span class='of identifier id'>of</span> <span class='functionality identifier id'>functionality</span> <span class='in in kw'>in</span> <span class='here identifier id'>here</span> <span class='relies identifier id'>relies</span> <span class='on identifier id'>on</span> <span class='the identifier id'>the</span> <span class='fact identifier id'>fact</span> <span class='that identifier id'>that</span> <span class='call identifier id'>call</span> <span class='is identifier id'>is</span>
+    <span class='executed identifier id'>executed</span> <span class='within identifier id'>within</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='STATE constant id'>STATE</span><span class='dot token'>.</span><span class='wrap identifier id'>wrap</span> <span class='which identifier id'>which</span> <span class='populates identifier id'>populates</span> <span class='the identifier id'>the</span> <span class='variables identifier id'>variables</span> <span class='used identifier id'>used</span>
+    <span class='by identifier id'>by</span> <span class='Trinity constant id'>Trinity</span><span class='dot token'>.</span>
+  <span class='mult op'>*</span> <span class='If constant id'>If</span> <span class='you identifier id'>you</span> <span class='use identifier id'>use</span> <span class='the identifier id'>the</span> <span class='Node constant id'>Node</span> <span class='directly identifier id'>directly</span> <span class='as identifier id'>as</span> <span class='a identifier id'>a</span> <span class='middleware identifier id'>middleware</span> <span class='make identifier id'>make</span> <span class='sure identifier id'>sure</span> <span class='that identifier id'>that</span> <span class='you identifier id'>you</span> <span class='comment val'>#use</span>
+    <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Current constant id'>Current</span> <span class='as identifier id'>as</span> <span class='a identifier id'>a</span> <span class='middleware identifier id'>middleware</span> <span class='before identifier id'>before</span> <span class='it identifier id'>it</span><span class='dot token'>.</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 158</span>
+
+<span class='def def kw'>def</span> <span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='env identifier id'>env</span><span class='rparen token'>)</span>
+  <span class='path identifier id'>path</span> <span class='assign token'>=</span> <span class='env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>'PATH_INFO'</span><span class='rbrack token'>]</span>
+  <span class='path identifier id'>path</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'/'</span> <span class='if if_mod kw'>if</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+
+  <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='reset identifier id'>reset</span>
+  <span class='response identifier id'>response</span> <span class='assign token'>=</span> <span class='try_resolve identifier id'>try_resolve</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='response identifier id'>response</span><span class='lbrack token'>[</span><span class='string val'>'Content-Type'</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='string val'>'text/html'</span>
+
+  <span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='session identifier id'>session</span><span class='dot token'>.</span><span class='flush identifier id'>flush</span><span class='lparen token'>(</span><span class='response identifier id'>response</span><span class='rparen token'>)</span>
+
+  <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='finish identifier id'>finish</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>find_action</h3>
+</div><div id="find_action-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>find_action</span><span class='args'>(given_name, wish)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Now we&#8217;re talking Action, we try to find a matching template and
+method, if we can&#8217;t find either we go to the next pattern, otherwise
+we answer with an Action with everything we know so far about the demands
+of the client.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 256</span>
+
+<span class='def def kw'>def</span> <span class='find_action identifier id'>find_action</span><span class='lparen token'>(</span><span class='given_name identifier id'>given_name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+  <span class='needs_method identifier id'>needs_method</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='action identifier id'>action</span><span class='dot token'>.</span><span class='needs_method identifier id'>needs_method</span>
+
+  <span class='patterns_for identifier id'>patterns_for</span><span class='lparen token'>(</span><span class='given_name identifier id'>given_name</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='params identifier id'>params</span><span class='bitor op'>|</span>
+    <span class='method identifier id'>method</span> <span class='assign token'>=</span> <span class='find_method identifier id'>find_method</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='params identifier id'>params</span><span class='rparen token'>)</span>
+    <span class='view identifier id'>view</span> <span class='assign token'>=</span> <span class='find_view identifier id'>find_view</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+
+    <span class='next next kw'>next</span> <span class='unless unless_mod kw'>unless</span> <span class='view identifier id'>view</span> <span class='or or kw'>or</span> <span class='method identifier id'>method</span>
+    <span class='next next kw'>next</span> <span class='unless unless_mod kw'>unless</span> <span class='method identifier id'>method</span> <span class='if if_mod kw'>if</span> <span class='needs_method identifier id'>needs_method</span>
+
+    <span class='layout identifier id'>layout</span> <span class='assign token'>=</span> <span class='find_layout identifier id'>find_layout</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+    <span class='params identifier id'>params</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+    <span class='Action constant id'>Action</span><span class='dot token'>.</span><span class='create identifier id'>create</span><span class='lparen token'>(</span><span class='symbol val'>:method</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='method identifier id'>method</span><span class='comma token'>,</span> <span class='symbol val'>:params</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='params identifier id'>params</span><span class='comma token'>,</span> <span class='symbol val'>:layout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='layout identifier id'>layout</span><span class='comma token'>,</span>
+                  <span class='symbol val'>:node</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:view</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='view identifier id'>view</span><span class='comma token'>,</span> <span class='symbol val'>:wish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>find_layout</h3>
+</div><div id="find_layout-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>find_layout</span><span class='args'>(name, wish)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+TODO: allow layouts combined of method and view&#8230; hairy :)
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 275</span>
+
+<span class='def def kw'>def</span> <span class='find_layout identifier id'>find_layout</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='unless unless_mod kw'>unless</span> <span class='layout identifier id'>layout</span> <span class='assign token'>=</span> <span class='ancestral_trait identifier id'>ancestral_trait</span><span class='lbrack token'>[</span><span class='symbol val'>:layout</span><span class='rbrack token'>]</span>
+  <span class='return return kw'>return</span> <span class='unless unless_mod kw'>unless</span> <span class='layout identifier id'>layout</span> <span class='assign token'>=</span> <span class='layout identifier id'>layout</span><span class='dot token'>.</span><span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='layout identifier id'>layout</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:call</span><span class='rparen token'>)</span>
+
+  <span class='if if kw'>if</span> <span class='found identifier id'>found</span> <span class='assign token'>=</span> <span class='to_layout identifier id'>to_layout</span><span class='lparen token'>(</span><span class='layout identifier id'>layout</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+    <span class='lbrack token'>[</span><span class='symbol val'>:layout</span><span class='comma token'>,</span> <span class='found identifier id'>found</span><span class='rbrack token'>]</span>
+  <span class='elsif elsif kw'>elsif</span> <span class='found identifier id'>found</span> <span class='assign token'>=</span> <span class='find_view identifier id'>find_view</span><span class='lparen token'>(</span><span class='layout identifier id'>layout</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+    <span class='lbrack token'>[</span><span class='symbol val'>:view</span><span class='comma token'>,</span> <span class='found identifier id'>found</span><span class='rbrack token'>]</span>
+  <span class='elsif elsif kw'>elsif</span> <span class='found identifier id'>found</span> <span class='assign token'>=</span> <span class='find_method identifier id'>find_method</span><span class='lparen token'>(</span><span class='layout identifier id'>layout</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='lbrack token'>[</span><span class='symbol val'>:method</span><span class='comma token'>,</span> <span class='found identifier id'>found</span><span class='rbrack token'>]</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>find_method</h3>
+</div><div id="find_method-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>find_method</span><span class='args'>(name, params)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+I hope this method talks for itself, we check arity if possible, but will
+happily dispatch to any method that has default parameters. If you
+don&#8217;t want your method to be responsible for messing up a request you
+should think twice about the arguments you specify due to limitations in
+Ruby.
+</p>
+<p>
+So if you want your method to take only one parameter which may have a
+default value following will work fine:
+</p>
+<pre class="code">
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='foo identifier id'>foo</span> <span class='assign token'>=</span> <span class='string val'>&quot;bar&quot;</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rest identifier id'>rest</span><span class='rparen token'>)</span>
+</pre>
+<p>
+But following will respond to /arg1/arg2 and then fail due to
+ArgumentError:
+</p>
+<pre class="code">
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='foo identifier id'>foo</span> <span class='assign token'>=</span> <span class='string val'>&quot;bar&quot;</span><span class='rparen token'>)</span>
+</pre>
+<p>
+Here a glance at how parameters are expressed in arity:
+</p>
+<pre class="code">
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span><span class='rparen token'>)</span>                  <span class='comment val'># =&gt; 1</span>
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span> <span class='assign token'>=</span> <span class='symbol val'>:a</span><span class='rparen token'>)</span>             <span class='comment val'># =&gt; -1</span>
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='r identifier id'>r</span><span class='rparen token'>)</span>              <span class='comment val'># =&gt; -2</span>
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span> <span class='assign token'>=</span> <span class='symbol val'>:a</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='r identifier id'>r</span><span class='rparen token'>)</span>         <span class='comment val'># =&gt; -1</span>
+
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span><span class='comma token'>,</span> <span class='b identifier id'>b</span><span class='rparen token'>)</span>               <span class='comment val'># =&gt; 2</span>
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span><span class='comma token'>,</span> <span class='b identifier id'>b</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='r identifier id'>r</span><span class='rparen token'>)</span>           <span class='comment val'># =&gt; -3</span>
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span><span class='comma token'>,</span> <span class='b identifier id'>b</span> <span class='assign token'>=</span> <span class='symbol val'>:b</span><span class='rparen token'>)</span>          <span class='comment val'># =&gt; -2</span>
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span><span class='comma token'>,</span> <span class='b identifier id'>b</span> <span class='assign token'>=</span> <span class='symbol val'>:b</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='r identifier id'>r</span><span class='rparen token'>)</span>      <span class='comment val'># =&gt; -2</span>
+
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span> <span class='assign token'>=</span> <span class='symbol val'>:a</span><span class='comma token'>,</span> <span class='b identifier id'>b</span> <span class='assign token'>=</span> <span class='symbol val'>:b</span><span class='rparen token'>)</span>     <span class='comment val'># =&gt; -1</span>
+  <span class='def def kw'>def</span> <span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='a identifier id'>a</span> <span class='assign token'>=</span> <span class='symbol val'>:a</span><span class='comma token'>,</span> <span class='b identifier id'>b</span> <span class='assign token'>=</span> <span class='symbol val'>:b</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='r identifier id'>r</span><span class='rparen token'>)</span> <span class='comment val'># =&gt; -1</span>
+</pre>
+<p>
+NOTE: Once 1.9 is mainstream we can use Method#parameters to do accurate
+</p>
+<pre class="code">
+      <span class='prediction identifier id'>prediction</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+320
+321
+322
+323</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 320</span>
+
+<span class='def def kw'>def</span> <span class='find_method identifier id'>find_method</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='unless unless_mod kw'>unless</span> <span class='arity identifier id'>arity</span> <span class='assign token'>=</span> <span class='trait identifier id'>trait</span><span class='lbrack token'>[</span><span class='symbol val'>:method_arities</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span>
+  <span class='name identifier id'>name</span> <span class='if if_mod kw'>if</span> <span class='arity identifier id'>arity</span> <span class='eq op'>==</span> <span class='params identifier id'>params</span><span class='dot token'>.</span><span class='size identifier id'>size</span> <span class='or or kw'>or</span> <span class='arity identifier id'>arity</span> <span class='lt op'>&lt;</span> <span class='integer val'>0</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>find_provide</h3>
+</div><div id="find_provide-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>find_provide</span><span class='args'>(path)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 240</span>
+
+<span class='def def kw'>def</span> <span class='find_provide identifier id'>find_provide</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span> <span class='assign token'>=</span> <span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='string val'>'html'</span>
+
+  <span class='provide identifier id'>provide</span><span class='dot token'>.</span><span class='find identifier id'>find</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='bitor op'>|</span>
+    <span class='next next kw'>next</span> <span class='unless unless_mod kw'>unless</span> <span class='path identifier id'>path</span> <span class='match op'>=~</span> <span class='dregexp node'>/^(.+)\.#{key}$/i</span>
+    <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span> <span class='assign token'>=</span> <span class='$1 nth_ref id'>$1</span><span class='comma token'>,</span> <span class='key identifier id'>key</span>
+  <span class='end end kw'>end</span>
+
+  <span class='return return kw'>return</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>find_view</h3>
+</div><div id="find_view-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>find_view</span><span class='args'>(file, wish)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Try to find the best template for the given basename and wish. Also, having
+extraordinarily much fun with globs.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+359
+360
+361
+362
+363
+364
+365
+366
+367</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 359</span>
+
+<span class='def def kw'>def</span> <span class='find_view identifier id'>find_view</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='aliased identifier id'>aliased</span> <span class='assign token'>=</span> <span class='ancestral_trait identifier id'>ancestral_trait</span><span class='lbrack token'>[</span><span class='colon op'>:</span><span class='alias_view identifier id'>alias_view</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='file identifier id'>file</span><span class='rbrack token'>]</span>
+    <span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='node identifier id'>node</span> <span class='assign token'>=</span> <span class='aliased identifier id'>aliased</span>
+    <span class='return return kw'>return</span> <span class='node identifier id'>node</span><span class='dot token'>.</span><span class='find_view identifier id'>find_view</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='node identifier id'>node</span> <span class='and and kw'>and</span> <span class='node identifier id'>node</span> <span class='neq op'>!=</span> <span class='self self kw'>self</span>
+  <span class='end end kw'>end</span>
+
+  <span class='path identifier id'>path</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='app identifier id'>app</span><span class='dot token'>.</span><span class='root identifier id'>root</span><span class='comma token'>,</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='app identifier id'>app</span><span class='dot token'>.</span><span class='view identifier id'>view</span><span class='comma token'>,</span> <span class='view_root identifier id'>view_root</span><span class='comma token'>,</span> <span class='file identifier id'>file</span><span class='rbrack token'>]</span>
+  <span class='to_template identifier id'>to_template</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>layout</h3>
+</div><div id="layout-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Proc String</tt></span>
+    <span class='name'>layout</span><span class='args'>(name = nil, &amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Define a layout to use on this Node.
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>String #to_s</tt>]</span>
+        <span class='name'>name</span>
+        
+          <em class="default">(defaults to: <tt>nil</tt>)</em>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+basename without extension of the layout to use
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Proc String</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+The assigned name or block
+</p>
+<p>
+NOTE: The behaviour of #layout changed significantly from Ramaze, instead
+of multitudes of obscure options and methods like deny_layout we simply
+take a block and use the returned value as the name for the layout. No
+layout will be used if the block returns nil.
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 440</span>
+
+<span class='def def kw'>def</span> <span class='layout identifier id'>layout</span><span class='lparen token'>(</span><span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='name identifier id'>name</span> <span class='and and kw'>and</span> <span class='block identifier id'>block</span>
+    <span class='trait identifier id'>trait</span><span class='lparen token'>(</span><span class='symbol val'>:layout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lambda identifier id'>lambda</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='n identifier id'>n</span><span class='comma token'>,</span> <span class='w identifier id'>w</span><span class='bitor op'>|</span> <span class='name identifier id'>name</span> <span class='if if_mod kw'>if</span> <span class='block identifier id'>block</span><span class='dot token'>.</span><span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='n identifier id'>n</span><span class='comma token'>,</span> <span class='w identifier id'>w</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='elsif elsif kw'>elsif</span> <span class='name identifier id'>name</span>
+    <span class='trait identifier id'>trait</span><span class='lparen token'>(</span><span class='symbol val'>:layout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='name identifier id'>name</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rparen token'>)</span>
+  <span class='elsif elsif kw'>elsif</span> <span class='block identifier id'>block</span>
+    <span class='trait identifier id'>trait</span><span class='lparen token'>(</span><span class='symbol val'>:layout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+
+  <span class='return return kw'>return</span> <span class='ancestral_trait identifier id'>ancestral_trait</span><span class='lbrack token'>[</span><span class='symbol val'>:layout</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>map</h3>
+</div><div id="map-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>map</span><span class='args'>(location)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Shortcut to map or remap this Node
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+71
+72
+73</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 71</span>
+
+<span class='def def kw'>def</span> <span class='map identifier id'>map</span><span class='lparen token'>(</span><span class='location identifier id'>location</span><span class='rparen token'>)</span>
+  <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lparen token'>(</span><span class='location identifier id'>location</span><span class='comma token'>,</span> <span class='self self kw'>self</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>mapping</h3>
+</div><div id="mapping-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>mapping</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+62
+63
+64
+65
+66
+67</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 62</span>
+
+<span class='def def kw'>def</span> <span class='mapping identifier id'>mapping</span>
+  <span class='mapped identifier id'>mapped</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='to identifier id'>to</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='mapped identifier id'>mapped</span> <span class='if if_mod kw'>if</span> <span class='mapped identifier id'>mapped</span>
+  <span class='return return kw'>return</span> <span class='string val'>'/'</span> <span class='if if_mod kw'>if</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span><span class='colon2 op'>::</span><span class='LIST constant id'>LIST</span><span class='dot token'>.</span><span class='size identifier id'>size</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
+  <span class='string val'>&quot;/&quot;</span> <span class='lshft op'>&lt;&lt;</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='name identifier id'>name</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\B[A-Z][^A-Z]/</span><span class='comma token'>,</span> <span class='string val'>'_\&amp;'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='downcase identifier id'>downcase</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>patterns_for</h3>
+</div><div id="patterns_for-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>patterns_for</span><span class='args'>(path)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+The innate beauty in Nitro, Ramaze, and Innate.
+</p>
+<p>
+Will yield the name of the action and parameter for the action method in
+order of significance.
+</p>
+<pre class="code">
+  <span class='def def kw'>def</span> <span class='foo__bar identifier id'>foo__bar</span> <span class='comment val'># responds to /foo/bar</span>
+  <span class='def def kw'>def</span> <span class='foo identifier id'>foo</span><span class='lparen token'>(</span><span class='bar identifier id'>bar</span><span class='rparen token'>)</span> <span class='comment val'># also responds to /foo/bar</span>
+</pre>
+<p>
+But foo__bar takes precedence because it&#8217;s more explicit.
+</p>
+<p>
+The last fallback will always be the index action with all of the path
+turned into parameters.
+</p>
+<p>
+Samples:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Foo constant id'>Foo</span><span class='semicolon token'>;</span> <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span><span class='semicolon token'>;</span> <span class='map identifier id'>map</span> <span class='string val'>'/'</span><span class='semicolon token'>;</span> <span class='end end kw'>end</span>
+
+  <span class='Foo constant id'>Foo</span><span class='dot token'>.</span><span class='patterns_for identifier id'>patterns_for</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='action identifier id'>action</span><span class='comma token'>,</span> <span class='params identifier id'>params</span><span class='bitor op'>|</span> <span class='p identifier id'>p</span> <span class='action identifier id'>action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='params identifier id'>params</span> <span class='rbrace token'>}</span>
+  <span class='lt op'>&lt;</span><span class='tt identifier id'>tt</span><span class='gt op'>&gt;</span><span class='bitand op'>&amp;</span><span class='quot identifier id'>quot</span><span class='semicolon token'>;</span><span class='index identifier id'>index</span><span class='bitand op'>&amp;</span><span class='quot identifier id'>quot</span><span class='semicolon token'>;</span><span class='assign token'>=</span><span class='bitand op'>&amp;</span><span class='gt identifier id'>gt</span><span class='semicolon token'>;</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='lt op'>&lt;</span><span class='regexp val'>/tt&gt;
+
+  Foo.patterns_for('/</span><span class='foo identifier id'>foo</span><span class='div op'>/</span><span class='bar identifier id'>bar</span><span class='string val'>'){|action, params| p action =&gt; params }
+  &lt;tt&gt;&amp;quot;foo__bar&amp;quot;=&amp;gt;[]&lt;/tt&gt;
+  &lt;tt&gt;&amp;quot;foo&amp;quot;=&amp;gt;[&amp;quot;bar&amp;quot;]&lt;/tt&gt;
+  &lt;tt&gt;&amp;quot;bar&amp;quot;]&lt;/tt&gt;
+
+  Foo.patterns_for('</span><span class='div op'>/</span><span class='foo identifier id'>foo</span><span class='div op'>/</span><span class='bar identifier id'>bar</span><span class='div op'>/</span><span class='baz identifier id'>baz</span><span class='string val'>'){|action, params| p action =&gt; params }
+  &lt;tt&gt;&amp;quot;foo__bar__baz&amp;quot;=&amp;gt;[]&lt;/tt&gt;
+  &lt;tt&gt;&amp;quot;foo__bar&amp;quot;=&amp;gt;[&amp;quot;baz&amp;quot;]&lt;/tt&gt;
+  &lt;tt&gt;&amp;quot;baz&amp;quot;]&lt;/tt&gt;
+  &lt;tt&gt;&amp;quot;bar&amp;quot;, &amp;quot;baz&amp;quot;]&lt;/tt&gt;
+</span></pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 482</span>
+
+<span class='def def kw'>def</span> <span class='patterns_for identifier id'>patterns_for</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='atoms identifier id'>atoms</span> <span class='assign token'>=</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span>
+  <span class='atoms identifier id'>atoms</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>''</span><span class='rparen token'>)</span>
+  <span class='result identifier id'>result</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+
+  <span class='atoms identifier id'>atoms</span><span class='dot token'>.</span><span class='size identifier id'>size</span><span class='dot token'>.</span><span class='downto identifier id'>downto</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='len identifier id'>len</span><span class='bitor op'>|</span>
+    <span class='action identifier id'>action</span> <span class='assign token'>=</span> <span class='atoms identifier id'>atoms</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='len identifier id'>len</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'__'</span><span class='rparen token'>)</span>
+    <span class='params identifier id'>params</span> <span class='assign token'>=</span> <span class='atoms identifier id'>atoms</span><span class='lbrack token'>[</span><span class='len identifier id'>len</span><span class='dot2 op'>..</span><span class='integer val'>-1</span><span class='rbrack token'>]</span>
+    <span class='action identifier id'>action</span> <span class='assign token'>=</span> <span class='string val'>'index'</span> <span class='if if_mod kw'>if</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+
+    <span class='return return kw'>return</span> <span class='result identifier id'>result</span> <span class='if if_mod kw'>if</span> <span class='result identifier id'>result</span> <span class='assign token'>=</span> <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='action identifier id'>action</span><span class='comma token'>,</span> <span class='params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+
+  <span class='return return kw'>return</span> <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>provide</h3>
+</div><div id="provide-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>provide</span><span class='args'>(formats = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+This little piece of nasty looking code enables you to provide different
+content from a single action.
+</p>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='class class kw'>class</span> <span class='Feeds constant id'>Feeds</span>
+    <span class='include identifier id'>include</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span>
+    <span class='map identifier id'>map</span> <span class='string val'>'/feed'</span>
+
+    <span class='provide identifier id'>provide</span> <span class='symbol val'>:html</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:erb</span><span class='comma token'>,</span> <span class='symbol val'>:rss</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:erb</span><span class='comma token'>,</span> <span class='symbol val'>:atom</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:erb</span>
+
+    <span class='def def kw'>def</span> <span class='index identifier id'>index</span>
+      <span class='@feed ivar id'>@feed</span> <span class='assign token'>=</span> <span class='build_some_feed identifier id'>build_some_feed</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+This will do following to these requests:
+</p>
+<p>
+/feed # =&gt; call Feeds#index with template /view/feed/index.erb
+/feed.atom # =&gt; call Feeds#index with template /view/feed/index.atom.erb
+/feed.rss # =&gt; call Feeds#index with template /view/feed/index.rss.erb
+</p>
+<p>
+If index.atom.erb isn&#8217;t available we fall back to
+/view/feed/index.erb
+</p>
+<p>
+So it&#8217;s really easy to add your own content representation.
+</p>
+<p>
+If no matching provider is found for the given extension it will fall back
+to the one specified for html.
+</p>
+<p>
+The correct templating engine is selected by matching the last extension of
+the template itself to the one set in Innate::View.
+</p>
+<p>
+If you don&#8217;t want that your response is passed through a templating
+engine, use :none like:
+</p>
+<pre class="code">
+  <span class='provide identifier id'>provide</span> <span class='symbol val'>:txt</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:none</span>
+</pre>
+<p>
+So a request to
+</p>
+<p>
+/feed.txt # =&gt; call Feeds#index with template /view/feed/index.txt.erb
+</p>
+<p>
+NOTE: provides also have effect on the chosen layout for the action.
+</p>
+<p>
+Given a Node at &#8217;/&#8217; with `layout(&#8216;default&#8217;)`:
+</p>
+<pre class="code">
+  <span class='regexp val'>/layout/</span><span class='default identifier id'>default</span><span class='dot token'>.</span><span class='erb identifier id'>erb</span>
+  <span class='regexp val'>/layout/</span><span class='default identifier id'>default</span><span class='dot token'>.</span><span class='rss identifier id'>rss</span><span class='dot token'>.</span><span class='erb identifier id'>erb</span>
+  <span class='regexp val'>/view/i</span><span class='ndex identifier id'>ndex</span><span class='dot token'>.</span><span class='erb identifier id'>erb</span>
+  <span class='regexp val'>/view/</span><span class='feed identifier id'>feed</span><span class='dot token'>.</span><span class='rss identifier id'>rss</span><span class='dot token'>.</span><span class='erb identifier id'>erb</span>
+</pre>
+<p>
+/feed.rss will wrap /view/feed.rss.erb in /layout/default.rss.erb /index
+will wrap /view/index.erb in /layout/default.erb
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+127
+128
+129
+130
+131
+132
+133
+134
+135</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 127</span>
+
+<span class='def def kw'>def</span> <span class='provide identifier id'>provide</span><span class='lparen token'>(</span><span class='formats identifier id'>formats</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='ancestral_trait identifier id'>ancestral_trait</span><span class='lbrack token'>[</span><span class='symbol val'>:provide</span><span class='rbrack token'>]</span> <span class='if if_mod kw'>if</span> <span class='formats identifier id'>formats</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+
+  <span class='hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='formats identifier id'>formats</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='pr identifier id'>pr</span><span class='comma token'>,</span> <span class='as identifier id'>as</span><span class='bitor op'>|</span> <span class='hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='pr identifier id'>pr</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='Array constant id'>Array</span><span class='lbrack token'>[</span><span class='mult op'>*</span><span class='as identifier id'>as</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='a identifier id'>a</span><span class='bitor op'>|</span> <span class='a identifier id'>a</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span> <span class='rbrace token'>}</span> <span class='rbrace token'>}</span>
+  <span class='trait identifier id'>trait</span><span class='lparen token'>(</span><span class='symbol val'>:provide</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='hash identifier id'>hash</span><span class='rparen token'>)</span>
+
+  <span class='ancestral_trait identifier id'>ancestral_trait</span><span class='lbrack token'>[</span><span class='symbol val'>:provide</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>resolve</h3>
+</div><div id="resolve-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>resolve</span><span class='args'>(path)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Let&#8217;s get down to business, first check if we got any wishes
+regarding the representation from the client, otherwise we will assume he
+wants html.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+234
+235
+236
+237
+238</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 234</span>
+
+<span class='def def kw'>def</span> <span class='resolve identifier id'>resolve</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span> <span class='assign token'>=</span> <span class='find_provide identifier id'>find_provide</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='update_method_arities identifier id'>update_method_arities</span>
+  <span class='find_action identifier id'>find_action</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>to_layout</h3>
+</div><div id="to_layout-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>to_layout</span><span class='args'>(file, wish)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Find the best matching file for the layout, if any.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+409
+410
+411
+412</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 409</span>
+
+<span class='def def kw'>def</span> <span class='to_layout identifier id'>to_layout</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+  <span class='path identifier id'>path</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='app identifier id'>app</span><span class='dot token'>.</span><span class='root identifier id'>root</span><span class='comma token'>,</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='app identifier id'>app</span><span class='dot token'>.</span><span class='layout identifier id'>layout</span><span class='comma token'>,</span> <span class='file identifier id'>file</span><span class='rbrack token'>]</span>
+  <span class='to_template identifier id'>to_template</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>to_template</h3>
+</div><div id="to_template-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>to_template</span><span class='args'>(path, wish)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 414</span>
+
+<span class='def def kw'>def</span> <span class='to_template identifier id'>to_template</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='unless unless_mod kw'>unless</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='all? fid id'>all?</span>
+
+  <span class='path identifier id'>path</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='path identifier id'>path</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='pa identifier id'>pa</span><span class='bitor op'>|</span> <span class='pa identifier id'>pa</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>'__'</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='rparen token'>)</span>
+  <span class='exts identifier id'>exts</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='Array constant id'>Array</span><span class='lbrack token'>[</span><span class='provide identifier id'>provide</span><span class='lbrack token'>[</span><span class='wish identifier id'>wish</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='provide identifier id'>provide</span><span class='dot token'>.</span><span class='keys identifier id'>keys</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='compact identifier id'>compact</span><span class='dot token'>.</span><span class='uniq identifier id'>uniq</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>','</span><span class='rparen token'>)</span>
+  <span class='glob identifier id'>glob</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{path}.{#{wish}.,#{wish},}{#{exts},}&quot;</span>
+  <span class='found identifier id'>found</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='lbrack token'>[</span><span class='glob identifier id'>glob</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='uniq identifier id'>uniq</span>
+
+  <span class='if if kw'>if</span> <span class='found identifier id'>found</span><span class='dot token'>.</span><span class='size identifier id'>size</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span>
+    <span class='Log constant id'>Log</span><span class='dot token'>.</span><span class='warn identifier id'>warn</span><span class='lparen token'>(</span><span class='string val'>&quot;%d views found for %p | %p&quot;</span> <span class='mod op'>%</span> <span class='lbrack token'>[</span><span class='found identifier id'>found</span><span class='dot token'>.</span><span class='size identifier id'>size</span><span class='comma token'>,</span> <span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='wish identifier id'>wish</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+
+  <span class='found identifier id'>found</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>try_resolve</h3>
+</div><div id="try_resolve-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>try_resolve</span><span class='args'>(path)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Let&#8217;s try to find some valid action for given <tt>path</tt>.
+Otherwise we dispatch to action_not_found
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+174
+175
+176
+177</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 174</span>
+
+<span class='def def kw'>def</span> <span class='try_resolve identifier id'>try_resolve</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='action identifier id'>action</span> <span class='assign token'>=</span> <span class='resolve identifier id'>resolve</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='action identifier id'>action</span> <span class='integer val'>? </span><span class='action_found identifier id'>action_found</span><span class='lparen token'>(</span><span class='action identifier id'>action</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='action_not_found identifier id'>action_not_found</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>update_method_arities</h3>
+</div><div id="update_method_arities-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>update_method_arities</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Answer with and set the @method_arities Hash, keys are method names, values
+are method arities.
+</p>
+<p>
+Usually called from Node::resolve
+</p>
+<p>
+NOTE:
+</p>
+<pre class="code">
+  <span class='mult op'>*</span> <span class='This constant id'>This</span> <span class='will identifier id'>will</span> <span class='be identifier id'>be</span> <span class='executed identifier id'>executed</span> <span class='once identifier id'>once</span> <span class='for for kw'>for</span> <span class='every identifier id'>every</span> <span class='request identifier id'>request</span><span class='comma token'>,</span> <span class='once identifier id'>once</span> <span class='we identifier id'>we</span> <span class='have identifier id'>have</span> <span class='settled identifier id'>settled</span>
+    <span class='things identifier id'>things</span> <span class='down identifier id'>down</span> <span class='a identifier id'>a</span> <span class='bit identifier id'>bit</span> <span class='more identifier id'>more</span> <span class='we identifier id'>we</span> <span class='can identifier id'>can</span> <span class='switch identifier id'>switch</span> <span class='to identifier id'>to</span> <span class='update identifier id'>update</span> <span class='based identifier id'>based</span> <span class='on identifier id'>on</span> <span class='Reloader constant id'>Reloader</span>
+    <span class='hooks identifier id'>hooks</span> <span class='and and kw'>and</span> <span class='update identifier id'>update</span> <span class='once identifier id'>once</span> <span class='on identifier id'>on</span> <span class='startup identifier id'>startup</span><span class='dot token'>.</span>
+    <span class='However constant id'>However</span><span class='comma token'>,</span> <span class='that identifier id'>that</span> <span class='may identifier id'>may</span> <span class='cause identifier id'>cause</span> <span class='problems identifier id'>problems</span> <span class='with identifier id'>with</span> <span class='dynamically identifier id'>dynamically</span> <span class='created identifier id'>created</span> <span class='methods identifier id'>methods</span><span class='comma token'>,</span> <span class='so identifier id'>so</span>
+    <span class='let identifier id'>let</span><span class='string val'>'s play it safe for now.
+</span></pre>
+<p>
+Example:
+</p>
+<pre class="code">
+  <span class='Hi constant id'>Hi</span><span class='dot token'>.</span><span class='update_method_arities identifier id'>update_method_arities</span>
+  <span class='comment val'># =&gt; &lt;tt&gt;=&amp;gt; 0, 'foo' =&amp;gt; -1, 'bar =&amp;gt; 2&lt;/tt&gt;</span>
+</pre>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 341</span>
+
+<span class='def def kw'>def</span> <span class='update_method_arities identifier id'>update_method_arities</span>
+  <span class='arities identifier id'>arities</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='trait identifier id'>trait</span><span class='lparen token'>(</span><span class='symbol val'>:method_arities</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='arities identifier id'>arities</span><span class='rparen token'>)</span>
+
+  <span class='exposed identifier id'>exposed</span> <span class='assign token'>=</span> <span class='ancestors identifier id'>ancestors</span> <span class='bitand op'>&amp;</span> <span class='Helper constant id'>Helper</span><span class='colon2 op'>::</span><span class='EXPOSE constant id'>EXPOSE</span><span class='dot token'>.</span><span class='to_a identifier id'>to_a</span>
+  <span class='higher identifier id'>higher</span> <span class='assign token'>=</span> <span class='ancestors identifier id'>ancestors</span><span class='dot token'>.</span><span class='select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='a identifier id'>a</span><span class='bitor op'>|</span> <span class='a identifier id'>a</span> <span class='lt op'>&lt;</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Node constant id'>Node</span> <span class='rbrace token'>}</span>
+
+  <span class='lparen token'>(</span><span class='higher identifier id'>higher</span> <span class='plus op'>+</span> <span class='exposed identifier id'>exposed</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='reverse_each identifier id'>reverse_each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='ancestor identifier id'>ancestor</span><span class='bitor op'>|</span>
+    <span class='ancestor identifier id'>ancestor</span><span class='dot token'>.</span><span class='public_instance_methods identifier id'>public_instance_methods</span><span class='lparen token'>(</span><span class='false false kw'>false</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='im identifier id'>im</span><span class='bitor op'>|</span>
+      <span class='arities identifier id'>arities</span><span class='lbrack token'>[</span><span class='im identifier id'>im</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='ancestor identifier id'>ancestor</span><span class='dot token'>.</span><span class='instance_method identifier id'>instance_method</span><span class='lparen token'>(</span><span class='im identifier id'>im</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='arity identifier id'>arity</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='arities identifier id'>arities</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>view_root</h3>
+</div><div id="view_root-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>view_root</span><span class='args'>(location = nil)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+This is done to make you feel more at home, pass an absolute path or a path
+relative to your application root to set it, otherwise you&#8217;ll get the
+current mapping.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+372
+373
+374
+375</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 372</span>
+
+<span class='def def kw'>def</span> <span class='view_root identifier id'>view_root</span><span class='lparen token'>(</span><span class='location identifier id'>location</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='@view_root ivar id'>@view_root</span> <span class='assign token'>=</span> <span class='location identifier id'>location</span> <span class='if if_mod kw'>if</span> <span class='location identifier id'>location</span>
+  <span class='@view_root ivar id'>@view_root</span> <span class='opasgn op'>||=</span> <span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='to identifier id'>to</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>wrap_action_call</h3>
+</div><div id="wrap_action_call-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>wrap_action_call</span><span class='args'>(action, &amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+This awesome piece of hackery implements action AOP, methods may register
+themself in the trait[:wrap] and will be called in left-to-right order,
+each being passed the action instance and a block that they have to yield
+to continue the chain.
+</p>
+<p>
+This enables things like action logging, caching, aspects, authentication,
+etc&#8230;
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt><a href="Action.html" title="Action">Action</a></tt>]</span>
+        <span class='name'>action</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+instance that is being passed to every registered method
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="Action.html#render-instance_method" title="Action#render">Action#render</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+511
+512
+513
+514
+515
+516
+517</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/node.rb', line 511</span>
+
+<span class='def def kw'>def</span> <span class='wrap_action_call identifier id'>wrap_action_call</span><span class='lparen token'>(</span><span class='action identifier id'>action</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='wrap identifier id'>wrap</span> <span class='assign token'>=</span> <span class='ancestral_trait identifier id'>ancestral_trait</span><span class='lbrack token'>[</span><span class='symbol val'>:wrap</span><span class='rbrack token'>]</span>
+
+  <span class='head identifier id'>head</span><span class='comma token'>,</span> <span class='tail identifier id'>tail</span> <span class='assign token'>=</span> <span class='wrap identifier id'>wrap</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='wrap identifier id'>wrap</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>-1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='reverse identifier id'>reverse</span>
+  <span class='combined identifier id'>combined</span> <span class='assign token'>=</span> <span class='tail identifier id'>tail</span><span class='dot token'>.</span><span class='inject identifier id'>inject</span><span class='lparen token'>(</span><span class='block identifier id'>block</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='s identifier id'>s</span><span class='comma token'>,</span><span class='v identifier id'>v</span><span class='bitor op'>|</span> <span class='lambda identifier id'>lambda</span><span class='lbrace token'>{</span> <span class='__send__ identifier id'>__send__</span><span class='lparen token'>(</span><span class='v identifier id'>v</span><span class='comma token'>,</span> <span class='action identifier id'>action</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='s identifier id'>s</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span> <span class='rbrace token'>}</span>
+  <span class='__send__ identifier id'>__send__</span><span class='lparen token'>(</span><span class='head identifier id'>head</span><span class='comma token'>,</span> <span class='action identifier id'>action</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='combined identifier id'>combined</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

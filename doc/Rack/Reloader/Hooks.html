@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Rack::Reloader::Hooks</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Rack_Reloader_Hooks">
+  <h1 class="title">Module: Rack::Reloader::Hooks</h1>
+  <div class="section docstring">
+  <p>
+Holds hooks that are called before and after #cycle and #safe_load
+</p>
+
+</div><div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#after_cycle-instance_method" title="#after_cycle">#after_cycle</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Overwrite to add actions after the reload rotation has ended.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#after_safe_load-instance_method" title="#after_safe_load">#after_safe_load</a></span><span class='args'>(file)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Overwrite to add custom hook in addition to default Cache cleaning.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#after_safe_load_failed-instance_method" title="#after_safe_load_failed">#after_safe_load_failed</a></span><span class='args'>(file, error)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Overwrite to add actions after a file is Kernel::load-ed unsuccessfully, by
+default we output an error-message with the exception.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#after_safe_load_succeed-instance_method" title="#after_safe_load_succeed">#after_safe_load_succeed</a></span><span class='args'>(file)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Overwrite to add actions after a file is Kernel::load-ed successfully, by
+default we clean the Cache for compiled templates and resolved actions.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#before_cycle-instance_method" title="#before_cycle">#before_cycle</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Overwrite to add actions before the reload rotation is started.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#before_safe_load-instance_method" title="#before_safe_load">#before_safe_load</a></span><span class='args'>(file)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Overwrite to add actions before a file is Kernel::load-ed.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>after_cycle</h3>
+</div><div id="after_cycle-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>after_cycle</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Overwrite to add actions after the reload rotation has ended.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+164
+165</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 164</span>
+
+<span class='def def kw'>def</span> <span class='after_cycle identifier id'>after_cycle</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>after_safe_load</h3>
+</div><div id="after_safe_load-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>after_safe_load</span><span class='args'>(file)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Overwrite to add custom hook in addition to default Cache cleaning
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+179
+180</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 179</span>
+
+<span class='def def kw'>def</span> <span class='after_safe_load identifier id'>after_safe_load</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>after_safe_load_failed</h3>
+</div><div id="after_safe_load_failed-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>after_safe_load_failed</span><span class='args'>(file, error)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Overwrite to add actions after a file is Kernel::load-ed unsuccessfully, by
+default we output an error-message with the exception.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+184
+185
+186</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 184</span>
+
+<span class='def def kw'>def</span> <span class='after_safe_load_failed identifier id'>after_safe_load_failed</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='error identifier id'>error</span><span class='rparen token'>)</span>
+  <span class='puts identifier id'>puts</span> <span class='error identifier id'>error</span> <span class='comment val'># Log.error(error)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>after_safe_load_succeed</h3>
+</div><div id="after_safe_load_succeed-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>after_safe_load_succeed</span><span class='args'>(file)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Overwrite to add actions after a file is Kernel::load-ed successfully, by
+default we clean the Cache for compiled templates and resolved actions.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+174
+175
+176</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 174</span>
+
+<span class='def def kw'>def</span> <span class='after_safe_load_succeed identifier id'>after_safe_load_succeed</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+  <span class='after_safe_load identifier id'>after_safe_load</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>before_cycle</h3>
+</div><div id="before_cycle-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>before_cycle</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Overwrite to add actions before the reload rotation is started.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+160
+161</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 160</span>
+
+<span class='def def kw'>def</span> <span class='before_cycle identifier id'>before_cycle</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>before_safe_load</h3>
+</div><div id="before_safe_load-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>before_safe_load</span><span class='args'>(file)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Overwrite to add actions before a file is Kernel::load-ed
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+168
+169
+170</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/rack/reloader.rb', line 168</span>
+
+<span class='def def kw'>def</span> <span class='before_safe_load identifier id'>before_safe_load</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+  <span class='puts identifier id'>puts</span> <span class='dstring node'>&quot;reload #{file}&quot;</span> <span class='comment val'># Log.debug(&quot;reload #{file}&quot;)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

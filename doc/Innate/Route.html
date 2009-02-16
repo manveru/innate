@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Class: Innate::Route</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section class Innate_Route">
+  <h1 class="title">Class: Innate::Route</h1>
+  <div class="section docstring">
+  <p>
+Innate support simple routing using string, regex and lambda based routers.
+Route are stored in a dictionary, which supports hash-like access but
+preserves order, so routes are evaluated in the order they are added.
+</p>
+<p>
+This middleware should wrap Innate::DynaMap.
+</p>
+<p>
+String routers are the simplest way to route in Innate. One path is
+translated into another:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Route constant id'>Route</span><span class='lbrack token'>[</span> <span class='string val'>'/foo'</span> <span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'/bar'</span>
+    <span class='string val'>'/foo'</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>'/bar'</span>
+</pre>
+<p>
+Regex routers allow matching against paths using regex. Matches within your
+regex using () are substituted in the new path using printf-like syntax.
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Route constant id'>Route</span><span class='lbrack token'>[</span> <span class='regexp val'>%r!^/(\d+)\.te?xt$!</span> <span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;/text/%d&quot;</span>
+    <span class='string val'>'/123.txt'</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>'/text/123'</span>
+    <span class='string val'>'/789.text'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>'/text/789'</span>
+</pre>
+<p>
+For more complex routing, lambda routers can be used. Lambda routers are
+passed in the current path and request object, and must return either a new
+path string, or nil.
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Route constant id'>Route</span><span class='lbrack token'>[</span> <span class='string val'>'name of route'</span> <span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lambda identifier id'>lambda</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='request identifier id'>request</span><span class='bitor op'>|</span>
+    <span class='string val'>'/bar'</span> <span class='if if_mod kw'>if</span> <span class='path identifier id'>path</span> <span class='eq op'>==</span> <span class='string val'>'/foo'</span> <span class='and and kw'>and</span> <span class='request identifier id'>request</span><span class='lbrack token'>[</span><span class='symbol val'>:bar</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'1'</span>
+  <span class='rbrace token'>}</span>
+    <span class='string val'>'/foo'</span>        <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>'/foo'</span>
+    <span class='string val'>'/foo?bar=1'</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>'/bar'</span>
+</pre>
+<p>
+Lambda routers can also use this alternative syntax:
+</p>
+<pre class="code">
+  <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='Route constant id'>Route</span><span class='lparen token'>(</span><span class='string val'>'name of route'</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='request identifier id'>request</span><span class='bitor op'>|</span>
+    <span class='string val'>'/bar'</span> <span class='if if_mod kw'>if</span> <span class='path identifier id'>path</span> <span class='eq op'>==</span> <span class='string val'>'/foo'</span> <span class='and and kw'>and</span> <span class='request identifier id'>request</span><span class='lbrack token'>[</span><span class='symbol val'>:bar</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'1'</span>
+  <span class='end end kw'>end</span>
+</pre>
+<p>
+NOTE: Use self::ROUTES notation in singleton methods to force correct
+</p>
+<pre class="code">
+      <span class='lookup identifier id'>lookup</span><span class='dot token'>.</span>
+</pre>
+
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="ROUTES-constant">ROUTES</dt>
+      <dd>[]</dd>
+    
+  </dl>
+</div>
+
+</div><div class="section constructor">
+<h1>Constructor Summary</h1>
+  <div id="initialize-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>initialize</span><span class='args'>(app = Innate::DynaMap)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+58
+59
+60</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/route.rb', line 58</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='app identifier id'>app</span> <span class='assign token'>=</span> <span class='Innate constant id'>Innate</span><span class='colon2 op'>::</span><span class='DynaMap constant id'>DynaMap</span><span class='rparen token'>)</span>
+  <span class='@app ivar id'>@app</span> <span class='assign token'>=</span> <span class='app identifier id'>app</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#%5B%5D-class_method" title="[]">[]</a></span><span class='args'>(key)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#%5B%5D%3D-class_method" title="[]=">[]=</a></span><span class='args'>(key, value)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#clear-class_method" title="clear">clear</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#call-instance_method" title="#call">#call</a></span><span class='args'>(env)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#resolve-instance_method" title="#resolve">#resolve</a></span><span class='args'>(path)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>[]</h3>
+</div><div id="%5B%5D-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>[]</span><span class='args'>(key)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+44
+45
+46
+47</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/route.rb', line 44</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='rparen token'>)</span>
+  <span class='found identifier id'>found</span> <span class='assign token'>=</span> <span class='self self kw'>self</span><span class='colon2 op'>::</span><span class='ROUTES constant id'>ROUTES</span><span class='dot token'>.</span><span class='assoc identifier id'>assoc</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='rparen token'>)</span>
+  <span class='found identifier id'>found</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span> <span class='if if_mod kw'>if</span> <span class='found identifier id'>found</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>[]=</h3>
+</div><div id="%5B%5D%3D-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>[]=</span><span class='args'>(key, value)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+49
+50
+51
+52</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/route.rb', line 49</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='assign token'>=</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='rparen token'>)</span>
+  <span class='self self kw'>self</span><span class='colon2 op'>::</span><span class='ROUTES constant id'>ROUTES</span><span class='dot token'>.</span><span class='delete_if identifier id'>delete_if</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='comma token'>,</span><span class='v identifier id'>v</span><span class='bitor op'>|</span> <span class='k identifier id'>k</span> <span class='eq op'>==</span> <span class='key identifier id'>key</span> <span class='rbrace token'>}</span>
+  <span class='self self kw'>self</span><span class='colon2 op'>::</span><span class='ROUTES constant id'>ROUTES</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>clear</h3>
+</div><div id="clear-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>clear</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+54
+55
+56</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/route.rb', line 54</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='clear identifier id'>clear</span>
+  <span class='self self kw'>self</span><span class='colon2 op'>::</span><span class='ROUTES constant id'>ROUTES</span><span class='dot token'>.</span><span class='clear identifier id'>clear</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>call</h3>
+</div><div id="call-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>call</span><span class='args'>(env)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/route.rb', line 62</span>
+
+<span class='def def kw'>def</span> <span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='env identifier id'>env</span><span class='rparen token'>)</span>
+  <span class='path identifier id'>path</span> <span class='assign token'>=</span> <span class='env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>'PATH_INFO'</span><span class='rbrack token'>]</span>
+  <span class='path identifier id'>path</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'/'</span> <span class='if if_mod kw'>if</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+
+  <span class='if if kw'>if</span> <span class='modified identifier id'>modified</span> <span class='assign token'>=</span> <span class='resolve identifier id'>resolve</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+    <span class='env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>'PATH_INFO'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='modified identifier id'>modified</span>
+  <span class='end end kw'>end</span>
+
+  <span class='@app ivar id'>@app</span><span class='dot token'>.</span><span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='env identifier id'>env</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>resolve</h3>
+</div><div id="resolve-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>resolve</span><span class='args'>(path)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/route.rb', line 73</span>
+
+<span class='def def kw'>def</span> <span class='resolve identifier id'>resolve</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='request identifier id'>request</span> <span class='assign token'>=</span> <span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='request identifier id'>request</span>
+
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='colon2 op'>::</span><span class='ROUTES constant id'>ROUTES</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='bitor op'>|</span>
+    <span class='if if kw'>if</span> <span class='key identifier id'>key</span><span class='dot token'>.</span><span class='is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='Regexp constant id'>Regexp</span><span class='rparen token'>)</span>
+      <span class='md identifier id'>md</span> <span class='assign token'>=</span> <span class='path identifier id'>path</span><span class='dot token'>.</span><span class='match identifier id'>match</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='rparen token'>)</span>
+      <span class='return return kw'>return</span> <span class='value identifier id'>value</span> <span class='mod op'>%</span> <span class='md identifier id'>md</span><span class='dot token'>.</span><span class='to_a identifier id'>to_a</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>-1</span><span class='rbrack token'>]</span> <span class='if if_mod kw'>if</span> <span class='md identifier id'>md</span>
+
+    <span class='elsif elsif kw'>elsif</span> <span class='value identifier id'>value</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:call</span><span class='rparen token'>)</span>
+      <span class='new_path identifier id'>new_path</span> <span class='assign token'>=</span> <span class='value identifier id'>value</span><span class='dot token'>.</span><span class='call identifier id'>call</span><span class='lparen token'>(</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='Request constant id'>Request</span><span class='dot token'>.</span><span class='current identifier id'>current</span><span class='rparen token'>)</span>
+      <span class='return return kw'>return</span> <span class='new_path identifier id'>new_path</span> <span class='if if_mod kw'>if</span> <span class='new_path identifier id'>new_path</span>
+
+    <span class='elsif elsif kw'>elsif</span> <span class='value identifier id'>value</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:to_str</span><span class='rparen token'>)</span>
+      <span class='return return kw'>return</span> <span class='value identifier id'>value</span><span class='dot token'>.</span><span class='to_str identifier id'>to_str</span> <span class='if if_mod kw'>if</span> <span class='path identifier id'>path</span> <span class='eq op'>==</span> <span class='key identifier id'>key</span>
+
+    <span class='else else kw'>else</span>
+      <span class='Log constant id'>Log</span><span class='dot token'>.</span><span class='error identifier id'>error</span><span class='lparen token'>(</span><span class='string val'>&quot;Invalid route %p =&gt; %p&quot;</span> <span class='mod op'>%</span> <span class='lbrack token'>[</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Class: Innate::LogHub</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section class Innate_LogHub">
+  <h1 class="title">Class: Innate::LogHub</h1>
+  <div class="section mixins">
+  <h1>Included Modules</h1>
+  <p>Logger::Severity</p>
+</div><div class="section docstring">
+  <p>
+Innate only provides logging via stdlib Logger to avoid bloat and
+dependencies, you may specify multiple loggers in the Log instance of
+LogHub to accomendate your needs, by default we log to $stderr to be
+compatible with CGI.
+</p>
+<p>
+Please read the documentation of logger.rb (or even better, its source) to
+get a feeling of how to use it correctly within Innate
+</p>
+<p>
+A few shortcuts:
+</p>
+<ol>
+<li>Create logger for stderr/stdout
+
+<pre class="code">
+ <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='$stdout gvar id'>$stdout</span><span class='rparen token'>)</span>
+ <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='$stderr gvar id'>$stderr</span><span class='rparen token'>)</span>
+</pre>
+</li>
+<li>Create logger for a file
+
+<pre class="code">
+ <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'test.log'</span><span class='rparen token'>)</span>
+</pre>
+</li>
+<li>Create logger for file object
+
+<pre class="code">
+ <span class='file identifier id'>file</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='open identifier id'>open</span><span class='lparen token'>(</span><span class='string val'>'test.log'</span><span class='comma token'>,</span> <span class='string val'>'a+'</span><span class='rparen token'>)</span>
+ <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
+</pre>
+</li>
+<li>Create logger with rotation on specified file size
+
+<pre class="code">
+ <span class='comment val'># 10 files history, 5 MB each</span>
+ <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'test.log'</span><span class='comma token'>,</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='integer val'>5</span> <span class='lshft op'>&lt;&lt;</span> <span class='integer val'>20</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+ <span class='comment val'># 100 files history, 1 MB each</span>
+ <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'test.log'</span><span class='comma token'>,</span> <span class='integer val'>100</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='integer val'>1</span> <span class='lshft op'>&lt;&lt;</span> <span class='integer val'>20</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+</pre>
+</li>
+<li>Create a logger which ages logfiles daily/weekly/monthly
+
+<pre class="code">
+ <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'test.log'</span><span class='comma token'>,</span> <span class='string val'>'daily'</span><span class='rparen token'>)</span>
+ <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'test.log'</span><span class='comma token'>,</span> <span class='string val'>'weekly'</span><span class='rparen token'>)</span>
+ <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'test.log'</span><span class='comma token'>,</span> <span class='string val'>'monthly'</span><span class='rparen token'>)</span>
+</pre>
+</li>
+</ol>
+
+</div><div class="section attributes">
+  <h1>Attributes</h1>
+
+  
+    <div class="instance">
+      <h2>Instance Attributes</h2>
+      <table>
+      
+        <tr>
+          <th class="name">active</td>
+          <td class="readwrite">
+            [<span id='active-instance_method'>R</span><span id='active%3D-instance_method'>W</span>] 
+          </td>
+          <td class="visibility">
+            public
+          </td>
+          <td class="docstring">
+            <p>
+Sets the attribute <tt>active</tt>.
+</p>
+
+            
+          </td>
+        </tr>
+      
+        <tr>
+          <th class="name">loggers</td>
+          <td class="readwrite">
+            [<span id='loggers-instance_method'>R</span><span id='loggers%3D-instance_method'>W</span>] 
+          </td>
+          <td class="visibility">
+            public
+          </td>
+          <td class="docstring">
+            <p>
+Sets the attribute <tt>loggers</tt>.
+</p>
+
+            
+          </td>
+        </tr>
+      
+        <tr>
+          <th class="name">program</td>
+          <td class="readwrite">
+            [<span id='program-instance_method'>R</span><span id='program%3D-instance_method'>W</span>] 
+          </td>
+          <td class="visibility">
+            public
+          </td>
+          <td class="docstring">
+            <p>
+Sets the attribute <tt>program</tt>.
+</p>
+
+            
+          </td>
+        </tr>
+      
+      </table>
+    </div>
+  
+</div><div class="section constants">
+  
+</div><div class="section constructor">
+<h1>Constructor Summary</h1>
+  <div id="initialize-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>initialize</span><span class='args'>(*loggers)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+<tt>loggers</tt> should be a list of Logger instances
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+45
+46
+47
+48
+49
+50</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/log/hub.rb', line 45</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='loggers identifier id'>loggers</span><span class='rparen token'>)</span>
+  <span class='@loggers ivar id'>@loggers</span> <span class='assign token'>=</span> <span class='loggers identifier id'>loggers</span><span class='dot token'>.</span><span class='flatten identifier id'>flatten</span>
+  <span class='@program ivar id'>@program</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='@active ivar id'>@active</span> <span class='assign token'>=</span> <span class='true true kw'>true</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='level identifier id'>level</span> <span class='assign token'>=</span> <span class='DEBUG constant id'>DEBUG</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+</div><div class="section methodmissing">
+  <h1>Dynamic Method Handling</h1>
+
+  <p class="note">
+    This class handles dynamic methods through the <tt>method_missing</tt> method
+    
+  </p>
+
+  <div id="method_missing-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>method_missing</span><span class='args'>(meth, *args, &amp;block)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/log/hub.rb', line 61</span>
+
+<span class='def def kw'>def</span> <span class='method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='meth identifier id'>meth</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='args identifier id'>args</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='eval identifier id'>eval</span> <span class='dstring node'>%~
+    def #{meth}(*args, &amp;block)
+      return unless @active
+      @loggers.each{|l| l.#{meth}(*args, &amp;block) }
+    end
+  ~</span>
+
+  <span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='meth identifier id'>meth</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='args identifier id'>args</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#level-instance_method" title="#level">#level</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+set level for all loggers.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#start-instance_method" title="#start">#start</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#stop-instance_method" title="#stop">#stop</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>level</h3>
+</div><div id="level-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>level</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+set level for all loggers
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+53
+54
+55
+56</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/log/hub.rb', line 53</span>
+
+<span class='def def kw'>def</span> <span class='level= identifier id'>level=</span><span class='lparen token'>(</span><span class='lvl identifier id'>lvl</span><span class='rparen token'>)</span>
+  <span class='@loggers ivar id'>@loggers</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='l identifier id'>l</span><span class='bitor op'>|</span> <span class='l identifier id'>l</span><span class='dot token'>.</span><span class='level identifier id'>level</span> <span class='assign token'>=</span> <span class='lvl identifier id'>lvl</span> <span class='rbrace token'>}</span>
+  <span class='@level ivar id'>@level</span> <span class='assign token'>=</span> <span class='lvl identifier id'>lvl</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>start</h3>
+</div><div id="start-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>start</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+58</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/log/hub.rb', line 58</span>
+
+<span class='def def kw'>def</span> <span class='start identifier id'>start</span><span class='semicolon token'>;</span> <span class='@active ivar id'>@active</span> <span class='assign token'>=</span> <span class='true true kw'>true</span><span class='semicolon token'>;</span>  <span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>stop</h3>
+</div><div id="stop-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>stop</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+59</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/log/hub.rb', line 59</span>
+
+<span class='def def kw'>def</span> <span class='stop identifier id'>stop</span><span class='semicolon token'>;</span>  <span class='@active ivar id'>@active</span> <span class='assign token'>=</span> <span class='false false kw'>false</span><span class='semicolon token'>;</span> <span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

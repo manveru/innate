@@ -1,0 +1,814 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::Cache::API</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_Cache_API">
+  <h1 class="title">Module: Innate::Cache::API</h1>
+  <div class="section docstring">
+  <p>
+This is the API every Cache has to conform to.
+</p>
+<p>
+The default behaviour is tailored for the Memory cache, override any
+behaviour as you need.
+</p>
+<p>
+<tt>key</tt> may be a String or Symbol <tt>value</tt> is a Hash of
+serializable (as according to Marshal) objects
+</p>
+<p>
+Every cache instance has to respond to:
+</p>
+<pre class="code">
+  <span class='colon3 op'>::</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
+  <span class='comment val'>#cache_setup(hostname, username, appname, cachename)</span>
+  <span class='comment val'>#cache_clear()</span>
+  <span class='comment val'>#cache_delete(*keys)</span>
+  <span class='comment val'>#cache_fetch(key, default = nil)</span>
+  <span class='comment val'>#cache_store(key, value, options = {})</span>
+</pre>
+<p>
+We are prefixing cache_ to make the intent clear and implementation easier,
+as there may be existing behaviour associated with the non-prefixed
+version.
+</p>
+<p>
+Also note that we create one instance per cache name-space.
+</p>
+
+</div><div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_clear-instance_method" title="#cache_clear">#cache_clear</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Remove all key/value pairs from the cache.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_delete-instance_method" title="#cache_delete">#cache_delete</a></span><span class='args'>(key, *keys)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Remove the corresponding key/value pair for each key passed.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Object Array nil</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_fetch-instance_method" title="#cache_fetch">#cache_fetch</a></span><span class='args'>(key, default = nil)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Answer with the value associated with the <tt>key</tt>, <tt>nil</tt> if not
+found or expired.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Object</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_setup-instance_method" title="#cache_setup">#cache_setup</a></span><span class='args'>(hostname, username, appname, cachename)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Executed after #initialize and before any other method.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#cache_store-instance_method" title="#cache_store">#cache_store</a></span><span class='args'>(key, value, options = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Set <tt>key</tt> to <tt>value</tt>.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_clear</h3>
+</div><div id="cache_clear-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>cache_clear</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Remove all key/value pairs from the cache. Should behave as if #delete had
+been called with all <tt>keys</tt> as argument.
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+44
+45
+46</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/api.rb', line 44</span>
+
+<span class='def def kw'>def</span> <span class='cache_clear identifier id'>cache_clear</span>
+  <span class='clear identifier id'>clear</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_delete</h3>
+</div><div id="cache_delete-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Object Array nil</tt></span>
+    <span class='name'>cache_delete</span><span class='args'>(key, *keys)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Remove the corresponding key/value pair for each key passed. If removing is
+not an option it should set the corresponding value to nil.
+</p>
+<p>
+If only one key was deleted, answer with the corresponding value. If
+multiple keys were deleted, answer with an Array containing the values.
+</p>
+<p>
+NOTE: Due to differences in the underlying implementation in the
+</p>
+<pre class="code">
+      <span class='caches identifier id'>caches</span><span class='comma token'>,</span> <span class='some identifier id'>some</span> <span class='may identifier id'>may</span> <span class='not not kw'>not</span> <span class='return return kw'>return</span> <span class='the identifier id'>the</span> <span class='deleted identifier id'>deleted</span> <span class='value identifier id'>value</span> <span class='as identifier id'>as</span> <span class='it identifier id'>it</span> <span class='would identifier id'>would</span> <span class='mean identifier id'>mean</span>
+      <span class='another identifier id'>another</span> <span class='lookup identifier id'>lookup</span> <span class='before identifier id'>before</span> <span class='deletion identifier id'>deletion</span><span class='dot token'>.</span> <span class='This constant id'>This</span> <span class='is identifier id'>is</span> <span class='the identifier id'>the</span> <span class='case case kw'>case</span> <span class='for for kw'>for</span> <span class='caches identifier id'>caches</span> <span class='on identifier id'>on</span>
+      <span class='memcached identifier id'>memcached</span> <span class='or or kw'>or</span> <span class='any identifier id'>any</span> <span class='database identifier id'>database</span> <span class='system identifier id'>system</span><span class='dot token'>.</span>
+</pre>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>Object</tt>]</span>
+        <span class='name'>key</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+the key for the value to delete
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Object Array nil</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'></span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/api.rb', line 63</span>
+
+<span class='def def kw'>def</span> <span class='cache_delete identifier id'>cache_delete</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='keys identifier id'>keys</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='keys identifier id'>keys</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+    <span class='if if kw'>if</span> <span class='value identifier id'>value</span> <span class='assign token'>=</span> <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='rparen token'>)</span>
+      <span class='value identifier id'>value</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
+    <span class='end end kw'>end</span>
+  <span class='else else kw'>else</span>
+    <span class='lbrack token'>[</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='keys identifier id'>keys</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='bitor op'>|</span> <span class='cache_delete identifier id'>cache_delete</span><span class='lparen token'>(</span><span class='k identifier id'>k</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_fetch</h3>
+</div><div id="cache_fetch-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Object</tt></span>
+    <span class='name'>cache_fetch</span><span class='args'>(key, default = nil)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Answer with the value associated with the <tt>key</tt>, <tt>nil</tt> if not
+found or expired.
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>Object</tt>]</span>
+        <span class='name'>key</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+the key for which to fetch the value
+</p>
+</span>
+      </dd>
+    
+  
+    
+      <dt>
+        <span class='type'>[<tt>Object</tt>]</span>
+        <span class='name'>default</span>
+        
+          <em class="default">(defaults to: <tt>nil</tt>)</em>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+will return this if no value was found
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Object</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'></span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="../Cache_23fetch_20Innate/Cache.html#%5B%5D-instance_method" title="Innate::Cache#fetch Innate::Cache#[]">Innate::Cache#fetch Innate::Cache#[]</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/api.rb', line 81</span>
+
+<span class='def def kw'>def</span> <span class='cache_fetch identifier id'>cache_fetch</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='default identifier id'>default</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='value identifier id'>value</span> <span class='assign token'>=</span> <span class='default identifier id'>default</span>
+
+  <span class='if if kw'>if</span> <span class='entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='rparen token'>)</span>
+    <span class='if if kw'>if</span> <span class='expires identifier id'>expires</span> <span class='assign token'>=</span> <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='colon op'>:</span><span class='expires identifier id'>expires</span><span class='rbrack token'>]</span>
+      <span class='if if kw'>if</span> <span class='expires identifier id'>expires</span> <span class='gt op'>&gt;</span> <span class='Time constant id'>Time</span><span class='dot token'>.</span><span class='now identifier id'>now</span>
+        <span class='value identifier id'>value</span> <span class='assign token'>=</span> <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
+      <span class='else else kw'>else</span>
+        <span class='cache_delete identifier id'>cache_delete</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='else else kw'>else</span>
+      <span class='value identifier id'>value</span> <span class='assign token'>=</span> <span class='entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='return return kw'>return</span> <span class='value identifier id'>value</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_setup</h3>
+</div><div id="cache_setup-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>cache_setup</span><span class='args'>(hostname, username, appname, cachename)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Executed after #initialize and before any other method.
+</p>
+<p>
+Some parameters identifying the current process will be passed so caches
+that act in one global name-space can use them as a prefix.
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>String #to_s</tt>]</span>
+        <span class='name'>hostname</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+the hostname of the machine
+</p>
+</span>
+      </dd>
+    
+  
+    
+      <dt>
+        <span class='type'>[<tt>String #to_s</tt>]</span>
+        <span class='name'>username</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+user executing the process
+</p>
+</span>
+      </dd>
+    
+  
+    
+      <dt>
+        <span class='type'>[<tt>String #to_s</tt>]</span>
+        <span class='name'>appname</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+identifier for the application
+</p>
+</span>
+      </dd>
+    
+  
+    
+      <dt>
+        <span class='type'>[<tt>String #to_s</tt>]</span>
+        <span class='name'>cachename</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+namespace, like &#8216;session&#8217; or &#8216;action&#8217;
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+37
+38</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/api.rb', line 37</span>
+
+<span class='def def kw'>def</span> <span class='cache_setup identifier id'>cache_setup</span><span class='lparen token'>(</span><span class='hostname identifier id'>hostname</span><span class='comma token'>,</span> <span class='username identifier id'>username</span><span class='comma token'>,</span> <span class='appname identifier id'>appname</span><span class='comma token'>,</span> <span class='cachename identifier id'>cachename</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>cache_store</h3>
+</div><div id="cache_store-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>cache_store</span><span class='args'>(key, value, options = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Set <tt>key</tt> to <tt>value</tt>.
+</p>
+<p>
+<tt>options</tt> may be one of:
+</p>
+<pre class="code">
+  <span class='symbol val'>:ttl</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='time identifier id'>time</span> <span class='to identifier id'>to</span> <span class='live identifier id'>live</span> <span class='in in kw'>in</span> <span class='seconds identifier id'>seconds</span> <span class='if if_mod kw'>if</span> <span class='given identifier id'>given</span> <span class='in in kw'>in</span> <span class='Numeric constant id'>Numeric</span>
+                       <span class='infinite identifier id'>infinite</span> <span class='or or kw'>or</span> <span class='maximum identifier id'>maximum</span> <span class='if if_mod kw'>if</span> <span class='not not kw'>not</span> <span class='given identifier id'>given</span>
+</pre>
+<p>
+Usage:
+</p>
+<pre class="code">
+  <span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='value identifier id'>value</span><span class='dot token'>.</span><span class='store identifier id'>store</span><span class='lparen token'>(</span><span class='symbol val'>:num</span><span class='comma token'>,</span> <span class='integer val'>3</span><span class='comma token'>,</span> <span class='symbol val'>:ttl</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>20</span><span class='rparen token'>)</span>
+  <span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='value identifier id'>value</span><span class='dot token'>.</span><span class='fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:num</span><span class='rparen token'>)</span> <span class='comment val'># =&gt; 3</span>
+  <span class='sleep identifier id'>sleep</span> <span class='integer val'>21</span>
+  <span class='Cache constant id'>Cache</span><span class='dot token'>.</span><span class='value identifier id'>value</span><span class='dot token'>.</span><span class='fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:num</span><span class='rparen token'>)</span> <span class='comment val'># =&gt; nil</span>
+</pre>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>Object</tt>]</span>
+        <span class='name'>key</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+the value is stored with this key
+</p>
+</span>
+      </dd>
+    
+  
+    
+      <dt>
+        <span class='type'>[<tt>Object</tt>]</span>
+        <span class='name'>value</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+the key points to this value
+</p>
+</span>
+      </dd>
+    
+  
+    
+      <dt>
+        <span class='type'>[<tt>Hash</tt>]</span>
+        <span class='name'>options</span>
+        
+          <em class="default">(defaults to: <tt></tt>)</em>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+for now, only :ttl =&gt; Fixnum is used.
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="../Cache_23store_20Innate/Cache.html#%5B%5D%3D-instance_method" title="Innate::Cache#store Innate::Cache#[]=">Innate::Cache#store Innate::Cache#[]=</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/cache/api.rb', line 116</span>
+
+<span class='def def kw'>def</span> <span class='cache_store identifier id'>cache_store</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='ttl identifier id'>ttl</span> <span class='assign token'>=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:ttl</span><span class='rbrack token'>]</span>
+
+  <span class='value_hash identifier id'>value_hash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='value identifier id'>value</span><span class='rbrace token'>}</span>
+  <span class='value_hash identifier id'>value_hash</span><span class='lbrack token'>[</span><span class='symbol val'>:expires</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='Time constant id'>Time</span><span class='dot token'>.</span><span class='now identifier id'>now</span> <span class='plus op'>+</span> <span class='ttl identifier id'>ttl</span> <span class='if if_mod kw'>if</span> <span class='ttl identifier id'>ttl</span>
+
+  <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value_hash identifier id'>value_hash</span><span class='rparen token'>)</span>
+
+  <span class='return return kw'>return</span> <span class='value identifier id'>value</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

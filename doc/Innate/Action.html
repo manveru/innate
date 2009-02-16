@@ -1,0 +1,1566 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Class: Innate::Action</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section class Innate_Action">
+  <h1 class="title">Class: Innate::Action</h1>
+  <div class="section inheritance">
+  <ul>
+  <li>Struct</li><ul><li>Innate::Action</li>
+  </ul></ul>
+</div><div class="section constants">
+  <div class="thisclass">
+  <h1>Constants</h1>
+  <dl>
+    
+      <dt id="DEFAULT-constant">DEFAULT</dt>
+      <dd>{:options =&gt; {}, :variables =&gt; {}, :params =&gt; []}</dd>
+    
+  </dl>
+</div>
+
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary class public">
+    <h1>Public Class Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#create-class_method" title="create">create</a></span><span class='args'>(hash = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Create a new Action instance.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt><a href="" title="Action">Action</a></tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+  <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#as_html-instance_method" title="#as_html">#as_html</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Array</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#as_json-instance_method" title="#as_json">#as_json</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Array</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#as_yaml-instance_method" title="#as_yaml">#as_yaml</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Array</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#binding-instance_method" title="#binding">#binding</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>Binding</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#call-instance_method" title="#call">#call</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Call the Action instance, will insert itself temporarily into Current.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt><a href="../String.html" title="String">String</a></tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#copy_variables-instance_method" title="#copy_variables">#copy_variables</a></span><span class='args'>(binding = self.binding)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Copy Action#variables as instance variables into the given binding.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt>NilClass</tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#fulfill_wish-instance_method" title="#fulfill_wish">#fulfill_wish</a></span><span class='args'>(string)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt><a href="../String.html" title="String">String</a></tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#layout_view_or_method-instance_method" title="#layout_view_or_method">#layout_view_or_method</a></span><span class='args'>(name, arg)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#name-instance_method" title="#name">#name</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Try to figure out a sane name for current action.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#render-instance_method" title="#render">#render</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#sync_variables-instance_method" title="#sync_variables">#sync_variables</a></span><span class='args'>(from_action)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Copy the instance variable names and values from given from_action#instance
+into the Action#variables of the action this method is called on.
+</p>
+
+        
+          <p class='returns'>
+            Returns: 
+              <span class='return_types'>
+                 <tt><a href="" title="Action">Action</a></tt>
+              </span>
+          </p>
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#wrap_in_layout-instance_method" title="#wrap_in_layout">#wrap_in_layout</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails class public">
+  <h1>Public Class Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>create</h3>
+</div><div id="create-class_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt><a href="" title="Action">Action</a></tt></span>
+    <span class='name'>create</span><span class='args'>(hash = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Create a new Action instance.
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>Hash</tt>, <tt>#to_hash</tt>]</span>
+        <span class='name'>hash</span>
+        
+          <em class="default">(defaults to: <tt></tt>)</em>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+used to seed new Action instance
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt><a href="" title="Action">Action</a></tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+action with the given defaults from hash
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+13
+14
+15</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 13</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='create identifier id'>create</span><span class='lparen token'>(</span><span class='hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='DEFAULT constant id'>DEFAULT</span><span class='dot token'>.</span><span class='merge identifier id'>merge</span><span class='lparen token'>(</span><span class='hash identifier id'>hash</span><span class='dot token'>.</span><span class='to_hash identifier id'>to_hash</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='values_at identifier id'>values_at</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='ACTION_MEMBERS constant id'>ACTION_MEMBERS</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div><div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>as_html</h3>
+</div><div id="as_html-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Array</tt></span>
+    <span class='name'>as_html</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Array</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+Content-Type and rendered action
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt>Action#render Action#wrap_in_layout</tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+106
+107
+108</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 106</span>
+
+<span class='def def kw'>def</span> <span class='as_html identifier id'>as_html</span>
+  <span class='return return kw'>return</span> <span class='string val'>'text/html'</span><span class='comma token'>,</span> <span class='wrap_in_layout identifier id'>wrap_in_layout</span><span class='lbrace token'>{</span> <span class='fulfill_wish identifier id'>fulfill_wish</span><span class='lparen token'>(</span><span class='view_value identifier id'>view_value</span> <span class='orop op'>||</span> <span class='value identifier id'>value</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>as_json</h3>
+</div><div id="as_json-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Array</tt></span>
+    <span class='name'>as_json</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Array</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+Content-Type and rendered action
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt>Action#render Action#wrap_in_layout</tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+121
+122
+123
+124</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 121</span>
+
+<span class='def def kw'>def</span> <span class='as_json identifier id'>as_json</span>
+  <span class='require identifier id'>require</span> <span class='string val'>'json'</span>
+  <span class='return return kw'>return</span> <span class='string val'>'application/json'</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='value identifier id'>value</span> <span class='orop op'>||</span> <span class='view_value identifier id'>view_value</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='to_json identifier id'>to_json</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>as_yaml</h3>
+</div><div id="as_yaml-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Array</tt></span>
+    <span class='name'>as_yaml</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Array</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+Content-Type and rendered action
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt>Action#render Action#wrap_in_layout</tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+113
+114
+115
+116</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 113</span>
+
+<span class='def def kw'>def</span> <span class='as_yaml identifier id'>as_yaml</span>
+  <span class='require identifier id'>require</span> <span class='string val'>'yaml'</span>
+  <span class='return return kw'>return</span> <span class='string val'>'text/yaml'</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='value identifier id'>value</span> <span class='orop op'>||</span> <span class='view_value identifier id'>view_value</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='to_yaml identifier id'>to_yaml</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>binding</h3>
+</div><div id="binding-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>Binding</tt></span>
+    <span class='name'>binding</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>Binding</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+binding of the instance for this Action
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="Node.html#binding-instance_method" title="Node#binding">Node#binding</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+35
+36
+37</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 35</span>
+
+<span class='def def kw'>def</span> <span class='binding identifier id'>binding</span>
+  <span class='instance identifier id'>instance</span><span class='dot token'>.</span><span class='binding identifier id'>binding</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>call</h3>
+</div><div id="call-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt><a href="../String.html" title="String">String</a></tt></span>
+    <span class='name'>call</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Call the Action instance, will insert itself temporarily into
+Current.actions during the render operation so even in nested calls one can
+still access all other Action instances. Will initialize the assigned node
+and call Action#render
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt><a href="../String.html" title="String">String</a></tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+The rendition of all nested calls
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt>Action#render Node#action_found</tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+25
+26
+27
+28
+29
+30</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 25</span>
+
+<span class='def def kw'>def</span> <span class='call identifier id'>call</span>
+  <span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='actions identifier id'>actions</span> <span class='lshft op'>&lt;&lt;</span> <span class='self self kw'>self</span>
+  <span class='render identifier id'>render</span>
+<span class='ensure ensure kw'>ensure</span>
+  <span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='actions identifier id'>actions</span><span class='dot token'>.</span><span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>copy_variables</h3>
+</div><div id="copy_variables-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt>NilClass</tt></span>
+    <span class='name'>copy_variables</span><span class='args'>(binding = self.binding)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Copy Action#variables as instance variables into the given binding.
+</p>
+<p>
+This relies on Innate::STATE, so should be thread-safe and doesn&#8217;t
+depend on Innate::Current::actions order. So we avoid nasty business with
+Objectspace#_id2ref which may not work on all ruby implementations and
+seems to cause other problems as well.
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>Binding #eval</tt>]</span>
+        <span class='name'>binding</span>
+        
+          <em class="default">(defaults to: <tt>self.binding</tt>)</em>
+        
+      </dt>
+      <dd>
+        <span class='desc'></span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>NilClass</tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+there is no indication of failure or success
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="View/ERB.html#render-class_method" title="View::ERB::render">View::ERB::render</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 75</span>
+
+<span class='def def kw'>def</span> <span class='copy_variables identifier id'>copy_variables</span><span class='lparen token'>(</span><span class='binding identifier id'>binding</span> <span class='assign token'>=</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='binding identifier id'>binding</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='unless unless_mod kw'>unless</span> <span class='variables identifier id'>variables</span><span class='dot token'>.</span><span class='any? fid id'>any?</span>
+
+  <span class='STATE constant id'>STATE</span><span class='dot token'>.</span><span class='sync identifier id'>sync</span> <span class='do do kw'>do</span>
+    <span class='STATE constant id'>STATE</span><span class='lbrack token'>[</span><span class='symbol val'>:action_variables</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='variables identifier id'>variables</span>
+
+    <span class='eval identifier id'>eval</span><span class='lparen token'>(</span><span class='COPY_VARIABLES constant id'>COPY_VARIABLES</span><span class='comma token'>,</span> <span class='binding identifier id'>binding</span><span class='rparen token'>)</span>
+
+    <span class='STATE constant id'>STATE</span><span class='lbrack token'>[</span><span class='symbol val'>:action_variables</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>fulfill_wish</h3>
+</div><div id="fulfill_wish-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt><a href="../String.html" title="String">String</a></tt></span>
+    <span class='name'>fulfill_wish</span><span class='args'>(string)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt><a href="../String.html" title="String">String</a></tt>, <tt>#to_str</tt>]</span>
+        <span class='name'>string</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'><p>
+to be rendered
+</p>
+</span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt><a href="../String.html" title="String">String</a></tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+The rendered result of the templating engine
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="raise">
+  <h3>Raises:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt>RuntimeError</tt>]</span>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+if no suitable templating engine was found
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="#as_html-instance_method" title="Action#as_html">Action#as_html</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 131</span>
+
+<span class='def def kw'>def</span> <span class='fulfill_wish identifier id'>fulfill_wish</span><span class='lparen token'>(</span><span class='string identifier id'>string</span><span class='rparen token'>)</span>
+  <span class='way identifier id'>way</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='basename identifier id'>basename</span><span class='lparen token'>(</span><span class='view identifier id'>view</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='dregexp node'>/.*?#{wish}\./</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='view identifier id'>view</span>
+  <span class='way identifier id'>way</span> <span class='opasgn op'>||=</span> <span class='node identifier id'>node</span><span class='dot token'>.</span><span class='provide identifier id'>provide</span><span class='lbrack token'>[</span><span class='wish identifier id'>wish</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='node identifier id'>node</span><span class='dot token'>.</span><span class='provide identifier id'>provide</span><span class='lbrack token'>[</span><span class='string val'>'html'</span><span class='rbrack token'>]</span>
+
+  <span class='if if kw'>if</span> <span class='way identifier id'>way</span>
+    <span class='comment val'># Rack::Mime.mime_type(&quot;.#{wish}&quot;, 'text/html')</span>
+    <span class='View constant id'>View</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='way identifier id'>way</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='render identifier id'>render</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='comma token'>,</span> <span class='string identifier id'>string</span><span class='rparen token'>)</span>
+  <span class='else else kw'>else</span>
+    <span class='raise identifier id'>raise</span><span class='lparen token'>(</span><span class='string val'>&quot;No templating engine was found for %p&quot;</span> <span class='mod op'>%</span> <span class='way identifier id'>way</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>layout_view_or_method</h3>
+</div><div id="layout_view_or_method-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>layout_view_or_method</span><span class='args'>(name, arg)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+154
+155
+156
+157</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 154</span>
+
+<span class='def def kw'>def</span> <span class='layout_view_or_method identifier id'>layout_view_or_method</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='arg identifier id'>arg</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='arg identifier id'>arg</span><span class='comma token'>,</span> <span class='nil nil kw'>nil</span> <span class='if if_mod kw'>if</span> <span class='name identifier id'>name</span> <span class='eq op'>==</span> <span class='symbol val'>:layout</span> <span class='orop op'>||</span> <span class='name identifier id'>name</span> <span class='eq op'>==</span> <span class='symbol val'>:view</span>
+  <span class='return return kw'>return</span> <span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='arg identifier id'>arg</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>name</h3>
+</div><div id="name-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>name</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Try to figure out a sane name for current action.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+160
+161
+162</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 160</span>
+
+<span class='def def kw'>def</span> <span class='name identifier id'>name</span>
+  <span class='File constant id'>File</span><span class='dot token'>.</span><span class='basename identifier id'>basename</span><span class='lparen token'>(</span><span class='lparen token'>(</span><span class='method identifier id'>method</span> <span class='orop op'>||</span> <span class='view identifier id'>view</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>'.'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>render</h3>
+</div><div id="render-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>render</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 87</span>
+
+<span class='def def kw'>def</span> <span class='render identifier id'>render</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='node identifier id'>node</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='variables identifier id'>variables</span><span class='lbrack token'>[</span><span class='symbol val'>:content</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='nil nil kw'>nil</span>
+
+  <span class='instance identifier id'>instance</span><span class='dot token'>.</span><span class='wrap_action_call identifier id'>wrap_action_call</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='self self kw'>self</span><span class='dot token'>.</span><span class='value identifier id'>value</span> <span class='assign token'>=</span> <span class='instance identifier id'>instance</span><span class='dot token'>.</span><span class='__send__ identifier id'>__send__</span><span class='lparen token'>(</span><span class='method identifier id'>method</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='params identifier id'>params</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='method identifier id'>method</span>
+    <span class='self self kw'>self</span><span class='dot token'>.</span><span class='view_value identifier id'>view_value</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='lparen token'>(</span><span class='view identifier id'>view</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='view identifier id'>view</span>
+
+    <span class='content_type identifier id'>content_type</span><span class='comma token'>,</span> <span class='body identifier id'>body</span> <span class='assign token'>=</span> <span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='Innate constant id'>Innate</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='action identifier id'>action</span><span class='dot token'>.</span><span class='wish identifier id'>wish</span><span class='lbrack token'>[</span><span class='wish identifier id'>wish</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='symbol val'>:as_html</span><span class='rparen token'>)</span>
+    <span class='response identifier id'>response</span> <span class='assign token'>=</span> <span class='Current constant id'>Current</span><span class='dot token'>.</span><span class='response identifier id'>response</span>
+    <span class='response identifier id'>response</span><span class='lbrack token'>[</span><span class='string val'>'Content-Type'</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='content_type identifier id'>content_type</span> <span class='if if_mod kw'>if</span> <span class='response identifier id'>response</span>
+
+    <span class='body identifier id'>body</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>sync_variables</h3>
+</div><div id="sync_variables-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'><tt><a href="" title="Action">Action</a></tt></span>
+    <span class='name'>sync_variables</span><span class='args'>(from_action)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Copy the instance variable names and values from given from_action#instance
+into the Action#variables of the action this method is called on.
+</p>
+
+</div><div class="section tags">
+  <h2>Meta Tags</h2>
+  <div class="param">
+  <h3>Parameters:</h3>
+  <dl>
+  
+    
+      <dt>
+        <span class='type'>[<tt>Action #instance</tt>]</span>
+        <span class='name'>from_action</span>
+        
+      </dt>
+      <dd>
+        <span class='desc'></span>
+      </dd>
+    
+  
+  </dl>
+</div><div class="return">
+  <h3>Returns:</h3>
+  <dl>
+  
+    <dt>
+      
+        <span class='type'>[<tt><a href="" title="Action">Action</a></tt>]</span>
+      
+      
+        <span class='name'></span>
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+from_action
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="author">
+  <h3>Author:</h3>
+  <dl>
+  
+    <dt>
+      
+      
+      
+    </dt>
+    <dd>
+      <span class='desc'><p>
+manveru
+</p>
+</span>
+    </dd>
+  
+  </dl>
+</div>
+<div class="see">
+  <h3>See Also:</h3>
+  <dl>
+    <dt></dt>
+    <dd>
+      <span class='desc'>
+        <tt><a href="#wrap_in_layout-instance_method" title="Action#wrap_in_layout">Action#wrap_in_layout</a></tt>
+      </span>
+    </dd>
+  </dl>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 47</span>
+
+<span class='def def kw'>def</span> <span class='sync_variables identifier id'>sync_variables</span><span class='lparen token'>(</span><span class='from_action identifier id'>from_action</span><span class='rparen token'>)</span>
+  <span class='instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='from_action identifier id'>from_action</span><span class='dot token'>.</span><span class='instance identifier id'>instance</span>
+
+  <span class='instance identifier id'>instance</span><span class='dot token'>.</span><span class='instance_variables identifier id'>instance_variables</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='iv identifier id'>iv</span><span class='bitor op'>|</span>
+    <span class='iv_value identifier id'>iv_value</span> <span class='assign token'>=</span> <span class='instance identifier id'>instance</span><span class='dot token'>.</span><span class='instance_variable_get identifier id'>instance_variable_get</span><span class='lparen token'>(</span><span class='iv identifier id'>iv</span><span class='rparen token'>)</span>
+    <span class='iv_name identifier id'>iv_name</span> <span class='assign token'>=</span> <span class='iv identifier id'>iv</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>-1</span><span class='rbrack token'>]</span>
+    <span class='self self kw'>self</span><span class='dot token'>.</span><span class='variables identifier id'>variables</span><span class='lbrack token'>[</span><span class='iv_name identifier id'>iv_name</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='iv_value identifier id'>iv_value</span>
+  <span class='rbrace token'>}</span>
+
+  <span class='from_action identifier id'>from_action</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>wrap_in_layout</h3>
+</div><div id="wrap_in_layout-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>wrap_in_layout</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/action.rb', line 143</span>
+
+<span class='def def kw'>def</span> <span class='wrap_in_layout identifier id'>wrap_in_layout</span>
+  <span class='return return kw'>return</span> <span class='yield yield kw'>yield</span> <span class='unless unless_mod kw'>unless</span> <span class='layout identifier id'>layout</span>
+
+  <span class='action identifier id'>action</span> <span class='assign token'>=</span> <span class='dup identifier id'>dup</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='view identifier id'>view</span><span class='comma token'>,</span> <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='method identifier id'>method</span> <span class='assign token'>=</span> <span class='layout_view_or_method identifier id'>layout_view_or_method</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='layout identifier id'>layout</span><span class='rparen token'>)</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='layout identifier id'>layout</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='sync_variables identifier id'>sync_variables</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='variables identifier id'>variables</span><span class='lbrack token'>[</span><span class='symbol val'>:content</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='yield yield kw'>yield</span>
+  <span class='action identifier id'>action</span><span class='dot token'>.</span><span class='call identifier id'>call</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

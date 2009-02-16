@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::Helper::Flash</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_Helper_Flash">
+  <h1 class="title">Module: Innate::Helper::Flash</h1>
+  <div class="section docstring">
+  <p>
+Simple access to session.flash.
+</p>
+<p>
+Flash is a mechanism using sessions to provide a rotating holder of
+key/value pairs.
+</p>
+<p>
+Every request that is made will rotate one step, dropping contents stored
+two requests ago.
+</p>
+<p>
+The purpose of this class is to provide an easy way of setting/retrieving
+from the current flash.
+</p>
+<p>
+Flash is a way to keep a temporary pairs of keys and values for the
+duration of two requests, the current and following.
+</p>
+<p>
+Very vague Example:
+</p>
+<p>
+On the first request, for example on registering:
+</p>
+<pre class="code">
+  <span class='flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;You should reconsider your username, it's taken already&quot;</span>
+  <span class='redirect identifier id'>redirect</span> <span class='R constant id'>R</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:register</span><span class='rparen token'>)</span>
+</pre>
+<p>
+This is the request from the redirect:
+</p>
+<pre class="code">
+  <span class='do_stuff identifier id'>do_stuff</span> <span class='if if_mod kw'>if</span> <span class='flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span>
+</pre>
+<p>
+On the request after this, flash[:error] is gone.
+</p>
+
+</div><div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#flash-instance_method" title="#flash">#flash</a></span><span class='args'></span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+Just for convenience.
+</p>
+
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>flash</h3>
+</div><div id="flash-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>flash</span><span class='args'></span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+Just for convenience
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+31
+32
+33</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/flash.rb', line 31</span>
+
+<span class='def def kw'>def</span> <span class='flash identifier id'>flash</span>
+  <span class='session identifier id'>session</span><span class='dot token'>.</span><span class='flash identifier id'>flash</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>

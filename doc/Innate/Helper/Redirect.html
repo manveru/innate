@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../style.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="../../syntax_highlight.css" type="text/css" charset="utf-8" />
+
+    <script src="../../jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../app.js" type="text/javascript" charset="utf-8"></script>
+    <title>Module: Innate::Helper::Redirect</title>
+  </head>
+  <body>
+    <div id="content">
+      <div class="section module Innate_Helper_Redirect">
+  <h1 class="title">Module: Innate::Helper::Redirect</h1>
+  <div class="section constants">
+  
+</div>  <div class="section visibilitygroup public">
+    <h1>Public Visibility</h1>
+      <div class="section methodsummary instance public">
+    <h1>Public Instance Method Summary</h1>
+<table class="summary">
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#raw_redirect-instance_method" title="#raw_redirect">#raw_redirect</a></span><span class='args'>(target, options = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#redirect-instance_method" title="#redirect">#redirect</a></span><span class='args'>(target, options = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        <p>
+<tt>target</tt> should be anything responding to #to_s.
+</p>
+
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#redirect_body-instance_method" title="#redirect_body">#redirect_body</a></span><span class='args'>(target)</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#redirect_referrer-instance_method" title="#redirect_referrer">#redirect_referrer</a></span><span class='args'>(fallback = '/')</span>
+        <span class='block'></span>
+        
+          <span class='alias'>#redirect_referer</span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#respond-instance_method" title="#respond">#respond</a></span><span class='args'>(body, status = 200, header = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+    <tr>
+      <th class="signature">
+        <span class='name'><a href="#respond%21-instance_method" title="#respond!">#respond!</a></span><span class='args'>(body, status = 200, header = )</span>
+        <span class='block'></span>
+        
+      </th>
+      <td class="docstring">
+        
+        
+      </td>
+    </tr>
+  
+</table>
+  </div>
+<div class="section methoddetails instance public">
+  <h1>Public Instance Method Details</h1>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>raw_redirect</h3>
+</div><div id="raw_redirect-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>raw_redirect</span><span class='args'>(target, options = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+59
+60
+61
+62
+63
+64
+65
+66</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/redirect.rb', line 59</span>
+
+<span class='def def kw'>def</span> <span class='raw_redirect identifier id'>raw_redirect</span><span class='lparen token'>(</span><span class='target identifier id'>target</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='header identifier id'>header</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'Location'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='target identifier id'>target</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rbrace token'>}</span>
+  <span class='status identifier id'>status</span> <span class='assign token'>=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:status</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='integer val'>302</span>
+  <span class='body identifier id'>body</span>   <span class='assign token'>=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:body</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='redirect_body identifier id'>redirect_body</span><span class='lparen token'>(</span><span class='target identifier id'>target</span><span class='rparen token'>)</span>
+
+  <span class='Log constant id'>Log</span><span class='dot token'>.</span><span class='debug identifier id'>debug</span> <span class='dstring node'>&quot;Redirect to: #{target}&quot;</span>
+  <span class='throw identifier id'>throw</span><span class='lparen token'>(</span><span class='symbol val'>:redirect</span><span class='comma token'>,</span> <span class='Response constant id'>Response</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='body identifier id'>body</span><span class='comma token'>,</span> <span class='status identifier id'>status</span><span class='comma token'>,</span> <span class='header identifier id'>header</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>redirect</h3>
+</div><div id="redirect-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>redirect</span><span class='args'>(target, options = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section docstring">
+  <p>
+<tt>target</tt> should be anything responding to #to_s. To check or modify
+the URI the redirect will go to you may pass a block, the result value of
+the block is ignored:
+</p>
+<pre class="code">
+  <span class='redirect identifier id'>redirect</span><span class='lparen token'>(</span><span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='uri identifier id'>uri</span><span class='bitor op'>|</span> <span class='uri identifier id'>uri</span><span class='dot token'>.</span><span class='scheme identifier id'>scheme</span> <span class='assign token'>=</span> <span class='string val'>'http'</span> <span class='rbrace token'>}</span>
+  <span class='redirect identifier id'>redirect</span><span class='lparen token'>(</span><span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='uri identifier id'>uri</span><span class='bitor op'>|</span> <span class='uri identifier id'>uri</span><span class='dot token'>.</span><span class='host identifier id'>host</span> <span class='assign token'>=</span> <span class='string val'>'secure.com'</span> <span class='if if_mod kw'>if</span> <span class='uri identifier id'>uri</span><span class='dot token'>.</span><span class='scheme identifier id'>scheme</span> <span class='match op'>=~</span> <span class='regexp val'>/s/</span> <span class='rbrace token'>}</span>
+</pre>
+<p>
+<tt>options</tt> may contain:
+</p>
+<pre class="code">
+  <span class='symbol val'>:scheme</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http&quot;</span> <span class='bitor op'>|</span> <span class='string val'>&quot;https&quot;</span> <span class='bitor op'>|</span> <span class='string val'>&quot;ftp&quot;</span> <span class='bitor op'>|</span> <span class='dot3 op'>...</span>
+  <span class='symbol val'>:host</span>   <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;localhost&quot;</span> <span class='bitor op'>|</span> <span class='string val'>&quot;foo.com&quot;</span> <span class='bitor op'>|</span> <span class='string val'>&quot;123.123.123.123&quot;</span> <span class='bitor op'>|</span> <span class='dot3 op'>...</span>
+  <span class='symbol val'>:port</span>   <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>7000</span> <span class='bitor op'>|</span> <span class='string val'>&quot;80&quot;</span> <span class='bitor op'>|</span> <span class='integer val'>80</span> <span class='bitor op'>|</span> <span class='dot3 op'>...</span>
+
+  <span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>302</span> <span class='bitor op'>|</span> <span class='integer val'>300</span> <span class='bitor op'>|</span> <span class='integer val'>303</span> <span class='bitor op'>|</span> <span class='dot3 op'>...</span>
+  <span class='symbol val'>:body</span>   <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;This is a redirect, hold on while we teleport&quot;</span> <span class='bitor op'>|</span> <span class='dot3 op'>...</span>
+
+  <span class='symbol val'>:raw!</span>   <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='true true kw'>true</span> <span class='bitor op'>|</span> <span class='false false kw'>false</span> <span class='bitor op'>|</span> <span class='nil nil kw'>nil</span> <span class='bitor op'>|</span> <span class='dot3 op'>...</span>
+</pre>
+<p>
+Note that all options are optional and you may just pass a <tt>target</tt>.
+</p>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/redirect.rb', line 38</span>
+
+<span class='def def kw'>def</span> <span class='redirect identifier id'>redirect</span><span class='lparen token'>(</span><span class='target identifier id'>target</span><span class='comma token'>,</span> <span class='options identifier id'>options</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='target identifier id'>target</span> <span class='assign token'>=</span> <span class='target identifier id'>target</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
+
+  <span class='case case kw'>case</span> <span class='target identifier id'>target</span>
+  <span class='when when kw'>when</span> <span class='regexp val'>/^http/</span><span class='comma token'>,</span> <span class='regexp val'>/^\//</span>
+    <span class='uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='URI constant id'>URI</span><span class='lparen token'>(</span><span class='target identifier id'>target</span><span class='rparen token'>)</span>
+  <span class='else else kw'>else</span>
+    <span class='uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='URI constant id'>URI</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/#{target}&quot;</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+
+  <span class='uri identifier id'>uri</span><span class='dot token'>.</span><span class='scheme identifier id'>scheme</span> <span class='opasgn op'>||=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:scheme</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='scheme identifier id'>scheme</span>
+  <span class='uri identifier id'>uri</span><span class='dot token'>.</span><span class='host identifier id'>host</span>   <span class='opasgn op'>||=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:host</span><span class='rbrack token'>]</span>   <span class='orop op'>||</span> <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='host identifier id'>host</span>
+  <span class='uri identifier id'>uri</span><span class='dot token'>.</span><span class='port identifier id'>port</span>   <span class='opasgn op'>||=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:port</span><span class='rbrack token'>]</span>   <span class='orop op'>||</span> <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='port identifier id'>port</span>
+
+  <span class='uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='URI constant id'>URI</span><span class='lparen token'>(</span><span class='uri identifier id'>uri</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rparen token'>)</span>
+
+  <span class='yield yield kw'>yield</span><span class='lparen token'>(</span><span class='uri identifier id'>uri</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+
+  <span class='raw_redirect identifier id'>raw_redirect</span><span class='lparen token'>(</span><span class='uri identifier id'>uri</span><span class='comma token'>,</span> <span class='options identifier id'>options</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>redirect_body</h3>
+</div><div id="redirect_body-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>redirect_body</span><span class='args'>(target)</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+68
+69
+70
+71</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/redirect.rb', line 68</span>
+
+<span class='def def kw'>def</span> <span class='redirect_body identifier id'>redirect_body</span><span class='lparen token'>(</span><span class='target identifier id'>target</span><span class='rparen token'>)</span>
+  <span class='string val'>&quot;You are being redirected, please follow this link to: &quot;</span> <span class='plus op'>+</span>
+    <span class='dstring node'>&quot;&lt;a href='#{target}'&gt;#{h target}&lt;/a&gt;!&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>redirect_referrer</h3>
+</div><div id="redirect_referrer-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>redirect_referrer</span><span class='args'>(fallback = '/')</span>
+    <span class='block'></span>
+  </tt>
+</div>
+<p class="aliases">
+  <span class="aka">Also known as:</span>
+  
+    <tt id="redirect_referer-instance_method">redirect_referer</tt>
+  
+</p>
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/redirect.rb', line 73</span>
+
+<span class='def def kw'>def</span> <span class='redirect_referrer identifier id'>redirect_referrer</span><span class='lparen token'>(</span><span class='fallback identifier id'>fallback</span> <span class='assign token'>=</span> <span class='string val'>'/'</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='referer identifier id'>referer</span> <span class='assign token'>=</span> <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='referer identifier id'>referer</span> <span class='and and kw'>and</span> <span class='url identifier id'>url</span> <span class='assign token'>=</span> <span class='request identifier id'>request</span><span class='dot token'>.</span><span class='url identifier id'>url</span>
+    <span class='referer_uri identifier id'>referer_uri</span><span class='comma token'>,</span> <span class='request_uri identifier id'>request_uri</span> <span class='assign token'>=</span> <span class='URI constant id'>URI</span><span class='lparen token'>(</span><span class='referer identifier id'>referer</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='URI constant id'>URI</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='rparen token'>)</span>
+
+    <span class='redirect identifier id'>redirect</span><span class='lparen token'>(</span><span class='referer identifier id'>referer</span><span class='rparen token'>)</span> <span class='unless unless_mod kw'>unless</span> <span class='referer_uri identifier id'>referer_uri</span> <span class='eq op'>==</span> <span class='request_uri identifier id'>request_uri</span>
+  <span class='end end kw'>end</span>
+
+  <span class='redirect identifier id'>redirect</span><span class='lparen token'>(</span><span class='fallback identifier id'>fallback</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>respond</h3>
+</div><div id="respond-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>respond</span><span class='args'>(body, status = 200, header = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+4
+5
+6
+7
+8
+9
+10
+11</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/redirect.rb', line 4</span>
+
+<span class='def def kw'>def</span> <span class='respond identifier id'>respond</span><span class='lparen token'>(</span><span class='body identifier id'>body</span><span class='comma token'>,</span> <span class='status identifier id'>status</span> <span class='assign token'>=</span> <span class='integer val'>200</span><span class='comma token'>,</span> <span class='header identifier id'>header</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='write identifier id'>write</span> <span class='body identifier id'>body</span>
+  <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='status identifier id'>status</span> <span class='assign token'>=</span> <span class='status identifier id'>status</span>
+  <span class='header identifier id'>header</span><span class='lbrack token'>[</span><span class='string val'>'Content-Type'</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='string val'>'text/html'</span>
+  <span class='header identifier id'>header</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='comma token'>,</span><span class='v identifier id'>v</span><span class='bitor op'>|</span> <span class='response identifier id'>response</span><span class='lbrack token'>[</span><span class='k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='v identifier id'>v</span> <span class='rbrace token'>}</span>
+
+  <span class='throw identifier id'>throw</span><span class='lparen token'>(</span><span class='symbol val'>:respond</span><span class='comma token'>,</span> <span class='response identifier id'>response</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+    <div class="method">
+      <div class="method_header">
+  <h3>respond!</h3>
+</div><div id="respond%21-instance_method" class="section method">
+  <div class="details_title">
+  <div class='section methodsignature'>
+  <tt class='def'>
+    <span class='visibility'>public</span>
+    <span class='return_types'></span>
+    <span class='name'>respond!</span><span class='args'>(body, status = 200, header = )</span>
+    <span class='block'></span>
+  </tt>
+</div>
+
+</div><div class="section source">
+  <span>[<a class="source_link" href="#">View source</a>]</span>
+  <div class="source_code">
+    <table>
+      <tr>
+        <td>
+          <pre class="lines">
+
+
+13
+14
+15
+16</pre>
+        </td>
+        <td>
+          <pre class="code"><span class="info file"># File 'lib/innate/helper/redirect.rb', line 13</span>
+
+<span class='def def kw'>def</span> <span class='respond! fid id'>respond!</span><span class='lparen token'>(</span><span class='body identifier id'>body</span><span class='comma token'>,</span> <span class='status identifier id'>status</span> <span class='assign token'>=</span> <span class='integer val'>200</span><span class='comma token'>,</span> <span class='header identifier id'>header</span> <span class='assign token'>=</span> <span class='semicolon token'>;</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='header identifier id'>header</span><span class='lbrack token'>[</span><span class='string val'>'Content-Type'</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='string val'>'text/html'</span>
+  <span class='throw identifier id'>throw</span><span class='lparen token'>(</span><span class='symbol val'>:respond</span><span class='comma token'>,</span> <span class='Response constant id'>Response</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='body identifier id'>body</span><span class='comma token'>,</span> <span class='status identifier id'>status</span><span class='comma token'>,</span> <span class='header identifier id'>header</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+    </div>
+  
+</div>
+  </div>
+
+</div>
+    </div>
+  </body>
+</html>
