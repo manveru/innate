@@ -9,11 +9,11 @@ module Innate
 
     # Delegate the call to the current Rack::URLMap instance.
     #
-    # NOTE: Currently Rack::URLMap will destructively modify PATH_INFO and
-    #       SCRIPT_NAME, which leads to incorrect routing as parts of the
-    #       PATH_INFO are cut out if they matched once.
-    #       Here I repair this damage and hope that my patch to rack will be
-    #       accepted.
+    # @note Currently Rack::URLMap will destructively modify PATH_INFO and
+    #   SCRIPT_NAME, which leads to incorrect routing as parts of the PATH_INFO
+    #   are cut out if they matched once. Here I repair this damage and hope
+    #   that my patch to rack will be accepted.
+    #   Update: patch was accepted, will remove it on next rack release
     def self.call(env)
       if app = CACHE[:map]
         script_name, path_info = env['SCRIPT_NAME'], env['PATH_INFO']
@@ -33,49 +33,49 @@ module Innate
     end
   end
 
-  module_function
+  module SingletonMethods
+    # Maps the given +object+ or +block+ to +location+, +object+ must respond to
+    # #call in order to be of any use.
+    #
+    # @example with passed +object+
+    #
+    #   Innate.map('/', lambda{|env| [200, {}, "Hello, World"] })
+    #   Innate.at('/').call({}) # => [200, {}, "Hello, World"]
+    #
+    # @example with passed +block+
+    #
+    #   Innate.map('/'){|env| [200, {}, ['Hello, World!']] }
+    #   Innate.at('/').call({})
+    def map(location, object = nil, &block)
+      DynaMap.map(location, object || block)
+    end
 
-  # Maps the given +object+ or +block+ to +location+, +object+ must respond to
-  # #call in order to be of any use.
-  #
-  # Usage with passed +object+:
-  #
-  #   Innate.map('/', lambda{|env| [200, {}, "Hello, World"] })
-  #   Innate.at('/').call({}) # => [200, {}, "Hello, World"]
-  #
-  # Usage with passed +block+:
-  #
-  #   Innate.map('/'){|env| [200, {}, ['Hello, World!']] }
-  #   Innate.at('/').call({})
-  def map(location, object = nil, &block)
-    DynaMap.map(location, object || block)
-  end
+    # Answer with object at +location+.
+    #
+    # @example
+    #
+    #   class Hello
+    #     include Innate::Node
+    #     map '/'
+    #   end
+    #
+    #   Innate.at('/') # => Hello
+    def at(location)
+      DynaMap::MAP[location.to_s]
+    end
 
-  # Answer with object at +location+.
-  #
-  # Usage:
-  #
-  #   class Hello
-  #     include Innate::Node
-  #     map '/'
-  #   end
-  #
-  #   Innate.at('/') # => Hello
-  def at(location)
-    DynaMap::MAP[location.to_s]
-  end
-
-  # Returns one of the paths the given +object+ is mapped to.
-  #
-  # Usage:
-  #
-  #   class Hello
-  #     include Innate::Node
-  #     map '/'
-  #   end
-  #
-  #   Innate.to(Hello) # => '/'
-  def to(object)
-    DynaMap::MAP.invert[object]
+    # Returns one of the paths the given +object+ is mapped to.
+    #
+    # @example
+    #
+    #   class Hello
+    #     include Innate::Node
+    #     map '/'
+    #   end
+    #
+    #   Innate.to(Hello) # => '/'
+    def to(object)
+      DynaMap::MAP.invert[object]
+    end
   end
 end
