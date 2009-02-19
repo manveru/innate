@@ -48,7 +48,8 @@ module Innate
       return if @cache_sid.empty?
 
       flash.rotate!
-      cache[sid] = cache_sid
+      ttl = (Time.at(cookie_value[:expires]) - Time.now).to_i
+      cache.store(sid, cache_sid, :ttl => ttl)
       set_cookie(response)
     end
 
