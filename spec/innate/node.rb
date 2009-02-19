@@ -45,6 +45,21 @@ class SpecNodeWithLayout < SpecNodeProvide
   map '/layout'
 end
 
+class SpecNodeWithLayoutView < SpecNodeProvide
+  view_root 'node/another_layout'
+  layout 'another_layout'
+  map '/another_layout'
+end
+
+class SpecNodeWithLayoutMethod < SpecNodeProvide
+  map '/layout_method'
+  layout 'layout_method'
+
+  def layout_method
+    '<div class="content"><%= @content %></div>'
+  end
+end
+
 class SpecNodeIndex
   Innate.node('/spec_index')
 
@@ -168,6 +183,20 @@ describe 'Innate::Node' do
     got = Innate::Mock.get('/layout/bar')
     got.status.should == 200
     got.body.should == %(<div class="content">\n  42\n</div>\n)
+    got['Content-Type'].should == 'text/html'
+  end
+
+  should 'find layout with view_root' do
+    got = Innate::Mock.get('/another_layout/bar')
+    got.status.should == 200
+    got.body.should == %(<div class="content">\n  42\n</div>\n)
+    got['Content-Type'].should == 'text/html'
+  end
+
+  should 'find layout from method' do
+    got = Innate::Mock.get('/layout_method/bar')
+    got.status.should == 200
+    got.body.should == %(<div class="content">42</div>)
     got['Content-Type'].should == 'text/html'
   end
 

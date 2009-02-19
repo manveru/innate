@@ -126,4 +126,12 @@ describe Innate::Rewrite do
     got.status.should == 200
     got.body.should == 'this is bar'
   end
+  
+  it 'should rewite with (key, val)' do
+    Innate::Rewrite[ %r!^/(.+)$! ] = nil
+    Innate::Rewrite(%r!^/(.+)$!, "/string/%s")
+    got = Innate::Mock.get('/hello')
+    got.status.should == 200
+    got.body.should == 'String: hello'
+  end
 end
