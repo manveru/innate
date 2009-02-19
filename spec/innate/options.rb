@@ -45,7 +45,8 @@ describe Options do
   end
 
   should 'get sub-sub option' do
-    @options.get(:deep, :down, :me).should == {:value => :too, :doc => 'deep down'}
+    @options.get(:deep, :down, :me).
+      should == {:value => :too, :doc => 'deep down', :trigger=> nil}
   end
 
   should 'respond with nil on getting missing option' do
@@ -80,5 +81,13 @@ describe Options do
     p = PP.new
     @options.pretty_print(p)
     p.output.should =~ /:value=>4000/
+  end
+
+  should 'trigger block when option is changed' do
+    set = nil
+    @options.trigger(:port){|value| set = value }
+    set.should.be.nil
+    @options.port = 300
+    set.should == 300
   end
 end
