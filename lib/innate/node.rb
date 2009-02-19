@@ -1,33 +1,34 @@
 module Innate
 
-  # The nervous system of Innate, so you can relax.
+  # The nervous system of {Innate}, so you can relax.
   #
   # Node may be included into any class to make it a valid responder to
   # requests.
   #
-  # The major difference between this and the Ramaze controller is that every
-  # Node acts as a standalone application with its own dispatcher.
+  # The major difference between this and the old Ramaze controller is that
+  # every Node acts as a standalone application with its own dispatcher.
   #
-  # What's also an important difference is the fact that Node is a module, so
+  # What's also an important difference is the fact that {Node} is a module, so
   # we don't have to spend a lot of time designing the perfect subclassing
   # scheme.
   #
   # This makes dispatching more fun, avoids a lot of processing that is done by
-  # Rack anyway and lets you tailor your application down to the last action
+  # {Rack} anyway and lets you tailor your application down to the last action
   # exactly the way you want without worrying about side-effects to other
-  # nodes.
+  # {Node}s.
   #
-  # Upon inclusion, it will also include Innate::Trinity and Innate::Helper to
-  # provide you with request/response objects, a session and all the standard
-  # helper methods as well as the ability to simply add other helpers.
+  # Upon inclusion, it will also include {Innate::Trinity} and {Innate::Helper}
+  # to provide you with {Innate::Request}, {Innate::Response},
+  # {Innate::Session} instances, and all the standard helper methods as well as
+  # the ability to simply add other helpers.
   #
   # NOTE:
   #   * Although I tried to minimize the amount of code in here there is still
   #     quite a number of methods left in order to do ramaze-style lookups.
   #     Those methods, and all other methods occurring in the ancestors after
-  #     Innate::Node will not be considered valid action methods and will be
+  #     {Innate::Node} will not be considered valid action methods and will be
   #     ignored.
-  #   * This also means that method_missing will not see any of the requests
+  #   * This also means that {method_missing} will not see any of the requests
   #     coming in.
   #   * If you want an action to act as a catch-all, use `def index(*args)`.
 
@@ -59,6 +60,7 @@ module Innate
       Log.debug("Mapped Nodes: %p" % DynaMap::MAP)
     end
 
+    # @return [String] the relative path to the node
     def mapping
       mapped = Innate.to(self)
       return mapped if mapped
@@ -67,7 +69,7 @@ module Innate
     end
 
     # Shortcut to map or remap this Node
-
+    # @param [#to_s] location
     def map(location)
       Innate.map(location, self)
     end
@@ -75,7 +77,7 @@ module Innate
     # This little piece of nasty looking code enables you to provide different
     # content from a single action.
     #
-    # Usage:
+    # @example
     #
     #   class Feeds
     #     include Innate::Node
@@ -170,16 +172,19 @@ module Innate
 
     # Let's try to find some valid action for given +path+.
     # Otherwise we dispatch to action_not_found
-
+    #
+    # @param [String] path from request['REQUEST_PATH']
     def try_resolve(path)
       action = resolve(path)
       action ? action_found(action) : action_not_found(path)
     end
 
     # Executed once an Action has been found.
-    # Reset the Response instance, catch :respond and :redirect.
-    # Action#call has to return a String.
-
+    # Reset the {Innate::Response} instance, catch :respond and :redirect.
+    # {Action#call} has to return a String.
+    #
+    # @param [Innate::Action] action
+    # @return [Innate::Response]
     def action_found(action)
       result = catch(:respond){ catch(:redirect){ action.call }}
 
@@ -198,10 +203,12 @@ module Innate
     # * We are doing this is in order to avoid tons of special error handling
     #   code that would impact runtime and make the overall API more
     #   complicated.
-    # * This cannot be a normal action is that methods defined in Innate::Node
-    #   will never be considered for actions.
+    # * This cannot be a normal action is that methods defined in
+    #   {Innate::Node} will never be considered for actions.
     #
     # To use a normal action with template do following:
+    #
+    # @example
     #
     #   class Hi
     #     include Innate::Node
@@ -218,7 +225,9 @@ module Innate
     #       "Sorry, I do not exist"
     #     end
     #   end
-
+    #
+    # @param [String] path
+    # @see Innate::Response
     def action_not_found(path)
       response.status = 404
       response['Content-Type'] = 'text/plain'
@@ -230,13 +239,21 @@ module Innate
     # Let's get down to business, first check if we got any wishes regarding
     # the representation from the client, otherwise we will assume he wants
     # html.
-
+    #
+    # @param [String] path
+    # @return [nil Action]
+    # @see Node::find_provide Node::update_method_arities Node::find_action
+    # @author manveru
     def resolve(path)
       name, wish = find_provide(path)
       update_method_arities
       find_action(name, wish)
     end
 
+    # @param [String] path
+    # @return [Array] with name and wish
+    # @see Node::provide
+    # @author manveru
     def find_provide(path)
       name, wish = path, 'html'
 
@@ -252,7 +269,10 @@ module Innate
     # if we can't find either we go to the next pattern, otherwise we answer
     # with an Action with everything we know so far about the demands of the
     # client.
-
+    #
+    # @param [String] given_name the name extracted from REQUEST_PATH
+    # @param [String] wish
+    # @author manveru
     def find_action(given_name, wish)
       needs_method = Innate.options.action.needs_method
 
@@ -271,7 +291,7 @@ module Innate
       end
     end
 
-    # TODO: allow layouts combined of method and view... hairy :)
+    # @todo allow layouts combined of method and view... hairy :)
     def find_layout(name, wish)
       return unless layout = ancestral_trait[:layout]
       return unless layout = layout.call(name, wish) if layout.respond_to?(:call)
@@ -315,29 +335,28 @@ module Innate
     #   def index(a = :a, b = :b)     # => -1
     #   def index(a = :a, b = :b, *r) # => -1
     #
-    # NOTE: Once 1.9 is mainstream we can use Method#parameters to do accurate
+    # @todo Once 1.9 is mainstream we can use Method#parameters to do accurate
     #       prediction
     def find_method(name, params)
       return unless arity = trait[:method_arities][name]
       name if arity == params.size or arity < 0
     end
 
-    # Answer with and set the @method_arities Hash, keys are method names,
-    # values are method arities.
+    # Answer with a hash, keys are method names, values are method arities.
     #
-    # Usually called from Node::resolve
+    # Note that this will be executed once for every request, once we have
+    # settled things down a bit more we can switch to update based on Reloader
+    # hooks and update once on startup.
+    # However, that may cause problems with dynamically created methods, so
+    # let's play it safe for now.
     #
-    # NOTE:
-    #   * This will be executed once for every request, once we have settled
-    #     things down a bit more we can switch to update based on Reloader
-    #     hooks and update once on startup.
-    #     However, that may cause problems with dynamically created methods, so
-    #     let's play it safe for now.
-    #
-    # Example:
+    # @example
     #
     #   Hi.update_method_arities
     #   # => {'index' => 0, 'foo' => -1, 'bar => 2}
+    #
+    # @see Node::resolve
+    # @return [Hash] mapping the name of the methods to their arity
     def update_method_arities
       arities = {}
       trait(:method_arities => arities)
@@ -379,7 +398,7 @@ module Innate
     # The argument order is identical with `alias` and `alias_method`, which
     # quite honestly confuses me, but at least we stay consistent.
     #
-    # Usage:
+    # @example
     #   class Foo
     #     include Innate::Node
     #
@@ -390,19 +409,26 @@ module Innate
     #     alias_view 'bar', 'foo', FooBar
     #   end
     #
-    # NOTE: The parameters have been simplified in comparision with
-    #       Ramaze::Controller::template where the second parameter may be a
-    #       Controller or the name of the template.
-    #       We take that now as an optional third parameter.
+    # Note that the parameters have been simplified in comparision with
+    # Ramaze::Controller::template where the second parameter may be a
+    # Controller or the name of the template.  We take that now as an optional
+    # third parameter.
     #
     # @param [#to_s]      to   view that should be replaced
     # @param [#to_s]      from view to use or Node.
     # @param [#nil? Node] node optionally obtain view from this Node
+    # @see Node::find_aliased_view
+    # @author manveru
     def alias_view(to, from, node = nil)
       trait[:alias_view] || trait(:alias_view => {})
       trait[:alias_view][to.to_s] = node ? [from.to_s, node] : from.to_s
     end
 
+    # @param [String] file
+    # @param [String] wish
+    # @return [nil String] the absolute path to the aliased template or nil
+    # @see Node::alias_view Node::find_view
+    # @author manveru
     def find_aliased_view(file, wish)
       aliased_file, aliased_node = ancestral_trait[:alias_view][file]
       aliased_node ||= self
@@ -410,11 +436,22 @@ module Innate
     end
 
     # Find the best matching file for the layout, if any.
+    #
+    # @param [String] file
+    # @param [String] wish
+    # @return [nil String] the absolute path to the template or nil
+    # @see Node::to_template
+    # @author manveru
     def to_layout(file, wish)
       path = [Innate.options.app.root, Innate.options.app.layout, file]
       to_template(path, wish)
     end
 
+    # @param [String] file
+    # @param [String] wish
+    # @return [nil String] the absolute path to the template or nil
+    # @see Node::find_view Node::to_layout Node::find_aliased_view
+    # @author manveru
     def to_template(path, wish)
       return unless path.all?
 
@@ -436,11 +473,10 @@ module Innate
     # @param [Proc #call] block called on every dispatch if no name given
     # @return [Proc String] The assigned name or block
     #
-    # NOTE:
-    #   The behaviour of #layout changed significantly from Ramaze, instead of
-    #   multitudes of obscure options and methods like deny_layout we simply
-    #   take a block and use the returned value as the name for the layout.
-    #   No layout will be used if the block returns nil.
+    # @note The behaviour of Node#layout changed significantly from Ramaze,
+    #   instead of multitudes of obscure options and methods like deny_layout
+    #   we simply take a block and use the returned value as the name for the
+    #   layout. No layout will be used if the block returns nil.
     def layout(name = nil, &block)
       if name and block
         trait(:layout => lambda{|n, w| name if block.call(n, w) })
@@ -453,7 +489,7 @@ module Innate
       return ancestral_trait[:layout]
     end
 
-    # The innate beauty in Nitro, Ramaze, and Innate.
+    # The innate beauty in Nitro, Ramaze, and {Innate}.
     #
     # Will yield the name of the action and parameter for the action method in
     # order of significance.
@@ -466,23 +502,22 @@ module Innate
     # The last fallback will always be the index action with all of the path
     # turned into parameters.
     #
-    # Samples:
-    #
+    # @usage
     #   class Foo; include Innate::Node; map '/'; end
     #
     #   Foo.patterns_for('/'){|action, params| p action => params }
-    #   {"index"=>[]}
+    #   # => {"index"=>[]}
     #
     #   Foo.patterns_for('/foo/bar'){|action, params| p action => params }
-    #   {"foo__bar"=>[]}
-    #   {"foo"=>["bar"]}
-    #   {"index"=>["foo", "bar"]}
+    #   # => {"foo__bar"=>[]}
+    #   # => {"foo"=>["bar"]}
+    #   # => {"index"=>["foo", "bar"]}
     #
     #   Foo.patterns_for('/foo/bar/baz'){|action, params| p action => params }
-    #   {"foo__bar__baz"=>[]}
-    #   {"foo__bar"=>["baz"]}
-    #   {"foo"=>["bar", "baz"]}
-    #   {"index"=>["foo", "bar", "baz"]}
+    #   # => {"foo__bar__baz"=>[]}
+    #   # => {"foo__bar"=>["baz"]}
+    #   # => {"foo"=>["bar", "baz"]}
+    #   # => {"index"=>["foo", "bar", "baz"]}
     def patterns_for(path)
       atoms = path.split('/')
       atoms.delete('')
@@ -511,7 +546,6 @@ module Innate
     # @param [Proc] block contains the instructions to call the action method if any
     # @see Action#render
     # @author manveru
-
     def wrap_action_call(action, &block)
       wrap = ancestral_trait[:wrap]
 
