@@ -42,7 +42,12 @@ module Rack
 
     def static(path)
       require 'rack/contrib'
-      Rack::ConditionalGet.new(Rack::ETag.new(Rack::File.new(path)))
+      Rack::ETag.new(Rack::ConditionalGet.new(Rack::File.new(path)))
+    end
+
+    def directory(path)
+      require 'rack/contrib'
+      Rack::ETag.new(Rack::ConditionalGet.new(Rack::Directory.new(path)))
     end
 
     def call(env)
