@@ -71,19 +71,26 @@ module Innate
 
     # Store an option in the Options instance.
     #
-    # +doc+   should be a String describing the purpose of this option
-    # +key+   should be a Symbol used to access
-    # +value+ may be any object
-    # +other+ optional Hash that may contain meta-data and should not have :doc
-    #         or :value keys
-    def o(doc, key, value, other = {})
-      @hash[key.to_sym] = other.merge(:doc => doc, :value => value)
+    # @param [#to_s]   doc   describing the purpose of this option
+    # @param [#to_sym] key   used to access
+    # @param [Object]  value may be anything
+    # @param [Hash]    other optional Hash containing meta-data
+    #                        :doc, :value keys will be ignored
+    def o(doc, key, value, other = {}, &block)
+      trigger = block || other[:trigger]
+      convert = {:doc => doc.to_s, :value => value, :trigger => trigger}
+      @hash[key.to_sym] = other.merge(convert)
     end
 
     # To avoid lookup on the parent, we can set a default to the internal Hash.
-    # Parameters as in #o, but without the +key+.
+    # Parameters as in {Options#o}, but without the +key+.
     def default(doc, value, other = {})
       @hash.default = other.merge(:doc => doc, :value => value)
+    end
+
+    # Add a block that will be called when a new value is set.
+    def trigger(key, &block)
+      @hash[key.to_sym][:trigger] = block
     end
 
     # Try to retrieve the corresponding Hash for the passed keys, will try to
@@ -114,10 +121,10 @@ module Innate
     # Assign new :value to the value hash on the current instance.
     #
     # TODO: allow arbitrary assignments
-
     def []=(key, value)
       if ns = @hash[key.to_sym]
         ns[:value] = value
+        ns[:trigger].call(value) if ns[:trigger].respond_to?(:call)
       else
         raise(ArgumentError, "No key for %p exists" % [key])
       end
