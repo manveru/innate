@@ -65,6 +65,10 @@ module Innate
         :layout, '/layout'
       o "Prefix of this application",
         :prefix, '/'
+      o "Root directory for static public files",
+        :public, '/public'
+
+      trigger(:public){|v| Innate.middleware_recompile }
     end
 
     sub :session do

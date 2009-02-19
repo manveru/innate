@@ -162,6 +162,10 @@ module Innate
       Rack::MiddlewareCompiler.build!(name, &block)
     end
 
+    def middleware_recompile(name = :innate)
+      Rack::MiddlewareCompiler::COMPILED[name].compile!
+    end
+
     def setup_dependencies
       options[:setup].each{|obj| obj.setup }
     end

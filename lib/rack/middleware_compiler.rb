@@ -34,8 +34,9 @@ module Rack
 
     # Default application for Innate
     def innate
+      public_root = ::File.join(Innate.options.app.root, Innate.options.app.public)
       cascade(
-        Rack::File.new('public'),
+        Rack::File.new(public_root),
         Innate::Current.new(Innate::Route.new, Innate::Rewrite.new))
     end
 
@@ -54,7 +55,10 @@ module Rack
     end
 
     def compile
-      return self if compiled?
+      compiled? ? self : compile!
+    end
+
+    def compile!
       @compiled = @middlewares.inject(@app){|a,e| e.new(a) }
       self
     end
