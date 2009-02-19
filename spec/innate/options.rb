@@ -1,10 +1,4 @@
-require 'lib/innate/core_compatibility/basic_object'
-require 'lib/innate/options/dsl'
-
-require 'bacon'
-
-Bacon.extend(Bacon::TestUnitOutput)
-Bacon.summary_on_exit
+require 'spec/helper'
 
 Options = Innate::Options
 

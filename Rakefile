@@ -109,16 +109,19 @@ end
 desc 'Run all specs'
 task :spec => :setup do
   require 'open3'
+  require 'scanf'
 
   specs = Dir['spec/{innate,example}/**/*.rb']
   specs.delete_if{|f| f =~ /cache\/common\.rb/ }
 
   some_failed = false
   total = specs.size
-  len = specs.sort.last.size
-  left_format = "%4d/%d: %-#{len + 11}s"
+  len = specs.map{|s| s.size }.sort.last
+  tt = ta = tf = te = 0
 
   red, green = "\e[31m%s\e[0m", "\e[32m%s\e[0m"
+  left_format = "%4d/%d: %-#{len + 11}s"
+  spec_format = "%d specifications (%d requirements), %d failures, %d errors"
 
   specs.each_with_index do |spec, idx|
     print(left_format % [idx + 1, total, spec])
@@ -127,19 +130,25 @@ task :spec => :setup do
       out = sout.read
       err = serr.read
 
-      md = out.match(/(\d+) tests, (\d+) assertions, (\d+) failures, (\d+) errors/)
-      tests, assertions, failures, errors = all = md.captures.map{|c| c.to_i }
+      out.each_line do |line|
+        tests, assertions, failures, errors = all = line.scanf(spec_format)
+        next unless all.any?
+        tt += tests; ta += assertions; tf += failures; te += errors
 
-      if failures + errors > 0
-        some_failed = true
-        puts((red % "%5d tests, %d assertions, %d failures, %d errors") % all)
-        puts "", out, err, ""
-      else
-        puts((green % "%5d passed") % tests)
+        if tests == 0 || failures + errors > 0
+          puts((red % spec_format) % all)
+          puts out
+          puts err
+        else
+          puts((green % "%6d passed") % tests)
+        end
+
+        break
       end
     end
   end
 
+  puts(spec_format % [tt, ta, tf, te])
   exit 1 if some_failed
 end
 

@@ -1,7 +1,7 @@
 require 'bacon'
 
 Bacon.summary_on_exit
-Bacon.extend(Bacon::TestUnitOutput)
+# Bacon.extend(Bacon::TestUnitOutput)
 
 innate = File.expand_path(File.join(File.dirname(__FILE__), '../innate'))
 require(innate) unless defined?(Innate)
