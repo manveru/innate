@@ -1,6 +1,6 @@
 require 'spec/helper'
 
-class SessionSpec
+class SpecSession
   Innate.node('/').provide(:html => :none)
 
   def index
@@ -28,7 +28,7 @@ class SessionSpec
   end
 end
 
-describe 'Innate::Session' do
+describe Innate::Session do
   behaves_like :session
 
   should 'initiate session as needed' do
