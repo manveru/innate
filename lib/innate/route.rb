@@ -99,11 +99,13 @@ module Innate
     ROUTES = []
   end
 
-  def self.Route(key, value = nil, &block)
-    Route[key] = value || block
-  end
+  module SingletonMethods
+    def Route(key, value = nil, &block)
+      Route[key] = value || block
+    end
 
-  def self.Rewrite(key, value = nil, &block)
-    Rewrite[key] = value || block
+    def Rewrite(key, value = nil, &block)
+      Rewrite[key] = value || block
+    end
   end
 end
