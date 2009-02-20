@@ -34,7 +34,8 @@ module Rack
 
     # Default application for Innate
     def innate
-      public_root = ::File.join(Innate.options.app.root, Innate.options.app.public)
+      public_root = ::File.join(Innate.options.app.root.to_s,
+                                Innate.options.app.public.to_s)
       cascade(
         Rack::File.new(public_root),
         Innate::Current.new(Innate::Route.new, Innate::Rewrite.new))
