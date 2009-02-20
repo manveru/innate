@@ -171,12 +171,12 @@ module Innate
     end
 
     # Let's try to find some valid action for given +path+.
-    # Otherwise we dispatch to action_not_found
+    # Otherwise we dispatch to action_missing
     #
     # @param [String] path from request['REQUEST_PATH']
     def try_resolve(path)
       action = resolve(path)
-      action ? action_found(action) : action_not_found(path)
+      action ? action_found(action) : action_missing(path)
     end
 
     # Executed once an Action has been found.
@@ -214,7 +214,7 @@ module Innate
     #     include Innate::Node
     #     map '/'
     #
-    #     def action_not_found(path)
+    #     def self.action_missing(path)
     #       return if path == '/not_found'
     #       # No normal action, runs on bare metal
     #       try_resolve('/not_found')
@@ -227,8 +227,8 @@ module Innate
     #   end
     #
     # @param [String] path
-    # @see Innate::Response
-    def action_not_found(path)
+    # @see Innate::Response Node::try_resolve
+    def action_missing(path)
       response.status = 404
       response['Content-Type'] = 'text/plain'
       response.write("No action found at: %p" % path)
