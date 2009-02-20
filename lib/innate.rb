@@ -171,12 +171,12 @@ module Innate
     end
 
     # Set the default middleware for applications.
-    def setup_middleware(&block)
+    def setup_middleware(force = false, &block)
       mode = options.mode
       block ||= MIDDLEWARE[mode]
       raise("No Middleware for mode: %p found" % mode) unless block
 
-      middleware(:innate, &block)
+      force ? middleware!(:innate, &block) : middleware(:innate, &block)
     end
 
     # Pass the +env+ to this method and it will be sent to the appropriate

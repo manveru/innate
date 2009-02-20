@@ -35,9 +35,12 @@ module Innate
     o "Indicates which default middleware to use, (:dev|:live)",
       :mode, :dev
 
+    trigger(:mode){|v| Innate.setup_middleware(true) }
+
     sub :log do
       o "Array of parameters for Logger.new, default to stderr for CGI",
         :params, [$stderr]
+
       o "Use ANSI colors for logging, nil does auto-detection by checking for #tty?",
         :color, nil
     end
@@ -50,6 +53,7 @@ module Innate
     sub :env do
       o "Hostname of this machine",
         :host, ENV['HOSTNAME'] # FIXME: cross-platform
+
       o "Username executing the application",
         :user, ENV['USER'] # FIXME: cross-platform
     end
@@ -57,14 +61,19 @@ module Innate
     sub :app do
       o "Unique identifier for this application",
         :name, 'pristine'
+
       o "Root directory containing the application",
         :root, File.dirname($0)
+
       o "Root directory for view templates, relative to app subdir",
         :view, '/view'
+
       o "Root directory for layout templates, relative to app subdir",
         :layout, '/layout'
+
       o "Prefix of this application",
         :prefix, '/'
+
       o "Root directory for static public files",
         :public, '/public'
 
@@ -74,12 +83,16 @@ module Innate
     sub :session do
       o "Key for the session cookie",
         :key, 'innate.sid'
+
       o "Domain the cookie relates to, unspecified if false",
         :domain, false
+
       o "Path the cookie relates to",
         :path, '/'
+
       o "Use secure cookie",
         :secure, false
+
       o "Time of cookie expiration",
         :expires, Time.at(2147483647)
     end
@@ -95,6 +108,7 @@ module Innate
     sub :action do
       o "wish => Action#method",
         :wish, {'json' => :as_json, 'html' => :as_html, 'yaml' => :as_yaml}
+
       o "Create actions that have no method associated",
         :needs_method, false
     end
