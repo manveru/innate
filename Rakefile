@@ -25,7 +25,7 @@ task :release => [:reversion, :gemspec] do
   sh('git add MANIFEST CHANGELOG innate.gemspec lib/innate/version.rb')
   puts "I added the relevant files, you can now run:", ''
   puts "git commit -m 'Version #{INNATE_VERSION}'"
-  puts "git tag -m '#{INNATE_VERSION}'"
+  puts "git tag -a -m '#{INNATE_VERSION}' '#{INNATE_VERSION}'"
   puts "git push"
   puts
 end
