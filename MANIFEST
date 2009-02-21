@@ -68,6 +68,8 @@ lib/rack/reloader.rb
 spec/example/hello.rb
 spec/example/link.rb
 spec/helper.rb
+spec/innate/action/layout.rb
+spec/innate/action/layout/file_layout.erb
 spec/innate/cache/common.rb
 spec/innate/cache/marshal.rb
 spec/innate/cache/memory.rb
@@ -89,6 +91,7 @@ spec/innate/helper/view/partial.erb
 spec/innate/helper/view/recursive.erb
 spec/innate/mock.rb
 spec/innate/node.rb
+spec/innate/node/another_layout/another_layout.erb
 spec/innate/node/bar.html
 spec/innate/node/foo.html.erb
 spec/innate/node/with_layout.erb

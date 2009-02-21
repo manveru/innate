@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "innate"
-  s.version = "2009.02.06"
+  s.version = "2009.02.21"
 
   s.summary = "Powerful web-framework wrapper for Rack."
   s.description = "Simple, straight-forward, base for web-frameworks."
@@ -84,6 +84,8 @@ Gem::Specification.new do |s|
     "spec/example/hello.rb",
     "spec/example/link.rb",
     "spec/helper.rb",
+    "spec/innate/action/layout.rb",
+    "spec/innate/action/layout/file_layout.erb",
     "spec/innate/cache/common.rb",
     "spec/innate/cache/marshal.rb",
     "spec/innate/cache/memory.rb",
@@ -105,6 +107,7 @@ Gem::Specification.new do |s|
     "spec/innate/helper/view/recursive.erb",
     "spec/innate/mock.rb",
     "spec/innate/node.rb",
+    "spec/innate/node/another_layout/another_layout.erb",
     "spec/innate/node/bar.html",
     "spec/innate/node/foo.html.erb",
     "spec/innate/node/with_layout.erb",

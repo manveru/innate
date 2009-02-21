@@ -1,3 +1,504 @@
+[374f218 | Sat Feb 21 03:26:55 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Bring retro games example back to life
+
+[800c1e2 | Fri Feb 20 08:38:32 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make Innate::Route() and Innate::Rewrite() available for Ramaze
+
+[f9d5d68 | Fri Feb 20 06:48:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't fail fatal if no app root can be found
+
+[ddd6e77 | Fri Feb 20 06:48:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Rename action_not_found(path) to action_missing(path), easier to remember
+
+[e682e18 | Fri Feb 20 06:47:34 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add trigger for options.mode to reset middleware
+
+[0efafb9 | Thu Feb 19 08:29:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Update options spec for trigger
+
+[f3741ee | Thu Feb 19 08:26:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix MiddlewareCompiler#static and add #directory
+
+[0ce72dc | Thu Feb 19 08:07:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Put the dynamap module functions into the SingletonMethods so Ramaze can have them too
+
+[b392fa7 | Thu Feb 19 08:06:36 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add options.app.public which recompiles middleware on change
+
+[e9d3e04 | Thu Feb 19 08:06:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Options#trigger, runs a block when an option changed
+
+[a3bdfdc | Thu Feb 19 06:56:38 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Proper name for node in session spec
+
+[bc942f2 | Thu Feb 19 06:52:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some more yard-compatible docs
+
+[9f97f72 | Thu Feb 19 06:16:03 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make aliasing views more consistent
+
+[3d10ef2 | Thu Feb 19 05:40:13 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Clean up session spec
+
+[027f20b | Thu Feb 19 05:38:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Cache the session just as long as the cookie is scheduled to exist
+
+[0279f91 | Thu Feb 19 05:37:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Further improvments to the spec task
+
+[f69b4cf | Mon Feb 16 18:50:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * publish for real
+
+[81048fa | Mon Feb 16 18:48:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * add rake publish via grancher
+
+[c825e8b | Sun Feb 15 11:29:02 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Use current node's extension if it is not provided to render_template.
+
+[4338891 | Sun Feb 15 11:29:02 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Use current node's extension if it is not provided to render_template.
+
+[e97696f | Sun Feb 15 01:05:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Warn if no app.root was set
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[70f09fd | Sat Feb 14 15:08:44 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Clear layout before rendering a template in #render_template.
+
+[4318c09 | Sun Feb 15 02:05:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Warn if no app.root was set
+
+[22a7a1d | Sat Feb 14 15:08:44 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Clear layout before rendering a template in #render_template.
+
+[4a31e76 | Fri Feb 13 09:02:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Reflect change to Fiber from Ramaze
+
+[59ad732 | Wed Feb 11 09:09:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add bacon dependency for spec
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[d93b2e5 | Wed Feb 11 09:15:55 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * exit status 1 if specs fail
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[89327f5 | Wed Feb 11 09:11:49 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove debug info, seems to work on RunCodeRun now
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[529f7e7 | Wed Feb 11 08:50:11 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Install dependencies on for specs
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[da3fb06 | Wed Feb 11 09:33:06 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use eval with binding argument, Binding#eval is 1.8.7+
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[7be640a | Wed Feb 11 09:07:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * debug RunCodeRun
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[c422ae6 | Wed Feb 11 08:50:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Support for multiple extensions per engine
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[2cae45a | Wed Feb 11 06:44:11 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add options.app.prefix - only outbound for now
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[dcbdfdb | Wed Feb 11 06:43:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add rake ydoc task
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[3715913 | Wed Feb 11 10:33:06 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use eval with binding argument, Binding#eval is 1.8.7+
+
+[eb77842 | Wed Feb 11 10:15:55 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * exit status 1 if specs fail
+
+[544533d | Wed Feb 11 10:11:49 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove debug info, seems to work on RunCodeRun now
+
+[29d7021 | Wed Feb 11 10:09:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add bacon dependency for spec
+
+[d4ca17d | Wed Feb 11 10:07:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * debug RunCodeRun
+
+[8756390 | Wed Feb 11 09:50:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Support for multiple extensions per engine
+
+[d5c003d | Wed Feb 11 09:50:11 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Install dependencies on for specs
+
+[35f2ece | Wed Feb 11 07:44:11 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add options.app.prefix - only outbound for now
+
+[d212cd2 | Wed Feb 11 07:43:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add rake ydoc task
+
+[5210279 | Mon Feb 09 08:47:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * params defaults to []
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[53cf3b0 | Mon Feb 09 08:47:06 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix render_template
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[b8abf58 | Mon Feb 09 08:37:08 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Cosmetics
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[b25f9e7 | Mon Feb 09 08:36:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some more usage of Innate::node
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[ad4f3ff | Mon Feb 09 08:15:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add convenience method Innate::node
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[d713321 | Mon Feb 09 07:42:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow alias_view to point to another Node
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[af92ee4 | Mon Feb 09 07:15:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow templates for methods like this__nested__one
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[56f119e | Mon Feb 09 07:15:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add options.action.needs_method
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[3cc7b5c | Mon Feb 09 07:00:49 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adapt specs for new API (memcached returns no value on delete)
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[3698234 | Mon Feb 09 07:00:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Action is made a bit more modular so one can call Action#render
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[27520cb | Sun Feb 08 06:51:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Correct behaviour for alias_view with spec
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[e5fcc9b | Sun Feb 08 06:42:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adapt node spec to new behaviour
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[487acde | Sun Feb 08 06:41:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix alias_view, still needs spec
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[34269db | Sun Feb 08 06:35:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix update_method_arities for new traits
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[030c75b | Sun Feb 08 06:35:41 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better error message if no action was found
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[8e5b4dd | Sun Feb 08 05:42:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Restructure innate.rb and introduce options.mode
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[6524d1c | Sun Feb 08 05:41:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix trait memory-leak
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[82673cd | Mon Feb 09 09:47:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * params defaults to []
+
+[fe17b8d | Mon Feb 09 09:47:06 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix render_template
+
+[9d23d82 | Mon Feb 09 09:37:08 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Cosmetics
+
+[e6b6d79 | Mon Feb 09 09:36:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some more usage of Innate::node
+
+[da464b9 | Mon Feb 09 09:15:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add convenience method Innate::node
+
+[ed2bdee | Mon Feb 09 08:42:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow alias_view to point to another Node
+
+[95238a3 | Mon Feb 09 08:15:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow templates for methods like this__nested__one
+
+[fc75dca | Mon Feb 09 08:15:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add options.action.needs_method
+
+[190e66b | Mon Feb 09 08:00:49 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adapt specs for new API (memcached returns no value on delete)
+
+[68ad412 | Mon Feb 09 08:00:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Action is made a bit more modular so one can call Action#render
+
+[4818105 | Sun Feb 08 07:51:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Correct behaviour for alias_view with spec
+
+[ffee12e | Sun Feb 08 07:42:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adapt node spec to new behaviour
+
+[2034ce4 | Sun Feb 08 07:41:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix alias_view, still needs spec
+
+[2778db9 | Sun Feb 08 07:35:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix update_method_arities for new traits
+
+[faae0e0 | Sun Feb 08 07:35:41 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better error message if no action was found
+
+[ca68ade | Sun Feb 08 06:42:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Restructure innate.rb and introduce options.mode
+
+[228951a | Sun Feb 08 06:41:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix trait memory-leak
+
+[fb91811 | Sat Feb 07 08:20:22 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove unused actions in Helper::Flash spec
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[4205f14 | Sat Feb 07 08:13:13 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix usage of parameters in accept_language
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[bf69983 | Sat Feb 07 08:11:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Specs for layouts
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[256c8c9 | Sat Feb 07 08:11:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * New layout behaviour
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[d78cedb | Sat Feb 07 06:58:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow adding multiple caches at once
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[ff74c88 | Sat Feb 07 06:58:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * wrap_action_call hooks should return the body
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[0b34ab6 | Sat Feb 07 03:57:23 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better parsing of Request#accept_language
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[bff2472 | Sat Feb 07 03:56:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Faster Innate.options
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[532f3a2 | Fri Feb 06 08:44:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Minor fixes and docs for rakefile
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[345157b | Fri Feb 06 08:44:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Provide default for alias_view
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[febab0f | Fri Feb 06 08:41:34 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.02.06
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[3ed0607 | Sat Feb 07 09:20:22 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove unused actions in Helper::Flash spec
+
+[e80d217 | Sat Feb 07 09:13:13 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix usage of parameters in accept_language
+
+[3f5adb8 | Sat Feb 07 09:11:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Specs for layouts
+
+[f2bdd45 | Sat Feb 07 09:11:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * New layout behaviour
+
+[e9c6ae3 | Sat Feb 07 07:58:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow adding multiple caches at once
+
+[defd5aa | Sat Feb 07 07:58:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * wrap_action_call hooks should return the body
+
+[6d20f61 | Sat Feb 07 04:57:23 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better parsing of Request#accept_language
+
+[00ed695 | Sat Feb 07 04:56:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Faster Innate.options
+
+[ec09fde | Fri Feb 06 09:44:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Minor fixes and docs for rakefile
+
+[45497a2 | Fri Feb 06 09:44:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Provide default for alias_view
+
+[1dd1d29 | Fri Feb 06 09:41:34 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.02.06
+
+[01ca014 | Tue Feb 03 17:37:50 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Delete :root and :file parameters after root is figured. Because they
+
+    
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[caf7b61 | Tue Feb 03 17:32:01 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Add Action#name, taken from Ramaze.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[d10e1e4 | Tue Feb 03 18:37:50 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Delete :root and :file parameters after root is figured. Because they
+
+
+
+[a0eaff1 | Tue Feb 03 18:32:01 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Add Action#name, taken from Ramaze.
+
+[f83a30c | Sun Feb 01 06:50:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Rack now has nested parameter parsing
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
 [cc3f110 | Sun Feb 01 18:35:42 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
 
   * use view name as name of the method when method is unavailable.
@@ -10,9 +511,49 @@
 
   * instance_eval the aspect blocks
 
+[12460ae | Sun Feb 01 18:37:47 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * update aspect spec to check before/after_all, instance_eval and view without method.
+
+[ac3cd91 | Sun Feb 01 18:35:42 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * use view name as name of the method when method is unavailable.
+
+[1ac84ef | Sun Feb 01 18:32:14 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * instance_eval the aspect block.
+
+[2287f32 | Sun Feb 01 18:31:17 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * block_holder can be a hash or an actual block. lets first check it.
+
 [b180b45 | Sun Feb 01 07:50:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Rack now has nested parameter parsing
+
+[71639b6 | Sat Jan 31 11:45:28 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some yard-style docs
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[6b70d31 | Sat Jan 31 11:45:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove useless adapters
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[50b78b5 | Sat Jan 31 11:45:03 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make Node#wrap_action_call work, for now only aspects are registered
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[2a827d7 | Sat Jan 31 11:43:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve Action#copy_variables
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
 
 [4ae1a01 | Sat Jan 31 12:45:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
@@ -30,17 +571,91 @@
 
   * Improve Action#copy_variables
 
+[b7595b3 | Fri Jan 30 10:12:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix assignment for (before|after)_all
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[76e1be6 | Fri Jan 30 11:48:17 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Fixed forgotten merge portion in previous 5de42ee51db98a4ca211a4513056f47389904420.
+
 [7076383 | Fri Jan 30 11:12:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Fix assignment for (before|after)_all
+
+[3e9a5a8 | Fri Jan 30 09:57:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add before_all/after_all aspects
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
 
 [1335bf2 | Fri Jan 30 10:57:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Add before_all/after_all aspects
 
+[8b57671 | Thu Jan 29 14:21:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * trap only once
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[9e56624 | Thu Jan 29 12:37:23 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * method_arities is a trait now
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[82646b1 | Thu Jan 29 12:39:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve Node::setup, automap is now mapping and behaves like ramaze needs it
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[97e8308 | Thu Jan 29 12:38:36 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better naming and arguments for Adapter::start
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[b182882 | Thu Jan 29 12:38:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Even if started is true, still do basic setup
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[e3ffd52 | Thu Jan 29 12:37:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't use custom adapter in example
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[5d95198 | Thu Jan 29 12:08:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix precedence issue in find_method
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[64d317f | Thu Jan 29 10:04:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove requires for rubygems
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[508edc9 | Thu Jan 29 10:02:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove whywiki_haml/whywiki_nagoro examples
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
 [b55cf95 | Thu Jan 29 15:21:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * trap only once
+
+[4d1eda4 | Thu Jan 29 13:57:54 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Remove leftover code from previous addition.
 
 [b41c42a | Thu Jan 29 13:39:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
@@ -66,6 +681,10 @@
 
   * method_arities is a trait now
 
+[f66c001 | Thu Jan 29 13:25:41 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Add layout spec and some more.
+
 [3dab943 | Thu Jan 29 13:08:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Fix precedence issue in find_method
@@ -77,6 +696,90 @@
 [21d17f3 | Thu Jan 29 11:02:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Remove whywiki_haml/whywiki_nagoro examples
+
+[03c14eb | Wed Jan 28 10:55:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Move code for copying Action#variables
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[1084897 | Wed Jan 28 13:38:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix cache specs, why the hell did they pass?
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[1968cb7 | Wed Jan 28 12:55:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add some specs for examples
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[9285cec | Wed Jan 28 10:56:31 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Node::HELPERS for helpers used on inclusion
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[e6b9002 | Wed Jan 28 11:04:20 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove require for route_exceptions
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[7b98be1 | Wed Jan 28 10:55:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Rack::RouteExceptions is now in rack-contrib
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[e83fc84 | Tue Jan 27 12:41:26 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Nicer inspect of session
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[6b0be6f | Tue Jan 27 12:41:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Set cookie on the response object returned, not the original one
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[5b2403c | Tue Jan 27 11:49:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix specs for 1.9
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[36dbcc0 | Tue Jan 27 11:49:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * 1.9 will return symbols instead of strings as method names
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[9e5520e | Tue Jan 27 11:48:48 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * A bit nicer code style
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[eb0935f | Tue Jan 27 11:48:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Map casts to #to_s, :/ is very common in ramaze code
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[580673b | Tue Jan 27 11:47:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix handling of binding for 1.9
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
+
+[f67b9a0 | Tue Jan 27 11:46:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * In current 1.9 the original require won't work for some gems
+
+    Signed-off-by: Tadahiko Uehara <kikofX@gmail.com>
 
 [9133eb2 | Wed Jan 28 14:38:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
@@ -120,6 +823,14 @@
 
     Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
 
+[53b7764 | Wed Jan 28 13:44:43 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Add some specs.
+
+[35b3fe7 | Wed Jan 28 13:43:50 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Add missing fallback argument to redirect_referrer.
+
 [eeffc7d | Tue Jan 27 13:41:26 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Nicer inspect of session
@@ -151,6 +862,10 @@
 [e7070f2 | Tue Jan 27 12:46:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * In current 1.9 the original require won't work for some gems
+
+[047baef | Tue Jan 27 09:37:21 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Fix typo in example.
 
 [d3304dd | Mon Jan 26 16:50:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
