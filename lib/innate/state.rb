@@ -14,9 +14,17 @@ module Innate
     STATE = State::Thread.new
   end
 
-  # Log.debug("Innate keeps state with %p" % STATE.class)
-
-  def self.sync(&block)
-    STATE.sync(&block)
+  module SingletonMethods
+    # Use this method to achieve thread-safety for sensitive operations.
+    #
+    # This should be of most use when manipulating files to prevent other
+    # threads from doing the same, no other code will be scheduled during
+    # execution of this method.
+    #
+    # @param [Proc] block the things you want to execute
+    # @see State::Thread#sync State::Fiber#sync
+    def sync(&block)
+      STATE.sync(&block)
+    end
   end
 end

@@ -1,6 +1,10 @@
 module Innate
-  def self.setup(&block)
-    Setup.new(&block)
+  module SingletonMethods
+    # Shortcut for {Setup::new}
+    # @param [Proc] block will be passed on to {Setup::new}
+    def setup(&block)
+      Setup.new(&block)
+    end
   end
 
   class Setup
