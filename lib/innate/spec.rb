@@ -10,7 +10,7 @@ module Innate
   # minimal middleware, no exception handling
   middleware(:innate){|m| m.innate }
 
-  # skip merging of options
+  # skip starting adapter
   options.started = true
 end
 

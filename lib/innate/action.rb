@@ -3,12 +3,14 @@ module Innate
                      :wish, :options, :variables, :value, :view_value, :name ]
 
   class Action < Struct.new(*ACTION_MEMBERS)
+    # Holds the default values for merging in {Action::create}
     DEFAULT = {:options => {}, :variables => {}, :params => []}
 
     # Create a new Action instance.
     #
     # @param [Hash, #to_hash] hash used to seed new Action instance
     # @return [Action] action with the given defaults from hash
+    # @api stable
     # @author manveru
     def self.create(hash = {})
       new(*DEFAULT.merge(hash.to_hash).values_at(*ACTION_MEMBERS))
@@ -21,6 +23,7 @@ module Innate
     #
     # @return [String] The rendition of all nested calls
     # @see Action#render Node#action_found
+    # @api stable
     # @author manveru
     def call
       Current.actions << self
@@ -31,6 +34,7 @@ module Innate
 
     # @return [Binding] binding of the instance for this Action
     # @see Node#binding
+    # @api stable
     # @author manveru
     def binding
       instance.binding
@@ -43,6 +47,7 @@ module Innate
     # @param [Action #instance] from_action
     # @return [Action] from_action
     # @see Action#wrap_in_layout
+    # @api unstable
     # @author manveru
     def sync_variables(from_action)
       instance = from_action.instance
@@ -156,7 +161,7 @@ module Innate
       return nil, arg
     end
 
-    #Try to figure out a sane name for current action.
+    # Try to figure out a sane name for current action.
     def name
       File.basename((method || view).to_s).split('.').first
     end

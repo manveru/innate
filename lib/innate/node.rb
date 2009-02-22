@@ -28,7 +28,7 @@ module Innate
   #     Those methods, and all other methods occurring in the ancestors after
   #     {Innate::Node} will not be considered valid action methods and will be
   #     ignored.
-  #   * This also means that {method_missing} will not see any of the requests
+  #   * This also means that method_missing will not see any of the requests
   #     coming in.
   #   * If you want an action to act as a catch-all, use `def index(*args)`.
 

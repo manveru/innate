@@ -1,3 +1,4 @@
+# We define BasicObject for compatibility with 1.9 if it isn't there yet.
 class BasicObject
   # Remove all but these methods
   # NOTE: __id__ is not there in 1.9, but would give a warning in 1.8

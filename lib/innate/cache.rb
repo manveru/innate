@@ -79,10 +79,19 @@ module Innate
       )
     end
 
+    # Add all caches from the options.
+    #
+    # @see Innate::setup_dependencies
+    # @api stable
+    # @return [Array] names of caches initialized
+    # @author manveru
     def self.setup
       Innate.options.cache.names.each{|name| add(name) }
     end
 
+    # Add accessors for cache
+    #
+    # @param [Cache] cache
     def self.register(cache)
       key = cache.name
       source = "def self.%s() @%s; end

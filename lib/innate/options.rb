@@ -8,7 +8,7 @@ module Innate
 
   # This has to speak for itself.
   options.dsl do
-    o "IP address or hostname that Ramaze will respond to - 0.0.0.0 for all",
+    o "IP address or hostname that we respond to - 0.0.0.0 for all",
       :host, "0.0.0.0", :short => :H
 
     o "Port for the server",

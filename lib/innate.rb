@@ -126,11 +126,56 @@ module Innate
       m.innate }
   }
 
+  # Contains all the module functions for Innate, we keep them in a module so
+  # Ramaze can simply use them as well.
   module SingletonMethods
-    def start(parameter = {}, &block)
-      options[:app][:root] = go_figure_root(parameter, caller)
-      parameter.reject!{|k, v| [:root, :file].include?(k) }
-      options.merge!(parameter)
+    # The method that starts the whole business.
+    #
+    # Call Innate.start after you defined your application.
+    #
+    # Usually, this is a blocking call and will not return until the adapter
+    # has finished, which usually happens when you kill the application or hit
+    # ^C.
+    #
+    # We do return if options.started is true, which indicates that all you
+    # wanted to do is setup the environment and update options.
+    #
+    # @usage
+    #
+    #   # passing options
+    #   Innate.start :adapter => :mongrel, :mode => :live
+    #
+    #   # defining custom middleware
+    #   Innate.start do |m|
+    #     m.innate
+    #   end
+    #
+    # @return [nil] if options.started is true
+    # @yield [MiddlewareCompiler]
+    # @param [Proc] block will be passed to {setup_middleware}
+    #
+    # @option param :host    [String]  ('0.0.0.0')
+    #   IP address or hostname that we respond to - 0.0.0.0 for all
+    # @option param :port    [Fixnum]  (7000)
+    #   Port for the server
+    # @option param :started [boolean] (false)
+    #   Indicate that calls Innate::start will be ignored
+    # @option param :adapter [Symbol]  (:webrick)
+    #   Web server to run on
+    # @option param :setup   [Array]   ([Innate::Cache, Innate::Node])
+    #   Will send ::setup to each element during Innate::start
+    # @option param :header  [Hash]    ({'Content-Type' => 'text/html'})
+    #   Headers that will be merged into the response before Node::call
+    # @option param :trap    [String]  ('SIGINT')
+    #   Trap this signal to issue shutdown, nil/false to disable trap
+    # @option param :state   [Symbol]  (:Fiber)
+    #   Keep state in Thread or Fiber, fall back to Thread if Fiber not available
+    # @option param :mode    [Symbol]  (:dev)
+    #   Indicates which default middleware to use, (:dev|:live)
+    def start(param = {}, &block)
+      options[:app][:root] = go_figure_root(param, caller)
+      param.reject!{|k, v| [:root, :file].include?(k) }
+      options.merge!(param)
 
       setup_dependencies
       setup_middleware(&block)
