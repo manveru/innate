@@ -39,20 +39,20 @@ module Innate
     LIST = Set.new
 
     trait(:layout => nil, :alias_view => {}, :provide => {},
-          :method_arities => {}, :wrap => [:aspect_wrap])
+          :method_arities => {}, :wrap => [:aspect_wrap], :provide_set => false)
 
     # Upon inclusion we make ourselves comfortable.
-    def self.included(obj)
-      obj.__send__(:include, Helper)
-      obj.helper(*HELPERS)
+    def self.included(into)
+      into.__send__(:include, Helper)
+      into.helper(*HELPERS)
 
-      obj.extend(Trinity, self)
+      into.extend(Trinity, self)
 
-      LIST << obj
+      LIST << into
 
-      return if obj.provide.any?
-      # provide .html with no interpolation
-      obj.provide(:html => :erb, :yaml => :yaml, :json => :json)
+      return if into.ancestral_trait[:provide_set]
+      into.provide(:html => :erb, :yaml => :yaml, :json => :json)
+      into.trait(:provide_set => false)
     end
 
     def self.setup
@@ -131,7 +131,7 @@ module Innate
 
       hash = {}
       formats.each{|pr, as| hash[pr.to_s] = Array[*as].map{|a| a.to_s } }
-      trait(:provide => hash)
+      trait(:provide => hash, :provide_set => true)
 
       ancestral_trait[:provide]
     end
