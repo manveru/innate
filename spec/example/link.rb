@@ -5,21 +5,17 @@ describe 'example/link' do
   behaves_like :mock
 
   should 'have index on Linking' do
-    get('/').body.should == 'simple link<br /><a href="/help">Help?</a>'
-  end
-
-  should 'have new on Linking' do
-    get('/new').body.should == 'Something new!'
+    get('/').body.should == 'Index links to <a href="/help">Help?</a>'
   end
 
   should 'have help on Linking' do
     get('/help').body.should ==
-      "You have help<br /><a href=\"/link_to/another\">A Different Node</a>"
+      "Help links to <a href=\"/link_to/another\">A Different Node</a>"
   end
 
   should 'have another on Different' do
     get('/link_to/another').body.
-      should == "<a href=\"/link_to/and/deeper\">Even deeper</a>"
+      should == "<a href=\"/link_to/and/deeper\">Another links even deeper</a>"
   end
 
   should 'have and__deeper on Different' do
