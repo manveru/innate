@@ -35,8 +35,8 @@ module Innate
   module Node
     include Traited
 
-    HELPERS = [:aspect, :cgi, :flash, :link, :partial, :redirect, :send_file]
-    LIST = Set.new
+    DEFAULT_HELPERS = %w[aspect cgi flash link partial redirect send_file]
+    NODE_LIST = Set.new
 
     trait(:layout => nil, :alias_view => {}, :provide => {},
           :method_arities => {}, :wrap => [:aspect_wrap], :provide_set => false)
@@ -44,11 +44,11 @@ module Innate
     # Upon inclusion we make ourselves comfortable.
     def self.included(into)
       into.__send__(:include, Helper)
-      into.helper(*HELPERS)
+      into.helper(*DEFAULT_HELPERS)
 
       into.extend(Trinity, self)
 
-      LIST << into
+      NODE_LIST << into
 
       return if into.ancestral_trait[:provide_set]
       into.provide(:html => :erb, :yaml => :yaml, :json => :json)
@@ -56,7 +56,7 @@ module Innate
     end
 
     def self.setup
-      LIST.each{|node| Innate.map(node.mapping, node) }
+      NODE_LIST.each{|node| Innate.map(node.mapping, node) }
       Log.debug("Mapped Nodes: %p" % DynaMap::MAP)
     end
 
@@ -64,7 +64,7 @@ module Innate
     def mapping
       mapped = Innate.to(self)
       return mapped if mapped
-      return '/' if Innate::Node::LIST.size == 1
+      return '/' if NODE_LIST.size == 1
       "/" << self.name.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase
     end
 
