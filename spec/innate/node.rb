@@ -206,6 +206,18 @@ describe 'Innate::Node' do
     got.body.should == 'No action found at: "/bar"'
   end
 
+  should 'get an action view if there is no method' do
+    got = Innate::Mock.get('/provide_template/only_view')
+    got.status.should == 200
+    got.body.strip.should == "Only template"
+  end
+
+  should 'not get an action view with params if there is no method' do
+    got = Innate::Mock.get('/provide_template/only_view/param')
+    got.status.should == 404
+    got.body.strip.should == 'No action found at: "/only_view/param"'
+  end
+
   should 'use alias_view' do
     assert_wish('/alias_view/aliased', "<h1>Hello, World!</h1>", 'text/html')
   end

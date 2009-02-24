@@ -282,6 +282,7 @@ module Innate
 
         next unless view or method
         next unless method if needs_method
+        next unless method if params.any?
 
         layout = find_layout(name, wish)
         params ||= []
