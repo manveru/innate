@@ -1,13 +1,11 @@
-# The minimal _why wiki in Innate
+# The minimal _why wiki in Innate with ERB
 
 %w[rubygems innate erb maruku yaml/store].each{|l| require(l) }
 
 DB = YAML::Store.new('wiki.yaml') unless defined?(DB)
 
 class Wiki
-  include Innate::Node
-  map '/'
-  provide :html => :erb
+  Innate.node '/'
   layout 'wiki'
 
   def index(page = 'Home')
@@ -27,10 +25,8 @@ class Wiki
   end
 
   def save
-    redirect_referrer unless request.post?
-
     page, text = request[:page, :text]
-    sync{ DB[page] = text } if page and text
+    sync{ DB[page] = text } if request.post? and page and text
 
     redirect(r(page))
   end

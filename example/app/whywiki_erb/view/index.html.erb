@@ -1,10 +1,12 @@
 <% unless @page == 'Home' %>
-<a href="<%= r 'Home' %>">&lt; Home</a>
+  <%= a('< Home', :Home) %>
 <% end %>
+
 <h1><%= h @page %></h1>
+
 <% if @text.empty? %>
-<a href="<%= r :edit, @page %>"><%= h "Create #{@page}" %></a>
+  <%= a("Create #@page", :edit, @page) %>
 <% else %>
-<a href="<%= r :edit, @page %>"><%= h "Edit #{@page}" %></a>
-<%= Maruku.new(@text).to_html %>
+  <%= a("Edit #@page", :edit, @page) %>
+  <%= Maruku.new(@text).to_html %>
 <% end %>
