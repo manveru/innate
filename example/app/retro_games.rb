@@ -5,8 +5,8 @@ STORE = YAML::Store.new('games.yaml')
 
 def STORE.[](key) transaction{|s| super } end
 def STORE.[]=(key, value) transaction{|s| super } end
-def STORE.each
-  YAML.load_file('games.yaml').sort_by{|k,v| -v }.each{|(k,v)| yield(k, v) }
+def STORE.each(&block)
+  YAML.load_file('games.yaml').sort_by{|k,v| -v }.each(&block)
 end
 
 STORE['Pacman'] = 1
