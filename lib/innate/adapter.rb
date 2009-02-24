@@ -27,7 +27,7 @@ module Innate
       def start(app, options = Innate.options)
         adapter_name = options[:adapter].to_s.downcase
         config = { :Host => options[:host], :Port => options[:port] }
-        Log.debug "Innate uses #{adapter_name}"
+        Log.debug "Using #{adapter_name}"
 
         if respond_to?(method = "start_#{adapter_name}")
           send(method, app, config)

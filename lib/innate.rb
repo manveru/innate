@@ -193,7 +193,7 @@ module Innate
     end
 
     def stop(wait = 3)
-      Log.info("Shutdown Innate within #{wait} seconds")
+      Log.info("Shutdown within #{wait} seconds")
       Timeout.timeout(wait){ exit }
     ensure
       exit!
