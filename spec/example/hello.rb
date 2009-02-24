@@ -1,5 +1,4 @@
 require 'spec/helper'
-
 require 'example/hello'
 
 describe 'example/hello' do
