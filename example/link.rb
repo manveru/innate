@@ -1,30 +1,22 @@
 require 'innate'
 
 class Linking
-  include Innate::Node
-  map '/'
+  Innate.node '/'
 
   def index
-    "simple link<br />" +
-      a('Help?', :help)
-  end
-
-  def new
-    "Something new!"
+    "Index links to " + a('Help?', :help)
   end
 
   def help
-    "You have help<br />" +
-      Different.a('A Different Node', :another)
+    "Help links to " + Different.a('A Different Node', :another)
   end
 end
 
 class Different
-  include Innate::Node
-  map '/link_to'
+  Innate.node '/link_to'
 
   def another
-    a('Even deeper', 'and/deeper')
+    a('Another links even deeper', 'and/deeper')
   end
 
   def and__deeper

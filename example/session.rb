@@ -1,26 +1,22 @@
 require 'innate'
 
 class Hello
-  include Innate::Node
-  map '/'
-
-  helper :link, :cgi
-
-  provide :html => :haml
+  Innate.node '/'
 
   TEMPLATE = '
-!!! XML
-!!!
-%html
-  %head
-    %title Session example
-  %body
-    %h1 Session example
-    = "Value is #{session[:value]}"
-    %br/
-    = a :increment
-    %br/
-    = a :decrement
+<html>
+  <head>
+    <title>Session example</title>
+  </head>
+  <body>
+    <h1>Session example</h1>
+    <p>
+      Value is: <%= session[:value] %><br />
+      <%= a :increment %><br />
+      <%= a :decrement %>
+    </p>
+  </body>
+</html>
 '.strip
 
   def index
@@ -29,12 +25,12 @@ class Hello
   end
 
   def increment
-    session[:value] += 1 if session[:value]
+    session[:value] = session[:value].to_i + 1
     TEMPLATE
   end
 
   def decrement
-    session[:value] -= 1 if session[:value]
+    session[:value] = session[:value].to_i - 1
     TEMPLATE
   end
 end

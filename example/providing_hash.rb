@@ -12,7 +12,7 @@ require 'innate'
 #
 #   /get/foo.json
 #   /get/foo.yaml
-# 
+#
 # Note that this functionality is quite experimental, but by strategically
 # placing ressources in actions it may be possible to achieve interesting
 # effects and interoperability with JavaScript at a low cost.
@@ -22,8 +22,7 @@ require 'innate'
 #     straight-forward and would require some kind of convention?
 
 class Dict
-  include Innate::Node
-  map '/'
+  Innate.node '/'
 
   DICT = {}
 

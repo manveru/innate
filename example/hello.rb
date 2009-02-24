@@ -1,8 +1,7 @@
 require 'innate'
 
 class Hello
-  include Innate::Node
-  map '/'
+  Innate.node '/'
 
   def index
     'Hello, World!'

@@ -1,8 +1,8 @@
+require 'rubygems'
 require 'innate'
 
 class Demo
-  include Innate::Node
-  map '/'
+  Innate.node '/'
 
   def index
     'Hello, World!'
@@ -14,9 +14,7 @@ class Demo
   end
 end
 
-# Make sure you do this before Innate.start, otherwise you have to use
-# Innate.middleware! to force a rebuild in the MiddlewareCompiler.
-Innate.middleware :innate do |mw|
+Innate.start do |mw|
   # Makes sure all requests and responses conform to Rack protocol
   mw.use Rack::Lint
 
@@ -32,12 +30,6 @@ Innate.middleware :innate do |mw|
   # Reload modified files before request
   mw.use Rack::Reloader
 
-  # Initializes the Current objects: Request, Response, and Session
-  mw.use Innate::Current
-
-  # This will try to find a static file in /public first, and try DynaMap if
-  # Rack::File returns a 404 status.
-  mw.cascade Rack::File.new('public'), Innate::DynaMap
+  # Start up the application
+  mw.innate
 end
-
-Innate.start
