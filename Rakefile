@@ -75,7 +75,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/manveru/innate"
   s.require_path = "lib"
 
-  s.add_dependency('rack', '>= 0.4.0')
+  s.add_dependency('rack', '>= 0.9.1')
 
   s.files = [
 #{files}
