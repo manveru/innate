@@ -1,7 +1,7 @@
 require 'spec/helper'
 
 class SpecRedirectHelper
-  include Innate::Node
+  Innate.node '/'
 
   def index
     self.class.name
@@ -58,9 +58,6 @@ class SpecRedirectHelper
     raw_redirect '/noop'
   end
 end
-
-Innate.setup_dependencies
-Innate.setup_middleware
 
 describe Innate::Helper::Redirect do
   behaves_like :mock

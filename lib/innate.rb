@@ -59,8 +59,154 @@ module Innate
 
   extend Trinity
 
-  # This constant holds a couple of common middlewares and allows for easy
-  # addition of new ones.
+  # Contains all the module functions for Innate, we keep them in a module so
+  # Ramaze can simply use them as well.
+  module SingletonMethods
+    # The method that starts the whole business.
+    #
+    # Call Innate.start after you defined your application.
+    #
+    # Usually, this is a blocking call and will not return until the adapter
+    # has finished, which usually happens when you kill the application or hit
+    # ^C.
+    #
+    # We do return if options.started is true, which indicates that all you
+    # wanted to do is setup the environment and update options.
+    #
+    # @usage
+    #
+    #   # passing options
+    #   Innate.start :adapter => :mongrel, :mode => :live
+    #
+    #   # defining custom middleware
+    #   Innate.start do |m|
+    #     m.innate
+    #   end
+    #
+    # @return [nil] if options.started is true
+    # @yield [MiddlewareCompiler]
+    # @param [Proc] block will be passed to {setup_middleware}
+    #
+    # @option param :host    [String]  ('0.0.0.0')
+    #   IP address or hostname that we respond to - 0.0.0.0 for all
+    # @option param :port    [Fixnum]  (7000)
+    #   Port for the server
+    # @option param :started [boolean] (false)
+    #   Indicate that calls Innate::start will be ignored
+    # @option param :adapter [Symbol]  (:webrick)
+    #   Web server to run on
+    # @option param :setup   [Array]   ([Innate::Cache, Innate::Node])
+    #   Will send ::setup to each element during Innate::start
+    # @option param :header  [Hash]    ({'Content-Type' => 'text/html'})
+    #   Headers that will be merged into the response before Node::call
+    # @option param :trap    [String]  ('SIGINT')
+    #   Trap this signal to issue shutdown, nil/false to disable trap
+    # @option param :state   [Symbol]  (:Fiber)
+    #   Keep state in Thread or Fiber, fall back to Thread if Fiber not available
+    # @option param :mode    [Symbol]  (:dev)
+    #   Indicates which default middleware to use, (:dev|:live)
+    def start(param = {}, &block)
+      options[:app][:root] = go_figure_root(param, caller)
+      param.reject!{|k, v| [:root, :file].include?(k) }
+      options.merge!(param)
+
+      setup_dependencies
+
+      return if options.started
+      options.started = true
+
+      trap(options[:trap]){ stop(10) } if options[:trap]
+
+      start!(options)
+    end
+
+    def start!(options = Innate.options)
+      Adapter.start(middleware(options.mode), options)
+    end
+
+    def stop(wait = 3)
+      Log.info("Shutdown within #{wait} seconds")
+      Timeout.timeout(wait){ exit }
+    ensure
+      exit!
+    end
+
+    def setup_dependencies
+      options[:setup].each{|obj| obj.setup }
+    end
+
+    # Treat Innate like a rack application, pass the rack +env+ and optionally
+    # the +mode+ the application runs in.
+    #
+    # @param [Hash] env rack env
+    # @param [Symbol] mode indicates the mode of the application
+    # @default mode options.mode
+    # @return [Array] with [body, header, status]
+    # @author manveru
+    def call(env, mode = options.mode)
+      middleware(mode).call(env)
+    end
+
+    def middleware(mode, &block)
+      Rack::MiddlewareCompiler.build(mode, &block)
+    end
+
+    def middleware!(mode, &block)
+      Rack::MiddlewareCompiler.build!(mode, &block)
+    end
+
+    def middleware_recompile(mode = options.mode)
+      Rack::MiddlewareCompiler::COMPILED[mode].compile!
+    end
+
+    # Innate can be started by:
+    #
+    #   Innate.start :file => __FILE__
+    #   Innate.start :root => '/path/to/here'
+    #
+    # In case these options are not passed we will try to figure out a file named
+    # `start.rb` in the backtrace and use the directory it resides in.
+    #
+    # TODO: better documentation and nice defaults, don't want to rely on a
+    #       filename, bad mojo.
+    def go_figure_root(options, backtrace)
+      if o_file = options[:file]
+        return File.dirname(o_file)
+      elsif root = options[:root]
+        return root
+      end
+
+      pwd = Dir.pwd
+
+      return pwd if File.file?(File.join(pwd, 'start.rb'))
+
+      caller_lines(backtrace) do |file, line, method|
+        dir, file = File.split(File.expand_path(file))
+        return dir if file == "start.rb"
+      end
+
+      Log.warn("Couldn't find your application root, see Innate#go_figure_root")
+
+      return nil
+    end
+
+    # yields +file+, +line+, +method+
+    def caller_lines(backtrace)
+      backtrace.each do |line|
+        if line =~ /^(.*?):(\d+):in `(.*)'$/
+          file, line, method = $1, $2.to_i, $3
+        elsif line =~ /^(.*?):(\d+)$/
+          file, line, method = $1, $2.to_i, nil
+        end
+
+        yield(File.expand_path(file), line, method) if file and File.file?(file)
+      end
+    end
+  end
+
+  extend SingletonMethods
+
+  # This sets up the default modes.
   # The Proc to use is determined by the value of options.mode.
   # The Proc value is passed to setup_middleware if no block is given to
   # Innate::start.
@@ -115,174 +261,15 @@ module Innate
   #         Innate::Route.new(Innate::DynaMap)])))
   #
   # @see Rack::MiddlewareCompiler
-  MIDDLEWARE = {
-    :dev => lambda{|m|
-      m.use(Rack::Lint, Rack::CommonLogger, Rack::ShowExceptions,
-            Rack::ShowStatus, Rack::ConditionalGet, Rack::Head, Rack::Reloader)
-      m.innate },
-    :live => lambda{|m|
-      m.use(Rack::CommonLogger, Rack::ShowStatus, Rack::ConditionalGet,
-            Rack::Head)
-      m.innate }
-  }
-
-  # Contains all the module functions for Innate, we keep them in a module so
-  # Ramaze can simply use them as well.
-  module SingletonMethods
-    # The method that starts the whole business.
-    #
-    # Call Innate.start after you defined your application.
-    #
-    # Usually, this is a blocking call and will not return until the adapter
-    # has finished, which usually happens when you kill the application or hit
-    # ^C.
-    #
-    # We do return if options.started is true, which indicates that all you
-    # wanted to do is setup the environment and update options.
-    #
-    # @usage
-    #
-    #   # passing options
-    #   Innate.start :adapter => :mongrel, :mode => :live
-    #
-    #   # defining custom middleware
-    #   Innate.start do |m|
-    #     m.innate
-    #   end
-    #
-    # @return [nil] if options.started is true
-    # @yield [MiddlewareCompiler]
-    # @param [Proc] block will be passed to {setup_middleware}
-    #
-    # @option param :host    [String]  ('0.0.0.0')
-    #   IP address or hostname that we respond to - 0.0.0.0 for all
-    # @option param :port    [Fixnum]  (7000)
-    #   Port for the server
-    # @option param :started [boolean] (false)
-    #   Indicate that calls Innate::start will be ignored
-    # @option param :adapter [Symbol]  (:webrick)
-    #   Web server to run on
-    # @option param :setup   [Array]   ([Innate::Cache, Innate::Node])
-    #   Will send ::setup to each element during Innate::start
-    # @option param :header  [Hash]    ({'Content-Type' => 'text/html'})
-    #   Headers that will be merged into the response before Node::call
-    # @option param :trap    [String]  ('SIGINT')
-    #   Trap this signal to issue shutdown, nil/false to disable trap
-    # @option param :state   [Symbol]  (:Fiber)
-    #   Keep state in Thread or Fiber, fall back to Thread if Fiber not available
-    # @option param :mode    [Symbol]  (:dev)
-    #   Indicates which default middleware to use, (:dev|:live)
-    def start(param = {}, &block)
-      options[:app][:root] = go_figure_root(param, caller)
-      param.reject!{|k, v| [:root, :file].include?(k) }
-      options.merge!(param)
-
-      setup_dependencies
-      setup_middleware(&block)
-
-      return if options.started
-      options.started = true
-
-      trap(options[:trap]){ stop(10) } if options[:trap]
-
-      start!(options)
-    end
-
-    def start!(options = Innate.options)
-      Adapter.start(middleware(:innate), options)
-    end
-
-    def stop(wait = 3)
-      Log.info("Shutdown within #{wait} seconds")
-      Timeout.timeout(wait){ exit }
-    ensure
-      exit!
-    end
-
-    def middleware(name, &block)
-      Rack::MiddlewareCompiler.build(name, &block)
-    end
-
-    def middleware!(name, &block)
-      Rack::MiddlewareCompiler.build!(name, &block)
-    end
-
-    def middleware_recompile(name = :innate)
-      Rack::MiddlewareCompiler::COMPILED[name].compile!
-    end
-
-    def setup_dependencies
-      options[:setup].each{|obj| obj.setup }
-    end
-
-    # Set the default middleware for applications.
-    def setup_middleware(force = false, &block)
-      mode = options.mode
-      block ||= MIDDLEWARE[mode]
-      raise("No Middleware for mode: %p found" % mode) unless block
-
-      force ? middleware!(:innate, &block) : middleware(:innate, &block)
-    end
-
-    # Pass the +env+ to this method and it will be sent to the appropriate
-    # middleware called +mw+.
-    # Tries to avoid recursion.
-
-    def call(env, mw = :innate)
-      this_file = File.expand_path(__FILE__)
-      count = 0
-      caller_lines(caller){|f, l, m| count += 1 if f == this_file }
-
-      raise("Recursive loop in Innate::call") if count > 10
-
-      middleware(mw).call(env)
-    end
-
-    # Innate can be started by:
-    #
-    #   Innate.start :file => __FILE__
-    #   Innate.start :root => '/path/to/here'
-    #
-    # In case these options are not passed we will try to figure out a file named
-    # `start.rb` in the backtrace and use the directory it resides in.
-    #
-    # TODO: better documentation and nice defaults, don't want to rely on a
-    #       filename, bad mojo.
-
-    def go_figure_root(options, backtrace)
-      if o_file = options[:file]
-        return File.dirname(o_file)
-      elsif root = options[:root]
-        return root
-      end
-
-      pwd = Dir.pwd
-
-      return pwd if File.file?(File.join(pwd, 'start.rb'))
-
-      caller_lines(backtrace) do |file, line, method|
-        dir, file = File.split(File.expand_path(file))
-        return dir if file == "start.rb"
-      end
-
-      Log.warn("Couldn't find your application root, see Innate#go_figure_root")
-
-      return nil
-    end
-
-    # yields +file+, +line+, +method+
-    def caller_lines(backtrace)
-      backtrace.each do |line|
-        if line =~ /^(.*?):(\d+):in `(.*)'$/
-          file, line, method = $1, $2.to_i, $3
-        elsif line =~ /^(.*?):(\d+)$/
-          file, line, method = $1, $2.to_i, nil
-        end
-
-        yield(File.expand_path(file), line, method) if file and File.file?(file)
-      end
-    end
+  middleware :dev do |m|
+    m.use(Rack::Lint, Rack::CommonLogger, Rack::ShowExceptions,
+          Rack::ShowStatus, Rack::ConditionalGet, Rack::Head, Rack::Reloader)
+    m.innate
   end
 
-  extend SingletonMethods
+  middleware :live do |m|
+    m.use(Rack::CommonLogger, Rack::ShowStatus, Rack::ConditionalGet,
+          Rack::Head)
+    m.innate
+  end
 end

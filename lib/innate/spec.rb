@@ -8,10 +8,11 @@ require(innate) unless defined?(Innate)
 
 module Innate
   # minimal middleware, no exception handling
-  middleware(:innate){|m| m.innate }
+  middleware(:spec){|m| m.innate }
 
   # skip starting adapter
   options.started = true
+  options.mode = :spec
 end
 
 # Shortcut to use persistent cookies via Innate::Mock::Session

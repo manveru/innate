@@ -35,7 +35,7 @@ module Innate
     o "Indicates which default middleware to use, (:dev|:live)",
       :mode, :dev
 
-    trigger(:mode){|v| Innate.setup_middleware(true) }
+    trigger(:mode){|v| Innate.middleware_recompile(v) }
 
     sub :log do
       o "Array of parameters for Logger.new, default to stderr for CGI",
