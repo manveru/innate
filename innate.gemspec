@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "innate"
-  s.version = "2009.02.21"
+  s.version = "2009.02.25"
 
   s.summary = "Powerful web-framework wrapper for Rack."
   s.description = "Simple, straight-forward, base for web-frameworks."
@@ -20,17 +20,19 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "example/app/retro_games.rb",
+    "example/app/todo/layout/default.erb",
+    "example/app/todo/spec/todo.rb",
+    "example/app/todo/start.rb",
+    "example/app/todo/view/index.erb",
     "example/app/whywiki_erb/layout/wiki.html.erb",
     "example/app/whywiki_erb/spec/wiki.rb",
     "example/app/whywiki_erb/start.rb",
     "example/app/whywiki_erb/view/edit.html.erb",
     "example/app/whywiki_erb/view/index.html.erb",
     "example/custom_middleware.rb",
-    "example/error_handling.rb",
     "example/hello.rb",
     "example/howto_spec.rb",
     "example/link.rb",
-    "example/providing_hash.rb",
     "example/session.rb",
     "innate.gemspec",
     "lib/innate.rb",
@@ -67,7 +69,6 @@ Gem::Specification.new do |s|
     "lib/innate/route.rb",
     "lib/innate/session.rb",
     "lib/innate/session/flash.rb",
-    "lib/innate/setup.rb",
     "lib/innate/spec.rb",
     "lib/innate/state.rb",
     "lib/innate/state/accessor.rb",
@@ -83,6 +84,7 @@ Gem::Specification.new do |s|
     "lib/rack/reloader.rb",
     "spec/example/hello.rb",
     "spec/example/link.rb",
+    "spec/example/session.rb",
     "spec/helper.rb",
     "spec/innate/action/layout.rb",
     "spec/innate/action/layout/file_layout.erb",
@@ -110,6 +112,7 @@ Gem::Specification.new do |s|
     "spec/innate/node/another_layout/another_layout.erb",
     "spec/innate/node/bar.html",
     "spec/innate/node/foo.html.erb",
+    "spec/innate/node/only_view.html",
     "spec/innate/node/with_layout.erb",
     "spec/innate/options.rb",
     "spec/innate/parameter.rb",

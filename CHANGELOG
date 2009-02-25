@@ -1,3 +1,115 @@
+[04201ef | Wed Feb 25 06:27:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * cleanup
+
+[295a241 | Wed Feb 25 06:27:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Traited#class_trait and docs
+
+[6ed8499 | Wed Feb 25 06:04:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * rebuild middleware if block is passed to Innate.start
+
+[8ce86a7 | Wed Feb 25 06:04:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make the real failures on helper requires visible
+
+[232214e | Wed Feb 25 06:03:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove optimization for wrap_action_call, leads to really weird recursion
+
+[38d0a7b | Wed Feb 25 05:09:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Simplify setting of mode and compilation of middleware
+
+[8c02417 | Wed Feb 25 04:40:11 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Speed up wrap_action_call
+
+[cea8af5 | Wed Feb 25 04:37:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Speed up ancestral_trait
+
+[608a7eb | Tue Feb 24 13:45:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove Innate::Setup, that goes into Ramaze
+
+[785b1e5 | Tue Feb 24 13:45:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove reference to Innate in log to avoid confusion
+
+[3df0612 | Tue Feb 24 13:28:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove the providing_hash example until we come up with a better way to show it
+
+[8309299 | Tue Feb 24 13:25:36 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * small cleanup
+
+[93be7ad | Tue Feb 24 13:25:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec the session example
+
+[7b39146 | Tue Feb 24 13:24:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add missing template for node spec
+
+[d8ccfce | Tue Feb 24 13:22:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add todolist example
+
+[fd73cef | Tue Feb 24 13:06:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't serve a view without method if params are given
+
+[58f9ecd | Tue Feb 24 12:05:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix spec for example/link
+
+[607fc72 | Tue Feb 24 12:05:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Provide shared multipart to enable easy POST specs
+
+[9b833f8 | Tue Feb 24 12:04:48 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Innate::Node, rename LIST to NODE_LIST and HELPERS to DEFAULT_HELPERS
+
+[397cff4 | Tue Feb 24 12:03:38 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * A little bit nicer each in retro games
+
+[0ab5dfe | Tue Feb 24 11:09:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * We don't provide error handling out of the box, remove example
+
+[9466549 | Tue Feb 24 11:06:39 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Clean up code of the whywiki
+
+[715371b | Tue Feb 24 10:58:44 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Bring examples up to date
+
+[378977c | Sun Feb 22 13:14:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add some docs
+
+[566303c | Sun Feb 22 12:34:48 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make Innate::setup and Innate::sync available to Ramaze
+
+[6fa8645 | Sun Feb 22 12:16:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make it easier for Ramaze to set a default engine
+
+[dfe34cd | Sat Feb 21 12:54:34 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Correct usage of git tag
+
+[42d3883 | Sat Feb 21 03:28:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.02.21
+
 [374f218 | Sat Feb 21 03:26:55 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Bring retro games example back to life

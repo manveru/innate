@@ -4,17 +4,19 @@ MANIFEST
 README.md
 Rakefile
 example/app/retro_games.rb
+example/app/todo/layout/default.erb
+example/app/todo/spec/todo.rb
+example/app/todo/start.rb
+example/app/todo/view/index.erb
 example/app/whywiki_erb/layout/wiki.html.erb
 example/app/whywiki_erb/spec/wiki.rb
 example/app/whywiki_erb/start.rb
 example/app/whywiki_erb/view/edit.html.erb
 example/app/whywiki_erb/view/index.html.erb
 example/custom_middleware.rb
-example/error_handling.rb
 example/hello.rb
 example/howto_spec.rb
 example/link.rb
-example/providing_hash.rb
 example/session.rb
 innate.gemspec
 lib/innate.rb
@@ -51,7 +53,6 @@ lib/innate/response.rb
 lib/innate/route.rb
 lib/innate/session.rb
 lib/innate/session/flash.rb
-lib/innate/setup.rb
 lib/innate/spec.rb
 lib/innate/state.rb
 lib/innate/state/accessor.rb
@@ -67,6 +68,7 @@ lib/rack/middleware_compiler.rb
 lib/rack/reloader.rb
 spec/example/hello.rb
 spec/example/link.rb
+spec/example/session.rb
 spec/helper.rb
 spec/innate/action/layout.rb
 spec/innate/action/layout/file_layout.erb
@@ -94,6 +96,7 @@ spec/innate/node.rb
 spec/innate/node/another_layout/another_layout.erb
 spec/innate/node/bar.html
 spec/innate/node/foo.html.erb
+spec/innate/node/only_view.html
 spec/innate/node/with_layout.erb
 spec/innate/options.rb
 spec/innate/parameter.rb
