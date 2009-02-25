@@ -174,11 +174,11 @@ module Innate
     # Figure out files that might have the helper we ask for and then require
     # the first we find, if any.
     def try_require(name)
-      if found = Dir[glob(name)].first
-        require File.expand_path(found)
-      else
-        raise LoadError, "Helper #{name} not found"
-      end
+      found = Dir[glob(name)].first
+      require(File.expand_path(found))
+    rescue Exception => exception
+      Log.error(exception)
+      raise LoadError, "Helper #{name} not found"
     end
 
     # Return a nice list of filenames in correct locations with correct
