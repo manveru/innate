@@ -173,9 +173,6 @@ end
 desc 'install dependencies'
 task :setup do
   GemSetup.new do
-    github = 'http://gems.github.com'
-    Gem.sources << github
-
     gem('rack', '>=0.9.1')
     gem('bacon', '>=1.1.0')
 
