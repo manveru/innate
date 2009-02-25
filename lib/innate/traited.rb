@@ -16,10 +16,14 @@ module Innate
     end
 
     def ancestral_trait
+      result = {}
+
       ancs = respond_to?(:ancestors) ? ancestors : self.class.ancestors
-      ancs.reverse.inject({}){|s,v|
-        v.respond_to?(:trait) ? s.update(v.trait) : s
-      }.merge(trait)
+      ancs.reverse_each do |anc|
+        result.update(anc.trait) if anc.respond_to?(:trait)
+      end
+
+      result.merge!(trait)
     end
   end
 end
