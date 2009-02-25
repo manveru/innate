@@ -543,16 +543,18 @@ module Innate
     # This enables things like action logging, caching, aspects,
     # authentication, etc...
     #
+    # Old inject:
+    #
     # @param [Action] action instance that is being passed to every registered method
     # @param [Proc] block contains the instructions to call the action method if any
     # @see Action#render
     # @author manveru
     def wrap_action_call(action, &block)
       wrap = ancestral_trait[:wrap]
-
-      head, tail = wrap[0], wrap[1..-1]
-      tail.reverse_each{|t| block = lambda{ __send__(t, action, &block) }}
-      __send__(head, action, &block)
+      head, *tail = wrap
+      tail.reverse!
+      combined = tail.inject(block){|s,v| lambda{ __send__(v, action, &s) } }
+      __send__(head, action, &combined)
     end
 
     # For compatibility with new Kernel#binding behaviour in 1.9
