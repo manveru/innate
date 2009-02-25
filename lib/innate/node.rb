@@ -543,8 +543,6 @@ module Innate
     # This enables things like action logging, caching, aspects,
     # authentication, etc...
     #
-    # Old inject:
-    #
     # @param [Action] action instance that is being passed to every registered method
     # @param [Proc] block contains the instructions to call the action method if any
     # @see Action#render
