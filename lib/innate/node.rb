@@ -550,9 +550,9 @@ module Innate
     def wrap_action_call(action, &block)
       wrap = ancestral_trait[:wrap]
 
-      head, tail = wrap[0], wrap[1..-1].reverse
-      combined = tail.inject(block){|s,v| lambda{ __send__(v, action, &s) } }
-      __send__(head, action, &combined)
+      head, tail = wrap[0], wrap[1..-1]
+      tail.reverse_each{|t| block = lambda{ __send__(t, action, &block) }}
+      __send__(head, action, &block)
     end
 
     # For compatibility with new Kernel#binding behaviour in 1.9
