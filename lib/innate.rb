@@ -85,7 +85,7 @@ module Innate
     #
     # @return [nil] if options.started is true
     # @yield [MiddlewareCompiler]
-    # @param [Proc] block will be passed to {setup_middleware}
+    # @param [Proc] block will be passed to {middleware!}
     #
     # @option param :host    [String]  ('0.0.0.0')
     #   IP address or hostname that we respond to - 0.0.0.0 for all
@@ -111,6 +111,7 @@ module Innate
       options.merge!(param)
 
       setup_dependencies
+      middleware!(options.mode, &block) if block_given?
 
       return if options.started
       options.started = true
