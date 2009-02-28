@@ -137,12 +137,8 @@ module Innate
       way = File.basename(view).gsub!(/.*?#{wish}\./, '') if view
       way ||= node.provide[wish] || node.provide['html']
 
-      if way
-        # Rack::Mime.mime_type(".#{wish}", 'text/html')
-        View.get(way).render(self, string)
-      else
-        raise("No templating engine was found for %p" % way)
-      end
+      return View.render(way, self, string || view) if way
+      raise("No templating engine was found for %p" % way)
     end
 
     def wrap_in_layout

@@ -3,7 +3,7 @@ require 'erb'
 module Innate
   module View
     module ERB
-      def self.render(action, string = action.view)
+      def self.render(action, string)
         return unless string.respond_to?(:to_str)
 
         action.copy_variables
