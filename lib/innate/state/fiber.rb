@@ -33,6 +33,10 @@ module Innate
     def key?(key)
       state.key?(key)
     end
+
+    def keys
+      state.keys
+    end
   end
 
   module State
@@ -61,6 +65,11 @@ module Innate
 
       def sync
         yield
+      end
+
+      def defer
+        map = Fiber.current.keys.map{|k| [k, Fiber.current[k]] }
+        Thread.new{|m| Fiber.new{ m.each{|k,v| Fiber.current[k] = v }; yield }}
       end
     end
   end

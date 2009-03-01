@@ -26,5 +26,9 @@ module Innate
     def sync(&block)
       STATE.sync(&block)
     end
+
+    def defer(&block)
+      STATE.defer(&block)
+    end
   end
 end
