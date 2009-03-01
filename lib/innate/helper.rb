@@ -175,7 +175,7 @@ module Innate
     # the first we find, if any.
     def try_require(name)
       found = Dir[glob(name)].first
-      require(File.expand_path(found))
+      require(File.expand_path(found)) if found
     rescue Exception => exception
       Log.error(exception)
       raise LoadError, "Helper #{name} not found"
