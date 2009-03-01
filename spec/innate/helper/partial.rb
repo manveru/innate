@@ -32,6 +32,11 @@ class SpecHelperPartial
   def without_ext
     render_template('partial')
   end
+
+  def with_variable
+    here = 'there'
+    render_template("partial.erb", :here => here)
+  end
 end
 
 class SpecHelperPartialWithLayout < SpecHelperPartial
@@ -73,5 +78,9 @@ describe Innate::Helper::Partial do
 
   should 'render template with layout' do
     get('/with_layout/without_ext').body.should == "<h1>with layout</h1>From Partial \n"
+  end
+
+  should 'variable given to render_template is available as instance variable inside template' do
+    get('/with_variable').body.should == "From Partial there\n"
   end
 end
