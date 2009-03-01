@@ -111,7 +111,7 @@ module Innate
       options.merge!(param)
 
       setup_dependencies
-      middleware!(options.mode, &block) if block_given?
+      middleware!(options[:mode], &block) if block_given?
 
       return if options.started
       options.started = true
@@ -122,7 +122,7 @@ module Innate
     end
 
     def start!(options = Innate.options)
-      Adapter.start(middleware(options.mode), options)
+      Adapter.start(middleware(options[:mode]), options)
     end
 
     def stop(wait = 3)
@@ -144,7 +144,7 @@ module Innate
     # @default mode options.mode
     # @return [Array] with [body, header, status]
     # @author manveru
-    def call(env, mode = options.mode)
+    def call(env, mode = options[:mode])
       middleware(mode).call(env)
     end
 
