@@ -39,7 +39,7 @@ class SpecHelperPartialWithLayout < SpecHelperPartial
   layout('layout')
   view_root '/'
 
-  def layout 
+  def layout
     '<h1>with layout</h1><%= @content %>'
   end
 end
