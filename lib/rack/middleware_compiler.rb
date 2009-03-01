@@ -13,15 +13,18 @@ module Rack
     attr_reader :middlewares, :name
 
     def initialize(name)
-      @name = name
+      @name = name.to_sym
       @middlewares = []
       @compiled = nil
       yield(self) if block_given?
     end
 
-    # FIXME: Should we use `|` or `+`?
-    def use(*mws)
-      @middlewares = mws | @middlewares
+    def use(app, *args, &block)
+      @middlewares << [app, args, block]
+    end
+
+    def apps(*middlewares)
+      @middlewares.concat(middlewares.map{|mw| [mw]})
     end
 
     def run(app)
@@ -65,7 +68,8 @@ module Rack
     end
 
     def compile!
-      @compiled = @middlewares.inject(@app){|a,e| e.new(a) }
+      @compiled = @middlewares.inject(@app){|s, (app, args, block)|
+        app.new(s, *args, &block) }
       self
     end
   end
