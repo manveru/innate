@@ -145,7 +145,9 @@ module Innate
       end
     end
 
-    include Enumerable
+    def to_hash
+      @hash
+    end
 
     def each(&block)
       @hash.each(&block)
