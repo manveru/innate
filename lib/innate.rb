@@ -113,8 +113,8 @@ module Innate
       setup_dependencies
       middleware!(options[:mode], &block) if block_given?
 
-      return if options.started
-      options.started = true
+      return if options[:started]
+      options[:started] = true
 
       trap(options[:trap]){ stop(10) } if options[:trap]
 
@@ -127,13 +127,18 @@ module Innate
 
     def stop(wait = 3)
       Log.info("Shutdown within #{wait} seconds")
+      Timeout.timeout(wait){ teardown_dependencies }
       Timeout.timeout(wait){ exit }
     ensure
       exit!
     end
 
     def setup_dependencies
-      options[:setup].each{|obj| obj.setup }
+      options[:setup].each{|obj| obj.setup if obj.respond_to?(:setup) }
+    end
+
+    def teardown_dependencies
+      options[:setup].each{|obj| obj.teardown if obj.respond_to?(:teardown) }
     end
 
     # Treat Innate like a rack application, pass the rack +env+ and optionally
@@ -156,7 +161,7 @@ module Innate
       Rack::MiddlewareCompiler.build!(mode, &block)
     end
 
-    def middleware_recompile(mode = options.mode)
+    def middleware_recompile(mode = options[:mode])
       Rack::MiddlewareCompiler::COMPILED[mode].compile!
     end
 
