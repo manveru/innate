@@ -24,7 +24,7 @@ module Rack
     end
 
     def apps(*middlewares)
-      @middlewares.concat(middlewares.map{|mw| [mw]})
+      @middlewares.concat(middlewares.map{|mw| [mw, [], nil]})
     end
 
     def run(app)
@@ -39,9 +39,8 @@ module Rack
     def innate
       public_root = ::File.join(Innate.options.app.root.to_s,
                                 Innate.options.app.public.to_s)
-      cascade(
-        Rack::File.new(public_root),
-        Innate::Current.new(Innate::Route.new, Innate::Rewrite.new))
+      cascade(Rack::File.new(public_root),
+              Innate::Current.new(Innate::Route.new, Innate::Rewrite.new))
     end
 
     def static(path)
