@@ -62,20 +62,20 @@ module Innate
       o "Unique identifier for this application",
         :name, 'pristine'
 
-      o "Root directory containing the application",
-        :root, File.dirname($0)
+      o "Root directories containing the application",
+        :root, [File.dirname($0)]
 
-      o "Root directory for view templates, relative to app subdir",
-        :view, '/view'
+      o "Root directories for view templates, relative to app root",
+        :view, ['/view']
 
-      o "Root directory for layout templates, relative to app subdir",
-        :layout, '/layout'
+      o "Root directories for layout templates, relative to app root",
+        :layout, ['/layout']
+
+      o "Root directories for static public files, relative to app root",
+        :public, ['/public']
 
       o "Prefix of this application",
         :prefix, '/'
-
-      o "Root directory for static public files",
-        :public, '/public'
 
       trigger(:public){|v| Innate.middleware_recompile }
     end

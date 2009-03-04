@@ -454,11 +454,8 @@ module Innate
     # @see Node::find_view Node::to_layout Node::find_aliased_view
     # @author manveru
     def to_template(path, wish)
-      return unless path.all?
-
-      path = File.join(*path.map{|pa| pa.to_s.split('__') }.flatten)
       exts = (Array[provide[wish]] + provide.keys).flatten.compact.uniq.join(',')
-      glob = "#{path}.{#{wish}.,#{wish},}{#{exts},}"
+      glob = "#{path_glob(*path)}.{#{wish}.,#{wish},}{#{exts},}"
       found = Dir[glob].uniq
 
       if found.size > 1
@@ -533,6 +530,13 @@ module Innate
       end
 
       return nil
+    end
+
+    def path_glob(*elements)
+      File.join(elements.map{|element|
+        next element unless element.respond_to?(:join)
+        "{%s}" % element.map{|e| e.gsub('__', '/') }.join(',')
+      })
     end
 
     # This awesome piece of hackery implements action AOP, methods may register
