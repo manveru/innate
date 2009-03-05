@@ -188,12 +188,10 @@ module Innate
     def action_found(action)
       result = catch(:respond){ catch(:redirect){ action.call }}
 
-      if result.respond_to?(:finish)
-        return result
-      else
-        Current.response.write(result)
-        return Current.response
-      end
+      return result if result.respond_to?(:finish)
+
+      Current.response.write(result)
+      return Current.response
     end
 
     # The default handler in case no action was found, kind of method_missing.
@@ -532,11 +530,30 @@ module Innate
       return nil
     end
 
+    # @param [String] file
+    # @param [String] wish
+    # @return [nil String] the absolute path to the template or nil
+    # @see Node::find_view Node::to_layout Node::find_aliased_view
+    # @author manveru
+    def to_template(path, wish)
+      glob = "#{path_glob(*path)}#{ext_glob(wish)}"
+      found = Dir[glob].uniq
+
+      count = found.size
+      Log.warn("%d views found for %p.%p" % [count, path, wish]) if count > 1
+
+      found.first
+    end
+
     def path_glob(*elements)
       File.join(elements.map{|element|
-        next element unless element.respond_to?(:join)
-        "{%s}" % element.map{|e| e.gsub('__', '/') }.join(',')
+        "{%s}" % [*element].map{|e| e.gsub('__', '/') }.join(',')
       })
+    end
+
+    def ext_glob(wish)
+      pr = provide
+      "{.#{wish}.,.}{%s}" % [pr[wish], pr.keys].flatten.compact.join(',')
     end
 
     # This awesome piece of hackery implements action AOP, methods may register
