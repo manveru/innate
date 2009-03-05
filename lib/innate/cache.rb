@@ -72,9 +72,9 @@ module Innate
       @instance = klass.new
 
       @instance.cache_setup(
-        options.env.host,
-        options.env.user,
-        options.app.name,
+        options[:env, :host],
+        options[:env, :user],
+        options[:app, :name],
         @name
       )
     end

@@ -38,7 +38,7 @@ module Innate
     DEFAULT_HELPERS = %w[aspect cgi flash link partial redirect send_file]
     NODE_LIST = Set.new
 
-    trait(:layout => nil, :alias_view => {}, :provide => {},
+    trait(:layout => nil, :alias_view => {}, :provide => {}, :app => :pristine,
           :method_arities => {}, :wrap => [:aspect_wrap], :provide_set => false)
 
     # Upon inclusion we make ourselves comfortable.
@@ -378,16 +378,18 @@ module Innate
       aliased = find_aliased_view(file, wish)
       return aliased if aliased
 
-      path = [Innate.options.app.root, Innate.options.app.view, view_root, file]
-      to_template(path, wish)
+      to_template([app_root, app_view, view_root, file], wish)
     end
 
     # This is done to make you feel more at home, pass an absolute path or a
     # path relative to your application root to set it, otherwise you'll get
     # the current mapping.
     def view_root(location = nil)
-      return @view_root = location if location
-      @view_root ||= Innate.to(self)
+      location ? (@view_root = location) : (@view_root ||= Innate.to(self))
+    end
+
+    def layout_root(location = nil)
+      location ? (@layout_root = location) : (@layout_root ||= '/')
     end
 
     # Aliasing one view from another.
@@ -442,25 +444,7 @@ module Innate
     # @see Node::to_template
     # @author manveru
     def to_layout(file, wish)
-      path = [Innate.options.app.root, Innate.options.app.layout, file]
-      to_template(path, wish)
-    end
-
-    # @param [String] file
-    # @param [String] wish
-    # @return [nil String] the absolute path to the template or nil
-    # @see Node::find_view Node::to_layout Node::find_aliased_view
-    # @author manveru
-    def to_template(path, wish)
-      exts = (Array[provide[wish]] + provide.keys).flatten.compact.uniq.join(',')
-      glob = "#{path_glob(*path)}.{#{wish}.,#{wish},}{#{exts},}"
-      found = Dir[glob].uniq
-
-      if found.size > 1
-        Log.warn("%d views found for %p | %p" % [found.size, path, wish])
-      end
-
-      found.first
+      to_template([app_root, app_layout, layout_root, file], wish)
     end
 
     # Define a layout to use on this Node.
@@ -581,7 +565,13 @@ module Innate
     # @return [Binding] binding of the instance being rendered.
     # @see Action#binding
     # @author manveru
-    def binding; super; end
+    def binding; super end
+
+    def options; Innate.options[:app, ancestral_trait[:app]] end
+
+    def app_root; options[:root] end
+    def app_view; options[:view] end
+    def app_layout; options[:layout] end
   end
 
   module SingletonMethods

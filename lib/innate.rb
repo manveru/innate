@@ -106,8 +106,9 @@ module Innate
     # @option param :mode    [Symbol]  (:dev)
     #   Indicates which default middleware to use, (:dev|:live)
     def start(param = {}, &block)
-      options[:app][:root] = go_figure_root(param, caller)
-      param.reject!{|k, v| [:root, :file].include?(k) }
+      app = param[:app] || :pristine
+      options.sub(app).o("Application Root", :root, go_figure_root(param, caller))
+      param.reject!{|k, v| [:app, :root, :file].include?(k) }
       options.merge!(param)
 
       setup_dependencies
