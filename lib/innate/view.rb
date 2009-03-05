@@ -47,11 +47,9 @@ module Innate
     def register(klass, *exts)
       exts.each do |ext|
         ext = ext.to_s
-        if k = ENGINE[ext]
-          Log.warn "#{ext} is assigned to #{k} already"
-        else
-          ENGINE[ext] = klass
-        end
+        k = ENGINE[ext]
+        Log.warn("overwriting %p which is set to %p already" % [ext, k]) if k
+        ENGINE[ext] = klass
       end
     end
 
