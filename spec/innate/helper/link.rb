@@ -85,4 +85,16 @@ describe Innate::Helper::Link do
         should == '<a href="/foo">&lt;blink&gt; &amp; &lt;a&gt;</a>'
     end
   end
+
+  describe 'combining #anchor and #route' do
+    should 'not escape twice' do
+      One.anchor('foo', One.route(:index, :bar => 'a/b/c')).
+        should == '<a href="/index?bar=a%2Fb%2Fc">foo</a>'
+    end
+
+    should 'handle complete uris gracefully' do
+      One.anchor('foo', 'http://example.com/?foo=bar&baz=qux').
+        should == '<a href="http://example.com/?foo=bar&amp;baz=qux">foo</a>'
+    end
+  end
 end

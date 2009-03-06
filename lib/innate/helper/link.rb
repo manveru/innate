@@ -49,10 +49,23 @@ module Innate
       #   Wiki.a('home', :home)           # => '<a href="/wiki/home">home</a>'
       #   Wiki.a('home', :/)              # => '<a href="/wiki/">home</a>'
       #   Wiki.a('foo', :/, :foo => :bar) # => '<a href="/wiki/?foo=bar">foo</a>'
+      #   Wiki.a('example', 'http://example.com')
+      #   # => '<a href="http://example.com">example</a>'
       #
       # @return [String]
       def anchor(text, *args)
-        href = args.empty? ? r(text) : r(*args)
+        first = (args.first || text).to_s
+
+        if first =~ /^\w+:\/\//
+          uri = URI(first)
+          uri.query = Rack::Utils.escape_html(uri.query)
+          href = uri.to_s
+        elsif args.empty?
+          href = r(text)
+        else
+          href = r(*args)
+        end
+
         text = Rack::Utils.escape_html(text)
         %(<a href="#{href}">#{text}</a>)
       end
