@@ -98,8 +98,10 @@ module Innate
       o "Use secure cookie",
         :secure, false
 
+      # Time.at(2147483647) # => Tue Jan 19 12:14:07 +0900 2038
+      # Hopefully we all have 64bit systems by then
       o "Time of cookie expiration",
-        :expires, Time.at(2147483647)
+        :expires, Time.at((1 << 31) - 1)
     end
 
     sub :cache do
