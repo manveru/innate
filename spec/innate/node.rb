@@ -5,7 +5,9 @@ Innate.options.app.view = ''
 Innate.options.app.layout = 'node'
 
 class SpecNode
-  Innate.node('/').provide(:html => :erb, :erb => :none)
+  Innate.node('/')
+  provide(:html, :ERB)
+  provide(:erb, :None)
 
   def foo; end
   def bar; end
@@ -16,7 +18,9 @@ class SpecNode
 end
 
 class SpecNodeProvide
-  Innate.node('/provide').provide(:html => :erb, :erb => :none)
+  Innate.node('/provide')
+  provide(:html, :ERB)
+  provide(:erb, :None)
 
   def foo
     '<%= 21 * 2 %>'
@@ -29,9 +33,16 @@ end
 
 class SpecNodeProvideTemplate
   Innate.node('/provide_template')
-  provide(:html => :erb, :erb => :none, :yaml => :yaml, :json => :json)
-
   view_root 'node'
+
+  provide :html, :ERB
+  provide :erb, :None
+  provide(:yaml){|a,s| ['text/yaml', s.to_yaml] }
+  provide(:json){|a,s| ['application/json', s.to_json] }
+
+  def object
+    {'intro' => 'Hello, World!'}
+  end
 end
 
 class SpecNodeSub < SpecNode

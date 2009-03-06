@@ -3,6 +3,10 @@ require 'erb'
 module Innate
   module View
     module ERB
+      def self.call(action, string)
+        ['text/html', render(action, string)]
+      end
+
       def self.render(action, string)
         return unless string.respond_to?(:to_str)
 

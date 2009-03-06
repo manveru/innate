@@ -8,6 +8,11 @@ module Innate
 
     module_function
 
+    def exts_of(engine)
+      name = engine.to_s
+      ENGINE.reject{|k,v| v != name }.keys
+    end
+
     def render(ext, action, string)
       get(ext).render(action, string)
     end
@@ -22,7 +27,7 @@ module Innate
       elsif klass = ENGINE[eoe]
         TEMP[eoe] = obtain(klass)
       else
-        TEMP[eoe] = const_get(eoe.capitalize)
+        TEMP[eoe] = const_get(eoe)
       end
     end
 
@@ -60,8 +65,7 @@ module Innate
       register("#{self}::#{name}", *exts)
     end
 
-    auto_register :None, :css
-    auto_register :None, :html, :htm
+    auto_register :None, :css, :html, :htm
     auto_register :ERB,  :erb
   end
 end

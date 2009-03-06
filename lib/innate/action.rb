@@ -1,6 +1,6 @@
 module Innate
   ACTION_MEMBERS = [ :node, :method, :params, :view, :layout, :instance, :exts,
-                     :wish, :options, :variables, :value, :view_value, :name ]
+    :wish, :options, :variables, :value, :view_value, :name, :engine ]
 
   class Action < Struct.new(*ACTION_MEMBERS)
     # Holds the default values for merging in {Action::create}
@@ -97,35 +97,12 @@ module Innate
         self.value = instance.__send__(method, *params) if method
         self.view_value = File.read(view) if view
 
-        content_type, body = send(Innate.options.action.wish[wish] || :as_html)
+        content_type, body = wrap_in_layout{ engine.call(self, view_value || value) }
         response = Current.response
         response['Content-Type'] ||= content_type if response
 
         body
       end
-    end
-
-    # @return [Array] Content-Type and rendered action
-    # @see Action#render Action#wrap_in_layout
-    # @author manveru
-    def as_html
-      return 'text/html', wrap_in_layout{ fulfill_wish(view_value || value) }
-    end
-
-    # @return [Array] Content-Type and rendered action
-    # @see Action#render Action#wrap_in_layout
-    # @author manveru
-    def as_yaml
-      require 'yaml'
-      return 'text/yaml', (value || view_value).to_yaml
-    end
-
-    # @return [Array] Content-Type and rendered action
-    # @see Action#render Action#wrap_in_layout
-    # @author manveru
-    def as_json
-      require 'json'
-      return 'application/json', (value || view_value).to_json
     end
 
     # @param [String, #to_str] string to be rendered
@@ -148,8 +125,9 @@ module Innate
       action.view, action.method = layout_view_or_method(*layout)
       action.layout = nil
       action.sync_variables(self)
-      action.variables[:content] = yield
-      action.call
+      content_type, body = yield
+      action.variables[:content] = body
+      return content_type, action.call
     end
 
     def layout_view_or_method(name, arg)

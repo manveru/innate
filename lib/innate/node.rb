@@ -51,7 +51,7 @@ module Innate
       NODE_LIST << into
 
       return if into.ancestral_trait[:provide_set]
-      into.provide(:html => :erb, :yaml => :yaml, :json => :json)
+      into.provide(:html, :ERB)
       into.trait(:provide_set => false)
     end
 
@@ -126,14 +126,18 @@ module Innate
     # /feed.rss will wrap /view/feed.rss.erb in /layout/default.rss.erb
     # /index    will wrap /view/index.erb    in /layout/default.erb
 
-    def provide(formats = {})
-      return ancestral_trait[:provide] if formats.empty?
+    def provide(format, engine = nil, &block)
+      if engine
+        trait "provides_#{format}" => View.get(engine), :provide_set => true
+      elsif block_given?
+        trait "provides_#{format}" => block, :provide_set => true
+      else
+        raise ArgumentError, "Need an engine or block"
+      end
+    end
 
-      hash = {}
-      formats.each{|pr, as| hash[pr.to_s] = Array[*as].map{|a| a.to_s } }
-      trait(:provide => hash, :provide_set => true)
-
-      ancestral_trait[:provide]
+    def provides
+      ancestral_trait.reject{|k,v| k !~ /^provides_/ }
     end
 
     # This makes the Node a valid application for Rack.
@@ -243,9 +247,9 @@ module Innate
     # @see Node::find_provide Node::update_method_arities Node::find_action
     # @author manveru
     def resolve(path)
-      name, wish = find_provide(path)
+      name, wish, engine = find_provide(path)
       update_method_arities
-      find_action(name, wish)
+      find_action(name, wish, engine)
     end
 
     # @param [String] path
@@ -253,14 +257,15 @@ module Innate
     # @see Node::provide
     # @author manveru
     def find_provide(path)
-      name, wish = path, 'html'
+      name, wish, engine = path, 'html', provides['provides_html']
 
-      provide.find do |key, value|
+      provides.find do |key, value|
+        key = key[/^provides_(.*)/, 1]
         next unless path =~ /^(.+)\.#{key}$/i
-        name, wish = $1, key
+        name, wish, engine = $1, key, value
       end
 
-      return name, wish
+      return name, wish, engine
     end
 
     # Now we're talking Action, we try to find a matching template and method,
@@ -271,7 +276,7 @@ module Innate
     # @param [String] given_name the name extracted from REQUEST_PATH
     # @param [String] wish
     # @author manveru
-    def find_action(given_name, wish)
+    def find_action(given_name, wish, engine)
       needs_method = Innate.options.action.needs_method
 
       patterns_for(given_name) do |name, params|
@@ -286,7 +291,8 @@ module Innate
         params ||= []
 
         Action.create(:method => method, :params => params, :layout => layout,
-                      :node => self, :view => view, :wish => wish)
+                      :node => self, :view => view, :wish => wish,
+                      :engine => engine)
       end
     end
 
@@ -533,14 +539,44 @@ module Innate
     def path_glob(*elements)
       File.join(elements.map{|element|
         "{%s}" % [*element].map{|e| e.gsub('__', '/') }.join(',')
-      }).gsub('/{/}/', '/')
+      }).gsub(/\/\{\/?\}\//, '/')
     end
 
+    # 'erb' => '{erb,erb.html,erb.json,erb.yaml}'
+    # 'html' => '{nag,xhtml,nag.html,xhtml.html,nag.json,xhtml.json,nag.yaml,xhtml.yaml}'
+    # 'html' => 'file.{html,json,yaml,}{.nag,.xhtml}'
+    #
+    # <action>.<rep>.<engine-ext>
+    #
+    # foo.html.erb
+    # foo.rss.erb
+    # foo.atom.erb
+    # foo.json.erb
+    # foo.yaml.erb
+    # foo.en.erb
+    # foo.jp.erb
+    # foo.erb
+    #
+    # provide :html => [:erb], :rss => [:erb], :atom => [:nag], :yaml => [:erb]
+    #
+    # /foo.yaml
+    # # => foo.yaml.erb
+    # # => foo.erb
+    #
+    # /foo.rss
+    # # => foo.rss.erb
+    # # => foo.erb
+    #
+    # foo.atom
+    # # => foo.atom.nag
+    # # => foo.nag
+
     def ext_glob(wish)
-      pr = provide
-      return unless wished = pr[wish]
-      represented = pr.keys.map{|k| ".#{k}" }
-      "{%s}{%s,}" % [wished.join(','), represented.join(',')]
+      pr = provides
+      return unless engine = pr["provides_#{wish}"]
+      engine_exts = View.exts_of(engine).join(',')
+      represented = [*wish].map{|k| "#{k}." }.join(',')
+      "{%s,}{%s}" % [represented, engine_exts]
     end
 
     # This awesome piece of hackery implements action AOP, methods may register
