@@ -1,7 +1,7 @@
 require 'spec/helper'
 
 class SpecSession
-  Innate.node('/').provide(:html => :none)
+  Innate.node('/').provide(:html, :None)
 
   def index
     'No session here'

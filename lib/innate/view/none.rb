@@ -2,7 +2,7 @@ module Innate
   module View
     module None
       def self.call(action, string)
-        ['text/plain', string]
+        return string, 'text/html'
       end
     end
   end

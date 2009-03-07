@@ -37,12 +37,6 @@ class SpecNodeProvideTemplate
 
   provide :html, :ERB
   provide :erb, :None
-  provide(:yaml){|a,s| ['text/yaml', s.to_yaml] }
-  provide(:json){|a,s| ['application/json', s.to_json] }
-
-  def object
-    {'intro' => 'Hello, World!'}
-  end
 end
 
 class SpecNodeSub < SpecNode
@@ -147,47 +141,11 @@ describe 'Innate::Node' do
     SpecNodeSub.resolve('/bar').should.be.nil
   end
 
-  should 'provide html if no wish given' do
-    assert_wish('/provide/foo', '42', 'text/html')
-    assert_wish('/provide/bar', '42', 'text/html')
-  end
-
-  should 'provide html as wished' do
-    assert_wish('/provide/foo.html', '42', 'text/html')
-    assert_wish('/provide/bar.html', '42', 'text/html')
-  end
-
-  should 'provide erb as wished' do
-    assert_wish('/provide/foo.erb', "<%= 21 * 2 %>", 'text/html')
-    assert_wish('/provide/bar.erb', "<%= 84 / 2 %>", 'text/html')
-  end
-
-  should 'fulfill wish with templates' do
-    assert_wish('/provide_template/bar.html', "<h1>Hello, World!</h1>",
-                'text/html')
-    assert_wish('/provide_template/bar.erb', "<h1>Hello, World!</h1>",
-                'text/html')
-
-    expected = '0123456789'
-    assert_wish('/provide_template/foo.html', expected, 'text/html')
-    # assert_wish('/provide_template/foo.erb', expected, 'text/plain')
-  end
-
   should 'respond with 404 if no action was found' do
     got = Innate::Mock.get('/does_not_exist')
     got.status.should == 404
     got.body.should == 'No action found at: "/does_not_exist"'
     got['Content-Type'].should == 'text/plain'
-  end
-
-  should 'respond with yaml' do
-    assert_wish('/provide_template/bar.yaml', "--- |\n<h1>Hello, World!</h1>",
-                'text/yaml')
-  end
-
-  should 'respond with json' do
-    assert_wish('/provide_template/bar.json', '"<h1>Hello, World!<\\/h1>\\n"',
-                'application/json')
   end
 
   should 'wrap with layout' do

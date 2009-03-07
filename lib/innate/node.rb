@@ -126,18 +126,23 @@ module Innate
     # /feed.rss will wrap /view/feed.rss.erb in /layout/default.rss.erb
     # /index    will wrap /view/index.erb    in /layout/default.erb
 
-    def provide(format, engine = nil, &block)
-      if engine
-        trait "provides_#{format}" => View.get(engine), :provide_set => true
-      elsif block_given?
-        trait "provides_#{format}" => block, :provide_set => true
+    def provide(format, options = {}, &block)
+      if options.respond_to?(:to_hash)
+        options = options.to_hash
+        handler = block || View.get(options[:engine])
+        content_type = options[:type]
       else
-        raise ArgumentError, "Need an engine or block"
+        handler = View.get(options)
       end
+
+      raise(ArgumentError, "Need an engine or block") unless handler
+
+      trait("#{format}_handler"      => handler, :provide_set => true)
+      trait("#{format}_content_type" => content_type) if content_type
     end
 
     def provides
-      ancestral_trait.reject{|k,v| k !~ /^provides_/ }
+      ancestral_trait.reject{|k,v| k !~ /_handler$/ }
     end
 
     # This makes the Node a valid application for Rack.
@@ -167,7 +172,6 @@ module Innate
 
       response.reset
       response = try_resolve(path)
-      response['Content-Type'] ||= 'text/html'
 
       Current.session.flush(response)
 
@@ -190,12 +194,15 @@ module Innate
     # @param [Innate::Action] action
     # @return [Innate::Response]
     def action_found(action)
-      result = catch(:respond){ catch(:redirect){ action.call }}
+      response = catch(:respond){ catch(:redirect){ action.call }}
 
-      return result if result.respond_to?(:finish)
+      unless response.respond_to?(:finish)
+        self.response.write(response)
+        response = self.response
+      end
 
-      Current.response.write(result)
-      return Current.response
+      response['Content-Type'] ||= action.options[:content_type]
+      response
     end
 
     # The default handler in case no action was found, kind of method_missing.
@@ -248,19 +255,27 @@ module Innate
     # @author manveru
     def resolve(path)
       name, wish, engine = find_provide(path)
+      action = Action.create(:node => self, :wish => wish, :engine => engine)
+
+      if content_type = ancestral_trait["#{wish}_content_type"]
+        action.options = {:content_type => content_type}
+      end
+
       update_method_arities
-      find_action(name, wish, engine)
+      fill_action(action, name)
     end
 
     # @param [String] path
-    # @return [Array] with name and wish
-    # @see Node::provide
+    # @return [Array] with name, wish, engine
+    # @see Node::provide Node::provides
     # @author manveru
     def find_provide(path)
-      name, wish, engine = path, 'html', provides['provides_html']
+      pr = provides
 
-      provides.find do |key, value|
-        key = key[/^provides_(.*)/, 1]
+      name, wish, engine = path, 'html', pr['html_handler']
+
+      pr.find do |key, value|
+        key = key[/(.*)_handler$/, 1]
         next unless path =~ /^(.+)\.#{key}$/i
         name, wish, engine = $1, key, value
       end
@@ -276,23 +291,19 @@ module Innate
     # @param [String] given_name the name extracted from REQUEST_PATH
     # @param [String] wish
     # @author manveru
-    def find_action(given_name, wish, engine)
+    def fill_action(action, given_name)
       needs_method = Innate.options.action.needs_method
+      wish = action.wish
 
       patterns_for(given_name) do |name, params|
         method = find_method(name, params)
-        view = find_view(name, wish)
 
-        next unless view or method
         next unless method if needs_method
         next unless method if params.any?
+        next unless (view = find_view(name, wish)) or method
 
-        layout = find_layout(name, wish)
-        params ||= []
-
-        Action.create(:method => method, :params => params, :layout => layout,
-                      :node => self, :view => view, :wish => wish,
-                      :engine => engine)
+        action.merge!(:method => method, :view => view, :params => params,
+                      :layout => find_layout(name, wish))
       end
     end
 
@@ -573,7 +584,7 @@ module Innate
 
     def ext_glob(wish)
       pr = provides
-      return unless engine = pr["provides_#{wish}"]
+      return unless engine = pr["#{wish}_handler"]
       engine_exts = View.exts_of(engine).join(',')
       represented = [*wish].map{|k| "#{k}." }.join(',')
       "{%s,}{%s}" % [represented, engine_exts]

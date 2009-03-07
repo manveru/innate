@@ -3,7 +3,7 @@ Innate.options.app.root = File.dirname(__FILE__)
 Innate.options.app.view = ''
 
 class AspectSpec
-  Innate.node('/', self).provide(:html => :none)
+  Innate.node('/', self).provide(:html, :None)
 
   before(:with_before){ $aspect_spec_before += 40 }
   def with_before; $aspect_spec_before += 2; end
@@ -19,7 +19,7 @@ class AspectSpec
 end
 
 class AspectAllSpec
-  Innate.node('/all', self).provide(:html => :none)
+  Innate.node('/all', self).provide(:html, :None)
 
   before_all{ $aspect_spec_before_all += 40; @foo = 'Hello'; @bar = 'World' }
   after_all{  $aspect_spec_after_all += 40 }

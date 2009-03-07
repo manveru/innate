@@ -1,9 +1,7 @@
 require 'spec/helper'
 
 class SpecRouter
-  include Innate::Node
-  map '/'
-  provide :html => :None
+  Innate.node('/').provide(:html, :None)
 
   def float(flt)
     "Float: %3.3f" % flt
@@ -126,7 +124,7 @@ describe Innate::Rewrite do
     got.status.should == 200
     got.body.should == 'this is bar'
   end
-  
+
   it 'should rewite with (key, val)' do
     Innate::Rewrite[ %r!^/(.+)$! ] = nil
     Innate::Rewrite(%r!^/(.+)$!, "/string/%s")
