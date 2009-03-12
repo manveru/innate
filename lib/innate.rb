@@ -154,16 +154,16 @@ module Innate
       middleware(mode).call(env)
     end
 
-    def middleware(mode, &block)
-      Rack::MiddlewareCompiler.build(mode, &block)
+    def middleware(mode = options[:mode], &block)
+      options[:middleware_compiler].build(mode, &block)
     end
 
-    def middleware!(mode, &block)
-      Rack::MiddlewareCompiler.build!(mode, &block)
+    def middleware!(mode = options[:mode], &block)
+      options[:middleware_compiler].build!(mode, &block)
     end
 
     def middleware_recompile(mode = options[:mode])
-      Rack::MiddlewareCompiler::COMPILED[mode].compile!
+      options[:middleware_compiler]::COMPILED[mode].compile!
     end
 
     # Innate can be started by:

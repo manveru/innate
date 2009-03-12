@@ -1,4 +1,4 @@
-module Rack
+module Innate
   class MiddlewareCompiler
     COMPILED = {}
 
@@ -36,11 +36,13 @@ module Rack
     end
 
     # Default application for Innate
-    def innate
+    def innate(app = Innate)
       public_root = ::File.join(Innate.options.app.root.to_s,
                                 Innate.options.app.public.to_s)
-      cascade(Rack::File.new(public_root),
-              Innate::Current.new(Innate::Route.new, Innate::Rewrite.new))
+      cascade(
+        Rack::File.new(public_root),
+        Innate::Current.new(
+          Innate::Route.new(app), Innate::Rewrite.new(app)))
     end
 
     def static(path)

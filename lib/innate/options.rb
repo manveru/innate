@@ -32,6 +32,9 @@ module Innate
     o "Keep state in Thread or Fiber, fall back to Thread if Fiber not available",
       :state, :Fiber
 
+    o "The compiler for middleware",
+      :middleware_compiler, Innate::MiddlewareCompiler
+
     o "Indicates which default middleware to use, (:dev|:live)",
       :mode, :dev
 
