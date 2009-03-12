@@ -23,7 +23,7 @@ class SpecFlash
   def set_delete_key
     flash[:name] = 'manveru'
     flash.delete(:name)
-    flash[:name]
+    flash[:name].to_s
   end
 
   def delete_key
