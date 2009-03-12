@@ -57,7 +57,7 @@ module Innate
 
     def self.setup
       NODE_LIST.each{|node| Innate.map(node.mapping, node) }
-      Log.debug("Mapped Nodes: %p" % DynaMap::MAP)
+      Log.debug("Mapped Nodes: %p" % DynaMap.to_hash)
     end
 
     # @return [String] the relative path to the node

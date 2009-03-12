@@ -36,13 +36,12 @@ module Innate
     end
 
     # Default application for Innate
-    def innate(app = Innate)
-      public_root = ::File.join(Innate.options.app.root.to_s,
-                                Innate.options.app.public.to_s)
+    def innate(app = Innate::DynaMap)
+      public_root = ::File.join(Innate.options[:app, :root].to_s,
+                                Innate.options[:app, :public].to_s)
       cascade(
         Rack::File.new(public_root),
-        Innate::Current.new(
-          Innate::Route.new(app), Innate::Rewrite.new(app)))
+        Current.new(Route.new(app), Rewrite.new(app)))
     end
 
     def static(path)

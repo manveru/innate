@@ -38,6 +38,7 @@ module Innate
   require 'innate/traited'
   require 'innate/cache'
   require 'innate/node'
+  require 'innate/middleware_compiler'
   require 'innate/options'
   require 'innate/log'
   require 'innate/state'
@@ -52,10 +53,6 @@ module Innate
   require 'innate/session/flash'
   require 'innate/dynamap'
   require 'innate/route'
-
-  # innate lib/rack
-  require 'rack/reloader'
-  require 'rack/middleware_compiler'
 
   extend Trinity
 

@@ -1,37 +1,47 @@
 module Innate
-
-  # This is a dynamic routing mapper used to outsmart Rack::URLMap
-  # Every time a mapping is changed a new Rack::URLMap will be put into
-  # Innate::DynaMap::CACHE[:map]
-  class DynaMap
-    MAP = {}
-    CACHE = {}
-
-    # Delegate the call to the current Rack::URLMap instance.
-    #
-    # @note Currently Rack::URLMap will destructively modify PATH_INFO and
-    #   SCRIPT_NAME, which leads to incorrect routing as parts of the PATH_INFO
-    #   are cut out if they matched once. Here I repair this damage and hope
-    #   that my patch to rack will be accepted.
-    #   Update: patch was accepted, will remove it on next rack release
-    def self.call(env)
-      if app = CACHE[:map]
-        script_name, path_info = env['SCRIPT_NAME'], env['PATH_INFO']
-        answer = app.call(env)
-        env.merge!('SCRIPT_NAME' => script_name, 'PATH_INFO' => path_info)
-        answer
-      else
-        raise "Nothing mapped yet"
-      end
+  class URLMap < Rack::URLMap
+    def initialize(map = {})
+      @originals = map
+      super
     end
 
-    # Map node to location, create a new Rack::URLMap instance and cache it.
-    def self.map(location, node)
-      return unless location
-      MAP[location.to_s] = node
-      CACHE[:map] = Rack::URLMap.new(MAP)
+    # super may raise when given invalid locations, so we only replace the
+    # @originals if we are sure the new map is valid
+    def remap(map)
+      value = super
+      @originals = map
+      value
+    end
+
+    def map(location, object)
+      return unless location and object
+      remap(@originals.merge(location.to_s => object))
+    end
+
+    def at(location)
+      @originals[location]
+    end
+
+    def to(object)
+      @originals.invert[object]
+    end
+
+    def to_hash
+      @originals.dup
+    end
+
+    def call(env)
+      raise "Nothing mapped yet" if @originals.empty?
+      super
     end
   end
+
+  DynaMap = URLMap.new
+
+  # script_name, path_info = env['SCRIPT_NAME'], env['PATH_INFO']
+  # answer = app.call(env)
+  # env.merge!('SCRIPT_NAME' => script_name, 'PATH_INFO' => path_info)
+  # answer
 
   module SingletonMethods
     # Maps the given +object+ or +block+ to +location+, +object+ must respond to
@@ -61,7 +71,7 @@ module Innate
     #
     #   Innate.at('/') # => Hello
     def at(location)
-      DynaMap::MAP[location.to_s]
+      DynaMap.at(location)
     end
 
     # Returns one of the paths the given +object+ is mapped to.
@@ -75,7 +85,7 @@ module Innate
     #
     #   Innate.to(Hello) # => '/'
     def to(object)
-      DynaMap::MAP.invert[object]
+      DynaMap.to(object)
     end
   end
 end
