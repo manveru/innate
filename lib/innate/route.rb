@@ -64,6 +64,7 @@ module Innate
       path << '/' if path.empty?
 
       if modified = resolve(path)
+        Log.debug("%s routes %p to %p" % [self.class.name, path, modified])
         env['PATH_INFO'] = modified
       end
 
