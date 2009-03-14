@@ -76,11 +76,12 @@ module Innate
     # @param [Object]  value may be anything
     # @param [Hash]    other optional Hash containing meta-data
     #                        :doc, :value keys will be ignored
-    def o(doc, key, value, other = {}, &block)
+    def option(doc, key, value, other = {}, &block)
       trigger = block || other[:trigger]
       convert = {:doc => doc.to_s, :value => value, :trigger => trigger}
       @hash[key.to_sym] = other.merge(convert)
     end
+    alias o option
 
     # To avoid lookup on the parent, we can set a default to the internal Hash.
     # Parameters as in {Options#o}, but without the +key+.
@@ -109,6 +110,12 @@ module Innate
       elsif sub_options = get(key)
         sub_options.get(*keys)
       end
+    end
+
+    # @param [Array] keys
+    # @param [Object] value
+    def set_value(keys, value)
+      get(*keys)[:value] = value
     end
 
     # Retrieve only the :value from the value hash if found via +keys+.
@@ -140,8 +147,8 @@ module Innate
     end
 
     def merge!(hash)
-      hash.each do |key, value|
-        self[key] = value
+      hash.each_pair do |key, value|
+        set_value(key.to_s.split('.'), value)
       end
     end
 
@@ -149,8 +156,14 @@ module Innate
       @hash
     end
 
-    def each(&block)
+    def each_option(&block)
       @hash.each(&block)
+    end
+
+    def each_pair(&block)
+      @hash.each do |key, values|
+        yield(key, self[key])
+      end
     end
 
     def inspect
@@ -159,6 +172,28 @@ module Innate
 
     def pretty_print(q)
       q.pp_hash @hash
+    end
+  end
+
+  # extend your class with this
+  module Optional
+    def self.included(into)
+      into.extend(SingletonMethods)
+
+      snaked = into.name.split('::').last
+      snaked = snaked.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase.gsub(' ', '_')
+      into.instance_variable_set(:@options, Options.new(into.name))
+      Innate.options.option(into.name, snaked.to_sym, into.options)
+    end
+
+    module SingletonMethods
+      attr_reader :options
+    end
+
+    private
+
+    def options
+      self.class.options
     end
   end
 end
