@@ -1,15 +1,8 @@
 module Innate
-  state = options[:state]
-
-  if state == :Fiber
-    begin
-      require 'innate/state/fiber'
-      STATE = State::Fiber.new
-    rescue LoadError
-      require 'innate/state/thread'
-      STATE = State::Thread.new
-    end
-  else
+  begin
+    require 'innate/state/fiber'
+    STATE = State::Fiber.new
+  rescue LoadError
     require 'innate/state/thread'
     STATE = State::Thread.new
   end

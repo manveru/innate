@@ -56,9 +56,9 @@ describe Innate::Helper::Link do
     end
 
     should 'prefix the links as defined in the options' do
-      Innate.options.app.prefix = '/bar'
+      Innate::Node.options.prefix = '/bar'
       One.route('/foo').should == URI('/bar/foo')
-      Innate.options.app.prefix = '/'
+      Innate::Node.options.prefix = '/'
     end
   end
 

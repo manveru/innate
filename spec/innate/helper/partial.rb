@@ -1,7 +1,5 @@
 require 'spec/helper'
 
-Innate.options.app.root = File.dirname(__FILE__)
-
 class SpecHelperPartial
   Innate.node '/'
 

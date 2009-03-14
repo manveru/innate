@@ -3,8 +3,6 @@
 
 require 'spec/helper'
 
-Innate.options.app.root = File.dirname(__FILE__)
-
 class SpecActionLayoutMethod
   Innate.node('/from_method', self)
   layout('method_layout')

@@ -1,6 +1,6 @@
 require 'spec/helper'
-Innate.options.app.root = File.dirname(__FILE__)
-Innate.options.app.view = ''
+
+Innate::Node.options.view = ''
 
 class AspectSpec
   Innate.node('/', self).provide(:html, :None)

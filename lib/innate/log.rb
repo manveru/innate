@@ -2,13 +2,10 @@ require 'innate/log/hub'
 require 'innate/log/color_formatter'
 
 module Innate
-  logdev, *params = options.log.params
-  color = options.log.color
-  color = Logger::ColorFormatter.color?(logdev) if color.nil?
+  logdev = $stderr
+  logger = Logger.new(logdev)
 
-  logger = Logger.new(logdev, *params)
-
-  if color
+  if Logger::ColorFormatter.color?(logdev)
     begin
       require 'win32console' if RUBY_PLATFORM =~ /win32/i
 

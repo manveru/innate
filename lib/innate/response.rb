@@ -5,6 +5,13 @@ module Innate
   # just do this.
 
   class Response < Rack::Response
+    include Optional
+
+    options.dsl do
+      o "Default headers, will not override headers already set",
+        :headers, {'Content-Type' => 'text/html'}
+    end
+
     attr_accessor :length
 
     def reset
@@ -13,6 +20,11 @@ module Innate
       body.clear
       self.length = 0
       self
+    end
+
+    def finish
+      options.headers.each{|key, value| self[key] ||= value }
+      super
     end
   end
 end

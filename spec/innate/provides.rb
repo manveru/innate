@@ -1,9 +1,7 @@
 require 'spec/helper'
 require 'json'
 
-Innate.options.app.root = File.dirname(__FILE__)
-Innate.options.app.view = 'provides'
-Innate.options.app.layout = 'provides'
+Innate::Node.options.merge!(:view => 'provides', :layout => 'provides')
 
 class SpecNodeProvides
   Innate.node '/'

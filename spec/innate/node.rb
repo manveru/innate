@@ -1,8 +1,6 @@
 require 'spec/helper'
 
-Innate.options.app.root = File.dirname(__FILE__)
-Innate.options.app.view = ''
-Innate.options.app.layout = 'node'
+Innate::Node.options.merge!(:view => '', :layout => 'node')
 
 class SpecNode
   Innate.node('/')

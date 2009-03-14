@@ -29,20 +29,25 @@ module Innate
   # 3rd party
   require 'rack'
 
-  # innate core patches
+  # innates ruby core patches
   require 'innate/core_compatibility/string'
   require 'innate/core_compatibility/basic_object'
 
   # innate core
   require 'innate/version'
   require 'innate/traited'
+  require 'innate/trinity'
+  require 'innate/middleware_compiler'
+  require 'innate/options/dsl'
+  require 'innate/options/stub'
+  require 'innate/dynamap'
+
+  # innate full
   require 'innate/cache'
   require 'innate/node'
-  require 'innate/middleware_compiler'
   require 'innate/options'
   require 'innate/log'
   require 'innate/state'
-  require 'innate/trinity'
   require 'innate/current'
   require 'innate/mock'
   require 'innate/adapter'
@@ -51,7 +56,6 @@ module Innate
   require 'innate/view'
   require 'innate/session'
   require 'innate/session/flash'
-  require 'innate/dynamap'
   require 'innate/route'
 
   extend Trinity
@@ -90,7 +94,7 @@ module Innate
     #   Port for the server
     # @option param :started [boolean] (false)
     #   Indicate that calls Innate::start will be ignored
-    # @option param :adapter [Symbol]  (:webrick)
+    # @option param :handler [Symbol]  (:webrick)
     #   Web server to run on
     # @option param :setup   [Array]   ([Innate::Cache, Innate::Node])
     #   Will send ::setup to each element during Innate::start
@@ -102,11 +106,28 @@ module Innate
     #   Keep state in Thread or Fiber, fall back to Thread if Fiber not available
     # @option param :mode    [Symbol]  (:dev)
     #   Indicates which default middleware to use, (:dev|:live)
-    def start(param = {}, &block)
+    def start(given_options = {}, &block)
+      options.merge!(given_options)
+
+      mode, started = options.mode, options.started
+
+      setup_dependencies
+      middleware!(options.mode, &block) if block_given?
+
+      return if options.started
+      options.started = true
+
+      signal = options.trap
+      trap(signal){ stop(10) } if signal
+
+      start!
+
+=begin
+      p :start => param
       app = param[:app] || :pristine
-      options.sub(app).o("Application Root", :root, go_figure_root(param, caller))
-      param.reject!{|k, v| [:app, :root, :file].include?(k) }
-      options.merge!(param)
+#       options.sub(app).o("Application Root", :root, go_figure_root(param, caller))
+#       param.reject!{|k, v| [:app, :root, :file].include?(k) }
+#       options.merge!(param)
 
       setup_dependencies
       middleware!(options[:mode], &block) if block_given?
@@ -116,11 +137,13 @@ module Innate
 
       trap(options[:trap]){ stop(10) } if options[:trap]
 
-      start!(options)
+      start!
+=end
     end
 
-    def start!(options = Innate.options)
-      Adapter.start(middleware(options[:mode]), options)
+    def start!
+      mode = options[:mode]
+      Adapter.start(middleware(mode), Adapter.options)
     end
 
     def stop(wait = 3)

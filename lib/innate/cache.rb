@@ -14,7 +14,7 @@ module Innate
   #
   # Configuration:
   #
-  #   Innate.options.cache do |cache|
+  #   Innate::Cache.options do |cache|
   #     cache.names = [:session, :user]
   #     cache.session = Innate::Cache::Marshal
   #     cache.user = Innate::Cache::YAML
@@ -61,20 +61,28 @@ module Innate
     autoload :Marshal,   'innate/cache/marshal'
     autoload :FileBased, 'innate/cache/file_based'
 
+    include Optional
+
+    options.dsl do
+      o "Assign a cache to each of these names on Innate::Cache::setup",
+        :names, [:session]
+
+      default "If no option for the cache name exists, fall back to this",
+        Innate::Cache::Memory
+    end
+
     attr_reader :name, :instance
 
     def initialize(name, klass = nil)
       @name = name.to_s.dup.freeze
 
-      options = Innate.options
-
-      klass ||= options[:cache, @name.to_sym]
+      klass ||= options[@name.to_sym]
       @instance = klass.new
 
       @instance.cache_setup(
-        options[:env, :host],
-        options[:env, :user],
-        options[:app, :name],
+        ENV['HOSTNAME'],
+        ENV['USER'],
+        'pristine',
         @name
       )
     end
@@ -86,7 +94,7 @@ module Innate
     # @return [Array] names of caches initialized
     # @author manveru
     def self.setup
-      Innate.options.cache.names.each{|name| add(name) }
+      options.names.each{|name| add(name) }
     end
 
     # Add accessors for cache
