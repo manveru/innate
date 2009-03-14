@@ -67,7 +67,7 @@ module Innate
     DEFAULT_HELPERS = %w[aspect cgi flash link partial redirect send_file]
     NODE_LIST = Set.new
 
-    trait(:layout => nil, :alias_view => {}, :provide => {}, :app => :pristine,
+    trait(:layout => nil, :alias_view => {}, :provide => {},
           :method_arities => {}, :wrap => [:aspect_wrap], :provide_set => false)
 
     # Upon inclusion we make ourselves comfortable.
