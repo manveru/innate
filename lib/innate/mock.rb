@@ -1,6 +1,7 @@
 module Innate
   module Mock
     HTTP_METHODS = %w[ CONNECT DELETE GET HEAD OPTIONS POST PUT TRACE ]
+    OPTIONS = {:app => Innate}
 
     HTTP_METHODS.each do |method|
       (class << self; self; end).
@@ -13,8 +14,8 @@ module Innate
       mock_request.request(method, *args)
     end
 
-    def self.mock_request
-      Rack::MockRequest.new(Innate)
+    def self.mock_request(app = OPTIONS[:app])
+      Rack::MockRequest.new(app)
     end
 
     def self.session
