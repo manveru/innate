@@ -132,6 +132,8 @@ module Innate
       if ns = @hash[key.to_sym]
         ns[:value] = value
         ns[:trigger].call(value) if ns[:trigger].respond_to?(:call)
+      elsif existing = get(key)
+        option(existing[:doc].to_s.dup, key, value)
       else
         raise(ArgumentError, "No key for %p exists" % [key])
       end
