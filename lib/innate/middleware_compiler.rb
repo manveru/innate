@@ -37,11 +37,17 @@ module Innate
 
     # Default application for Innate
     def innate(app = Innate::DynaMap)
-      public_root = ::File.join(Innate.options[:app, :root].to_s,
-                                Innate.options[:app, :public].to_s)
-      cascade(
-        Rack::File.new(public_root),
-        Current.new(Route.new(app), Rewrite.new(app)))
+      options = Innate::Node.options
+
+      roots = [*options.root]
+      publics = [*options.public]
+
+      joined = roots.map{|root| publics.map{|public| ::File.join(root, public)}}
+
+      apps = joined.flatten.map{|pr| Rack::File.new(pr) }
+      apps << Current.new(Route.new(app), Rewrite.new(app))
+
+      cascade(*apps)
     end
 
     def static(path)
