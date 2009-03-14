@@ -57,19 +57,41 @@ describe Options do
     @options.deep.port.should == 7000
   end
 
+  should '#set_value to set a nested value directly' do
+    @options.set_value([:deep, :down, :me], 'me deep down')
+    @options.deep.down.me.should == 'me deep down'
+  end
+
   should 'merge! existing options with other Enumerable' do
     @options.merge!(:port => 4000, :name => 'feagliir')
     @options.port.should == 4000
     @options.name.should == 'feagliir'
   end
 
-  should 'Be Enumerable' do
-    keys, values = [], []
+  should 'iterate via #each_pair' do
+    given_keys = [:deep, :name, :port]
+    given_values = [@options[:deep], @options[:name], @options[:port]]
 
-    @options.each{|k, v| keys << k; values << v }
+    @options.each_pair do |key, value|
+      given_keys.delete(key)
+      given_values.delete(value)
+    end
 
-    keys.compact.sort_by{|k| k.to_s }.should == [:deep, :name, :port]
-    values.compact.size.should == 3
+    given_keys.should.be.empty
+    given_values.should.be.empty
+  end
+
+  should 'iterate via #each_option' do
+    given_keys = [:deep, :name, :port]
+    given_values = [@options.get(:deep), @options.get(:name), @options.get(:port)]
+
+    @options.each_option do |key, option|
+      given_keys.delete(key)
+      given_values.delete(option)
+    end
+
+    given_keys.should.be.empty
+    given_values.should.be.empty
   end
 
   should "raise when trying to assign to key that doesn't exist" do
