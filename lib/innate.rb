@@ -107,6 +107,13 @@ module Innate
     # @option param :mode    [Symbol]  (:dev)
     #   Indicates which default middleware to use, (:dev|:live)
     def start(given_options = {}, &block)
+      root = given_options.delete(:root)
+      file = given_options.delete(:file)
+
+      if found_root = go_figure_root(:root => root, :file => file)
+        $0 = found_root
+      end
+
       options.merge!(given_options)
 
       mode, started = options.mode, options.started
@@ -177,7 +184,7 @@ module Innate
     #
     # TODO: better documentation and nice defaults, don't want to rely on a
     #       filename, bad mojo.
-    def go_figure_root(options, backtrace)
+    def go_figure_root(options, backtrace = caller)
       if o_file = options[:file]
         return File.dirname(o_file)
       elsif root = options[:root]
