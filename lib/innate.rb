@@ -121,29 +121,10 @@ module Innate
       trap(signal){ stop(10) } if signal
 
       start!
-
-=begin
-      p :start => param
-      app = param[:app] || :pristine
-#       options.sub(app).o("Application Root", :root, go_figure_root(param, caller))
-#       param.reject!{|k, v| [:app, :root, :file].include?(k) }
-#       options.merge!(param)
-
-      setup_dependencies
-      middleware!(options[:mode], &block) if block_given?
-
-      return if options[:started]
-      options[:started] = true
-
-      trap(options[:trap]){ stop(10) } if options[:trap]
-
-      start!
-=end
     end
 
-    def start!
-      mode = options[:mode]
-      Adapter.start(middleware(mode), Adapter.options)
+    def start!(mode = options[:mode])
+      Adapter.start(middleware(mode))
     end
 
     def stop(wait = 3)

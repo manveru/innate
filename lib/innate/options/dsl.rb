@@ -184,8 +184,9 @@ module Innate
 
       snaked = into.name.split('::').last
       snaked = snaked.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase.gsub(' ', '_')
-      into.instance_variable_set(:@options, Options.new(into.name))
-      Innate.options.option(into.name, snaked.to_sym, into.options)
+
+      options = Innate.options.sub(snaked)
+      into.instance_variable_set(:@options, options)
     end
 
     module SingletonMethods
