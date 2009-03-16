@@ -89,7 +89,19 @@ module Innate
       Log.debug("Mapped Nodes: %p" % DynaMap.to_hash)
     end
 
+    # Tries to find the relative url that this {Node} is mapped to.
+    # If it cannot find one it will instead generate one based on the
+    # camel-cased name of itself.
+    #
+    # @example Usage:
+    #
+    #   class FooBar
+    #     include Innate::Node
+    #   end
+    #   FooBar.mapping # => '/foo_bar'
+    #
     # @return [String] the relative path to the node
+    # @see Innate::SingletonMethods#to
     def mapping
       mapped = Innate.to(self)
       return mapped if mapped
@@ -97,63 +109,79 @@ module Innate
       "/" << self.name.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase
     end
 
-    # Shortcut to map or remap this Node
+    # Shortcut to map or remap this Node.
+    #
+    # @example Usage for explicit mapping:
+    #
+    #   class FooBar
+    #     include Innate::Node
+    #     map '/foo_bar'
+    #   end
+    #
+    #   Innate.to(FooBar) # => '/foo_bar'
+    #
+    # @example Usage for automatic mapping:
+    #
+    #   class FooBar
+    #     include Innate::Node
+    #     map mapping
+    #   end
+    #
+    #   Innate.to(FooBar) # => '/foo_bar'
+    #
     # @param [#to_s] location
     def map(location)
       Innate.map(location, self)
     end
 
-    # This little piece of nasty looking code enables you to provide different
-    # content from a single action.
+    # Specify which way contents are provided and processed.
     #
-    # @example
+    # Use this to set a templating engine, custom Content-Type, or pass a block
+    # to take over the processing of the {Action} and template yourself.
     #
-    #   class Feeds
+    # Provides set via this method will be inherited into subclasses.
+    #
+    # The +format+ is extracted from the PATH_INFO, it simply represents the
+    # last extension name in the path.
+    #
+    # The provide also has influence on the chosen templates for the {Action}.
+    #
+    # @example providing RSS with ERB templating
+    #
+    #   provide :rss, :engine => :ERB
+    #
+    # Given a request to `/list.rss` the template lookup first tries to find
+    # `list.rss.erb`, if that fails it falls back to `list.erb`.
+    # If neither of these are available it will try to use the return value of
+    # the method in the {Action} as template.
+    #
+    # A request to `/list.yaml` would match the format 'yaml'
+    #
+    # @example providing a yaml version of actions
+    #
+    #   class Articles
     #     include Innate::Node
-    #     map '/feed'
+    #     map '/article'
     #
-    #     provide :html => :erb, :rss => :erb, :atom => :erb
+    #     provide(:yaml, :type => 'text/yaml'){|action, value| value.to_yaml }
     #
-    #     def index
-    #       @feed = build_some_feed
+    #     def list
+    #       @articles = Article.list
     #     end
     #   end
     #
-    # This will do following to these requests:
+    # @example providing plain text inspect version
     #
-    # /feed      # => call Feeds#index with template /view/feed/index.erb
-    # /feed.atom # => call Feeds#index with template /view/feed/index.atom.erb
-    # /feed.rss  # => call Feeds#index with template /view/feed/index.rss.erb
+    #   class Articles
+    #     include Innate::Node
+    #     map '/article'
     #
-    # If index.atom.erb isn't available we fall back to /view/feed/index.erb
+    #     provide(:txt, :type => 'text/plain'){|action, value| value.inspect }
     #
-    # So it's really easy to add your own content representation.
-    #
-    # If no matching provider is found for the given extension it will fall
-    # back to the one specified for html.
-    #
-    # The correct templating engine is selected by matching the last extension
-    # of the template itself to the one set in Innate::View.
-    #
-    # If you don't want that your response is passed through a templating
-    # engine, use :none like:
-    #
-    #   provide :txt => :none
-    #
-    # So a request to
-    #
-    # /feed.txt # => call Feeds#index with template /view/feed/index.txt.erb
-    #
-    # NOTE: provides also have effect on the chosen layout for the action.
-    #
-    # Given a Node at '/' with `layout('default')`:
-    #   /layout/default.erb
-    #   /layout/default.rss.erb
-    #   /view/index.erb
-    #   /view/feed.rss.erb
-    #
-    # /feed.rss will wrap /view/feed.rss.erb in /layout/default.rss.erb
-    # /index    will wrap /view/index.erb    in /layout/default.erb
+    #     def list
+    #       @articles = Article.list
+    #     end
+    #   end
 
     def provide(format, options = {}, &block)
       if options.respond_to?(:to_hash)
