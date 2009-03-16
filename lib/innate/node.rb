@@ -222,6 +222,14 @@ module Innate
     #     by Trinity.
     #   * If you use the Node directly as a middleware make sure that you #use
     #     Innate::Current as a middleware before it.
+    #
+    # @paran [Hash] env
+    #
+    # @return [Array]
+    #
+    # @api external
+    # @see Response#reset Node#try_resolve Session#flush
+    # @author manveru
 
     def call(env)
       path = env['PATH_INFO']
@@ -238,18 +246,30 @@ module Innate
     # Let's try to find some valid action for given +path+.
     # Otherwise we dispatch to action_missing
     #
-    # @param [String] path from request['REQUEST_PATH']
+    # @param [String] path from env['PATH_INFO']
+    #
+    # @return [Response]
+    #
+    # @api external
+    # @see Node#resolve Node#action_found Node#action_missing
+    # @author manveru
     def try_resolve(path)
       action = resolve(path)
       action ? action_found(action) : action_missing(path)
     end
 
     # Executed once an Action has been found.
+    #
     # Reset the {Innate::Response} instance, catch :respond and :redirect.
     # {Action#call} has to return a String.
     #
     # @param [Innate::Action] action
+    #
     # @return [Innate::Response]
+    #
+    # @api external
+    # @see Action#call Innate::Response
+    # @author manveru
     def action_found(action)
       response = catch(:respond){ catch(:redirect){ action.call }}
 
@@ -293,7 +313,10 @@ module Innate
     #   end
     #
     # @param [String] path
-    # @see Innate::Response Node::try_resolve
+    #
+    # @api external
+    # @see Innate::Response Node#try_resolve
+    # @author manveru
     def action_missing(path)
       response.status = 404
       response['Content-Type'] = 'text/plain'
@@ -307,7 +330,10 @@ module Innate
     # html.
     #
     # @param [String] path
+    #
     # @return [nil Action]
+    #
+    # @api external
     # @see Node::find_provide Node::update_method_arities Node::find_action
     # @author manveru
     def resolve(path)
@@ -322,8 +348,13 @@ module Innate
       fill_action(action, name)
     end
 
+    # Resolve possible provides for the given +path+ from {provides}
+    #
     # @param [String] path
+    #
     # @return [Array] with name, wish, engine
+    #
+    # @api internal
     # @see Node::provide Node::provides
     # @author manveru
     def find_provide(path)
@@ -364,6 +395,15 @@ module Innate
       end
     end
 
+    # @param [String] name
+    # @param [String] wish
+    #
+    # @return [Array nil]
+    #
+    # @api internal
+    # @see Node#to_layout Node#find_method Node#find_view
+    # @author manveru
+    #
     # @todo allow layouts combined of method and view... hairy :)
     def find_layout(name, wish)
       return unless layout = ancestral_trait[:layout]
@@ -532,6 +572,9 @@ module Innate
     end
 
     # Find the best matching file for the layout, if any.
+    #
+    # This is mostly an abstract method that you might find handy if you want
+    # to do vastly different layout lookup.
     #
     # @param [String] file
     # @param [String] wish
