@@ -447,7 +447,12 @@ module Innate
     end
 
     # Try to find the best template for the given basename and wish.
-    # Also, having extraordinarily much fun with globs.
+    #
+    # @param [#to_s] file
+    # @param [#to_s] wish
+    #
+    # @see Node#to_template
+    # @author manveru
     def find_view(file, wish)
       aliased = find_aliased_view(file, wish)
       return aliased if aliased
@@ -462,6 +467,15 @@ module Innate
       location ? (@view_root = location) : (@view_root ||= Innate.to(self))
     end
 
+    # Get or set the path(s) to the layout directory relative to {app_root}
+    #
+    # @param [String Array] location
+    #
+    # @return [String Array]
+    #
+    # @api external
+    # @see Node#layout Node#find_layout Node#to_layout Node#app_layout
+    # @author manveru
     def layout_root(location = nil)
       location ? (@layout_root = location) : (@layout_root ||= '/')
     end
@@ -492,6 +506,8 @@ module Innate
     # @param [#to_s]      to   view that should be replaced
     # @param [#to_s]      from view to use or Node.
     # @param [#nil? Node] node optionally obtain view from this Node
+    #
+    # @api external
     # @see Node::find_aliased_view
     # @author manveru
     def alias_view(to, from, node = nil)
@@ -499,9 +515,14 @@ module Innate
       trait[:alias_view][to.to_s] = node ? [from.to_s, node] : from.to_s
     end
 
+    # Resolve one level of aliasing for the given +file+ and +wish+.
+    #
     # @param [String] file
     # @param [String] wish
+    #
     # @return [nil String] the absolute path to the aliased template or nil
+    #
+    # @api internal
     # @see Node::alias_view Node::find_view
     # @author manveru
     def find_aliased_view(file, wish)
@@ -514,7 +535,10 @@ module Innate
     #
     # @param [String] file
     # @param [String] wish
+    #
     # @return [nil String] the absolute path to the template or nil
+    #
+    # @api internal
     # @see Node::to_template
     # @author manveru
     def to_layout(file, wish)
@@ -523,14 +547,23 @@ module Innate
 
     # Define a layout to use on this Node.
     #
+    # A Node can only have one layout, although the template being chosen can
+    # depend on {provides}.
+    #
     # @param [String #to_s] name basename without extension of the layout to use
     # @param [Proc #call] block called on every dispatch if no name given
+    #
     # @return [Proc String] The assigned name or block
     #
-    # @note The behaviour of Node#layout changed significantly from Ramaze,
-    #   instead of multitudes of obscure options and methods like deny_layout
-    #   we simply take a block and use the returned value as the name for the
-    #   layout. No layout will be used if the block returns nil.
+    # @api external
+    # @see Node#find_layout Node#layout_root Node#to_layout Node#app_layout
+    # @author manveru
+    #
+    # NOTE:
+    #   The behaviour of Node#layout changed significantly from Ramaze, instead
+    #   of multitudes of obscure options and methods like deny_layout we simply
+    #   take a block and use the returned value as the name for the layout. No
+    #   layout will be used if the block returns nil.
     def layout(name = nil, &block)
       if name and block
         trait(:layout => lambda{|n, w| name if block.call(n, w) })
@@ -556,7 +589,8 @@ module Innate
     # The last fallback will always be the index action with all of the path
     # turned into parameters.
     #
-    # @usage
+    # @example yielding possible combinations of action names and params
+    #
     #   class Foo; include Innate::Node; map '/'; end
     #
     #   Foo.patterns_for('/'){|action, params| p action => params }
@@ -572,6 +606,14 @@ module Innate
     #   # => {"foo__bar"=>["baz"]}
     #   # => {"foo"=>["bar", "baz"]}
     #   # => {"index"=>["foo", "bar", "baz"]}
+    #
+    # @param [String #split] path usually the PATH_INFO
+    #
+    # @return [Action] it actually returns the first non-nil/false result of yield
+    #
+    # @see Node#fill_action
+    # @api internal
+    # @author manveru
     def patterns_for(path)
       atoms = path.split('/')
       atoms.delete('')
@@ -588,10 +630,47 @@ module Innate
       return nil
     end
 
-    # @param [String] file
+    # Try to find a template at the given +path+ for +wish+.
+    #
+    # Since Innate supports multiple paths to templates the +path+ has to be an
+    # Array that may be nested one level.
+    # The +path+ is then translated by {Node#path_glob} and the +wish+ by
+    # {Node#ext_glob}.
+    #
+    # @example Usage to find available templates
+    #
+    #   # This assumes following files:
+    #   # view/foo.erb
+    #   # view/bar.erb
+    #   # view/bar.rss.erb
+    #   # view/bar.yaml.erb
+    #
+    #   class FooBar
+    #     Innate.node('/')
+    #   end
+    #
+    #   FooBar.to_template(['.', 'view', '/', 'foo'], 'html')
+    #   # => "./view/foo.erb"
+    #   FooBar.to_template(['.', 'view', '/', 'foo'], 'yaml')
+    #   # => "./view/foo.erb"
+    #   FooBar.to_template(['.', 'view', '/', 'foo'], 'rss')
+    #   # => "./view/foo.erb"
+    #
+    #   FooBar.to_template(['.', 'view', '/', 'bar'], 'html')
+    #   # => "./view/bar.erb"
+    #   FooBar.to_template(['.', 'view', '/', 'bar'], 'yaml')
+    #   # => "./view/bar.yaml.erb"
+    #   FooBar.to_template(['.', 'view', '/', 'bar'], 'rss')
+    #   # => "./view/bar.rss.erb"
+    #
+    # @param [Array] path possibly nested array containing strings
     # @param [String] wish
-    # @return [nil String] the absolute path to the template or nil
-    # @see Node::find_view Node::to_layout Node::find_aliased_view
+    #
+    # @return [nil String] relative path to the first template found
+    #
+    # @api external
+    # @see Node#find_view Node#to_layout Node#find_aliased_view
+    #      Node#path_glob Node#ext_glob
     # @author manveru
     def to_template(path, wish)
       return unless exts = ext_glob(wish)
@@ -604,41 +683,33 @@ module Innate
       found.first
     end
 
+    # Produce a glob that can be processed by Dir::[] matching the possible
+    # paths to the given +elements+.
+    #
+    # The +elements+ are an Array that may be nested one level, take care to
+    # splat if you try to pass an existing Array.
+    #
+    # @return [String] glob matching possible paths to the given +elements+
+    #
+    # @api internal
+    # @see Node#to_template
+    # @author manveru
     def path_glob(*elements)
       File.join(elements.map{|element|
         "{%s}" % [*element].map{|e| e.gsub('__', '/') }.join(',')
       }).gsub(/\/\{\/?\}\//, '/')
     end
 
-    # 'erb' => '{erb,erb.html,erb.json,erb.yaml}'
-    # 'html' => '{nag,xhtml,nag.html,xhtml.html,nag.json,xhtml.json,nag.yaml,xhtml.yaml}'
-    # 'html' => 'file.{html,json,yaml,}{.nag,.xhtml}'
+    # Produce a glob that can be processed by Dir::[] matching the extensions
+    # associated with the given +wish+.
     #
-    # <action>.<rep>.<engine-ext>
+    # @param [#to_s] wish the extension (no leading '.')
     #
-    # foo.html.erb
-    # foo.rss.erb
-    # foo.atom.erb
-    # foo.json.erb
-    # foo.yaml.erb
-    # foo.en.erb
-    # foo.jp.erb
-    # foo.erb
+    # @return [String] glob matching the valid exts for the given +wish+
     #
-    # provide :html => [:erb], :rss => [:erb], :atom => [:nag], :yaml => [:erb]
-    #
-    # /foo.yaml
-    # # => foo.yaml.erb
-    # # => foo.erb
-    #
-    # /foo.rss
-    # # => foo.rss.erb
-    # # => foo.erb
-    #
-    # foo.atom
-    # # => foo.atom.nag
-    # # => foo.nag
-
+    # @api internal
+    # @see Node#to_template View::exts_of Node#provides
+    # @author manveru
     def ext_glob(wish)
       pr = provides
       return unless engine = pr["#{wish}_handler"]
