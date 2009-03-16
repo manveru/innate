@@ -3,11 +3,29 @@ require 'spec/helper'
 class One
   include Innate::Node
   map '/'
+
+  def auto_route
+    UsingRouteSelf.new.route.to_s
+  end
 end
 
 class Two
   include Innate::Node
   map '/two'
+
+  def auto_route
+    UsingRouteSelf.new.route.to_s
+  end
+end
+
+class UsingRouteSelf
+  include Innate::Helper::Link
+
+  attr_reader :route
+
+  def initialize
+    @route = route_self(:elsewhere)
+  end
 end
 
 describe Innate::Helper::Link do
@@ -95,6 +113,14 @@ describe Innate::Helper::Link do
     should 'handle complete uris gracefully' do
       One.anchor('foo', 'http://example.com/?foo=bar&baz=qux').
         should == '<a href="http://example.com/?foo=bar&amp;baz=qux">foo</a>'
+    end
+  end
+
+  describe '#route_self' do
+    behaves_like :mock
+    should 'provide a route to the node of the currently active action' do
+      get('/auto_route').body.should == '/elsewhere'
+      get('/two/auto_route').body.should == '/two/elsewhere'
     end
   end
 end

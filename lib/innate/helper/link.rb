@@ -42,9 +42,26 @@ module Innate
       end
       alias r route
 
+      # Create a route to the currently active Node.
+      #
+      # This method is mostly here in case you include this helper elsewhere
+      # and don't want (or can't) type SomeNode.r all the time.
+      #
+      # The usage is identical with {route}.
+      #
+      # @param [#to_s] name
+      # @return [URI] to the location
+      # @see Ramaze::Helper::Link#route
+      # @author manveru
+      def route_self(name = '/', *args)
+        Current.action.node.route(name, *args)
+      end
+      alias rs route_self
+
       # Create a link tag
       #
       # Usage, given Wiki is mapped to `/wiki`:
+      #
       #   Wiki.a(:home)                   # => '<a href="/wiki/home">home</a>'
       #   Wiki.a('home', :home)           # => '<a href="/wiki/home">home</a>'
       #   Wiki.a('home', :/)              # => '<a href="/wiki/">home</a>'
