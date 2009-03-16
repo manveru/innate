@@ -739,7 +739,7 @@ module Innate
     # @author manveru
     def path_glob(*elements)
       File.join(elements.map{|element|
-        "{%s}" % [*element].map{|e| e.gsub('__', '/') }.join(',')
+        "{%s}" % [*element].map{|e| e.to_s.gsub('__', '/') }.join(',')
       }).gsub(/\/\{\/?\}\//, '/')
     end
 
