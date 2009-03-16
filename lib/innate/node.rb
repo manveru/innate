@@ -678,7 +678,7 @@ module Innate
       found = Dir[glob].uniq
 
       count = found.size
-      Log.warn("%d views found for %p.%p" % [count, path, wish]) if count > 1
+      Log.warn("%d views found for %p" % [count, glob]) if count > 1
 
       found.first
     end
