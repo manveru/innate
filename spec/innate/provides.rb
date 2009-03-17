@@ -1,7 +1,7 @@
 require 'spec/helper'
 require 'json'
 
-Innate::Node.options.merge!(:view => 'provides', :layout => 'provides')
+Innate.options.merge!(:views => 'provides', :layouts => 'provides')
 
 class SpecNodeProvides
   Innate.node '/'
@@ -21,7 +21,7 @@ end
 
 class SpecNodeProvidesTemplates
   Innate.node '/template'
-  view_root '/'
+  map_views '/'
 
   provide(:yaml, :type => 'text/yaml'){|a,s| s.to_yaml }
   provide(:json, :type => 'application/json'){|a,s| s.to_json }

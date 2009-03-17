@@ -1,7 +1,5 @@
 require 'spec/helper'
 
-Innate::Node.options.view = ''
-
 class AspectSpec
   Innate.node('/', self).provide(:html, :None)
 
@@ -33,7 +31,7 @@ class AspecNoMethodSpec
   Innate.node('/without_method', self)
   include Innate::Node
   map '/without_method'
-  view_root 'view'
+  map_views '/'
   before_all{ @foo = 'Hello'; @bar = 'World'}
 end
 

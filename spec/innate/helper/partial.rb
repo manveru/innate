@@ -2,6 +2,7 @@ require 'spec/helper'
 
 class SpecHelperPartial
   Innate.node '/'
+  map_views '/'
 
   def index
     '<html><head><title><%= render_partial("/title") %></title></head></html>'
@@ -49,7 +50,6 @@ end
 class SpecHelperPartialWithLayout < SpecHelperPartial
   Innate.node '/with_layout'
   layout('layout')
-  view_root '/'
 
   def layout
     '<h1>with layout</h1><%= @content %>'

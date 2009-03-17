@@ -1,6 +1,6 @@
 require 'spec/helper'
 
-Innate::Node.options.merge!(:view => '', :layout => 'node')
+Innate.options.merge!(:views => 'node', :layouts => 'node')
 
 class SpecNode
   Innate.node('/')
@@ -17,6 +17,7 @@ end
 
 class SpecNodeProvide
   Innate.node('/provide')
+
   provide(:html, :ERB)
   provide(:erb, :None)
 
@@ -31,10 +32,11 @@ end
 
 class SpecNodeProvideTemplate
   Innate.node('/provide_template')
-  view_root 'node'
 
   provide :html, :ERB
   provide :erb, :None
+
+  map_views '/'
 end
 
 class SpecNodeSub < SpecNode
@@ -44,14 +46,17 @@ class SpecNodeSub < SpecNode
 end
 
 class SpecNodeWithLayout < SpecNodeProvide
-  layout 'with_layout'
   map '/layout'
+  layout 'with_layout'
+
+  map_layouts '/'
 end
 
 class SpecNodeWithLayoutView < SpecNodeProvide
-  view_root 'node/another_layout'
-  layout 'another_layout'
   map '/another_layout'
+  layout 'another_layout'
+
+  map_views 'node/another_layout'
 end
 
 class SpecNodeWithLayoutMethod < SpecNodeProvide
@@ -73,7 +78,7 @@ end
 
 class SpecNodeAliasView < SpecNodeProvideTemplate
   map '/alias_view'
-  view_root 'node'
+  map_views '/'
 
   alias_view :aliased, :bar
 end
@@ -149,7 +154,7 @@ describe 'Innate::Node' do
   should 'wrap with layout' do
     got = Innate::Mock.get('/layout/bar')
     got.status.should == 200
-    got.body.should == %(<div class="content">\n  42\n</div>\n)
+    got.body.should == %(<div class="content">42</div>\n)
     got['Content-Type'].should == 'text/html'
   end
 
