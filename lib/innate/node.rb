@@ -35,35 +35,6 @@ module Innate
   module Node
     include Traited
 
-    class << self; attr_reader :options; end
-    def options; Node.options; end
-    private :options
-
-    @options = Options.new(:node)
-
-    options.dsl do
-      o "Unique identifier for this application",
-        :name, :pristine
-
-      o "Root directories containing the application",
-        :root, [File.dirname($0)]
-
-      o "Directories for view templates, relative to root",
-        :view, ['view']
-
-      o "Directories for layout templates, relative to root",
-        :layout, ['layout']
-
-      o "Directories for static public files, relative to root",
-        :public, ['public']
-
-      o "Prefix of this application",
-        :prefix, '/'
-
-      o "Create actions that have no method associated",
-        :needs_method, false
-    end
-
     DEFAULT_HELPERS = %w[aspect cgi flash link partial redirect send_file]
     NODE_LIST = Set.new
 
