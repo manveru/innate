@@ -6,7 +6,7 @@ module Innate
     end
 
     # super may raise when given invalid locations, so we only replace the
-    # @originals if we are sure the new map is valid
+    # `@originals` if we are sure the new map is valid
     def remap(map)
       value = super
       @originals = map

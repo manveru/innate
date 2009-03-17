@@ -6,7 +6,8 @@ module Innate
   # By using {Traited#ancestral_trait} you will get nicely inherited
   # configuration, where keys later in the ancestors will take precedence.
   #
-  # @usage
+  # @example usage
+  #
   #   class Foo
   #     include Innate::Traited
   #     trait :hello => 'Hello'

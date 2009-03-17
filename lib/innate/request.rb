@@ -84,7 +84,8 @@ module Innate
     # which you pass the keys.
     # Valid keys are objects that respond to :to_s
     #
-    # @usage
+    # @example usage
+    #
     #   request.params
     #   # => {'name' => 'jason', 'age' => '45', 'job' => 'lumberjack'}
     #   request.subset('name')

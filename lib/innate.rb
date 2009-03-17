@@ -74,7 +74,7 @@ module Innate
     # We do return if options.started is true, which indicates that all you
     # wanted to do is setup the environment and update options.
     #
-    # @usage
+    # @example usage
     #
     #   # passing options
     #   Innate.start :adapter => :mongrel, :mode => :live

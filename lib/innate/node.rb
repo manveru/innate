@@ -79,7 +79,7 @@ module Innate
 
     # Tries to find the relative url that this {Node} is mapped to.
     # If it cannot find one it will instead generate one based on the
-    # camel-cased name of itself.
+    # snake_cased name of itself.
     #
     # @example Usage:
     #
@@ -89,7 +89,10 @@ module Innate
     #   FooBar.mapping # => '/foo_bar'
     #
     # @return [String] the relative path to the node
+    #
+    # @api external
     # @see Innate::SingletonMethods#to
+    # @author manveru
     def mapping
       mapped = Innate.to(self)
       return mapped if mapped
@@ -118,6 +121,10 @@ module Innate
     #   Innate.to(FooBar) # => '/foo_bar'
     #
     # @param [#to_s] location
+    #
+    # @api external
+    # @see Innate::SingletonMethods::map
+    # @author manveru
     def map(location)
       Innate.map(location, self)
     end
@@ -170,6 +177,26 @@ module Innate
     #       @articles = Article.list
     #     end
     #   end
+    #
+    # @param [Proc] block
+    #   upon calling the action, [action, value] will be passed to it and its
+    #   return value becomes the response body.
+    #
+    # @option param :engine [Symbol String]
+    #   Name of an engine for View::get
+    # @option param :type [String]
+    #   default Content-Type if none was set in Response
+    #
+    # @raise [ArgumentError] if neither a block nor an engine was given
+    #
+    # @api external
+    # @see View::get Node#provides
+    # @author manveru
+    #
+    # @todo
+    #   The comment of this method may be too short for the effects it has on
+    #   the rest of Innate, if you feel something is missing please let me
+    #   know.
 
     def provide(format, param = {}, &block)
       if param.respond_to?(:to_hash)
@@ -211,7 +238,7 @@ module Innate
     #   * If you use the Node directly as a middleware make sure that you #use
     #     Innate::Current as a middleware before it.
     #
-    # @paran [Hash] env
+    # @param [Hash] env
     #
     # @return [Array]
     #
@@ -336,7 +363,7 @@ module Innate
       fill_action(action, name)
     end
 
-    # Resolve possible provides for the given +path+ from {provides}
+    # Resolve possible provides for the given +path+ from {provides}.
     #
     # @param [String] path
     #
@@ -366,6 +393,12 @@ module Innate
     #
     # @param [String] given_name the name extracted from REQUEST_PATH
     # @param [String] wish
+    #
+    # @return [Action nil]
+    #
+    # @api internal
+    # @see Node#find_method Node#find_view Node#find_layout Node#patterns_for
+    #      Action#wish Action#merge!
     # @author manveru
     def fill_action(action, given_name)
       needs_method = self.needs_method?
@@ -383,12 +416,19 @@ module Innate
       end
     end
 
+    # Try to find a suitable value for the layout. This may be a template or
+    # the name of a method.
+    #
+    # If a layout could be found, an Array with two elements is returned, the
+    # first indicating the kind of layout (:layout|:view|:method), the second
+    # the found value, which may be a String or Symbol.
+    #
     # @param [String] name
     # @param [String] wish
     #
     # @return [Array nil]
     #
-    # @api internal
+    # @api external
     # @see Node#to_layout Node#find_method Node#find_view
     # @author manveru
     #
@@ -406,8 +446,8 @@ module Innate
       end
     end
 
-    # I hope this method talks for itself, we check arity if possible, but will
-    # happily dispatch to any method that has default parameters.
+    # We check arity if possible, but will happily dispatch to any method that
+    # has default parameters.
     # If you don't want your method to be responsible for messing up a request
     # you should think twice about the arguments you specify due to limitations
     # in Ruby.
@@ -436,6 +476,15 @@ module Innate
     #   def index(a = :a, b = :b)     # => -1
     #   def index(a = :a, b = :b, *r) # => -1
     #
+    # @param [String Symbol] name
+    # @param [Array]         params
+    #
+    # @return [String Symbol]
+    #
+    # @api external
+    # @see Node#fill_action Node#find_layout
+    # @author manveru
+    #
     # @todo Once 1.9 is mainstream we can use Method#parameters to do accurate
     #       prediction
     def find_method(name, params)
@@ -456,7 +505,8 @@ module Innate
     #   Hi.update_method_arities
     #   # => {'index' => 0, 'foo' => -1, 'bar => 2}
     #
-    # @see Node::resolve
+    # @api internal
+    # @see Node#resolve
     # @return [Hash] mapping the name of the methods to their arity
     def update_method_arities
       @method_arities = {}
@@ -483,7 +533,10 @@ module Innate
     # @param [#to_s] file
     # @param [#to_s] wish
     #
-    # @see Node#to_template
+    # @return [String nil] depending whether a template could be found
+    #
+    # @api external
+    # @see Node#to_template Node#find_aliased_view
     # @author manveru
     def find_view(file, wish)
       aliased = find_aliased_view(file, wish)
@@ -572,8 +625,8 @@ module Innate
     #
     # @return [nil String] the absolute path to the template or nil
     #
-    # @api internal
-    # @see Node::to_template
+    # @api external
+    # @see {Node#to_template} {Node#root_mappings} {Node#layout_mappings}
     # @author manveru
     def to_layout(file, wish)
       path = root_mappings.concat(layout_mappings) << file
@@ -591,7 +644,7 @@ module Innate
     # @return [Proc String] The assigned name or block
     #
     # @api external
-    # @see Node#find_layout Node#layout_root Node#to_layout Node#app_layout
+    # @see Node#find_layout Node#layout_paths Node#to_layout Node#app_layout
     # @author manveru
     #
     # NOTE:
@@ -653,8 +706,8 @@ module Innate
     #
     # @return [Action] it actually returns the first non-nil/false result of yield
     #
-    # @see Node#fill_action
     # @api internal
+    # @see Node#fill_action
     # @author manveru
     def patterns_for(path)
       atoms = path.split('/')
@@ -832,8 +885,11 @@ module Innate
     # @param [#to_s]    location where the node is mapped to
     # @param [Node nil] node     the class that will be a node, will try to look it
     #                            up if not given
-    # @return [Class] the node argument or detected class will be returned
-    # @see Innate::node_from_backtrace
+    #
+    # @return [Class Module] the node argument or detected class will be returned
+    #
+    # @api external
+    # @see SingletonMethods::node_from_backtrace
     # @author manveru
     def node(location, node = nil)
       node ||= node_from_backtrace(caller)
@@ -851,7 +907,11 @@ module Innate
     # metaprogramming) just pass the node parameter explicitly to Innate::node
     #
     # @param [Array #[]] backtrace
-    # @see Innate::node
+    #
+    # @return [Class Module]
+    #
+    # @api internal
+    # @see SingletonMethods::node
     # @author manveru
     def node_from_backtrace(backtrace)
       file, line = backtrace[0].split(':', 2)
