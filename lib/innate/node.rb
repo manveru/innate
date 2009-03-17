@@ -601,11 +601,18 @@ module Innate
     #   layout will be used if the block returns nil.
     def layout(name = nil, &block)
       if name and block
+        # default name, but still check with block
         trait(:layout => lambda{|n, w| name if block.call(n, w) })
       elsif name
+        # name of a method or template
         trait(:layout => name.to_s)
       elsif block
+        # call block every request with name and wish, returned value is name
+        # of layout template or method
         trait(:layout => block)
+      else
+        # remove layout for this node
+        trait(:layout => nil)
       end
 
       return ancestral_trait[:layout]
