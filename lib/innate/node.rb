@@ -171,13 +171,13 @@ module Innate
     #     end
     #   end
 
-    def provide(format, options = {}, &block)
-      if options.respond_to?(:to_hash)
-        options = options.to_hash
-        handler = block || View.get(options[:engine])
-        content_type = options[:type]
+    def provide(format, param = {}, &block)
+      if param.respond_to?(:to_hash)
+        param = param.to_hash
+        handler = block || View.get(param[:engine])
+        content_type = param[:type]
       else
-        handler = View.get(options)
+        handler = View.get(param)
       end
 
       raise(ArgumentError, "Need an engine or block") unless handler
