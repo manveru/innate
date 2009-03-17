@@ -36,11 +36,8 @@ module Innate
     end
 
     # Default application for Innate
-    def innate(app = Innate::DynaMap)
-      options = Innate::Node.options
-
-      roots = [*options.root]
-      publics = [*options.public]
+    def innate(app = Innate::DynaMap, options = Innate.options)
+      roots, publics = options[:roots], options[:publics]
 
       joined = roots.map{|root| publics.map{|public| ::File.join(root, public)}}
 

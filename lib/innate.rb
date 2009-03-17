@@ -112,6 +112,7 @@ module Innate
 
       if found_root = go_figure_root(:root => root, :file => file)
         $0 = found_root
+        Innate.options.roots = [found_root]
       end
 
       options.merge!(given_options)

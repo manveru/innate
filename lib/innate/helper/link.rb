@@ -28,7 +28,7 @@ module Innate
         hashes, names = args.partition{|arg| arg.respond_to?(:merge!) }
         hashes.each{|to_merge| hash.merge!(to_merge) }
 
-        prefix = options.prefix
+        prefix = Innate.options.prefix
         location = Innate.to(self) || Innate.to(self.class)
         front = Array[prefix, location, name, *names].join('/').squeeze('/')
 
