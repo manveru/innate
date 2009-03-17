@@ -346,7 +346,7 @@ module Innate
     #
     # @param [String] path
     #
-    # @return [nil Action]
+    # @return [nil, Action]
     #
     # @api external
     # @see Node::find_provide Node::update_method_arities Node::find_action
@@ -394,7 +394,7 @@ module Innate
     # @param [String] given_name the name extracted from REQUEST_PATH
     # @param [String] wish
     #
-    # @return [Action nil]
+    # @return [Action, nil]
     #
     # @api internal
     # @see Node#find_method Node#find_view Node#find_layout Node#patterns_for
@@ -426,7 +426,7 @@ module Innate
     # @param [String] name
     # @param [String] wish
     #
-    # @return [Array nil]
+    # @return [Array, nil]
     #
     # @api external
     # @see Node#to_layout Node#find_method Node#find_view
@@ -476,10 +476,10 @@ module Innate
     #   def index(a = :a, b = :b)     # => -1
     #   def index(a = :a, b = :b, *r) # => -1
     #
-    # @param [String Symbol] name
+    # @param [String, Symbol] name
     # @param [Array]         params
     #
-    # @return [String Symbol]
+    # @return [String, Symbol]
     #
     # @api external
     # @see Node#fill_action Node#find_layout
@@ -533,7 +533,7 @@ module Innate
     # @param [#to_s] file
     # @param [#to_s] wish
     #
-    # @return [String nil] depending whether a template could be found
+    # @return [String, nil] depending whether a template could be found
     #
     # @api external
     # @see Node#to_template Node#find_aliased_view
@@ -553,7 +553,7 @@ module Innate
     # @param [#to_s] file
     # @param [#to_s] wish
     #
-    # @return [String nil] depending whether a template could be found
+    # @return [String, nil] depending whether a template could be found
     #
     # @api external
     # @see {Node#find_view} {Node#to_template} {Node#root_mappings}
@@ -589,7 +589,7 @@ module Innate
     #
     # @param [#to_s]      to   view that should be replaced
     # @param [#to_s]      from view to use or Node.
-    # @param [#nil? Node] node optionally obtain view from this Node
+    # @param [#nil?, Node] node optionally obtain view from this Node
     #
     # @api external
     # @see Node::find_aliased_view
@@ -604,7 +604,7 @@ module Innate
     # @param [String] file
     # @param [String] wish
     #
-    # @return [nil String] the absolute path to the aliased template or nil
+    # @return [nil, String] the absolute path to the aliased template or nil
     #
     # @api internal
     # @see Node::alias_view Node::find_view
@@ -623,7 +623,7 @@ module Innate
     # @param [String] file
     # @param [String] wish
     #
-    # @return [nil String] the absolute path to the template or nil
+    # @return [nil, String] the absolute path to the template or nil
     #
     # @api external
     # @see {Node#to_template} {Node#root_mappings} {Node#layout_mappings}
@@ -638,10 +638,10 @@ module Innate
     # A Node can only have one layout, although the template being chosen can
     # depend on {provides}.
     #
-    # @param [String #to_s] name basename without extension of the layout to use
-    # @param [Proc #call] block called on every dispatch if no name given
+    # @param [String, #to_s] name basename without extension of the layout to use
+    # @param [Proc, #call] block called on every dispatch if no name given
     #
-    # @return [Proc String] The assigned name or block
+    # @return [Proc, String] The assigned name or block
     #
     # @api external
     # @see Node#find_layout Node#layout_paths Node#to_layout Node#app_layout
@@ -702,7 +702,7 @@ module Innate
     #   # => {"foo"=>["bar", "baz"]}
     #   # => {"index"=>["foo", "bar", "baz"]}
     #
-    # @param [String #split] path usually the PATH_INFO
+    # @param [String, #split] path usually the PATH_INFO
     #
     # @return [Action] it actually returns the first non-nil/false result of yield
     #
@@ -758,10 +758,11 @@ module Innate
     #   FooBar.to_template(['.', 'view', '/', 'bar'], 'rss')
     #   # => "./view/bar.rss.erb"
     #
-    # @param [Array] path possibly nested array containing strings
+    # @param [Array<Array<String>>, Array<String>] path
+    #   array containing strings and nested (1 level) arrays containing strings
     # @param [String] wish
     #
-    # @return [nil String] relative path to the first template found
+    # @return [nil, String] relative path to the first template found
     #
     # @api external
     # @see Node#find_view Node#to_layout Node#find_aliased_view
@@ -823,7 +824,8 @@ module Innate
     #
     # @param [Action] action instance that is being passed to every registered method
     # @param [Proc] block contains the instructions to call the action method if any
-    # @see Action#render
+    #
+    # @see {Action#render}
     # @author manveru
     def wrap_action_call(action, &block)
       wrap = ancestral_trait[:wrap]
@@ -843,14 +845,39 @@ module Innate
     # make sure this is an Array and a new instance so modification on the
     # wrapping array doesn't affect the original option.
     # [*arr].object_id == arr.object_id if arr is an Array
+    #
+    # @return [Array] list of root directories
+    #
+    # @api external
+    # @author manveru
     def root_mappings
       [*Innate.options.roots].dup
     end
 
+    # Set the paths for lookup below the {Innate.options.views} paths.
+    #
+    # @param [String, Array<String>] locations
+    #   Any number of strings indicating the paths where view templates may be
+    #   located, relative to {Innate.options.roots}/{Innate.options.views}
+    #
+    # @return [Node] self
+    #
+    # @api external
+    # @see {Node#view_mappings}
+    # @author manveru
     def map_views(*locations)
       trait :views => locations.flatten.uniq
+      self
     end
 
+    # Combine {Innate.options.views} with either the `ancestral_trait[:views]`
+    # or the {Node#mapping} if the trait yields an empty Array.
+    #
+    # @return [Array<String>, Array<Array<String>>]
+    #
+    # @api external
+    # @see {Node#map_views}
+    # @author manveru
     def view_mappings
       paths = [*ancestral_trait[:views]]
       paths = [mapping] if paths.empty?
@@ -858,10 +885,30 @@ module Innate
       [*Innate.options.views] + paths
     end
 
+    # Set the paths for lookup below the {Innate.options.layouts} paths.
+    #
+    # @param [String, Array<String>] locations
+    #   Any number of strings indicating the paths where layout templates may
+    #   be located, relative to {Innate.options.roots}/{Innate.options.layouts}
+    #
+    # @return [Node] self
+    #
+    # @api external
+    # @see {Node#layout_mappings}
+    # @author manveru
     def map_layouts(*locations)
       trait :layouts => locations.flatten.uniq
+      self
     end
 
+    # Combine {Innate.options.layouts} with either the `ancestral_trait[:layouts]`
+    # or the {Node#mapping} if the trait yields an empty Array.
+    #
+    # @return [Array<String>, Array<Array<String>>]
+    #
+    # @api external
+    # @see {Node#map_layouts}
+    # @author manveru
     def layout_mappings
       paths = [*ancestral_trait[:layouts]]
       paths = [mapping] if paths.empty?
@@ -869,12 +916,44 @@ module Innate
       [*Innate.options.layouts] + paths
     end
 
-    def provide_set?
-      ancestral_trait[:provide_set]
-    end
-
+    # Whether an Action can be built without a method.
+    #
+    # The default is to allow actions that use only a view template, but you
+    # might want to turn this on, for example if you have partials in your view
+    # directories.
+    #
+    # @example turning needs_method? on
+    #
+    #   class Foo
+    #     Innate.node('/')
+    #   end
+    #
+    #   Foo.needs_method? # => true
+    #   Foo.trait :needs_method => false
+    #   Foo.needs_method? # => false
+    #
+    # @return [true, false] (false)
+    #
+    # @api external
+    # @see {Node#fill_action}
+    # @author manveru
     def needs_method?
       ancestral_trait[:needs_method]
+    end
+
+    # This will return true if the only provides set are by {Node::included}.
+    #
+    # The reasoning behind this is to determine whether the user has touched
+    # the provides at all, in which case we will not override the provides in
+    # subclasses.
+    #
+    # @return [true, false] (false)
+    #
+    # @api internal
+    # @see {Node::included}
+    # @author manveru
+    def provide_set?
+      ancestral_trait[:provide_set]
     end
   end
 
@@ -883,10 +962,11 @@ module Innate
     # +location+.
     #
     # @param [#to_s]    location where the node is mapped to
-    # @param [Node nil] node     the class that will be a node, will try to look it
-    #                            up if not given
+    # @param [Node, nil] node     the class that will be a node, will try to
+    #                            look it up if not given
     #
-    # @return [Class Module] the node argument or detected class will be returned
+    # @return [Class, Module]    the node argument or detected class will be
+    #                            returned
     #
     # @api external
     # @see SingletonMethods::node_from_backtrace
@@ -906,9 +986,9 @@ module Innate
     # If there are any problems with this (filenames containing ':' or
     # metaprogramming) just pass the node parameter explicitly to Innate::node
     #
-    # @param [Array #[]] backtrace
+    # @param [Array<String>, #[]] backtrace
     #
-    # @return [Class Module]
+    # @return [Class, Module]
     #
     # @api internal
     # @see SingletonMethods::node
