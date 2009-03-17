@@ -38,8 +38,25 @@ module Innate
     DEFAULT_HELPERS = %w[aspect cgi flash link partial redirect send_file]
     NODE_LIST = Set.new
 
-    trait(:layout => nil, :alias_view => {}, :provide => {},
-          :method_arities => {}, :wrap => [:aspect_wrap], :provide_set => false)
+    # These traits are inherited into ancestors, changing a trait in an
+    # ancestor doesn't affect the higher ones.
+    #
+    #   class Foo; include Innate::Node; end
+    #   class Bar < Foo; end
+    #
+    #   Foo.trait[:wrap] == Bar.trait[:wrap] # => true
+    #   Bar.trait(:wrap => [:cache_wrap])
+    #   Foo.trait[:wrap] == Bar.trait[:wrap] # => false
+
+    trait :views          => []
+    trait :layouts        => []
+
+    trait :layout         => nil
+    trait :alias_view     => {}
+    trait :provide        => {}
+    trait :wrap           => [:aspect_wrap]
+    trait :provide_set    => false
+    trait :needs_method   => false
 
     # Upon inclusion we make ourselves comfortable.
     def self.included(into)
@@ -50,7 +67,7 @@ module Innate
 
       NODE_LIST << into
 
-      return if into.ancestral_trait[:provide_set]
+      return if into.provide_set?
       into.provide(:html, :ERB)
       into.trait(:provide_set => false)
     end
@@ -351,7 +368,7 @@ module Innate
     # @param [String] wish
     # @author manveru
     def fill_action(action, given_name)
-      needs_method = options.needs_method
+      needs_method = self.needs_method?
       wish = action.wish
 
       patterns_for(given_name) do |name, params|
@@ -422,7 +439,7 @@ module Innate
     # @todo Once 1.9 is mainstream we can use Method#parameters to do accurate
     #       prediction
     def find_method(name, params)
-      return unless arity = trait[:method_arities][name]
+      return unless arity = method_arities[name]
       name if arity == params.size or arity < 0
     end
 
@@ -442,22 +459,26 @@ module Innate
     # @see Node::resolve
     # @return [Hash] mapping the name of the methods to their arity
     def update_method_arities
-      arities = {}
-      trait(:method_arities => arities)
+      @method_arities = {}
 
       exposed = ancestors & Helper::EXPOSE.to_a
       higher = ancestors.select{|a| a < Innate::Node }
 
       (higher + exposed).reverse_each do |ancestor|
         ancestor.public_instance_methods(false).each do |im|
-          arities[im.to_s] = ancestor.instance_method(im).arity
+          @method_arities[im.to_s] = ancestor.instance_method(im).arity
         end
       end
 
-      arities
+      @method_arities
     end
 
-    # Try to find the best template for the given basename and wish.
+    def method_arities
+      update_method_arities
+    end
+
+    # Try to find the best template for the given basename and wish and respect
+    # aliased views.
     #
     # @param [#to_s] file
     # @param [#to_s] wish
@@ -468,14 +489,7 @@ module Innate
       aliased = find_aliased_view(file, wish)
       return aliased if aliased
 
-      to_template([app_root, app_view, view_root, file], wish)
-    end
-
-    # This is done to make you feel more at home, pass an absolute path or a
-    # path relative to your application root to set it, otherwise you'll get
-    # the current mapping.
-    def view_root(location = nil)
-      location ? (@view_root = location) : (@view_root ||= Innate.to(self))
+      to_view(file, wish)
     end
 
     # Get or set the path(s) to the layout directory relative to {app_root}
@@ -556,7 +570,8 @@ module Innate
     # @see Node::to_template
     # @author manveru
     def to_layout(file, wish)
-      to_template([app_root, app_layout, layout_root, file], wish)
+      path = root_mappings.concat(layout_mappings) << file
+      to_template(path, wish)
     end
 
     # Define a layout to use on this Node.
@@ -759,9 +774,42 @@ module Innate
     # @author manveru
     def binding; super end
 
-    def app_root; options[:root] end
-    def app_view; options[:view] end
-    def app_layout; options[:layout] end
+    # make sure this is an Array and a new instance so modification on the
+    # wrapping array doesn't affect the original option.
+    # [*arr].object_id == arr.object_id if arr is an Array
+    def root_mappings
+      [*Innate.options.roots].dup
+    end
+
+    def map_views(*locations)
+      trait :views => locations.flatten.uniq
+    end
+
+    def view_mappings
+      paths = [*ancestral_trait[:views]]
+      paths = [mapping] if paths.empty?
+
+      [*Innate.options.views] + paths
+    end
+
+    def map_layouts(*locations)
+      trait :layouts => locations.flatten.uniq
+    end
+
+    def layout_mappings
+      paths = [*ancestral_trait[:layouts]]
+      paths = [mapping] if paths.empty?
+
+      [*Innate.options.layouts] + paths
+    end
+
+    def provide_set?
+      ancestral_trait[:provide_set]
+    end
+
+    def needs_method?
+      ancestral_trait[:needs_method]
+    end
   end
 
   module SingletonMethods
