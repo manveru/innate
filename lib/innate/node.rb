@@ -492,17 +492,23 @@ module Innate
       to_view(file, wish)
     end
 
-    # Get or set the path(s) to the layout directory relative to {app_root}
+    # Try to find the best template for the given basename and wish.
     #
-    # @param [String Array] location
+    # This method is mostly here for symetry with {to_layout} and to allow you
+    # overriding the template lookup easily.
     #
-    # @return [String Array]
+    # @param [#to_s] file
+    # @param [#to_s] wish
+    #
+    # @return [String nil] depending whether a template could be found
     #
     # @api external
-    # @see Node#layout Node#find_layout Node#to_layout Node#app_layout
+    # @see {Node#find_view} {Node#to_template} {Node#root_mappings}
+    #      {Node#view_mappings} {Node#to_template}
     # @author manveru
-    def layout_root(location = nil)
-      location ? (@layout_root = location) : (@layout_root ||= '/')
+    def to_view(file, wish)
+      path = root_mappings.concat(view_mappings) << file
+      to_template(path, wish)
     end
 
     # Aliasing one view from another.
