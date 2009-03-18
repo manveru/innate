@@ -863,7 +863,7 @@ module Innate
     # @api external
     # @author manveru
     def root_mappings
-      [*Innate.options.roots].dup
+      [*options.roots].dup
     end
 
     # Set the paths for lookup below the Innate.options.views paths.
