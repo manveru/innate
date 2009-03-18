@@ -22,16 +22,9 @@ module Innate
   # {Innate::Session} instances, and all the standard helper methods as well as
   # the ability to simply add other helpers.
   #
-  # NOTE:
-  #   * Although I tried to minimize the amount of code in here there is still
-  #     quite a number of methods left in order to do ramaze-style lookups.
-  #     Those methods, and all other methods occurring in the ancestors after
-  #     {Innate::Node} will not be considered valid action methods and will be
-  #     ignored.
-  #   * This also means that method_missing will not see any of the requests
-  #     coming in.
-  #   * If you want an action to act as a catch-all, use `def index(*args)`.
-
+  # Please note that method_missing will _not_ be considered when building an
+  # {Action}. There might be future demand for this, but for now you can simply
+  # use `def index(*args); end` to make a catch-all action.
   module Node
     include Traited
 
@@ -252,12 +245,10 @@ module Innate
     # We do however log errors at some vital points in order to provide you
     # with feedback in your logs.
     #
-    # NOTE:
-    #   * A lot of functionality in here relies on the fact that call is
-    #     executed within Innate::STATE.wrap which populates the variables used
-    #     by Trinity.
-    #   * If you use the Node directly as a middleware make sure that you #use
-    #     Innate::Current as a middleware before it.
+    # A lot of functionality in here relies on the fact that call is executed
+    # within Innate::STATE.wrap which populates the variables used by Trinity.
+    # So if you use the Node directly as a middleware make sure that you #use
+    # Innate::Current as a middleware before it.
     #
     # @param [Hash] env
     #
@@ -280,7 +271,7 @@ module Innate
     end
 
     # Let's try to find some valid action for given +path+.
-    # Otherwise we dispatch to action_missing
+    # Otherwise we dispatch to {action_missing}.
     #
     # @param [String] path from env['PATH_INFO']
     #
@@ -294,12 +285,12 @@ module Innate
       action ? action_found(action) : action_missing(path)
     end
 
-    # Executed once an Action has been found.
+    # Executed once an {Action} has been found.
     #
     # Reset the {Innate::Response} instance, catch :respond and :redirect.
     # {Action#call} has to return a String.
     #
-    # @param [Innate::Action] action
+    # @param [Action] action
     #
     # @return [Innate::Response]
     #
@@ -407,10 +398,10 @@ module Innate
       return name, wish, engine
     end
 
-    # Now we're talking Action, we try to find a matching template and method,
-    # if we can't find either we go to the next pattern, otherwise we answer
-    # with an Action with everything we know so far about the demands of the
-    # client.
+    # Now we're talking {Action}, we try to find a matching template and
+    # method, if we can't find either we go to the next pattern, otherwise we
+    # answer with an {Action} with everything we know so far about the demands
+    # of the client.
     #
     # @param [String] given_name the name extracted from REQUEST_PATH
     # @param [String] wish
@@ -875,11 +866,11 @@ module Innate
       [*Innate.options.roots].dup
     end
 
-    # Set the paths for lookup below the {Innate.options.views} paths.
+    # Set the paths for lookup below the Innate.options.views paths.
     #
     # @param [String, Array<String>] locations
     #   Any number of strings indicating the paths where view templates may be
-    #   located, relative to {Innate.options.roots}/{Innate.options.views}
+    #   located, relative to Innate.options.roots/Innate.options.views
     #
     # @return [Node] self
     #
@@ -891,7 +882,7 @@ module Innate
       self
     end
 
-    # Combine {Innate.options.views} with either the `ancestral_trait[:views]`
+    # Combine Innate.options.views with either the `ancestral_trait[:views]`
     # or the {Node#mapping} if the trait yields an empty Array.
     #
     # @return [Array<String>, Array<Array<String>>]
@@ -906,11 +897,11 @@ module Innate
       [*options.views] + paths
     end
 
-    # Set the paths for lookup below the {Innate.options.layouts} paths.
+    # Set the paths for lookup below the Innate.options.layouts paths.
     #
     # @param [String, Array<String>] locations
     #   Any number of strings indicating the paths where layout templates may
-    #   be located, relative to {Innate.options.roots}/{Innate.options.layouts}
+    #   be located, relative to Innate.options.roots/Innate.options.layouts
     #
     # @return [Node] self
     #
@@ -922,7 +913,7 @@ module Innate
       self
     end
 
-    # Combine {Innate.options.layouts} with either the `ancestral_trait[:layouts]`
+    # Combine Innate.options.layouts with either the `ancestral_trait[:layouts]`
     # or the {Node#mapping} if the trait yields an empty Array.
     #
     # @return [Array<String>, Array<Array<String>>]
@@ -941,7 +932,7 @@ module Innate
       Innate.options
     end
 
-    # Whether an Action can be built without a method.
+    # Whether an {Action} can be built without a method.
     #
     # The default is to allow actions that use only a view template, but you
     # might want to turn this on, for example if you have partials in your view
