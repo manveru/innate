@@ -37,6 +37,8 @@ shared :session do
 end
 
 shared :mock do
+  Innate.setup_dependencies
+
   def get(*args) Innate::Mock.get(*args) end
   def post(*args) Innate::Mock.post(*args) end
 end
