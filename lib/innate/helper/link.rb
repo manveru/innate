@@ -28,9 +28,8 @@ module Innate
         hashes, names = args.partition{|arg| arg.respond_to?(:merge!) }
         hashes.each{|to_merge| hash.merge!(to_merge) }
 
-        prefix = Innate.options.prefix
-        location = Innate.to(self) || Innate.to(self.class)
-        front = Array[prefix, location, name, *names].join('/').squeeze('/')
+        location = route_location(self)
+        front = Array[location, name, *names].join('/').squeeze('/')
 
         if hash.empty?
           URI(front)
@@ -41,6 +40,12 @@ module Innate
         end
       end
       alias r route
+
+      def route_location(klass)
+        prefix = Innate.options.prefix
+        location = Innate.to(klass) || Innate.to(klass.class)
+        [prefix, location].join('/')
+      end
 
       # Create a route to the currently active Node.
       #
