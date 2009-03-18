@@ -50,13 +50,13 @@ module Innate
 
     trait :views          => []
     trait :layouts        => []
-
     trait :layout         => nil
     trait :alias_view     => {}
     trait :provide        => {}
     trait :wrap           => [:aspect_wrap]
     trait :provide_set    => false
     trait :needs_method   => false
+    trait :skip_node_map  => false
 
     # Upon inclusion we make ourselves comfortable.
     def self.included(into)
@@ -72,9 +72,32 @@ module Innate
       into.trait(:provide_set => false)
     end
 
+    # node mapping procedure
+    #
+    # when Node is included into an object, it's added to NODE_LIST
+    # when object::map(location) is sent, it maps the object into DynaMap
+    # when Innate.start is issued, it calls Node::setup
+    # Node::setup iterates NODE_LIST and maps all objects not in DynaMap by
+    # using Node::generate_mapping(object.name) as location
+    #
+    # when object::map(nil) is sent, the object will be skipped in Node::setup
+
     def self.setup
-      NODE_LIST.each{|node| Innate.map(node.mapping, node) }
-      Log.debug("Mapped Nodes: %p" % DynaMap.to_hash)
+      NODE_LIST.each{|node|
+        next if node.trait[:skip_node_map]
+        node.map(generate_mapping(node.name))
+      }
+      # Log.debug("Mapped Nodes: %p" % DynaMap.to_hash) unless NODE_LIST.empty?
+    end
+
+    def self.generate_mapping(object_name = self.name)
+      p :generate_mapping => object_name
+      p caller
+      return '/' if NODE_LIST.size == 1
+      parts = object_name.split('::').map{|part|
+        part.gsub(/^[A-Z]+/){|sub| sub.downcase }.gsub(/[A-Z]+[^A-Z]/, '_\&')
+      }
+      '/' << parts.join('/').downcase
     end
 
     # Tries to find the relative url that this {Node} is mapped to.
@@ -94,10 +117,7 @@ module Innate
     # @see Innate::SingletonMethods#to
     # @author manveru
     def mapping
-      mapped = Innate.to(self)
-      return mapped if mapped
-      return '/' if NODE_LIST.size == 1
-      "/" << self.name.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase
+      Innate.to(self)
     end
 
     # Shortcut to map or remap this Node.
@@ -126,7 +146,8 @@ module Innate
     # @see Innate::SingletonMethods::map
     # @author manveru
     def map(location)
-      Innate.map(location, self)
+      trait :skip_node_map => true
+      Innate.map(location, self) if location
     end
 
     # Specify which way contents are provided and processed.
@@ -882,7 +903,7 @@ module Innate
       paths = [*ancestral_trait[:views]]
       paths = [mapping] if paths.empty?
 
-      [*Innate.options.views] + paths
+      [*options.views] + paths
     end
 
     # Set the paths for lookup below the {Innate.options.layouts} paths.
@@ -913,7 +934,11 @@ module Innate
       paths = [*ancestral_trait[:layouts]]
       paths = [mapping] if paths.empty?
 
-      [*Innate.options.layouts] + paths
+      [*options.layouts] + paths
+    end
+
+    def options
+      Innate.options
     end
 
     # Whether an Action can be built without a method.
