@@ -1,6 +1,6 @@
 require 'spec/helper'
 
-Innate.options.merge!(:views => 'node', :layouts => 'node')
+Innate.options.merge!(:views => 'view', :layouts => 'view')
 
 class SpecNode
   Innate.node('/')
@@ -86,62 +86,10 @@ end
 describe 'Innate::Node' do
   behaves_like :mock
 
-  def compare(url, hash)
-    result = SpecNode.resolve(url)
-    result.should.not.be.nil
-    hash.each do |key, value|
-      result[key.to_s].should == value
-    end
-  end
-
   def assert_wish(url, body, content_type)
     got = get(url)
     got.body.strip.should == body
     got.headers['Content-Type'].should == content_type
-  end
-
-  should 'resolve actions with methods' do
-    SpecNode.resolve('/').should.be.nil
-    SpecNode.resolve('/index').should.be.nil
-
-    compare '/foo', :method => 'foo', :params => []
-    SpecNode.resolve('/foo/one/two').should.be.nil
-
-    compare '/bar', :method => 'bar', :params => []
-    SpecNode.resolve('/bar/one').should.be.nil
-
-    SpecNode.resolve('/one').should.be.nil
-    compare '/one/1', :method => 'one', :params => ['1']
-    SpecNode.resolve('/one/1/2').should.be.nil
-    SpecNode.resolve('/one/1/2/3').should.be.nil
-
-    SpecNode.resolve('/two').should.be.nil
-    SpecNode.resolve('/two/1').should.be.nil
-    compare '/two/1/2', :method => 'two', :params => %w[1 2]
-    SpecNode.resolve('/two/1/2/3').should.be.nil
-
-    compare '/more', :method => 'more', :params => []
-    compare '/more/1', :method => 'more', :params => %w[1]
-    compare '/more/1/2', :method => 'more', :params => %w[1 2]
-    compare '/more/1/2/3', :method => 'more', :params => %w[1 2 3]
-
-    compare '/default', :method => 'default', :params => []
-    compare '/default/1', :method => 'default', :params => %w[1]
-
-    # NOTE: these are actually bound to fail when called, but we cannot
-    #       introspect enough to anticipate this failure
-    compare '/default/1/2', :method => 'default', :params => %w[1 2]
-    compare '/default/1/2/3', :method => 'default', :params => %w[1 2 3]
-  end
-
-  should 'inherit action methods from superclasses' do
-    SpecNodeSub.resolve('/foo').should.not.be.nil
-    SpecNodeSub.resolve('/foo/one/two').should.be.nil
-  end
-
-  should 'select correct method from subclasses' do
-    SpecNodeSub.resolve('/bar/one').should.not.be.nil
-    SpecNodeSub.resolve('/bar').should.be.nil
   end
 
   should 'respond with 404 if no action was found' do
@@ -182,6 +130,7 @@ describe 'Innate::Node' do
     got = Innate::Mock.get('/provide_template/only_view')
     got.status.should == 200
     got.body.strip.should == "Only template"
+    got['Content-Type'].should == 'text/html'
   end
 
   should 'not get an action view with params if there is no method' do
@@ -191,6 +140,9 @@ describe 'Innate::Node' do
   end
 
   should 'use alias_view' do
-    assert_wish('/alias_view/aliased', "<h1>Hello, World!</h1>", 'text/html')
+    got = get('/alias_view/aliased')
+    got.status.should == 200
+    got.body.strip.should == "<h1>Hello, World!</h1>"
+    got['Content-Type'].should == 'text/html'
   end
 end
