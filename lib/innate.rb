@@ -21,6 +21,7 @@ module Innate
   require 'set'
   require 'pathname'
   require 'digest/sha1'
+  require 'digest/sha2'
   require 'ipaddr'
   require 'socket'
   require 'logger'

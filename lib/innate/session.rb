@@ -104,16 +104,19 @@ module Innate
         :expires => options.expires }
     end
 
-    def entropy
-      [ srand, rand, Time.now.to_f, rand, $$, rand, object_id ]
+    def generate_sid
+      begin sid = sid_algorithm end while cache[sid]
+      sid
     end
 
-    def generate_sid
-      begin
-        sid = Digest::SHA1.hexdigest(entropy.join)
-      end while cache[sid]
-
-      return sid
+    begin
+      require 'securerandom'
+      def sid_algorithm; SecureRandom.hex(32); end
+    rescue LoadError
+      def sid_algorithm
+        entropy = [ srand, rand, Time.now.to_f, rand, $$, rand, object_id ]
+        Digest::SHA2.hexdigest(entropy.join)
+      end
     end
   end
 end
