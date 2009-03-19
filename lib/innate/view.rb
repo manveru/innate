@@ -13,10 +13,6 @@ module Innate
       ENGINE.reject{|k,v| v != name }.keys
     end
 
-    def render(ext, action, string)
-      get(ext).render(action, string)
-    end
-
     # Try to obtain given engine by its registered name.
     def get(engine_or_ext)
       return unless engine_or_ext
@@ -27,7 +23,7 @@ module Innate
       elsif klass = ENGINE[eoe]
         TEMP[eoe] = obtain(klass)
       else
-        TEMP[eoe] = const_get(eoe)
+        TEMP[eoe] = obtain(eoe, View)
       end
     end
 
@@ -35,11 +31,10 @@ module Innate
     # class will cause race conditions and one call may return the wrong class
     # on the first request (before TEMP is set).
     # No mutex is used in Fiber environment, see Innate::State and subclasses.
-    def obtain(klass)
+    def obtain(klass, root = Object)
       STATE.sync do
-        obj = Object
-        klass.split('::').each{|e| obj = obj.const_get(e) }
-        obj
+        klass.scan(/\w+/){|part| root = root.const_get(part) }
+        root
       end
     end
 
@@ -58,14 +53,10 @@ module Innate
       end
     end
 
-    # Combine Kernel#autoload and Innate::View::register
+    autoload :None, 'innate/view/none'
+    autoload :ERB, 'innate/view/erb'
 
-    def auto_register(name, *exts)
-      autoload(name, "innate/view/#{name}".downcase)
-      register("#{self}::#{name}", *exts)
-    end
-
-    auto_register :None, :css, :html, :htm
-    auto_register :ERB,  :erb
+    register 'Innate::View::None', :css, :html, :htm
+    register 'Innate::View::ERB', :erb
   end
 end

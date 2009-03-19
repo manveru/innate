@@ -109,19 +109,6 @@ module Innate
       end
     end
 
-    # @param [String, #to_str] string to be rendered
-    # @return [String] The rendered result of the templating engine
-    # @raise [RuntimeError] if no suitable templating engine was found
-    # @see Action#as_html
-    # @author manveru
-    def fulfill_wish(string)
-      way = File.basename(view).gsub!(/.*?#{wish}\./, '') if view
-      way ||= node.provide[wish] || node.provide['html']
-
-      return View.render(way, self, string || view) if way
-      raise("No templating engine was found for %p" % way)
-    end
-
     def wrap_in_layout
       return yield unless layout
 
