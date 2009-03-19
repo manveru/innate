@@ -2,11 +2,14 @@ module Innate
   module Helper
 
     # Provides before/after wrappers for actions
+    #
+    # This helper is essential for proper working of {Action#render}.
     module Aspect
       AOP = Hash.new{|h,k| h[k] = Hash.new{|hh,kk| hh[kk] = {} }}
 
       def self.included(into)
         into.extend(SingletonMethods)
+        into.add_action_wrapper(5.0, :aspect_wrap)
       end
 
       # Consider objects that have Aspect included
@@ -37,7 +40,56 @@ module Innate
         result
       end
 
+      # This awesome piece of hackery implements action AOP.
+      #
+      # The so-called aspects are simply methods that may yield the next aspect
+      # in the chain, this is similar to racks concept of middleware, but instead
+      # of initializing with an app we simply pass a block that may be yielded
+      # with the action being processed.
+      #
+      # This gives us things like logging, caching, aspects, authentication, etc.
+      #
+      # Add the name of your method to the trait[:wrap] to add your own method to
+      # the wrap_action_call chain.
+      #
+      # @example adding your method
+      #
+      #   class MyNode
+      #     Innate.node '/'
+      #
+      #     private
+      #
+      #     def wrap_logging(action)
+      #       Innate::Log.info("Executing #{action.name}")
+      #       yield
+      #     end
+      #
+      #     trait[:wrap]
+      #   end
+      #
+      #
+      # methods may register
+      # themself in the trait[:wrap] and will be called in left-to-right order,
+      # each being passed the action instance and a block that they have to yield
+      # to continue the chain.
+      #
+      # @param [Action] action instance that is being passed to every registered method
+      # @param [Proc] block contains the instructions to call the action method if any
+      #
+      # @see Action#render
+      # @author manveru
+      def wrap_action_call(action, &block)
+        wrap = SortedSet.new
+        action.node.ancestral_trait_values(:wrap).each{|sset| wrap.merge(sset) }
+        head, *tail = wrap.map{|k,v| v }
+        tail.reverse!
+        combined = tail.inject(block){|s,v| lambda{ __send__(v, action, &s) } }
+        __send__(head, action, &combined)
+      end
+
       module SingletonMethods
+        include Traited
+
         def before_all(&block)
           AOP[self][:before_all] = block
         end
@@ -57,6 +109,14 @@ module Innate
         def wrap(name, &block)
           before(name, &block)
           after(name, &block)
+        end
+
+        def add_action_wrapper(order, method_name)
+          if wrap = trait[:wrap]
+            wrap.merge(SortedSet[[order, method_name]])
+          else
+            trait :wrap => SortedSet[[order, method_name]]
+          end
         end
       end
     end

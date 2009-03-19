@@ -61,13 +61,20 @@ module Innate
     # # => {:three => :drei, :two => :zwei, :one => :eins, :first => :overwritten}
     def ancestral_trait
       result = {}
+      each_ancestral_trait{|trait| result.merge!(trait) }
+      result
+    end
 
+    def ancestral_trait_values(key)
+      result = []
+      each_ancestral_trait{|trait| result << trait[key] if trait.key?(key) }
+      result
+    end
+
+    def each_ancestral_trait
       ancs = respond_to?(:ancestors) ? ancestors : self.class.ancestors
-      ancs.reverse_each do |anc|
-        result.update(anc.trait) if anc.respond_to?(:trait)
-      end
-
-      result.merge!(trait)
+      ancs.unshift(self)
+      ancs.reverse_each{|anc| yield(TRAITS[anc]) if TRAITS.key?(anc) }
     end
 
     # trait for self.class if we are an instance

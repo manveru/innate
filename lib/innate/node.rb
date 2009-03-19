@@ -46,7 +46,9 @@ module Innate
     trait :layout         => nil
     trait :alias_view     => {}
     trait :provide        => {}
-    trait :wrap           => [:aspect_wrap]
+
+    # @see wrap_action_call
+    trait :wrap           => SortedSet.new
     trait :provide_set    => false
     trait :needs_method   => false
     trait :skip_node_map  => false
@@ -819,27 +821,6 @@ module Innate
       engine_exts = View.exts_of(engine).join(',')
       represented = [*wish].map{|k| "#{k}." }.join(',')
       "{%s,}{%s}" % [represented, engine_exts]
-    end
-
-    # This awesome piece of hackery implements action AOP, methods may register
-    # themself in the trait[:wrap] and will be called in left-to-right order,
-    # each being passed the action instance and a block that they have to yield
-    # to continue the chain.
-    #
-    # This enables things like action logging, caching, aspects,
-    # authentication, etc...
-    #
-    # @param [Action] action instance that is being passed to every registered method
-    # @param [Proc] block contains the instructions to call the action method if any
-    #
-    # @see {Action#render}
-    # @author manveru
-    def wrap_action_call(action, &block)
-      wrap = ancestral_trait[:wrap]
-      head, *tail = wrap
-      tail.reverse!
-      combined = tail.inject(block){|s,v| lambda{ __send__(v, action, &s) } }
-      __send__(head, action, &combined)
     end
 
     # For compatibility with new Kernel#binding behaviour in 1.9
