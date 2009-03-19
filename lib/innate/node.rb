@@ -77,8 +77,7 @@ module Innate
 
     def self.setup
       NODE_LIST.each{|node|
-        next if node.trait[:skip_node_map]
-        node.map(generate_mapping(node.name))
+        node.map(generate_mapping(node.name)) if node.trait[:skip_node_map]
       }
       # Log.debug("Mapped Nodes: %p" % DynaMap.to_hash) unless NODE_LIST.empty?
     end
