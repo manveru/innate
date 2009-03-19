@@ -86,12 +86,6 @@ end
 describe 'Innate::Node' do
   behaves_like :mock
 
-  def assert_wish(url, body, content_type)
-    got = get(url)
-    got.body.strip.should == body
-    got.headers['Content-Type'].should == content_type
-  end
-
   should 'respond with 404 if no action was found' do
     got = Innate::Mock.get('/does_not_exist')
     got.status.should == 404
