@@ -83,8 +83,6 @@ module Innate
     end
 
     def self.generate_mapping(object_name = self.name)
-      p :generate_mapping => object_name
-      p caller
       return '/' if NODE_LIST.size == 1
       parts = object_name.split('::').map{|part|
         part.gsub(/^[A-Z]+/){|sub| sub.downcase }.gsub(/[A-Z]+[^A-Z]/, '_\&')
