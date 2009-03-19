@@ -532,9 +532,7 @@ module Innate
       @method_arities
     end
 
-    def method_arities
-      update_method_arities
-    end
+    attr_reader :method_arities
 
     # Try to find the best template for the given basename and wish and respect
     # aliased views.
