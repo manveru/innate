@@ -64,6 +64,8 @@ module Innate
   # Contains all the module functions for Innate, we keep them in a module so
   # Ramaze can simply use them as well.
   module SingletonMethods
+    PROXY_OPTIONS = { :port => 'adapter.port', :host => 'adapter.host',
+                      :adapter => 'adapter.handler' }
     # The method that starts the whole business.
     #
     # Call Innate.start after you defined your application.
@@ -115,6 +117,9 @@ module Innate
         $0 = found_root
         Innate.options.roots = [found_root]
       end
+
+      PROXY_OPTIONS.each{|k,v| given_options[v] = given_options.delete(k) }
+      given_options.delete_if{|k,v| v.nil? }
 
       options.merge!(given_options)
 
