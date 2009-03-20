@@ -2,7 +2,7 @@ require 'spec/helper'
 
 describe Innate::Request do
   def request(env = {})
-    Innate::Request.new(env)
+    Innate::Request.new(@env.merge(env))
   end
 
   @env = {
@@ -18,7 +18,7 @@ describe Innate::Request do
     "HTTP_USER_AGENT"      => "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.5) Gecko/2008123017 Firefox/3.0.4 Ubiquity/0.1.4",
     "HTTP_VERSION"         => "HTTP/1.1",
     "PATH_INFO"            => "/",
-    "QUERY_STRING"         => "?a=b",
+    "QUERY_STRING"         => "a=b",
     "REMOTE_ADDR"          => "127.0.0.1",
     "REMOTE_HOST"          => "delta.local",
     "REQUEST_METHOD"       => "GET",
@@ -32,7 +32,7 @@ describe Innate::Request do
 
   should 'provide #request_uri' do
     request('REQUEST_URI' => '/?a=b').request_uri.should == '/?a=b'
-    request('PATH_INFO' => '/').request_uri.should == '/'
+    request('REQUEST_URI' => '/').request_uri.should == '/'
   end
 
   should 'provide #local_net?' do
@@ -53,13 +53,26 @@ describe Innate::Request do
     req.subset(:a, :c).should == {'a' => 'b', 'c' => 'd'}
   end
 
-  should 'provide #domain' do
-    request(@env.merge('rack.url_scheme' => 'http')).domain.should ==
-      URI('http://localhost:7000/')
-    request(@env.merge('rack.url_scheme' => 'https')).domain.should ==
-      URI('https://localhost:7000/')
-    request(@env.merge('rack.url_scheme' => 'https')).domain('/foo').should ==
-      URI('https://localhost:7000/foo')
+  should 'provide #domain on http' do
+    request('rack.url_scheme' => 'http').domain.
+      should == URI('http://localhost:7000/')
+
+    request('rack.url_scheme' => 'http').domain('/foo').
+      should == URI('http://localhost:7000/foo')
+
+    request('rack.url_scheme' => 'http').domain('/foo', :keep_query => true).
+      should == URI('http://localhost:7000/foo?a=b')
+  end
+
+  should 'provide #domain on https' do
+    request('rack.url_scheme' => 'https').domain.
+      should == URI('https://localhost:7000/')
+
+    request('rack.url_scheme' => 'https').domain('/foo').
+      should == URI('https://localhost:7000/foo')
+
+    request('rack.url_scheme' => 'https').domain('/foo', :keep_query => true).
+      should == URI('https://localhost:7000/foo?a=b')
   end
 
   should 'provide #accept_language' do
