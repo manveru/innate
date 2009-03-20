@@ -101,12 +101,25 @@ module Innate
     # Try to figure out the domain we are running on, this might work for some
     # deployments but fail for others, given the combination of servers in
     # front.
-
-    def domain(path = '/')
-      scheme = self.scheme || 'http'
-      host   = env['HTTP_HOST']
-
-      URI("#{scheme}://#{host}#{path}")
+    #
+    # @example usage
+    #
+    #   domain
+    #   # => #<URI::HTTPS:0xb769ecb0 URL:https://localhost:7000/>
+    #   domain('/foo')
+    #   # => #<URI::HTTPS:0xb769ecb0 URL:https://localhost:7000/foo>
+    #
+    # @param [#to_s] path
+    #
+    # @return [URI]
+    #
+    # @api external
+    # @author manveru
+    def domain(path = nil, options = {})
+      uri = URI(self.url)
+      uri.path = path.to_s if path
+      uri.query = nil unless options[:keep_query]
+      uri
     end
 
     # Try to find out which languages the client would like to have and sort
