@@ -7,4 +7,4 @@ end
 require File.expand_path(File.join(File.dirname(__FILE__), '../lib/innate'))
 require 'innate/spec'
 
-Innate.options.roots = [caller_root]
+Innate.options.roots = [caller_root] if caller_root
