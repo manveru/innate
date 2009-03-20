@@ -31,13 +31,11 @@ module Innate
         location = route_location(self)
         front = Array[location, name, *names].join('/').squeeze('/')
 
-        if hash.empty?
-          URI(front)
-        else
-          escape = Rack::Utils.method(:escape)
-          query = hash.map{|key, value| "#{escape[key]}=#{escape[value]}" }.join(';')
-          URI("#{front}?#{query}")
-        end
+        return URI(front) if hash.empty?
+
+        escape = Rack::Utils.method(:escape)
+        query = hash.map{|k, v| "#{escape[k]}=#{escape[v]}" }.join(';')
+        URI("#{front}?#{query}")
       end
       alias r route
 
