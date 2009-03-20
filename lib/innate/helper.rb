@@ -147,11 +147,8 @@ module Innate
     #     Innate::HelpersHelper.each_include(self, :cgi, :link, :aspect)
     #   end
     def each_include(into, *names, &block)
-      return if names.empty?
-      mods = each(*names, &block)
-      into.include(*mods)
-    rescue NoMethodError
-      into.__send__(:include, *mods)
+      return if names.compact.empty?
+      into.__send__(:include, *each(*names, &block))
     end
 
     # Based on a simple set of rules we will first construct the most likely
@@ -162,10 +159,10 @@ module Innate
     # helper :foo # => Foo
     def get(name)
       name = name.to_s.split('_').map{|e| e.capitalize}.join
+
       POOL.each do |namespace|
-        if found = namespace.constants.grep(/^#{name}$/i).first
-          return namespace.const_get(found)
-        end
+        found = namespace.constants.grep(/^#{name}$/i).first
+        return namespace.const_get(found) if found
       end
 
       nil
@@ -174,8 +171,11 @@ module Innate
     # Figure out files that might have the helper we ask for and then require
     # the first we find, if any.
     def try_require(name)
-      found = Dir[glob(name)].first
-      found ? require(found) : raise(LoadError, "Helper #{name} not found")
+      if found = Dir[glob(name)].first
+        require(found) || true
+      else
+        raise(LoadError, "Helper #{name} not found")
+      end
     end
 
     # Return a nice list of filenames in correct locations with correct
