@@ -14,9 +14,5 @@ module Innate
     def action
       actions.last
     end
-
-    def action=(arg)
-      raise "You have to modify Current::actions or use Current::action.wrap"
-    end
   end
 end

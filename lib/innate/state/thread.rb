@@ -37,7 +37,7 @@ module Innate
 
       def defer
         map = Thread.current.keys.map{|k| [k, Thread.current[k]] }
-        Thread.new{|m| m.each{|k,v| Thread.current[k] = v }; yield }
+        Thread.new(map){|m| m.each{|k,v| Thread.current[k] = v }; yield }
       end
     end
   end

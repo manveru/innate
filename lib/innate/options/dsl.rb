@@ -42,7 +42,7 @@ module Innate
   #   # => 9
   #
   class Options
-    def initialize(name, parent = self, &block)
+    def initialize(name, parent = self)
       @name, @parent, = name, parent
       @hash = {}
       yield(self) if block_given?
@@ -162,7 +162,7 @@ module Innate
       @hash.each(&block)
     end
 
-    def each_pair(&block)
+    def each_pair
       @hash.each do |key, values|
         yield(key, self[key])
       end

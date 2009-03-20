@@ -72,15 +72,13 @@ module Innate
     end
 
     def resolve(path)
-      request = Current.request
-
       self.class::ROUTES.each do |key, value|
         if key.is_a?(Regexp)
           md = path.match(key)
           return value % md.to_a[1..-1] if md
 
         elsif value.respond_to?(:call)
-          new_path = value.call(path, Request.current)
+          new_path = value.call(path, Current.request)
           return new_path if new_path
 
         elsif value.respond_to?(:to_str)

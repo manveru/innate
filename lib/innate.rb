@@ -123,8 +123,6 @@ module Innate
 
       options.merge!(given_options)
 
-      mode, started = options.mode, options.started
-
       setup_dependencies
       middleware!(options.mode, &block) if block_given?
 
