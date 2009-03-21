@@ -9,11 +9,6 @@ module Innate
   # necessary right now but may be added.
   #
   # We subclass to keep your Ruby clean and polished.
-  #
-  # TODO:
-  #   * 1.9.1 includes a patch from matz that will call #initialize, so we can
-  #     remove our ::new hack, just have to get my hands on a properly
-  #     compiling version of 1.9.1
   class Fiber < ::Fiber
     attr_accessor :state
 
@@ -45,11 +40,11 @@ module Innate
     # available.
     class Fiber
       def [](key)
-        Innate::Fiber.current[key]
+        ::Fiber.current[key]
       end
 
       def []=(key, value)
-        Innate::Fiber.current[key] = value
+        ::Fiber.current[key] = value
       end
 
       # We don't use Fiber in a concurrent manner and they don't run
@@ -68,8 +63,11 @@ module Innate
       end
 
       def defer
-        map = Fiber.current.keys.map{|k| [k, Fiber.current[k]] }
-        Thread.new{|m| Fiber.new{ m.each{|k,v| Fiber.current[k] = v }; yield }}
+        a = Innate::Fiber.current
+        ::Thread.new do
+          b = Innate::Fiber.new{ a.keys.each{|k| b[k] = a[k] }; yield }
+          b.resume
+        end
       end
     end
   end
