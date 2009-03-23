@@ -114,6 +114,11 @@ describe Innate::Helper::Link do
       One.anchor('foo', 'http://example.com/?foo=bar&baz=qux').
         should == '<a href="http://example.com/?foo=bar&amp;baz=qux">foo</a>'
     end
+
+    should 'be able to route from one node to another' do
+      Two.anchor('foo', One.route(:index)).should == '<a href="/index">foo</a>'
+      One.anchor('foo', Two.route(:index)).should == '<a href="/two/index">foo</a>'
+    end
   end
 
   describe '#route_self' do

@@ -74,16 +74,15 @@ module Innate
       #
       # @return [String]
       def anchor(text, *args)
-        first = (args.first || text).to_s
-
-        if first =~ /^\w+:\/\//
+        case first = (args.first || text)
+        when URI
+          href = first.to_s
+        when /^\w+:\/\//
           uri = URI(first)
           uri.query = Rack::Utils.escape_html(uri.query)
           href = uri.to_s
-        elsif args.empty?
-          href = r(text)
         else
-          href = r(*args)
+          href = args.empty? ? r(text) : r(*args)
         end
 
         text = Rack::Utils.escape_html(text)
