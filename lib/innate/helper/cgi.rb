@@ -34,6 +34,8 @@ module Innate
       # one-letter versions help in case like #{h foo.inspect}
       # ERb/ERuby/Rails compatible
       alias u url_encode
+
+      module_function(:url_encode, :url_decode, :html_escape, :html_unescape, :h, :u)
     end
   end
 end
