@@ -77,10 +77,12 @@ module Innate
         action.layout    = nil
         action.view      = action.node.find_view(basename, 'html')
         action.method    = action.node.find_method(basename, action.params)
+
         action.variables = action.variables.merge(variables)
         action.sync_variables(action)
 
-        action.call
+        return action.call if action.valid?
+        raise(ArgumentError, "cannot render %p" % path)
       end
 
       def render_action(method, *params)

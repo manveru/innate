@@ -130,5 +130,9 @@ module Innate
     def name
       File.basename((method || view).to_s).split('.').first
     end
+
+    def valid?
+      method || view
+    end
   end
 end
