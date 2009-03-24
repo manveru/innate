@@ -102,7 +102,7 @@ describe Options do
     require 'pp'
     p = PP.new
     @options.pretty_print(p)
-    p.output.should =~ /:value=>4000/
+    p.output.should =~ /:value=>:mom/
   end
 
   should 'trigger block when option is changed' do

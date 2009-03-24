@@ -1,4 +1,5 @@
 require 'spec/helper'
+require 'innate/state/thread'
 
 describe Innate::State::Thread do
   T = Innate::State::Thread

@@ -1,10 +1,10 @@
-require 'spec/helper'
-
 begin
   require 'fiber'
 rescue LoadError
   exit
 end
+
+require 'spec/helper'
 
 describe Innate::State::Fiber do
   F = Innate::State::Fiber

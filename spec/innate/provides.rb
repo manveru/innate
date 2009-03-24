@@ -1,5 +1,11 @@
+begin
+  require 'json'
+rescue LoadError
+  exit
+end
+
 require 'spec/helper'
-require 'json'
+require 'yaml'
 
 Innate.options.merge!(:views => 'provides', :layouts => 'provides')
 
