@@ -17,6 +17,12 @@ class SpecNodeResolveSub < SpecNodeResolve
   def bar(arg) end
 end
 
+class SpecNodeResolveIndex
+  Innate.node('/arg')
+
+  def index(arg) end
+end
+
 describe 'Node.resolve' do
   def compare(url, hash)
     result = SpecNodeResolve.resolve(url)
@@ -68,5 +74,9 @@ describe 'Node.resolve' do
   should 'select correct method from subclasses' do
     SpecNodeResolveSub.resolve('/bar/one').should.not.be.nil
     SpecNodeResolveSub.resolve('/bar').should.be.nil
+  end
+
+  it "doesn't select index as action with index parameter if arity is 1" do
+    SpecNodeResolveIndex.resolve('/index').should.be.nil
   end
 end

@@ -726,7 +726,7 @@ module Innate
       atoms.size.downto(0) do |len|
         action = atoms[0...len].join('__')
         params = atoms[len..-1]
-        action = 'index' if action.empty?
+        action = 'index' if action.empty? and params != ['index']
 
         return result if result = yield(action, params)
       end
