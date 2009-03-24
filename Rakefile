@@ -119,20 +119,23 @@ task :spec => :setup do
   len = specs.map{|s| s.size }.sort.last
   tt = ta = tf = te = 0
 
-  red, green = "\e[31m%s\e[0m", "\e[32m%s\e[0m"
+  red, yellow, green = "\e[31m%s\e[0m", "\e[33m%s\e[0m", "\e[32m%s\e[0m"
   left_format = "%4d/%d: %-#{len + 11}s"
   spec_format = "%d specifications (%d requirements), %d failures, %d errors"
 
   specs.each_with_index do |spec, idx|
     print(left_format % [idx + 1, total, spec])
 
-    Open3.popen3("#{RUBY} #{spec}") do |sin, sout, serr|
+    Open3.popen3(RUBY, spec) do |sin, sout, serr|
       out = sout.read
       err = serr.read
+
+      ran = false
 
       out.each_line do |line|
         tests, assertions, failures, errors = all = line.scanf(spec_format)
         next unless all.any?
+        ran = true
         tt += tests; ta += assertions; tf += failures; te += errors
 
         if tests == 0 || failures + errors > 0
@@ -145,6 +148,8 @@ task :spec => :setup do
 
         break
       end
+
+      puts(yellow % "       skipped") unless ran
     end
   end
 
