@@ -1,3 +1,386 @@
+[94d0714 | Tue Mar 24 10:33:44 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix bug where index(arg) was passed 'index' as arg
+
+[28c9f16 | Tue Mar 24 07:05:43 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Nicer output for skipped specs
+
+[ea90a79 | Tue Mar 24 07:05:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix specs for 1.9
+
+[404cffe | Mon Mar 23 10:43:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Using anchor in combination with route would fail between nodes
+
+[b9c4048 | Mon Mar 23 10:23:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Update README to reflect latest developments
+
+[bd4456e | Mon Mar 23 06:53:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Copy action.variables into instance variables before calling engine
+
+[85b1b75 | Mon Mar 23 06:27:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Only render_template if the resulting action is valid
+
+[1e9009c | Mon Mar 23 06:03:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make the methods in Helper::CGI module functions
+
+[3e20690 | Sat Mar 21 02:36:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix outstanding issues around State and spec them
+
+[1906be4 | Fri Mar 20 17:15:54 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Clean up a bit after suggestions from nitpick
+
+[e89cde5 | Fri Mar 20 10:35:55 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Only set root in spec if found
+
+[45e1307 | Fri Mar 20 10:34:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add some aliases for options given to Innate.start, should make life easier
+
+[c418e85 | Fri Mar 20 09:25:20 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add specs for extended behaviour of Request#domain
+
+[17a1ca3 | Fri Mar 20 09:24:44 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Support put/delete in shared :mock
+
+[f857946 | Fri Mar 20 09:24:18 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Take advantage of new Rack::Request#url for Request#domain
+
+[b849861 | Fri Mar 20 09:23:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * small style change
+
+[a0d3176 | Fri Mar 20 09:23:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't rescue anything in Helper, all exceptions get shown
+
+[3e5869d | Thu Mar 19 12:57:08 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove unused method from node spec
+
+[27ffac3 | Thu Mar 19 12:48:05 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Clean up and remove methods that aren't used anymore
+
+[1e09f3c | Thu Mar 19 12:47:03 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve spec/helper.rb to work with rcov
+
+[ca75800 | Thu Mar 19 12:46:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix logical typo
+
+[057b52e | Thu Mar 19 12:12:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec Node mapping generation
+
+[05a244a | Thu Mar 19 12:09:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Move node aspects into the aspect helper, make traits faster
+
+[f774349 | Thu Mar 19 10:18:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better session id, use securerandom if possible (ruby >= 1.8.7)
+
+[4b8d305 | Thu Mar 19 09:58:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * update_method_arities only once per request
+
+[3d7a493 | Thu Mar 19 09:51:38 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove some debugging output
+
+[2650232 | Thu Mar 19 09:51:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * No need for next
+
+[b8e2c90 | Wed Mar 18 11:49:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Run Innate.setup_dependencies for shared :mock
+
+[335c4d0 | Wed Mar 18 11:49:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Forgot commiting the change to Node#root_mappings
+
+[e7a022c | Wed Mar 18 11:48:08 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Node docs more compatible with YARD
+
+[8bab954 | Wed Mar 18 11:37:57 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adding Helper::Link#route_location, makes life easier for Ramaze
+
+[ce9a71d | Wed Mar 18 11:35:55 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * More intelligent automatic mapping
+
+[3227e0b | Wed Mar 18 09:40:58 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Split up the specs for Node a little
+
+[176f1f8 | Tue Mar 17 12:09:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * And even more docs for Node
+
+[6992116 | Tue Mar 17 11:43:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Update specs for new template lookup
+
+[68ba841 | Tue Mar 17 11:41:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add more docs, yard uses @example instead of @usage
+
+[45c7a24 | Tue Mar 17 11:40:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Document some of the stuff that goes on in the Node#layout method, allow removing layout from node
+
+[fb36a5f | Tue Mar 17 11:39:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove the Node#layout_root method
+
+[f2e4cc7 | Tue Mar 17 11:38:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use param as variable name for the options hash to avoid confusion
+
+[a457bdf | Tue Mar 17 11:30:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Refactor Node options
+
+    Node options are now done by traits.
+    
+    The reasoning behind this is that one wants to inherit options from
+    nodes they subclass and that lookup of these options should be fast.
+    
+    Lookup of views is this:
+      [Innate.options.roots, Innate.options.views,
+        Node.trait[:views], name]
+    
+    Lookup of layouts is this:
+      [Innate.options.roots, Innate.options.layouts,
+        Node.trait[:layouts], name]
+    
+    If the traits are empty arrays, the Node.mapping is used instead.
+    
+    Setting a custom view or layout mapping works like:
+    
+      class Foo
+        Innate.node('/')
+        map_views '/foobar'
+        map_layouts '/foobar'
+      end
+    
+    More about this soon in the docs.
+
+[9b78d9c | Tue Mar 17 11:28:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix the non-node references to Node.options
+
+[64cfecb | Tue Mar 17 11:27:41 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Move some Node.options to Innate.options again, they make more sense there
+
+[f2db256 | Mon Mar 16 07:00:03 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Handle nil in path_glob gracefully
+
+[1b2435b | Mon Mar 16 06:38:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Even more docs for Node
+
+[c9dad64 | Mon Mar 16 06:38:26 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better information about ambigous templates
+
+[9fef72f | Mon Mar 16 06:38:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some more docs for Node
+
+[07230ee | Mon Mar 16 05:53:43 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Simple example for provides
+
+[9fa53a0 | Mon Mar 16 05:53:21 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some docs for Node#provide
+
+[93ffd36 | Mon Mar 16 01:58:20 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Innate::Helper::Link#route_self
+
+[89b5f05 | Sun Mar 15 08:09:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Try setting $0 correctly in Innate.start
+
+[75fe61d | Sun Mar 15 03:25:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Options of modules in Innate should be subs of Innate.options, not simple references
+
+[19797aa | Sat Mar 14 13:38:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Proper fallback for Options#[]=
+
+[53e5412 | Sat Mar 14 13:37:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow multiple public roots
+
+[88f6b82 | Sat Mar 14 05:25:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * The :app trait isn't needed anymore
+
+[f3b5d20 | Sat Mar 14 05:18:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add missing options/stub.rb
+
+[33c2fbe | Sat Mar 14 05:17:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow to change the object wrapped by Rack::MockRequest
+
+[2e5eccf | Sat Mar 14 05:12:43 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Refactor to use new options convention, each module has its own options now
+
+[b271865 | Sat Mar 14 05:09:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make specs easier by setting $0 correctly
+
+[346c8f3 | Sat Mar 14 05:09:13 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * More specs for Innate::Options
+
+[786a340 | Sat Mar 14 05:08:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve Innate::Options and add Innate::Optional
+
+[5d84d92 | Thu Mar 12 12:28:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Rewire to use Innate::MiddlewareCompiler and allow Ramaze to use its own URLMap
+
+[a4461b8 | Thu Mar 12 12:26:58 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix Helper::Flash spec, we need to return a string
+
+[7d22edb | Thu Mar 12 12:26:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Nicer debugging output for routing
+
+[12d63ac | Thu Mar 12 10:23:00 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Dynamic MiddlewareCompiler, removes last Rack namespaced class
+
+[aa7e2e1 | Mon Mar 09 11:09:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Move default hash into Action::create to prevent silly behaviour
+
+[68b8ec0 | Sat Mar 07 06:48:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Refactor of content representation, should work smooth now
+
+[e1ade5a | Fri Mar 06 06:42:20 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve Helper::Link#anchor on suggestions of endoh
+
+[d7ec2e6 | Fri Mar 06 06:16:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some explanation about session.expires
+
+[7b95de4 | Fri Mar 06 06:15:36 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Refactor provides, any engine just has to respond to ::call now
+
+[e9302f0 | Thu Mar 05 05:37:47 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Another change to template exts, only respect the wish to simplify things
+
+[5bc84c1 | Thu Mar 05 04:19:54 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove our Rack::Reloader - i'll try to improve the one in Rack instead and Ramaze has its own anyway
+
+[3712cff | Thu Mar 05 04:06:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Utilize application-specific configuration
+
+[527a29f | Thu Mar 05 04:04:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Split up to_template with path_glob and ext_glob
+
+[66ea210 | Wed Mar 04 07:53:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow multiple values for options.app.(root|view|layout|public)
+
+[671aaea | Thu Mar 05 09:02:48 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * View::register overwrites
+
+[663d623 | Mon Mar 02 17:20:23 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Options is not Enumerable anymore, add to_hash instead
+
+[e30a191 | Mon Mar 02 17:20:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * simplify helper failure
+
+[c1328ed | Mon Mar 02 08:13:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use Options#[] for faster access and add Innate::teardown_dependencies
+
+[a56126b | Mon Mar 02 08:13:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix middleware compilation
+
+[7d92080 | Sun Mar 01 10:46:02 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Add spec for render_template with variable.
+
+[b5cdf83 | Sun Mar 01 07:56:20 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Use Array#first instead of to_s to get extension from provide wish in
+
+    Array#to_s in 1.9 joins with brackets. # ['foo'].to_s #=> "[\"foo\"]"
+
+[2e8bb64 | Sun Mar 01 15:20:36 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Nicer exception for some missing helpers
+
+[a5de43a | Sun Mar 01 15:20:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * MiddlewareCompiler#use now has traditional rack meaning, use apps for the old behaviour
+
+[aedca0f | Sun Mar 01 15:19:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use options[:mode] to avoid problems with facets
+
+[f17eec8 | Sun Mar 01 07:02:13 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Innate::defer to schedule code for running in background
+
+[b7e58fa | Sat Feb 28 08:12:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Simplify view API a bit
+
+[37a05e8 | Wed Feb 25 07:04:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix version for rack in gemspec
+
+[e29cd02 | Wed Feb 25 07:03:20 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * innate doesn't rely on github
+
+[08d6773 | Wed Feb 25 07:01:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.02.25
+
 [04201ef | Wed Feb 25 06:27:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * cleanup

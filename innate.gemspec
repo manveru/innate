@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "innate"
-  s.version = "2009.02.25"
+  s.version = "2009.03.24"
 
   s.summary = "Powerful web-framework wrapper for Rack."
   s.description = "Simple, straight-forward, base for web-frameworks."
@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/manveru/innate"
   s.require_path = "lib"
 
-  s.add_dependency('rack', '>= 0.4.0')
+  s.add_dependency('rack', '>= 0.9.1')
 
   s.files = [
     "CHANGELOG",
@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
     "example/hello.rb",
     "example/howto_spec.rb",
     "example/link.rb",
+    "example/provides.rb",
     "example/session.rb",
     "innate.gemspec",
     "lib/innate.rb",
@@ -60,10 +61,12 @@ Gem::Specification.new do |s|
     "lib/innate/log.rb",
     "lib/innate/log/color_formatter.rb",
     "lib/innate/log/hub.rb",
+    "lib/innate/middleware_compiler.rb",
     "lib/innate/mock.rb",
     "lib/innate/node.rb",
     "lib/innate/options.rb",
     "lib/innate/options/dsl.rb",
+    "lib/innate/options/stub.rb",
     "lib/innate/request.rb",
     "lib/innate/response.rb",
     "lib/innate/route.rb",
@@ -80,8 +83,6 @@ Gem::Specification.new do |s|
     "lib/innate/view.rb",
     "lib/innate/view/erb.rb",
     "lib/innate/view/none.rb",
-    "lib/rack/middleware_compiler.rb",
-    "lib/rack/reloader.rb",
     "spec/example/hello.rb",
     "spec/example/link.rb",
     "spec/example/session.rb",
@@ -108,17 +109,25 @@ Gem::Specification.new do |s|
     "spec/innate/helper/view/partial.erb",
     "spec/innate/helper/view/recursive.erb",
     "spec/innate/mock.rb",
-    "spec/innate/node.rb",
-    "spec/innate/node/another_layout/another_layout.erb",
-    "spec/innate/node/bar.html",
-    "spec/innate/node/foo.html.erb",
-    "spec/innate/node/only_view.html",
-    "spec/innate/node/with_layout.erb",
+    "spec/innate/node/mapping.rb",
+    "spec/innate/node/node.rb",
+    "spec/innate/node/resolve.rb",
+    "spec/innate/node/view/another_layout/another_layout.erb",
+    "spec/innate/node/view/bar.erb",
+    "spec/innate/node/view/foo.html.erb",
+    "spec/innate/node/view/only_view.erb",
+    "spec/innate/node/view/with_layout.erb",
+    "spec/innate/node/wrap_action_call.rb",
     "spec/innate/options.rb",
     "spec/innate/parameter.rb",
+    "spec/innate/provides.rb",
+    "spec/innate/provides/list.html.erb",
+    "spec/innate/provides/list.txt.erb",
     "spec/innate/request.rb",
     "spec/innate/route.rb",
     "spec/innate/session.rb",
+    "spec/innate/state/fiber.rb",
+    "spec/innate/state/thread.rb",
     "spec/innate/traited.rb"
   ]
 end
