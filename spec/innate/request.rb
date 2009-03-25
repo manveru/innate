@@ -74,13 +74,4 @@ describe Innate::Request do
     request('rack.url_scheme' => 'https').domain('/foo', :keep_query => true).
       should == URI('https://localhost:7000/foo?a=b')
   end
-
-  should 'provide #accept_language' do
-    request(@env).accept_language.should == %w[en-us en de-at de]
-  end
-
-  should 'provide #http_variables' do
-    r = request(@env).http_variables
-    r.should.not.be.empty
-  end
 end
