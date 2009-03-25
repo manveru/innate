@@ -14,16 +14,13 @@ module Innate
     end
 
     # Try to obtain given engine by its registered name.
-    def get(engine_or_ext)
-      return unless engine_or_ext
-      eoe = Array[*engine_or_ext].first.to_s
-
-      if klass = TEMP[eoe]
+    def get(engine)
+      if klass = TEMP[engine]
         return klass
-      elsif klass = ENGINE[eoe]
-        TEMP[eoe] = obtain(klass)
+      elsif klass = ENGINE[engine]
+        TEMP[engine] = obtain(klass)
       else
-        TEMP[eoe] = obtain(eoe, View)
+        TEMP[engine] = obtain(engine, View)
       end
     end
 
@@ -43,12 +40,11 @@ module Innate
     # +name+ : the class name of the templating engine wrapper
     # +exts+ : any number of arguments will be turned into strings via #to_s
     #          that indicate which filename-extensions the templates may have.
-
     def register(klass, *exts)
       exts.each do |ext|
         ext = ext.to_s
-        k = ENGINE[ext]
-        Log.warn("overwriting %p which is set to %p already" % [ext, k]) if k
+        engine = ENGINE[ext]
+        Log.warn("overwriting %p, was set to %p" % [ext, engine]) if engine
         ENGINE[ext] = klass
       end
     end
