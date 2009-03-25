@@ -30,7 +30,7 @@ module Innate
     # No mutex is used in Fiber environment, see Innate::State and subclasses.
     def obtain(klass, root = Object)
       STATE.sync do
-        klass.scan(/\w+/){|part| root = root.const_get(part) }
+        klass.to_s.scan(/\w+/){|part| root = root.const_get(part) }
         root
       end
     end
