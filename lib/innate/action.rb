@@ -104,7 +104,8 @@ module Innate
         self.view_value = File.read(view) if view
         copy_variables
 
-        body, content_type = wrap_in_layout{ engine.call(self, view_value || value) }
+        body, content_type = wrap_in_layout{
+          engine.call(self, view_value || value || '') }
         options[:content_type] ||= content_type if content_type
         body
       end
