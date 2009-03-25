@@ -49,10 +49,12 @@ module Innate
       end
     end
 
-    autoload :None, 'innate/view/none'
-    autoload :ERB, 'innate/view/erb'
+    autoload :None,   'innate/view/none'
+    autoload :ERB,    'innate/view/erb'
+    autoload :Etanni, 'innate/view/etanni'
 
-    register 'Innate::View::None', :css, :html, :htm
-    register 'Innate::View::ERB', :erb
+    register 'Innate::View::None',   :css, :html, :htm
+    register 'Innate::View::ERB',    :erb
+    register 'Innate::View::Etanni', :xhtml
   end
 end
