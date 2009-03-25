@@ -25,11 +25,11 @@ module Innate
       end
     end
 
-    # Setup new Request/Response/Session for this request/response cycle
-
-    def setup(env)
-      req = STATE[:request] = Request.new(env)
-      res = STATE[:response] = Response.new
+    # Setup new Request/Response/Session for this request/response cycle.
+    # The parameters are here to allow Ramaze to inject its own classes.
+    def setup(env, request = Request, response = Response, session = Session)
+      req = STATE[:request] = request.new(env)
+      res = STATE[:response] = response.new
       STATE[:actions] = []
       STATE[:session] = Session.new(req, res)
     end
