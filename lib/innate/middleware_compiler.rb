@@ -47,27 +47,13 @@ module Innate
       cascade(*apps)
     end
 
-    def static(path)
-      require 'rack/contrib'
-      Rack::ETag.new(Rack::ConditionalGet.new(Rack::File.new(path)))
-    end
-
-    def directory(path)
-      require 'rack/contrib'
-      Rack::ETag.new(Rack::ConditionalGet.new(Rack::Directory.new(path)))
-    end
-
     def call(env)
       compile
       @compiled.call(env)
     end
 
-    def compiled?
-      @compiled
-    end
-
     def compile
-      compiled? ? self : compile!
+      @compiled ? self : compile!
     end
 
     def compile!
