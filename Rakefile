@@ -58,32 +58,24 @@ end
 
 desc 'generate gemspec'
 task :gemspec => [:manifest, :changelog] do
-  manifest = File.read('MANIFEST').split("\n")
-  files = manifest.map{|file| "    %p," % file }.join("\n")[0..-2]
+  gemspec = Gem::Specification.new{|s|
+    s.name = 'innate'
+    s.version = INNATE_VERSION
+    s.summary = "Powerful web-framework wrapper for Rack."
+    s.description = "Simple, straight-forward base for web-frameworks."
+    s.platform = 'ruby'
+    s.has_rdoc = true
+    s.author = "Michael 'manveru' Fellinger"
+    s.email = "m.fellinger@gmail.com"
+    s.homepage = 'http://github.com/manveru/innate'
+    s.require_path = 'lib'
+    s.add_runtime_dependency('rack', '>= 0.9.1')
+    s.add_development_dependency('bacon', '>= 1.0')
+    s.add_development_dependency('json', '>= 1.1.3')
+    s.files = File.read('MANIFEST').split("\n")
+  }
 
-gemspec = <<-GEMSPEC
-Gem::Specification.new do |s|
-  s.name = "innate"
-  s.version = #{INNATE_VERSION.dump}
-
-  s.summary = "Powerful web-framework wrapper for Rack."
-  s.description = "Simple, straight-forward, base for web-frameworks."
-  s.platform = "ruby"
-  s.has_rdoc = true
-  s.author = "Michael 'manveru' Fellinger"
-  s.email = "m.fellinger@gmail.com"
-  s.homepage = "http://github.com/manveru/innate"
-  s.require_path = "lib"
-
-  s.add_dependency('rack', '>= 0.9.1')
-
-  s.files = [
-#{files}
-  ]
-end
-GEMSPEC
-
-  File.open('innate.gemspec', 'w+'){|gs| gs.puts(gemspec) }
+  File.open('innate.gemspec', 'w+'){|gs| gs.puts(gemspec.to_ruby) }
 end
 
 desc 'code coverage'
