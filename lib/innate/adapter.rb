@@ -1,20 +1,13 @@
-module Rack
-  module Handler
-    autoload :Thin,               'rack/handler/thin'
-    autoload :Ebb,                'ebb'
-    autoload :SwiftipliedMongrel, 'rack/handler/swiftiplied_mongrel'
-
-    register 'thin',     'Rack::Handler::Thin'
-    register 'ebb',      'Rack::Handler::Ebb'
-    register 'smongrel', 'Rack::Handler::SwiftipliedMongrel'
-  end
-end
+Rack::Handler.register('ebb', 'Rack::Handler::Ebb')
 
 module Innate
 
   # Lightweight wrapper around Rack::Handler, will apply our options in a
   # unified manner and deal with adapters that don't like to do what we want or
   # where Rack doesn't want to take a stand.
+  #
+  # Rack handlers as of 2009.03.25:
+  # cgi, fastcgi, mongrel, emongrel, smongrel, webrick, lsws, scgi, thin
 
   module Adapter
     include Optional
@@ -75,23 +68,8 @@ module Innate
 
     # Thin shouldn't give excessive output, especially not to $stdout
     def self.start_thin(app, config)
-      require 'thin'
       handler = Rack::Handler.get('thin')
       ::Thin::Logging.silent = true
-      handler.run(app, config)
-    end
-
-    # swiftcore has its own handler outside of rack
-    def self.start_emongrel(app, config)
-      require 'swiftcore/evented_mongrel'
-      handler = Rack::Handler.get('emongrel')
-      handler.run(app, config)
-    end
-
-    # swiftcore has its own handler outside of rack
-    def self.start_smongrel(app, config)
-      require 'swiftcore/swiftiplied_mongrel'
-      handler = Rack::Handler.get('smongrel')
       handler.run(app, config)
     end
   end
