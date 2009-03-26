@@ -364,14 +364,15 @@ module Innate
     # @author manveru
     def resolve(path)
       name, wish, engine = find_provide(path)
-      action = Action.create(:node => self, :wish => wish, :engine => engine)
+      node = (respond_to?(:ancestors) && respond_to?(:new)) ? self : self.class
+      action = Action.create(:node => node, :wish => wish, :engine => engine)
 
-      if content_type = ancestral_trait["#{wish}_content_type"]
+      if content_type = node.ancestral_trait["#{wish}_content_type"]
         action.options = {:content_type => content_type}
       end
 
-      update_method_arities
-      fill_action(action, name)
+      node.update_method_arities
+      node.fill_action(action, name)
     end
 
     # Resolve possible provides for the given +path+ from {provides}.
