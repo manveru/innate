@@ -113,7 +113,7 @@ module Innate
       root = given_options.delete(:root)
       file = given_options.delete(:file)
 
-      if found_root = go_figure_root(:root => root, :file => file)
+      if found_root = go_figure_root(caller, :root => root, :file => file)
         $0 = found_root
         Innate.options.roots = [found_root]
       end
@@ -179,47 +179,27 @@ module Innate
       options[:middleware_compiler]::COMPILED[mode].compile!
     end
 
-    # Innate can be started by:
+    # @example Innate can be started by:
     #
     #   Innate.start :file => __FILE__
-    #   Innate.start :root => '/path/to/here'
+    #   Innate.start :root => File.dirname(__FILE__)
+    #
+    # Either setting will surpress the warning that might show up on startup
+    # and tells you it coldn't find an explicit root.
     #
     # In case these options are not passed we will try to figure out a file named
-    # `start.rb` in the backtrace and use the directory it resides in.
-    #
-    # TODO: better documentation and nice defaults, don't want to rely on a
-    #       filename, bad mojo.
-    def go_figure_root(options, backtrace = caller)
-      if o_file = options[:file]
-        return File.dirname(o_file)
-      elsif root = options[:root]
-        return root
-      end
-
-      pwd = Dir.pwd
-
-      return pwd if File.file?(File.join(pwd, 'start.rb'))
-
-      caller_lines(backtrace) do |file, line, method|
-        dir, file = File.split(File.expand_path(file))
-        return dir if file == "start.rb"
-      end
-
-      Log.warn("Couldn't find your application root, see Innate#go_figure_root")
-
-      return nil
-    end
-
-    # yields +file+, +line+, +method+
-    def caller_lines(backtrace)
-      backtrace.each do |line|
-        if line =~ /^(.*?):(\d+):in `(.*)'$/
-          file, line, method = $1, $2.to_i, $3
-        elsif line =~ /^(.*?):(\d+)$/
-          file, line, method = $1, $2.to_i, nil
-        end
-
-        yield(File.expand_path(file), line, method) if file and File.file?(file)
+    # `start.rb` in the processes working directory and assumes it's a valid point.
+    def go_figure_root(backtrace, options)
+      if root = options[:root]
+        root
+      elsif file = options[:file]
+        File.dirname(file)
+      elsif File.file?('start.rb')
+        Dir.pwd
+      else
+        root = File.dirname(backtrace[0][/^(.*?):\d+/, 1])
+        Log.warn "No explicit root folder found, assuming it is #{root}"
+        root
       end
     end
   end
