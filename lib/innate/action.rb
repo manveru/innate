@@ -100,9 +100,9 @@ module Innate
       self.variables[:content] ||= nil
 
       instance.wrap_action_call(self) do
+        copy_variables # this might another position after all
         self.value = instance.__send__(method, *params) if method
         self.view_value = File.read(view) if view
-        copy_variables
 
         body, content_type = wrap_in_layout{
           engine.call(self, view_value || value || '') }
