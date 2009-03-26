@@ -124,8 +124,7 @@ module Innate
     end
 
     def layout_view_or_method(name, arg)
-      return arg, nil if name == :layout || name == :view
-      return nil, arg
+      [:layout, :view].include?(name) ? [arg, nil] : [nil, arg]
     end
 
     # Try to figure out a sane name for current action.
