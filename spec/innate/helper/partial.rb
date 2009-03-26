@@ -38,7 +38,7 @@ class SpecHelperPartial
   end
 
   def recursive
-    @n = 1
+    @n ||= 1
   end
 
   def with_variable
