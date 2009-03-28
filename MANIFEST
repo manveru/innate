@@ -66,6 +66,7 @@ lib/innate/trinity.rb
 lib/innate/version.rb
 lib/innate/view.rb
 lib/innate/view/erb.rb
+lib/innate/view/etanni.rb
 lib/innate/view/none.rb
 spec/example/hello.rb
 spec/example/link.rb
@@ -113,3 +114,13 @@ spec/innate/session.rb
 spec/innate/state/fiber.rb
 spec/innate/state/thread.rb
 spec/innate/traited.rb
+tasks/bacon.rake
+tasks/changelog.rake
+tasks/gem.rake
+tasks/gem_installer.rake
+tasks/grancher.rake
+tasks/install_dependencies.rake
+tasks/manifest.rake
+tasks/rcov.rake
+tasks/release.rake
+tasks/reversion.rake

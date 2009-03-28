@@ -1,3 +1,75 @@
+[57680d3 | Sat Mar 28 08:04:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Split rake tasks into small units for management with raku
+
+[d7a9278 | Thu Mar 26 13:14:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adapt recursive partial spec for new action iv setting semantics
+
+[4dede34 | Thu Mar 26 11:20:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Nicer code for Action#layout_view_or_method
+
+[d392fda | Thu Mar 26 11:19:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make Node#resolve smarter if called on an instance
+
+[3e49468 | Thu Mar 26 10:40:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Put copy_variables before calling of the action method, so instance variables are copied over from the action and usable in the method the same way as in the template
+
+[408bbd9 | Thu Mar 26 02:28:41 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better lookup for options.roots
+
+[250188f | Wed Mar 25 14:48:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Give the engine the value or a string, not nil
+
+[6784523 | Wed Mar 25 14:37:34 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adding Etanni with .xhtml extension
+
+[dc871bf | Wed Mar 25 12:35:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove specs for old request methods
+
+[fa7aa95 | Wed Mar 25 12:35:23 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't fail when trying to obtain symbolic view
+
+[a79b532 | Wed Mar 25 12:34:59 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow Ramaze to inject Request/Response/Session
+
+[3799d36 | Wed Mar 25 12:34:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Using Gem::Specification#to_ruby, yay
+
+[6367793 | Wed Mar 25 09:01:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove cruft from View::ERB
+
+[72b02f0 | Wed Mar 25 09:00:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Simplify View::get, we don't need lookup by extension anymore
+
+[b4850cd | Wed Mar 25 09:00:05 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove some methods from Request, they fit better into Ramaze
+
+[d919c03 | Wed Mar 25 08:59:36 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove cruft from Adapter, I added support for arbitrary handlers to rack (patch will go in by tomorrow)
+
+[b7a4f88 | Wed Mar 25 05:01:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove some unused methods
+
+[afea731 | Tue Mar 24 14:52:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.03.24
+
 [94d0714 | Tue Mar 24 10:33:44 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Fix bug where index(arg) was passed 'index' as arg
