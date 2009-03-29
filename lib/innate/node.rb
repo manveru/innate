@@ -423,6 +423,8 @@ module Innate
         next unless method if params.any?
         next unless (view = find_view(name, wish)) or method
 
+        params.map!{|param| Rack::Utils.unescape(param) }
+
         action.merge!(:method => method, :view => view, :params => params,
                       :layout => find_layout(name, wish))
       end
