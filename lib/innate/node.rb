@@ -572,7 +572,7 @@ module Innate
     #      {Node#view_mappings} {Node#to_template}
     # @author manveru
     def to_view(file, wish)
-      path = root_mappings.concat(view_mappings) << file
+      path = [root_mappings].concat(view_mappings) << file
       to_template(path, wish)
     end
 
@@ -641,7 +641,7 @@ module Innate
     # @see {Node#to_template} {Node#root_mappings} {Node#layout_mappings}
     # @author manveru
     def to_layout(file, wish)
-      path = root_mappings.concat(layout_mappings) << file
+      path = [root_mappings].concat(layout_mappings) << file
       to_template(path, wish)
     end
 
