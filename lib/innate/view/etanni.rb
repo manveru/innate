@@ -30,7 +30,7 @@ module Innate
     end
 
     def result(binding, filename = '<Etanni>')
-      eval(@compiled, binding, filename)
+      eval(@compiled, binding, filename).to_s.strip
     end
   end
 end
