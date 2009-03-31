@@ -63,7 +63,7 @@ module Innate
       NODE_LIST << into
 
       return if into.provide_set?
-      into.provide(:html, :ERB)
+      into.provide(:html, :engine => :Etanni)
       into.trait(:provide_set => false)
     end
 
