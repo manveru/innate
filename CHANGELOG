@@ -1,3 +1,27 @@
+[1a7242b | Tue Mar 31 16:32:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Optional is called Optioned now, watch out
+
+[0809fb1 | Tue Mar 31 07:50:46 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Set proper default templating engine for html to Etanni
+
+[e1f9450 | Tue Mar 31 06:14:34 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make sure Etanni returns stripped strings, that should make the specs pass again
+
+[3c7063b | Tue Mar 31 05:49:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix bug where root_mappings where not considered alternatives
+
+[0ab5ab1 | Sun Mar 29 13:44:26 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Unescape params given to the action
+
+[4fe8226 | Sat Mar 28 08:04:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.03.28
+
 [57680d3 | Sat Mar 28 08:04:16 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Split rake tasks into small units for management with raku

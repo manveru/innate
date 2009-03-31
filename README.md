@@ -228,7 +228,7 @@ another dependency.
 A small example:
 
     module Blog
-      include Innate::Optional
+      include Innate::Optioned
 
       options.dsl do
         o "Title of the blog", :title, "My Blog"
