@@ -5,7 +5,7 @@ module Innate
   # just do this.
 
   class Response < Rack::Response
-    include Optional
+    include Optioned
 
     options.dsl do
       o "Default headers, will not override headers already set",

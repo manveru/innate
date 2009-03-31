@@ -10,7 +10,7 @@ module Innate
   # cgi, fastcgi, mongrel, emongrel, smongrel, webrick, lsws, scgi, thin
 
   module Adapter
-    include Optional
+    include Optioned
 
     options.dsl do
       o "IP address or hostname that we respond to - 0.0.0.0 for all",

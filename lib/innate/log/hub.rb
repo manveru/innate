@@ -38,7 +38,7 @@ module Innate
 
   class LogHub
     include Logger::Severity
-    include Optional
+    include Optioned
 
     attr_accessor :loggers, :program, :active
 

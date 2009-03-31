@@ -61,7 +61,7 @@ module Innate
     autoload :Marshal,   'innate/cache/marshal'
     autoload :FileBased, 'innate/cache/file_based'
 
-    include Optional
+    include Optioned
 
     options.dsl do
       o "Assign a cache to each of these names on Innate::Cache::setup",

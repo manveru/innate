@@ -16,7 +16,7 @@ module Innate
   # Hopefully we all have 64bit systems by then.
 
   class Session
-    include Optional
+    include Optioned
 
     options.dsl do
       o "Key for the session cookie",

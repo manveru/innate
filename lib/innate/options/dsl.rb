@@ -178,7 +178,7 @@ module Innate
   end
 
   # extend your class with this
-  module Optional
+  module Optioned
     def self.included(into)
       into.extend(SingletonMethods)
 
