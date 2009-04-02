@@ -572,7 +572,7 @@ module Innate
     #      {Node#view_mappings} {Node#to_template}
     # @author manveru
     def to_view(file, wish)
-      path = [root_mappings].concat(view_mappings) << file
+      path = [root_mappings, *view_mappings] << file
       to_template(path, wish)
     end
 
@@ -641,7 +641,7 @@ module Innate
     # @see {Node#to_template} {Node#root_mappings} {Node#layout_mappings}
     # @author manveru
     def to_layout(file, wish)
-      path = [root_mappings].concat(layout_mappings) << file
+      path = [root_mappings, *layout_mappings] << file
       to_template(path, wish)
     end
 
@@ -842,7 +842,7 @@ module Innate
     # @api external
     # @author manveru
     def root_mappings
-      [*options.roots].dup
+      [*options.roots].flatten
     end
 
     # Set the paths for lookup below the Innate.options.views paths.
@@ -873,7 +873,7 @@ module Innate
       paths = [*ancestral_trait[:views]]
       paths = [mapping] if paths.empty?
 
-      [*options.views] + paths
+      [[*options.views].flatten, [*paths].flatten]
     end
 
     # Set the paths for lookup below the Innate.options.layouts paths.
@@ -904,7 +904,7 @@ module Innate
       paths = [*ancestral_trait[:layouts]]
       paths = [mapping] if paths.empty?
 
-      [*options.layouts] + paths
+      [[*options.layouts].flatten, [*paths].flatten]
     end
 
     def options
