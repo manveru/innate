@@ -5,7 +5,7 @@ class SpecHelperPartial
   map_views '/'
 
   def index
-    '<html><head><title><%= render_partial("/title") %></title></head></html>'
+    '<html><head><title>#{ render_partial("/title") }</title></head></html>'
   end
 
   def title
@@ -13,7 +13,7 @@ class SpecHelperPartial
   end
 
   def with_params
-    '<html><head><title><%= render_partial("/message", :msg => "hello") %></title></head></html>'
+    '<html><head><title>#{ render_partial("/message", :msg => "hello") }</title></head></html>'
   end
 
   def message
@@ -25,7 +25,7 @@ class SpecHelperPartial
   end
 
   def with_real_ext
-    render_template('partial.erb')
+    render_template('partial.xhtml')
   end
 
   def with_needed_ext
@@ -52,7 +52,7 @@ class SpecHelperPartialWithLayout < SpecHelperPartial
   layout('layout')
 
   def layout
-    '<h1>with layout</h1><%= @content %>'
+    '<h1>with layout</h1>#{ @content }'
   end
 end
 
@@ -72,15 +72,15 @@ describe Innate::Helper::Partial do
   end
 
   should 'not require file extension' do
-    get('/without_ext').body.should == "From Partial \n"
+    get('/without_ext').body.should == "From Partial"
   end
 
   it "the real extension will just be stripped" do
-    got = get('/with_real_ext').body.should == "From Partial \n"
+    got = get('/with_real_ext').body.should == "From Partial"
   end
 
   it "works with the content representation instead" do
-    get('/with_needed_ext').body.should == "From Partial \n"
+    get('/with_needed_ext').body.should == "From Partial"
   end
 
   should 'render_template in a loop' do
@@ -92,10 +92,10 @@ describe Innate::Helper::Partial do
   end
 
   should 'render template with layout' do
-    get('/with_layout/without_ext').body.should == "<h1>with layout</h1>From Partial \n"
+    get('/with_layout/without_ext').body.should == "<h1>with layout</h1>From Partial"
   end
 
   it 'makes passed variables available in the template as instance variables' do
-    get('/with_variable').body.should == "From Partial there\n"
+    get('/with_variable').body.should == "From Partial there"
   end
 end

@@ -38,25 +38,25 @@ end
 describe Innate::Helper::Aspect do
   behaves_like :mock
 
-  should 'execute before aspect' do
+  it 'executes before aspect' do
     $aspect_spec_before = 0
     get('/with_before').body.should == '42'
     $aspect_spec_before.should == 42
   end
 
-  should 'execute after asepct' do
+  it 'executes after asepct' do
     $aspect_spec_after = 0
     get('/with_after').body.should == '2'
     $aspect_spec_after.should == 42
   end
 
-  should 'execute wrap aspects' do
+  it 'executes wrap aspects' do
     $aspect_spec_wrap = 0
     get('/with_wrap').body.should == '22'
     $aspect_spec_wrap == 42
   end
 
-  should 'before_all and after_all' do
+  it 'calls before_all and after_all' do
     $aspect_spec_before_all = $aspect_spec_after_all = 0
     get('/all/before_first').body.should == '42'
     $aspect_spec_before_all.should == 42
@@ -66,10 +66,10 @@ describe Innate::Helper::Aspect do
     $aspect_spec_after_all.should == 80
   end
 
-  should 'instance variables in blocks available to view/method' do
+  it 'makes instance variables in blocks available to view/method' do
     get('/with_instance_var').body.should == 'Hello World'
     get('/all/with_instance_var_first').body.should == 'Hello World'
     get('/all/with_instance_var_second').body.should == 'Hello to the World'
-    get('/without_method/aspect_hello').body.should == "Hello World!\n"
+    get('/without_method/aspect_hello').body.should == "Hello World!"
   end
 end

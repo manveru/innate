@@ -1,4 +1,4 @@
-<form method="post" action="<%= r :create %>">
+<form method="post" action="#{ r :create }">
   <fieldset>
     <legend>Create new task</legend>
 
@@ -10,30 +10,30 @@
 </form>
 
 <table>
-  <% @list.each do |title, done| %>
+  <?r @list.each do |title, done| ?>
     <tr>
-      <form method="post" action="<%= r :update %>">
-        <input type="hidden" name="id" value="<%= h title %>" />
+      <form method="post" action="#{ r :update }">
+        <input type="hidden" name="id" value="#{ h title }" />
         <td>
-          <input type="text" name="title" value="<%= h title %>" />
+          <input type="text" name="title" value="#{ h title }" />
         </td>
         <td>
-          <% if done %>
+          <?r if done ?>
             <input type="checkbox" name="done" checked="checked" />
-          <% else %>
+          <?r else ?>
             <input type="checkbox" name="done" />
-          <% end %>
+          <?r end ?>
         </td>
         <td>
           <input type="submit" value="Update" />
         </td>
       </form>
-      <form method="post" action="<%= r :delete %>">
-        <input type="hidden" name="id" value="<%= h title %>" />
+      <form method="post" action="#{ r :delete }">
+        <input type="hidden" name="id" value="#{ h title }" />
         <td>
           <input type="submit" value="Delete" />
         </td>
       </form>
     </tr>
-  <% end %>
+  <?r end ?>
 </table>

@@ -63,11 +63,11 @@ describe Innate::Helper::Flash do
     session do |mock|
       mock.get('/welcome').body.should == 'Welcome manveru'
       mock.get('/bye').body.should == 'Bye manveru'
-      mock.get('/bye').body.should == 'Bye '
+      mock.get('/bye').body.should == 'Bye'
 
       mock.get('/welcome').body.should == 'Welcome manveru'
       mock.get('/bye').body.should == 'Bye manveru'
-      mock.get('/bye').body.should == 'Bye '
+      mock.get('/bye').body.should == 'Bye'
     end
   end
 
@@ -75,11 +75,11 @@ describe Innate::Helper::Flash do
     session do |mock|
       mock.get('/welcome').body.should == 'Welcome manveru'
       mock.get('/sub/bye').body.should == 'Bye manveru'
-      mock.get('/sub/bye').body.should == 'Bye '
+      mock.get('/sub/bye').body.should == 'Bye'
 
       mock.get('/sub/welcome').body.should == 'Welcome manveru'
       mock.get('/bye').body.should == 'Bye manveru'
-      mock.get('/bye').body.should == 'Bye '
+      mock.get('/bye').body.should == 'Bye'
     end
   end
 
@@ -100,14 +100,14 @@ describe Innate::Helper::Flash do
   should 'set and delete key over two request' do
     session do |mock|
       mock.get('/welcome').body.should == 'Welcome manveru'
-      mock.get('/delete_key').body.should == 'Bye '
+      mock.get('/delete_key').body.should == 'Bye'
     end
   end
 
   should 'merge with hash' do
     session do |mock|
       mock.get('/merge').body.should == {:name => 'feagliir'}.inspect
-      mock.get('/bye').body.should == 'Bye '
+      mock.get('/bye').body.should == 'Bye'
     end
   end
 

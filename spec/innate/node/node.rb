@@ -4,8 +4,6 @@ Innate.options.merge!(:views => 'view', :layouts => 'view')
 
 class SpecNode
   Innate.node('/')
-  provide(:html, :ERB)
-  provide(:erb, :None)
 
   def foo; end
   def bar; end
@@ -18,23 +16,17 @@ end
 class SpecNodeProvide
   Innate.node('/provide')
 
-  provide(:html, :ERB)
-  provide(:erb, :None)
-
   def foo
-    '<%= 21 * 2 %>'
+    '#{21 * 2}'
   end
 
   def bar
-    '<%= 84 / 2 %>'
+    '#{84 / 2}'
   end
 end
 
 class SpecNodeProvideTemplate
   Innate.node('/provide_template')
-
-  provide :html, :ERB
-  provide :erb, :None
 
   map_views '/'
 end
@@ -64,7 +56,7 @@ class SpecNodeWithLayoutMethod < SpecNodeProvide
   layout 'layout_method'
 
   def layout_method
-    '<div class="content"><%= @content %></div>'
+    '<div class="content">#{@content}</div>'
   end
 end
 
@@ -96,14 +88,14 @@ describe 'Innate::Node' do
   should 'wrap with layout' do
     got = Innate::Mock.get('/layout/bar')
     got.status.should == 200
-    got.body.should == %(<div class="content">42</div>\n)
+    got.body.should == %(<div class="content">42</div>)
     got['Content-Type'].should == 'text/html'
   end
 
   should 'find layout with view_root' do
     got = Innate::Mock.get('/another_layout/bar')
     got.status.should == 200
-    got.body.should == %(<div class="content">\n  42\n</div>\n)
+    got.body.should == %(<div class="content">\n  42\n</div>)
     got['Content-Type'].should == 'text/html'
   end
 

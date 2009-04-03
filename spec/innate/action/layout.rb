@@ -13,7 +13,7 @@ class SpecActionLayoutMethod < SpecActionLayout
   layout('method_layout')
 
   def method_layout
-    "<pre><%= @content %></pre>"
+    '<pre>#{ @content }</pre>'
   end
 
   def index

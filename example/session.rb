@@ -11,9 +11,9 @@ class Hello
   <body>
     <h1>Session example</h1>
     <p>
-      Value is: <%= session[:value] %><br />
-      <%= a :increment %><br />
-      <%= a :decrement %>
+      Value is: #{ session[:value] }<br />
+      #{ a :increment }<br />
+      #{ a :decrement }
     </p>
   </body>
 </html>

@@ -12,7 +12,7 @@ Innate.options.merge!(:views => 'provides', :layouts => 'provides')
 class SpecNodeProvides
   Innate.node '/'
 
-  provide(:html, :None)
+  provide(:html, :engine => :None)
   provide(:yaml, :type => 'text/yaml'){|a,s| s.to_yaml }
   provide(:json, :type => 'application/json'){|a,s| s.to_json }
 
@@ -31,7 +31,7 @@ class SpecNodeProvidesTemplates
 
   provide(:yaml, :type => 'text/yaml'){|a,s| s.to_yaml }
   provide(:json, :type => 'application/json'){|a,s| s.to_json }
-  provide(:txt, :engine => :ERB, :type => 'text/plain')
+  provide(:txt, :engine => :Etanni, :type => 'text/plain')
 
   def list
     @users = %w[starbucks apollo athena]
