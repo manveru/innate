@@ -100,7 +100,7 @@ module Innate
       self.variables[:content] ||= nil
 
       instance.wrap_action_call(self) do
-        copy_variables # this might another position after all
+        copy_variables # this might need another position after all
         self.value = instance.__send__(method, *params) if method
         self.view_value = File.read(view) if view
 
@@ -117,6 +117,7 @@ module Innate
       action = dup
       action.view, action.method = layout_view_or_method(*layout)
       action.layout = nil
+      action.view_value = nil
       action.sync_variables(self)
       body, content_type = yield
       action.variables[:content] = body
