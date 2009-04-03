@@ -372,6 +372,7 @@ module Innate
       end
 
       node.update_method_arities
+      node.update_template_mapping(wish)
       node.fill_action(action, name)
     end
 
@@ -542,7 +543,7 @@ module Innate
     # Try to find the best template for the given basename and wish and respect
     # aliased views.
     #
-    # @param [#to_s] file
+    # @param [#to_s] action_name
     # @param [#to_s] wish
     #
     # @return [String, nil] depending whether a template could be found
@@ -550,11 +551,11 @@ module Innate
     # @api external
     # @see Node#to_template Node#find_aliased_view
     # @author manveru
-    def find_view(file, wish)
-      aliased = find_aliased_view(file, wish)
+    def find_view(action_name, wish)
+      aliased = find_aliased_view(action_name, wish)
       return aliased if aliased
 
-      to_view(file, wish)
+      to_view(action_name, wish)
     end
 
     # Try to find the best template for the given basename and wish.
@@ -562,7 +563,7 @@ module Innate
     # This method is mostly here for symetry with {to_layout} and to allow you
     # overriding the template lookup easily.
     #
-    # @param [#to_s] file
+    # @param [#to_s] action_name
     # @param [#to_s] wish
     #
     # @return [String, nil] depending whether a template could be found
@@ -571,9 +572,13 @@ module Innate
     # @see {Node#find_view} {Node#to_template} {Node#root_mappings}
     #      {Node#view_mappings} {Node#to_template}
     # @author manveru
-    def to_view(file, wish)
-      path = [root_mappings, *view_mappings] << file
-      to_template(path, wish)
+    def to_view(action_name, wish)
+      return unless files = view_templates[wish.to_s]
+      files[action_name.to_s]
+    end
+
+    def path_to_view(action_name)
+      [root_mappings, *view_mappings] << action_name.to_s
     end
 
     # Aliasing one view from another.
@@ -611,9 +616,9 @@ module Innate
       trait[:alias_view][to.to_s] = node ? [from.to_s, node] : from.to_s
     end
 
-    # Resolve one level of aliasing for the given +file+ and +wish+.
+    # Resolve one level of aliasing for the given +action_name+ and +wish+.
     #
-    # @param [String] file
+    # @param [String] action_name
     # @param [String] wish
     #
     # @return [nil, String] the absolute path to the aliased template or nil
@@ -621,18 +626,20 @@ module Innate
     # @api internal
     # @see Node::alias_view Node::find_view
     # @author manveru
-    def find_aliased_view(file, wish)
-      aliased_file, aliased_node = ancestral_trait[:alias_view][file]
+    def find_aliased_view(action_name, wish)
+      aliased_name, aliased_node = ancestral_trait[:alias_view][action_name]
       aliased_node ||= self
-      aliased_node.find_view(aliased_file, wish) if aliased_file
+      return unless aliased_name
+      aliased_node.update_view_mapping(wish)
+      aliased_node.find_view(aliased_name, wish)
     end
 
-    # Find the best matching file for the layout, if any.
+    # Find the best matching action_name for the layout, if any.
     #
     # This is mostly an abstract method that you might find handy if you want
     # to do vastly different layout lookup.
     #
-    # @param [String] file
+    # @param [String] action_name
     # @param [String] wish
     #
     # @return [nil, String] the absolute path to the template or nil
@@ -640,9 +647,13 @@ module Innate
     # @api external
     # @see {Node#to_template} {Node#root_mappings} {Node#layout_mappings}
     # @author manveru
-    def to_layout(file, wish)
-      path = [root_mappings, *layout_mappings] << file
-      to_template(path, wish)
+    def to_layout(action_name, wish)
+      return unless files = layout_templates[wish.to_s]
+      files[action_name.to_s]
+    end
+
+    def path_to_layout(action_name)
+      [root_mappings, *layout_mappings] << action_name.to_s
     end
 
     # Define a layout to use on this Node.
@@ -781,15 +792,49 @@ module Innate
     #      Node#path_glob Node#ext_glob
     # @author manveru
     def to_template(path, wish)
-      return unless exts = ext_glob(wish)
-      glob = "#{path_glob(*path)}.#{exts}"
-      found = Dir[glob].uniq
-
-      count = found.size
-      Log.warn("%d views found for %p" % [count, glob]) if count > 1
-
-      found.first
+      to_view(path, wish) || to_layout(path, wish)
     end
+
+    def to_templates(path_glob, ext_glob)
+      return unless path_glob and ext_glob
+      glob = "#{path_glob}.#{ext_glob}"
+      return glob, Dir[glob].uniq
+    end
+
+    def update_template_mapping(wish)
+      update_view_mapping(wish)
+      update_layout_mapping(wish)
+    end
+
+    def update_view_mapping(wish)
+      @view_templates ||= {}
+      @view_templates[wish] = {}
+
+      path, ext = path_glob(*path_to_view('**/*')), ext_glob(wish)
+      glob, files = to_templates(path, ext)
+
+      files.each do |file|
+        action_name = File.basename(file)[/^[^.]+/]
+        @view_templates[wish][action_name] = file
+      end
+    end
+
+    attr_reader :view_templates
+
+    def update_layout_mapping(wish)
+      @layout_templates ||= {}
+      @layout_templates[wish] = {}
+
+      path, ext = path_glob(*path_to_layout('**/*')), ext_glob(wish)
+      glob, files = to_templates(path, ext)
+
+      files.each do |file|
+        action_name = File.basename(file)[/^[^.]+/]
+        @layout_templates[wish][action_name] = file
+      end
+    end
+
+    attr_reader :layout_templates
 
     # Produce a glob that can be processed by Dir::[] matching the possible
     # paths to the given +elements+.
@@ -803,7 +848,7 @@ module Innate
     # @see Node#to_template
     # @author manveru
     def path_glob(*elements)
-      File.join(elements.map{|element|
+      ::File.join(elements.map{|element|
         "{%s}" % [*element].map{|e| e.to_s.gsub('__', '/') }.join(',')
       }).gsub(/\/\{\/?\}\//, '/')
     end
