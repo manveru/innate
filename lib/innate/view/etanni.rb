@@ -18,7 +18,7 @@ module Innate
     def compile
       temp = @template.dup
       start_heredoc = "T" << Digest::SHA1.hexdigest(temp)
-      start_heredoc, end_heredoc = "\n<<#{start_heredoc}\n", "\n#{start_heredoc}\n"
+      start_heredoc, end_heredoc = "\n<<#{start_heredoc}.chomp\n", "\n#{start_heredoc}\n"
       bufadd = "_out_ << "
 
       temp.gsub!(/<\?r\s+(.*?)\s+\?>/m,
