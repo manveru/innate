@@ -1,12 +1,13 @@
-begin
-  require 'fiber'
-rescue LoadError
-  exit
-end
-
 require 'spec/helper'
 
-describe Innate::State::Fiber do
+describe 'Innate::State::Fiber' do
+  begin
+    require 'fiber'
+  rescue LoadError
+    it('needs fiber'){ should.flunk('needed fiber') }
+    exit
+  end
+
   F = Innate::State::Fiber
 
   it 'sets value in current thread with #[]=' do
