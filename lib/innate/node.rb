@@ -28,6 +28,8 @@ module Innate
   module Node
     include Traited
 
+    attr_reader :method_arities, :layout_templates, :view_templates
+
     DEFAULT_HELPERS = %w[aspect cgi flash link partial redirect send_file]
     NODE_LIST = Set.new
 
@@ -372,7 +374,7 @@ module Innate
       end
 
       node.update_method_arities
-      node.update_template_mapping(wish)
+      node.update_template_mappings
       node.fill_action(action, name)
     end
 
@@ -538,8 +540,6 @@ module Innate
       @method_arities
     end
 
-    attr_reader :method_arities
-
     # Try to find the best template for the given basename and wish and respect
     # aliased views.
     #
@@ -575,10 +575,6 @@ module Innate
     def to_view(action_name, wish)
       return unless files = view_templates[wish.to_s]
       files[action_name.to_s]
-    end
-
-    def path_to_view(action_name)
-      [root_mappings, *view_mappings] << action_name.to_s
     end
 
     # Aliasing one view from another.
@@ -628,9 +624,10 @@ module Innate
     # @author manveru
     def find_aliased_view(action_name, wish)
       aliased_name, aliased_node = ancestral_trait[:alias_view][action_name]
-      aliased_node ||= self
       return unless aliased_name
-      aliased_node.update_view_mapping(wish)
+
+      aliased_node ||= self
+      aliased_node.update_view_mappings
       aliased_node.find_view(aliased_name, wish)
     end
 
@@ -650,10 +647,6 @@ module Innate
     def to_layout(action_name, wish)
       return unless files = layout_templates[wish.to_s]
       files[action_name.to_s]
-    end
-
-    def path_to_layout(action_name)
-      [root_mappings, *layout_mappings] << action_name.to_s
     end
 
     # Define a layout to use on this Node.
@@ -738,11 +731,11 @@ module Innate
       result = nil
 
       atoms.size.downto(0) do |len|
-        action = atoms[0...len].join('__')
+        action_name = atoms[0...len].join('__')
         params = atoms[len..-1]
-        action = 'index' if action.empty? and params != ['index']
+        action_name = 'index' if action_name.empty? and params != ['index']
 
-        return result if result = yield(action, params)
+        return result if result = yield(action_name, params)
       end
 
       return nil
@@ -795,62 +788,56 @@ module Innate
       to_view(path, wish) || to_layout(path, wish)
     end
 
-    def to_templates(path_glob, ext_glob)
-      return unless path_glob and ext_glob
-      glob = "#{path_glob}.#{ext_glob}"
-      return glob, Dir[glob].uniq
+    def update_template_mappings
+      update_view_mappings
+      update_layout_mappings
     end
 
-    def update_template_mapping(wish)
-      update_view_mapping(wish)
-      update_layout_mapping(wish)
+    def update_view_mappings
+      paths = possible_paths_for(view_mappings)
+      @view_templates = update_mapping_shared(paths)
     end
 
-    def update_view_mapping(wish)
-      @view_templates ||= {}
-      @view_templates[wish] = {}
+    def update_layout_mappings
+      paths = possible_paths_for(layout_mappings)
+      @layout_templates = update_mapping_shared(paths)
+    end
 
-      path, ext = path_glob(*path_to_view('**/*')), ext_glob(wish)
-      glob, files = to_templates(path, ext)
+    def update_mapping_shared(paths)
+      mapping = {}
 
-      files.each do |file|
-        action_name = File.basename(file)[/^[^.]+/]
-        @view_templates[wish][action_name] = file
+      provides.each do |wish_key, engine|
+        wish = wish_key[/(.*)_handler/, 1]
+        ext_glob = ext_glob(wish)
+
+        paths.reverse_each do |path|
+          ::Dir.glob(::File.join(path, "/**/*.#{ext_glob}")) do |file|
+            case file.sub(path, '').gsub('/', '__')
+            when /^(.*)\.(.*)\.(.*)$/
+              action_name, wish_ext, engine_ext = $1, $2, $3
+            when /^(.*)\.(.*)$/
+              action_name, wish_ext, engine_ext = $1, 'html', $2
+            when /.*/
+              p $1
+            end
+
+            mapping[wish_ext] ||= {}
+            mapping[wish_ext][action_name] = file
+          end
+        end
       end
+
+      return mapping
     end
 
-    attr_reader :view_templates
-
-    def update_layout_mapping(wish)
-      @layout_templates ||= {}
-      @layout_templates[wish] = {}
-
-      path, ext = path_glob(*path_to_layout('**/*')), ext_glob(wish)
-      glob, files = to_templates(path, ext)
-
-      files.each do |file|
-        action_name = File.basename(file)[/^[^.]+/]
-        @layout_templates[wish][action_name] = file
-      end
-    end
-
-    attr_reader :layout_templates
-
-    # Produce a glob that can be processed by Dir::[] matching the possible
-    # paths to the given +elements+.
-    #
-    # The +elements+ are an Array that may be nested one level, take care to
-    # splat if you try to pass an existing Array.
-    #
-    # @return [String] glob matching possible paths to the given +elements+
-    #
-    # @api internal
-    # @see Node#to_template
-    # @author manveru
-    def path_glob(*elements)
-      ::File.join(elements.map{|element|
-        "{%s}" % [*element].map{|e| e.to_s.gsub('__', '/') }.join(',')
-      }).gsub(/\/\{\/?\}\//, '/')
+    def possible_paths_for(mappings)
+      root_mappings.map{|root_mapping|
+        mappings.first.map{|outer_mapping|
+          mappings.last.map{|inner_mapping|
+            File.join(root_mapping, outer_mapping, inner_mapping, '/')
+          }
+        }
+      }.flatten
     end
 
     # Produce a glob that can be processed by Dir::[] matching the extensions
