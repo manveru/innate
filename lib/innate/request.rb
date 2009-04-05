@@ -137,25 +137,5 @@ module Innate
     rescue ArgumentError => ex
       raise ArgumentError, ex unless ex.message == 'invalid address'
     end
-
-    REQUEST_STRING_FORMAT = "#<%s params=%p cookies=%p env=%p>"
-
-    def to_s
-      REQUEST_STRING_FORMAT % [self.class, params, cookies, http_variables]
-    end
-    alias inspect to_s
-
-    # Pretty prints current action with parameters, cookies and enviroment
-    # variables.
-    def pretty_print(pp)
-      pp.object_group(self){
-        group = { 'params' => params, 'cookies' => cookies, 'env' => http_vars }
-        group.each do |name, hash|
-          pp.breakable
-          pp.text " @#{name}="
-          pp.nest(name.size + 3){ pp.pp_hash(hash) }
-        end
-      }
-    end
   end
 end
