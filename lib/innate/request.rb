@@ -71,7 +71,7 @@ module Innate
     # Both +value+ and the elements of +keys+ will be turned into String by #to_s.
     def [](value, *keys)
       return super(value) if keys.empty?
-      [value, *keys].map{|k| super(k) }
+      [value, *keys].map{|key| super(key) }
     end
 
     # the full request URI provided by Rack::Request
@@ -94,8 +94,8 @@ module Innate
     #   # => {'name' => 'jason', 'job' => 'lumberjack'}
 
     def subset(*keys)
-      keys = keys.map{|k| k.to_s }
-      params.reject{|k,v| not keys.include?(k) }
+      keys = keys.map{|key| key.to_s }
+      params.reject{|key, value| not keys.include?(key) }
     end
 
     # Try to figure out the domain we are running on, this might work for some
