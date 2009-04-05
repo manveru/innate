@@ -57,11 +57,8 @@ shared :multipart do
     data << "--#{boundary}--"
     body = data.join("\r\n")
 
-    type = "multipart/form-data; boundary=#{boundary}"
-    length = body.respond_to?(:bytesize) ? body.bytesize : body.size
-
-    { 'CONTENT_TYPE' => type,
-      'CONTENT_LENGTH' => length.to_s,
-      :input => StringIO.new(body) }
+    { 'CONTENT_TYPE'   => "multipart/form-data; boundary=#{boundary}",
+      'CONTENT_LENGTH' => Rack::Utils.bytesize(body).to_s,
+        :input           => StringIO.new(body) }
   end
 end
