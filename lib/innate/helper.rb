@@ -11,6 +11,7 @@ module Innate
     def self.included(into)
       into.extend(HelperAccess)
       into.__send__(:include, Trinity)
+      into.helper(*HelpersHelper.options[:default])
     end
   end
 
@@ -63,34 +64,27 @@ module Innate
   #
   #   p Innate::HelpersHelper.each(:cgi, :link, :aspect)
   module HelpersHelper
+    include Optioned
+
+    options.dsl do
+      o "Paths that will be searched for helper files",
+        :paths, [Dir.pwd, File.dirname(__FILE__)]
+
+      o "Namespaces that will be searched for helper modules",
+        :namespaces, [Helper]
+
+      o "Filename extensions considered for helper files",
+        :exts, %w[rb so bundle]
+
+      o "Default helpers, added on inclusion of the Helper module",
+        :default, [:aspect, :cgi, :flash, :link, :render, :redirect, :send_file]
+    end
+
     EXTS = %w[rb so bundle]
-
-    # By default, lib/innate/ is added to the PATH, you may add your
-    # application root here so innate will look in your own helper/ directory.
-    PATH = []
-
-    # The namespaces that may container helper modules.
-    # Lookup is done from left to right.
-    POOL = []
 
     # all of the following are singleton methods
 
     module_function
-
-    def add_pool(pool)
-      POOL.unshift(pool)
-      POOL.uniq!
-    end
-
-    add_pool(Helper)
-
-    def add_path(path)
-      PATH.unshift(File.expand_path(path))
-      PATH.uniq!
-    end
-
-    add_path(File.dirname(__FILE__))
-    add_path('')
 
     # Yield all the modules we can find for the given names of helpers, try to
     # require them if not available.
@@ -160,7 +154,7 @@ module Innate
     def get(name)
       name = name.to_s.split('_').map{|e| e.capitalize}.join
 
-      POOL.each do |namespace|
+      options.namespaces.each do |namespace|
         found = namespace.constants.grep(/^#{name}$/i).first
         return namespace.const_get(found) if found
       end
@@ -181,12 +175,9 @@ module Innate
     # Return a nice list of filenames in correct locations with correct
     # filename-extensions.
     def glob(name = '*')
-      "{#{paths.join(',')}}/helper/#{name}.{#{EXTS.join(',')}}"
-    end
-
-    # In case you want to do something better.
-    def paths
-      PATH
+      exts, paths = options.exts, options.paths
+      paths.uniq!
+      "{#{paths.join(',')}}/helper/#{name}.{#{exts.join(',')}}"
     end
   end
 end

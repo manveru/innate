@@ -30,7 +30,6 @@ module Innate
 
     attr_reader :method_arities, :layout_templates, :view_templates
 
-    DEFAULT_HELPERS = %w[aspect cgi flash link partial redirect send_file]
     NODE_LIST = Set.new
 
     # These traits are inherited into ancestors, changing a trait in an
@@ -58,8 +57,6 @@ module Innate
     # Upon inclusion we make ourselves comfortable.
     def self.included(into)
       into.__send__(:include, Helper)
-      into.helper(*DEFAULT_HELPERS)
-
       into.extend(Trinity, self)
 
       NODE_LIST << into
