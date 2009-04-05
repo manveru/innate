@@ -2,7 +2,7 @@ module Innate
   # this has to be run after a couple of other files have been required
 
   options.dsl do
-    o "Indicate that calls Innate::start will be ignored",
+    o "Innate::start will not start an adapter if true",
       :started, false
 
     o "Will send ::setup to each element during Innate::start",

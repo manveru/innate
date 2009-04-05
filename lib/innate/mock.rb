@@ -39,9 +39,8 @@ module Innate
         hash['HTTP_COOKIE'] ||= @cookie if @cookie
         response = Mock::mock(method, path, hash)
 
-        if cookie = response['Set-Cookie']
-          @cookie = cookie
-        end
+        cookie = response['Set-Cookie']
+        @cookie = cookie if cookie
 
         response
       end
