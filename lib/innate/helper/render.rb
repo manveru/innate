@@ -1,6 +1,10 @@
 module Innate
   module Helper
     module Render
+      def self.included(into)
+        into.extend(self)
+      end
+
       # Renders the full action in the way a real request would.
       #
       # Please be aware that, if this is the first request from a client, you

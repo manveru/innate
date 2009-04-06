@@ -65,11 +65,9 @@ class SpecHelperRenderView
   end
 end
 
-class SpecHelperRenderView
+class SpecHelperRenderTemplate
   Innate.node '/render_template'
   map_views '/'
-
-  layout :layout
 
   def relative
     render_template('spec/innate/helper/view/num.xhtml', :n => 42)
@@ -132,8 +130,8 @@ describe Innate::Helper::Render do
     behaves_like :mock
 
     it 'renders action with the given template file' do
-      get('/render_template/relative').body.should == '{ 42 }'
-      get('/render_template/absolute').body.should == '{ 42 }'
+      get('/render_template/relative').body.should == '42'
+      get('/render_template/absolute').body.should == '42'
     end
   end
 end
