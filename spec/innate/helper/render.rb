@@ -31,8 +31,53 @@ end
 class SpecHelperRenderPartial
   Innate.node '/render_partial'
 
+  layout :layout
+
   def standard
     'hello'
+  end
+
+  def layout
+    '{ #{@content} }'
+  end
+
+  def without_layout
+    render_partial(:standard)
+  end
+end
+
+class SpecHelperRenderView
+  Innate.node '/render_view'
+  map_views '/'
+
+  layout :layout
+
+  def standard
+    'hello'
+  end
+
+  def layout
+    '{ #{@content} }'
+  end
+
+  def without_method_or_layout
+    render_view(:num, :n => 42)
+  end
+end
+
+class SpecHelperRenderView
+  Innate.node '/render_template'
+  map_views '/'
+
+  layout :layout
+
+  def relative
+    render_template('spec/innate/helper/view/num.xhtml', :n => 42)
+  end
+
+  def absolute
+    path = File.join(File.dirname(__FILE__), 'view/num.xhtml')
+    render_template(path, :n => 42)
   end
 end
 
@@ -66,8 +111,29 @@ describe Innate::Helper::Render do
   describe '#render_partial' do
     behaves_like :mock
 
-    it 'renders a partial action without layout' do
-      get('/render_partial/standard').body.should == 'hello'
+    it 'renders action with layout' do
+      get('/render_partial/standard').body.should == '{ hello }'
+    end
+
+    it 'renders partial action without layout' do
+      get('/render_partial/without_layout').body.should == '{ hello }'
+    end
+  end
+
+  describe '#render_view' do
+    behaves_like :mock
+
+    it 'renders action without calling the method or applying layout' do
+      get('/render_view/without_method_or_layout').body.should == '{ 42 }'
+    end
+  end
+
+  describe '#render_template' do
+    behaves_like :mock
+
+    it 'renders action with the given template file' do
+      get('/render_template/relative').body.should == '{ 42 }'
+      get('/render_template/absolute').body.should == '{ 42 }'
     end
   end
 end

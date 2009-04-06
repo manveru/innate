@@ -40,9 +40,11 @@ module Innate
         end
       end
 
-      # Renders an action with the template of your choice.
-      def render_template(name, file, variables = {})
-        render_custom(name, variables) do |action|
+      # Renders a template of your choice.
+      def render_template(file, variables = {})
+        render_custom(action.name, variables) do |action|
+          action.layout = nil
+          action.method = nil
           action.view = file
         end
       end
