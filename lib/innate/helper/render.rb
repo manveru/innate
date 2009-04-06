@@ -1,6 +1,11 @@
 module Innate
   module Helper
     module Render
+      # Enables you to simply call:
+      #
+      # @example of added functionality
+      #   YourController.render_partial(:foo, :x => 42)
+      #
       def self.included(into)
         into.extend(self)
       end
@@ -14,6 +19,10 @@ module Innate
       # It should work as expected on any subsequent requests.
       #
       # As usual, patches welcome.
+      #
+      # @api external
+      # @see Mock.session
+      # @author manveru
       def render_full(path, query = {})
         uri = URI(path.to_s)
         uri.query = Rack::Utils.build_query(query)
@@ -29,33 +38,51 @@ module Innate
       end
 
       # Renders an action without any layout.
-      def render_partial(name, variables = {})
-        render_custom(name, variables) do |action|
+      # @api external
+      # @see render_custom
+      # @author manveru
+      def render_partial(action_name, variables = {})
+        render_custom(action_name, variables) do |action|
           action.layout = nil
         end
       end
 
       # Renders an action view, doesn't execute any methods and won't wrap it
       # into a layout.
-      def render_view(name, variables = {})
-        render_custom(name, variables) do |action|
+      #
+      # @api external
+      # @see render_custom
+      # @author manveru
+      def render_view(action_name, variables = {})
+        render_custom(action_name, variables) do |action|
           action.layout = nil
           action.method = nil
         end
       end
 
       # Renders a template of your choice.
-      def render_template(file, variables = {})
+      # Paths have to be absolute or relative to Dir.pwd.
+      #
+      # @param [String] file_name path to the template you want to render
+      # @param [Hash] variables hash of instance variables available in the template
+      #
+      # @return [String]
+      #
+      # @api external
+      # @see render_custom
+      # @author manveru
+      def render_template(file_name, variables = {})
         render_custom(action.name, variables) do |action|
           action.layout = nil
           action.method = nil
-          action.view = file
+          action.view = file_name
         end
       end
 
-      def render_custom(name, variables = {})
-        action = resolve(name.to_s)
+      def render_custom(action_name, variables = {})
+        action = resolve(action_name.to_s)
 
+        action.sync_variables(self.action)
         action.instance = action.node.new
         action.variables = action.variables.merge(variables)
 

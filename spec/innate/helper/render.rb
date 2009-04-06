@@ -67,7 +67,6 @@ end
 
 class SpecHelperRenderTemplate
   Innate.node '/render_template'
-  map_views '/'
 
   def relative
     render_template('spec/innate/helper/view/num.xhtml', :n => 42)
@@ -76,6 +75,15 @@ class SpecHelperRenderTemplate
   def absolute
     path = File.join(File.dirname(__FILE__), 'view/num.xhtml')
     render_template(path, :n => 42)
+  end
+end
+
+class SpecHelperRenderMisc
+  Innate.node '/misc'
+  map_views '/'
+
+  def recursive
+    @n ||= 1
   end
 end
 
@@ -132,6 +140,18 @@ describe Innate::Helper::Render do
     it 'renders action with the given template file' do
       get('/render_template/relative').body.should == '42'
       get('/render_template/absolute').body.should == '42'
+    end
+  end
+
+  describe 'misc functionality' do
+    behaves_like :mock
+
+    it 'can render_partial in a loop' do
+      get('/misc/loop').body.scan(/\d+/).should == %w[1 2 3 4 5]
+    end
+
+    it 'can recursively render_partial' do
+      get('/misc/recursive').body.scan(/\S/).join.should == '{1{2{3{44}3}2}1}'
     end
   end
 end

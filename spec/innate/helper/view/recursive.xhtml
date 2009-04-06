@@ -1,8 +1,7 @@
 {
   #{@n}
   <?r if @n < 4 ?>
-    <?r @n += 1 ?>
-    #{ render_template('recursive') }
+    #{ render_partial(:recursive, :n => @n + 1) }
   <?r end ?>
   #{@n}
 }
