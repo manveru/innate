@@ -113,10 +113,8 @@ module Innate
       root = given_options.delete(:root)
       file = given_options.delete(:file)
 
-      if found_root = go_figure_root(caller, :root => root, :file => file)
-        $0 = file if file
-        Innate.options.roots = [found_root]
-      end
+      found_root = go_figure_root(caller, :root => root, :file => file)
+      Innate.options.roots = [found_root] if found_root
 
       PROXY_OPTIONS.each{|k,v| given_options[v] = given_options.delete(k) }
       given_options.delete_if{|k,v| v.nil? }
