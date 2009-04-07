@@ -26,7 +26,7 @@ describe 'An example spec' do
     got['Content-Type'].should == 'text/html'
   end
 
-  should 'respond to /' do
+  should 'respond to /foo' do
     got = get('/foo')
     got.status.should == 200
     got.body.should == "I should be at /foo"
