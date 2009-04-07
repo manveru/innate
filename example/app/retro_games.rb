@@ -25,7 +25,7 @@ class Games
   end
 
   def vote(name)
-    STORE[url_decode(name)] += 1
+    STORE[name] += 1
 
     redirect_referrer
   end
@@ -39,17 +39,17 @@ class Games
   </head>
   <body>
     <h1>Vote on your favorite Retro Game</h1>
-    <form action="<%= r :create %>" method="post">
+    <form action="#{ r(:create) }" method="post">
       <input type="text" name="name" />
       <input type="submit" value="Add" />
     </form>
     <ol>
-      <% STORE.each do |name, votes| %>
+      <?r STORE.each do |name, votes| ?>
         <li>
-          <%= Games.a("Vote", "/vote/#{u name}") %>
-          <%= "%5d => %s" % [votes, name] %>
+          #{ a("Vote", r(:vote, u(name))) }
+          #{ "%5d => %s" % [votes, name] }
         </li>
-      <% end %>
+      <?r end ?>
     </ol>
   </body>
 </html>
