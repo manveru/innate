@@ -261,7 +261,8 @@ module Innate
   # @see Rack::MiddlewareCompiler
   middleware :dev do |m|
     m.apps(Rack::Lint, Rack::CommonLogger, Rack::ShowExceptions,
-           Rack::ShowStatus, Rack::ConditionalGet, Rack::Head, Rack::Reloader)
+           Rack::ShowStatus, Rack::ConditionalGet, Rack::Head)
+    m.use(Rack::Reloader, 2)
     m.innate
   end
 
