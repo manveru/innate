@@ -114,7 +114,7 @@ module Innate
       file = given_options.delete(:file)
 
       if found_root = go_figure_root(caller, :root => root, :file => file)
-        $0 = found_root
+        $0 = file if file
         Innate.options.roots = [found_root]
       end
 
