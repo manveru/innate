@@ -60,25 +60,6 @@ module Innate
         end
       end
 
-      # Renders a template of your choice.
-      # Paths have to be absolute or relative to Dir.pwd.
-      #
-      # @param [String] file_name path to the template you want to render
-      # @param [Hash] variables hash of instance variables available in the template
-      #
-      # @return [String]
-      #
-      # @api external
-      # @see render_custom
-      # @author manveru
-      def render_template(file_name, variables = {})
-        render_custom(action.name, variables) do |action|
-          action.layout = nil
-          action.method = nil
-          action.view = file_name
-        end
-      end
-
       def render_custom(action_name, variables = {})
         action = resolve(action_name.to_s)
 
