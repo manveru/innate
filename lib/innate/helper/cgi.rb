@@ -6,36 +6,46 @@ module Innate
 
   module Helper
     module CGI
-      # shortcut for Rack::Utils.escape
-      def url_encode(*args)
-        Rack::Utils.escape(*args.map{|a| a.to_s })
+      module_function
+
+      # Shortcut for Rack::Utils.escape
+      #
+      # @param [#to_s] input
+      # @return [String] URI-encoded representation of +input+
+      def url_encode(input)
+        Rack::Utils.escape(input.to_s)
+      end
+      alias u url_encode
+
+      # Shortcut for Rack::Utils.unescape
+      #
+      # @param [#to_s] input
+      # @return [String] URI-decoded representation of +input+
+      def url_decode(input)
+        Rack::Utils.unescape(input.to_s)
       end
 
-      # shortcut for Rack::Utils.unescape
-      def url_decode(*args)
-        Rack::Utils.unescape(*args.map{|a| a.to_s })
+      # Shortcut for Rack::Utils.escape_html
+      #
+      # @param [#to_s] input
+      # @return [String]
+      def html_escape(input)
+        Rack::Utils.escape_html(input.to_s)
       end
 
-      # shortcut for Rack::Utils.escape_html
-      def html_escape(string)
-        Rack::Utils.escape_html(string)
-      end
-
-      # shortcut for CGI.unescapeHTML
-      def html_unescape(string)
-        ::CGI.unescapeHTML(string.to_s)
+      # Shortcut for CGI.unescapeHTML
+      #
+      # @param [#to_s] input
+      # @return [String]
+      def html_unescape(input)
+        ::CGI.unescapeHTML(input.to_s)
       end
 
       # safely escape all HTML and code
-      def h(string)
-        Rack::Utils.escape_html(string).gsub(/#([{@$]@?)/, '&#35;\1')
+      def html_and_code_escape(input)
+        Rack::Utils.escape_html(input.to_s).gsub(/#([{@$]@?)/, '&#35;\1')
       end
-
-      # one-letter versions help in case like #{h foo.inspect}
-      # ERb/ERuby/Rails compatible
-      alias u url_encode
-
-      module_function(:url_encode, :url_decode, :html_escape, :html_unescape, :h, :u)
+      alias h html_and_code_escape
     end
   end
 end
