@@ -1,3 +1,107 @@
+[89ab244 | Tue Apr 07 16:17:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * bring the retro_games example up to date
+
+[c1b6939 | Tue Apr 07 14:30:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix typo in howto_spec example
+
+[c1f7bb8 | Tue Apr 07 12:24:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve Helper::CGI, don't accept more than one argument per method
+
+[c01a0ce | Tue Apr 07 02:07:28 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Warn if action is invalid
+
+[d749887 | Tue Apr 07 02:07:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove Helper::Render#render_template
+
+[fba39b5 | Mon Apr 06 03:26:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove specs for Helper::Partial
+
+[98bc6f7 | Mon Apr 06 03:25:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add more specs and refine Helper::Render
+
+[616b5aa | Mon Apr 06 03:03:21 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Provide direct access to Helper::Render methods through extension
+
+[696f85d | Mon Apr 06 02:58:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make Helper::Render#render_template work and add specs
+
+[b0fcf13 | Sun Apr 05 23:51:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adding Helper::Render, this should be able to cover all our rendering needs
+
+[ea02bbe | Sun Apr 05 23:49:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove Helper::Partial, to be replaced by Helper::Render
+
+[52c9943 | Sun Apr 05 23:47:01 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * just fix some annoying things
+
+[cd45648 | Sun Apr 05 23:46:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Refactor Helper to use HelpersHelper.options
+
+[4a1b7f6 | Sun Apr 05 14:25:43 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * remove some more methods from Request, they depend on a method in ramaze
+
+[6e0b421 | Sun Apr 05 09:22:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make multipart building a bit more compact
+
+[2f17bf6 | Sun Apr 05 14:23:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make some variables more 'communicative', as reek puts it
+
+[348e179 | Sat Apr 04 06:37:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Caching for template locations finally working, this should reduce the disk IO through globbing considerably, even if it is still updating the locations for every request
+
+[8555277 | Sat Apr 04 06:27:54 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better bacon task
+
+[110243b | Fri Apr 03 12:08:41 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Experimental templating path caching
+
+[258d7c9 | Fri Apr 03 13:01:12 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use Etanni engine for specs and most examples
+
+[2bf8941 | Fri Apr 03 12:59:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Comment out gemspec dependencies until rack is released
+
+[57078ac | Fri Apr 03 12:58:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove the extra newlines introduced with Etanni
+
+[51b4797 | Fri Apr 03 12:58:03 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Relax views by using #to_s instead of #to_str
+
+[d8475d3 | Fri Apr 03 09:48:49 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't carry over view_value into layout actions
+
+[8e2788f | Thu Apr 02 03:50:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix view and layout mapping if there are multiple view_mappings
+
+[8e93e87 | Tue Mar 31 16:35:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.04.01
+
 [1a7242b | Tue Mar 31 16:32:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Optional is called Optioned now, watch out
