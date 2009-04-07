@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'innate'
+require 'yaml'
 
 ARTICLES = {
   'hello' => {

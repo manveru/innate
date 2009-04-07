@@ -30,7 +30,7 @@ module Innate
   # 3rd party
   require 'rack'
 
-  # innates ruby core patches
+  # innate's ruby core patches
   require 'innate/core_compatibility/string'
   require 'innate/core_compatibility/basic_object'
 
@@ -97,7 +97,7 @@ module Innate
     #   Port for the server
     # @option param :started [boolean] (false)
     #   Indicate that calls Innate::start will be ignored
-    # @option param :handler [Symbol]  (:webrick)
+    # @option param :adapter [Symbol]  (:webrick)
     #   Web server to run on
     # @option param :setup   [Array]   ([Innate::Cache, Innate::Node])
     #   Will send ::setup to each element during Innate::start
@@ -116,9 +116,11 @@ module Innate
       found_root = go_figure_root(caller, :root => root, :file => file)
       Innate.options.roots = [found_root] if found_root
 
+      # Convert some top-level option keys to the internal ones that we use.
       PROXY_OPTIONS.each{|k,v| given_options[v] = given_options.delete(k) }
       given_options.delete_if{|k,v| v.nil? }
 
+      # Merge the user's given options into our existing set, which contains defaults.
       options.merge!(given_options)
 
       setup_dependencies
@@ -183,10 +185,10 @@ module Innate
     #   Innate.start :root => File.dirname(__FILE__)
     #
     # Either setting will surpress the warning that might show up on startup
-    # and tells you it coldn't find an explicit root.
+    # and tells you it couldn't find an explicit root.
     #
     # In case these options are not passed we will try to figure out a file named
-    # `start.rb` in the processes working directory and assumes it's a valid point.
+    # `start.rb` in the process' working directory and assume it's a valid point.
     def go_figure_root(backtrace, options)
       if root = options[:root]
         root
