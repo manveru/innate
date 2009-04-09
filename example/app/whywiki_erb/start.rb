@@ -7,7 +7,7 @@ DB = YAML::Store.new('wiki.yaml') unless defined?(DB)
 class Wiki
   Innate.node '/'
   layout 'wiki'
-  engine :ERB
+  provide :html, :engine => :ERB
 
   def index(page = 'Home')
     @page = page
@@ -39,4 +39,4 @@ class Wiki
   end
 end
 
-Innate.start :adapter => :mongrel
+Innate.start
