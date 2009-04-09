@@ -813,9 +813,7 @@ module Innate
             when /^(.*)\.(.*)\.(.*)$/
               action_name, wish_ext, engine_ext = $1, $2, $3
             when /^(.*)\.(.*)$/
-              action_name, wish_ext, engine_ext = $1, 'html', $2
-            when /.*/
-              p $1
+              action_name, wish_ext, engine_ext = $1, wish, $2
             end
 
             mapping[wish_ext] ||= {}
