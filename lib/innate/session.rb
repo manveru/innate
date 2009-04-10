@@ -62,8 +62,7 @@ module Innate
     end
 
     def flush(response = @response)
-      return unless @cache_sid
-      return if @cache_sid.empty?
+      return if !@cache_sid or @cache_sid.empty?
 
       flash.rotate!
       ttl = (Time.at(cookie_value[:expires]) - Time.now).to_i
