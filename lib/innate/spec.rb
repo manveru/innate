@@ -18,4 +18,6 @@ end
 shared :mock do
   Innate.setup_dependencies
   extend Rack::Test::Methods
+
+  def app; Innate.middleware(:spec); end
 end
