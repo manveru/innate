@@ -65,19 +65,6 @@ class SpecHelperRenderView
   end
 end
 
-class SpecHelperRenderTemplate
-  Innate.node '/render_template'
-
-  def relative
-    render_template('spec/innate/helper/view/num.xhtml', :n => 42)
-  end
-
-  def absolute
-    path = File.join(File.dirname(__FILE__), 'view/num.xhtml')
-    render_template(path, :n => 42)
-  end
-end
-
 class SpecHelperRenderMisc
   Innate.node '/misc'
   map_views '/'
@@ -131,15 +118,6 @@ describe Innate::Helper::Render do
 
     it 'renders action without calling the method or applying layout' do
       get('/render_view/without_method_or_layout').body.should == '{ 42 }'
-    end
-  end
-
-  describe '#render_template' do
-    behaves_like :mock
-
-    it 'renders action with the given template file' do
-      get('/render_template/relative').body.should == '42'
-      get('/render_template/absolute').body.should == '42'
     end
   end
 
