@@ -57,81 +57,62 @@ class SpecFlashSub < SpecFlash
 end
 
 describe Innate::Helper::Flash do
-  behaves_like :session
+  behaves_like :mock
 
   should 'set and forget flash twice' do
-    session do |mock|
-      mock.get('/welcome').body.should == 'Welcome manveru'
-      mock.get('/bye').body.should == 'Bye manveru'
-      mock.get('/bye').body.should == 'Bye'
+    get('/welcome').body.should == 'Welcome manveru'
+    get('/bye').body.should == 'Bye manveru'
+    get('/bye').body.should == 'Bye'
 
-      mock.get('/welcome').body.should == 'Welcome manveru'
-      mock.get('/bye').body.should == 'Bye manveru'
-      mock.get('/bye').body.should == 'Bye'
-    end
+    get('/welcome').body.should == 'Welcome manveru'
+    get('/bye').body.should == 'Bye manveru'
+    get('/bye').body.should == 'Bye'
   end
 
   should 'work over multiple nodes' do
-    session do |mock|
-      mock.get('/welcome').body.should == 'Welcome manveru'
-      mock.get('/sub/bye').body.should == 'Bye manveru'
-      mock.get('/sub/bye').body.should == 'Bye'
+    get('/welcome').body.should == 'Welcome manveru'
+    get('/sub/bye').body.should == 'Bye manveru'
+    get('/sub/bye').body.should == 'Bye'
 
-      mock.get('/sub/welcome').body.should == 'Welcome manveru'
-      mock.get('/bye').body.should == 'Bye manveru'
-      mock.get('/bye').body.should == 'Bye'
-    end
+    get('/sub/welcome').body.should == 'Welcome manveru'
+    get('/bye').body.should == 'Bye manveru'
+    get('/bye').body.should == 'Bye'
   end
 
   should 'check if flash is empty' do
-    session do |mock|
-      mock.get('/welcome').body.should == 'Welcome manveru'
-      mock.get('/check_empty').body.should == 'false'
-      mock.get('/check_empty').body.should == 'true'
-    end
+    get('/welcome').body.should == 'Welcome manveru'
+    get('/check_empty').body.should == 'false'
+    get('/check_empty').body.should == 'true'
   end
 
   should 'set and delete key within one request' do
-    session do |mock|
-      mock.get('/set_delete_key').body.should == ''
-    end
+    get('/set_delete_key').body.should == ''
   end
 
   should 'set and delete key over two request' do
-    session do |mock|
-      mock.get('/welcome').body.should == 'Welcome manveru'
-      mock.get('/delete_key').body.should == 'Bye'
-    end
+    get('/welcome').body.should == 'Welcome manveru'
+    get('/delete_key').body.should == 'Bye'
   end
 
   should 'merge with hash' do
-    session do |mock|
-      mock.get('/merge').body.should == {:name => 'feagliir'}.inspect
-      mock.get('/bye').body.should == 'Bye'
-    end
+    get('/merge').body.should == {:name => 'feagliir'}.inspect
+    get('/bye').body.should == 'Bye'
   end
 
   should 'merge! with hash' do
-    session do |mock|
-      mock.get('/merge!').body.should == {:name => 'feagliir'}.inspect
-      mock.get('/bye').body.should == 'Bye feagliir'
-    end
+    get('/merge!').body.should == {:name => 'feagliir'}.inspect
+    get('/bye').body.should == 'Bye feagliir'
   end
 
   should 'inspect combined' do
-    session do |mock|
-      mock.get('/welcome')
-      mock.get('/inspect').body.
-        should == {:name => 'manveru', :yes => :yeah}.inspect
-    end
+    get('/welcome')
+    get('/inspect').body.should == {:name => 'manveru', :yes => :yeah}.inspect
   end
 
   should 'iterate over combined' do
-    session do |mock|
-      mock.get('/welcome')
+    get('/welcome')
 
-      hash = {:yes => :yeah, :name => 'manveru'}
-      Hash[*eval(mock.get('/iterate').body).flatten].should == hash
-    end
+    hash = {:yes => :yeah, :name => 'manveru'}
+    Hash[*eval(get('/iterate').body).flatten].should == hash
   end
 end

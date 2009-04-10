@@ -76,7 +76,7 @@ end
 
 describe Innate::Helper::Render do
   describe '#render_full' do
-    behaves_like :mock, :session
+    behaves_like :mock
 
     it 'renders a full action' do
       get('/render_full/standard').body.should == 'foo: []'
@@ -94,10 +94,8 @@ describe Innate::Helper::Render do
     # value in the session that we can get afterwards.
 
     it 'renders full action inside a session' do
-      session do |mock|
-        mock.get('/render_full/set_session/user/manveru')
-        mock.get('/render_full/with_session').body.should == '"manveru"'
-      end
+      get('/render_full/set_session/user/manveru')
+      get('/render_full/with_session').body.should == '"manveru"'
     end
   end
 

@@ -20,7 +20,7 @@ class SpecRedirectHelper
   end
 
   def redirect_referer_action
-    redirect_referer
+    redirect_referer(r(:noop))
   end
 
   def no_actual_redirect
@@ -69,77 +69,92 @@ describe Innate::Helper::Redirect do
   end
 
   should 'redirect' do
-    got = get("#@uri/redirection")
-    got.status.should == 302
-    got.headers['Location'].should == "#@uri/index"
-    got.headers['Content-Type'].should == "text/html"
+    get("#@uri/redirection")
+
+    last_response.status.should == 302
+    last_response.headers['Location'].should == "#@uri/index"
+    last_response.headers['Content-Type'].should == "text/html"
   end
 
   should 'redirect twice' do
-    got = get("#@uri/double_redirection")
-    got.status.should == 302
-    got.headers['Location'].should == "#@uri/redirection"
-    got.headers['Content-Type'].should == "text/html"
+    get("#@uri/double_redirection")
+
+    last_response.status.should == 302
+    last_response.headers['Location'].should == "#@uri/redirection"
+    last_response.headers['Content-Type'].should == "text/html"
   end
 
   should 'redirect to referer' do
-    got = get("#@uri/redirect_referer_action", 'HTTP_REFERER' => '/noop')
-    got.status.should == 302
-    got.headers['Location'].should == "#@uri/noop"
-    got.headers['Content-Type'].should == "text/html"
-    got = get("#@uri/redirect_referer_action", 'HTTP_REFERER' => "#@uri/redirect_referer_action")
-    got.status.should == 302
-    got.headers['Location'].should == "#@uri/"
-    got.headers['Content-Type'].should == "text/html"
+    header 'HTTP_REFERER', '/index'
+    get("#@uri/redirect_referer_action")
+
+    last_response.status.should == 302
+    last_response.headers['Location'].should == "#@uri/index"
+    last_response.headers['Content-Type'].should == "text/html"
+  end
+
+  should 'redirect to fallback if referrer is identical' do
+    header 'HTTP_REFERER', "#@uri/redirect_referer_action"
+    get("#@uri/redirect_referer_action")
+
+    last_response.status.should == 302
+    last_response.headers['Location'].should == "#@uri/noop"
+    last_response.headers['Content-Type'].should == "text/html"
   end
 
   should 'use #r' do
-    got = get("#@uri/redirect_method")
-    got.status.should == 302
-    got.headers['Location'].should == "#@uri/noop"
-    got.headers['Content-Type'].should == "text/html"
+    get("#@uri/redirect_method")
+
+    last_response.status.should == 302
+    last_response.headers['Location'].should == "#@uri/noop"
+    last_response.headers['Content-Type'].should == "text/html"
   end
 
   should 'work with absolute uris' do
-    got = get("#@uri/absolute_redirect")
-    got.status.should == 302
-    got.headers['Location'].should == "#@uri/noop"
-    got.headers['Content-Type'].should == "text/html"
+    get("#@uri/absolute_redirect")
+
+    last_response.status.should == 302
+    last_response.headers['Location'].should == "#@uri/noop"
+    last_response.headers['Content-Type'].should == "text/html"
   end
 
   should 'support #respond' do
-    got = get("#@uri/loop")
-    got.status.should == 200
-    got.body.should == 'no loop'
+    get("#@uri/loop")
+
+    last_response.status.should == 200
+    last_response.body.should == 'no loop'
   end
 
   should 'support #respond with status' do
-    got = get("#@uri/respond_with_status")
-    got.status.should == 404
-    got.body.should == 'not found'
+    get("#@uri/respond_with_status")
+
+    last_response.status.should == 404
+    last_response.body.should == 'not found'
   end
 
   should 'support #respond!' do
-    got = get("#@uri/destructive_respond")
-    got.status.should == 200
-    got.body.should == 'destructive'
+    get("#@uri/destructive_respond")
+
+    last_response.status.should == 200
+    last_response.body.should == 'destructive'
   end
 
   should 'redirect without modifying the target' do
-    got = get("#@uri/redirect_unmodified")
-    got.status.should == 302
-    got.headers['Location'].should == '/noop'
+    get("#@uri/redirect_unmodified")
+
+    last_response.status.should == 302
+    last_response.headers['Location'].should == '/noop'
   end
 
   should 'catch redirection' do
-    got = get("#@uri/no_actual_redirect")
-    got.status.should == 200
-    got.body.should == 'no actual redirect'
+    get("#@uri/no_actual_redirect")
+    last_response.status.should == 200
+    last_response.body.should == 'no actual redirect'
   end
 
   should 'catch double redirect' do
-    got = get("#@uri/no_actual_double_redirect")
-    got.status.should == 200
-    got.body.should == 'no actual double redirect'
+    get("#@uri/no_actual_double_redirect")
+    last_response.status.should == 200
+    last_response.body.should == 'no actual double redirect'
   end
 end

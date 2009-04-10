@@ -29,27 +29,26 @@ class SpecSession
 end
 
 describe Innate::Session do
-  behaves_like :session
+  behaves_like :mock
 
   should 'initiate session as needed' do
-    session do |mock|
-      response = mock.get('/')
-      response.body.should == 'No session here'
-      response['Set-Cookie'].should == nil
+    get '/'
+    last_response.body.should == 'No session here'
+    last_response['Set-Cookie'].should == nil
 
-      mock.get('/init').body.should == '0'
+    get('/init')
+    last_response.body.should == '0'
 
-      1.upto(10) do |n|
-        mock.get('/increment').body.should == n.to_s
-      end
+    1.upto(10) do |n|
+      get('/increment').body.should == n.to_s
+    end
 
-      mock.get('/reset')
-      mock.get('/view').body.should == ''
-      mock.get('/init').body.should == '0'
+    get('/reset')
+    get('/view').body.should == ''
+    get('/init').body.should == '0'
 
-      -1.downto(-10) do |n|
-        mock.get('/decrement').body.should == n.to_s
-      end
+    -1.downto(-10) do |n|
+      get('/decrement').body.should == n.to_s
     end
   end
 end

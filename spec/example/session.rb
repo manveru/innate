@@ -2,27 +2,21 @@ require 'spec/helper'
 require 'example/session'
 
 describe 'example/session' do
-  behaves_like :session
+  behaves_like :mock
 
   it 'starts at 0' do
-    session do |mock|
-      mock.get('/').should =~ /Value is: 0/
-    end
+    get('/').body.should =~ /Value is: 0/
   end
 
   it 'increments the counter' do
-    session do |mock|
-      mock.get('/increment').should =~ /Value is: 1/
-      mock.get('/increment').should =~ /Value is: 2/
-      mock.get('/increment').should =~ /Value is: 3/
-    end
+    get('/increment').body.should =~ /Value is: 1/
+    get('/increment').body.should =~ /Value is: 2/
+    get('/increment').body.should =~ /Value is: 3/
   end
 
   it 'decrements the counter' do
-    session do |mock|
-      mock.get('/decrement').should =~ /Value is: -1/
-      mock.get('/decrement').should =~ /Value is: -2/
-      mock.get('/decrement').should =~ /Value is: -3/
-    end
+    get('/decrement').body.should =~ /Value is: 2/
+    get('/decrement').body.should =~ /Value is: 1/
+    get('/decrement').body.should =~ /Value is: 0/
   end
 end
