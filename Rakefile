@@ -22,9 +22,10 @@ GEMSPEC = Gem::Specification.new{|s|
   s.has_rdoc     = true
   s.require_path = 'lib'
 
-#   s.add_runtime_dependency('rack', '>= 0.9.1') # lies!
-#   s.add_development_dependency('bacon', '>= 1.0')
-#   s.add_development_dependency('json', '~> 1.1.3')
+  # s.add_runtime_dependency('rack', '>= 0.9.1') # lies!
+  # s.add_development_dependency('bacon', '>= 1.0')
+  # s.add_development_dependency('json', '~> 1.1.3')
+  # s.add_development_dependency('rack-test', '>= 0.1.0')
 }
 
 Dir['tasks/*.rake'].each{|f| import(f) }
