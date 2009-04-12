@@ -8,6 +8,7 @@ specs =  Dir['spec/{innate,example}/**/*.rb']
 specs -= Dir['spec/innate/cache/common.rb']
 PROJECT_SPECS = specs
 PROJECT_MODULE = 'Innate'
+PROJECT_README = 'README.md'
 
 GEMSPEC = Gem::Specification.new{|s|
   s.name         = 'innate'
