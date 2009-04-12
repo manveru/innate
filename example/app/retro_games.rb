@@ -32,7 +32,8 @@ class Games
 
   TEMPLATE = <<-'T'.strip
 <?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
     <title>Top Retro Games</title>
@@ -47,14 +48,13 @@ class Games
       <?r STORE.each do |name, votes| ?>
         <li>
           #{ a("Vote", r(:vote, u(name))) }
-          #{ "%5d => %s" % [votes, name] }
+          #{ h "%5d => %s" % [votes, name] }
         </li>
       <?r end ?>
     </ol>
   </body>
 </html>
   T
-
 end
 
 Innate.start
