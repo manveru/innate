@@ -3,6 +3,8 @@ module Innate
 
     # Used by caches that serialize their contents to the filesystem.
     module FileBased
+      attr_reader :filename
+
       def cache_setup(*args)
         @prefix = args.compact.join('-')
 
