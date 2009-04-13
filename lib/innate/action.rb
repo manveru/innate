@@ -1,6 +1,6 @@
 module Innate
-  ACTION_MEMBERS = [ :node, :method, :params, :view, :layout, :instance, :exts,
-    :wish, :options, :variables, :value, :view_value, :engine ]
+  ACTION_MEMBERS = [ :node, :instance, :method, :params, :method_value, :view,
+    :view_value, :layout, :wish, :options, :variables, :engine ]
 
   class Action < Struct.new(*ACTION_MEMBERS)
     # Create a new Action instance.
@@ -101,11 +101,11 @@ module Innate
 
       instance.wrap_action_call(self) do
         copy_variables # this might need another position after all
-        self.value = instance.__send__(method, *params) if method
-        self.view_value = File.read(view) if view
+        self.method_value = instance.__send__(method, *params) if method
+        self.view_value = ::File.read(view) if view
 
         body, content_type = wrap_in_layout{
-          engine.call(self, view_value || value || '') }
+          engine.call(self, view_value || method_value || '') }
         options[:content_type] ||= content_type if content_type
         body
       end
