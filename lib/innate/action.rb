@@ -32,10 +32,7 @@ module Innate
     # @api stable
     # @author manveru
     def call
-      Current.actions << self
-      render
-    ensure
-      Current.actions.delete(self)
+      Current.actions ? wrap_in_current{ render } : render
     end
 
     # @return [Binding] binding of the instance for this Action
@@ -126,6 +123,13 @@ module Innate
 
     def layout_view_or_method(name, arg)
       [:layout, :view].include?(name) ? [arg, nil] : [nil, arg]
+    end
+
+    def wrap_in_current
+      Current.actions << self
+      yield
+    ensure
+      Current.actions.delete(self)
     end
 
     # Try to figure out a sane name for current action.
