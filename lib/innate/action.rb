@@ -138,7 +138,7 @@ module Innate
     end
 
     def valid?
-      method || view
+      node.needs_method? ? (method && view) : (method || view)
     end
   end
 end
