@@ -61,7 +61,9 @@ module Innate
       end
 
       def render_custom(action_name, variables = {})
-        action = resolve(action_name.to_s)
+        unless action = resolve(action_name.to_s)
+          raise(ArgumentError, "No Action on #{self} for %p" % action_name)
+        end
 
         action.sync_variables(self.action)
         action.instance = action.node.new
