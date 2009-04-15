@@ -28,12 +28,12 @@ module Innate
         hashes, names = args.partition{|arg| arg.respond_to?(:merge!) }
         hashes.each{|to_merge| hash.merge!(to_merge) }
 
+        escape = Rack::Utils.method(:escape)
         location = route_location(self)
-        front = Array[location, name, *names].join('/').squeeze('/')
+        front = Array[location, name, *names.map{|n| escape[n]}].join('/').squeeze('/')
 
         return URI(front) if hash.empty?
 
-        escape = Rack::Utils.method(:escape)
         query = hash.map{|k, v| "#{escape[k]}=#{escape[v]}" }.join(';')
         URI("#{front}?#{query}")
       end

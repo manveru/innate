@@ -56,6 +56,14 @@ describe Innate::Helper::Link do
       Two.route(:foo, :bar).should == URI('/two/foo/bar')
     end
 
+    should 'respond with URI for node with path /foo/bar+baz' do
+      One.route('/foo/bar+baz').should == URI('/foo/bar+baz')
+      One.route(:foo, 'bar baz').should == URI('/foo/bar+baz')
+
+      Two.route('/foo/bar+baz').should == URI('/two/foo/bar+baz')
+      Two.route(:foo, 'bar baz').should == URI('/two/foo/bar+baz')
+    end
+
     should 'respond with URI for node with GET params' do
       One.route('/', :a => :b).should == URI('/?a=b')
 
