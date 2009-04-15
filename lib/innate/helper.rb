@@ -152,10 +152,10 @@ module Innate
     # helper :foo_bar # => FooBar
     # helper :foo # => Foo
     def get(name)
-      name = name.to_s.split('_').map{|e| e.capitalize}.join
+      module_name = /^#{name.to_s.dup.delete('_')}$/i
 
       options.namespaces.each do |namespace|
-        found = namespace.constants.grep(/^#{name}$/i).first
+        found = namespace.constants.grep(module_name).first
         return namespace.const_get(found) if found
       end
 
