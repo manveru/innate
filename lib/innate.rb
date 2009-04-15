@@ -3,11 +3,7 @@
 #
 # Name-space of Innate, just about everything goes in here.
 #
-# Exceptions are:
-#
-# * Logger::ColorFormatter
-# * In 1.8, we define ::BasicObject
-# * In 1.9, we define ::String#each
+# The only exception is Logger::ColorFormatter.
 #
 module Innate
   ROOT = File.expand_path(File.dirname(__FILE__))
@@ -29,10 +25,6 @@ module Innate
 
   # 3rd party
   require 'rack'
-
-  # innate's ruby core patches
-  require 'innate/core_compatibility/string'
-  require 'innate/core_compatibility/basic_object'
 
   # innate core
   require 'innate/version'

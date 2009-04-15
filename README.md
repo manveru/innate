@@ -67,7 +67,7 @@ encourages everybody to build on top of it whatever they want.
 * No clutter in your application directory structure, scales from a single file
   upwards
 * Seamless integration with Rack middleware
-* No patching[4] of ruby core or stdlib.
+* No patching of ruby core or stdlib.
 * Direct access to the current Request, Response, and Session from anywhere via
   Trinity
 * Works out of the box with ERB the templating engine.
@@ -77,7 +77,6 @@ encourages everybody to build on top of it whatever they want.
 [1]: What you may think of as Controller.
 [2]: This includes: Ruby 1.8, Ruby 1.9.1, JRuby, Rubinius
 [3]: Fiber is available on 1.9 only at this point.
-[4]: However, we add String#each if it isn't there to be compatible with Rack.
 
 ## Usage
 
@@ -448,13 +447,6 @@ authorization, etc.
 ### Snippets
 
 Innate abandons the snippets, keeping your core clean.
-
-Two things that we need are (currently) String#each, because Rack relies on it,
-and BasicObject as superclass for the Option class. They are only applied on
-demand.
-
-These are in the directory called core_extensions, to make it very, very clear
-what we are doing and how we are doing it.
 
 Ramaze has still a lot of these snippets and will continue to, although I will
 constantly strive to reduce them slowly.
