@@ -9,12 +9,14 @@ module Innate
       # and it doesn't use the send_file capabilities of frontend servers.
       #
       # So for now, I'll mark it for deprecation
-      def send_file(filename, content_type = nil)
+      def send_file(filename, content_type = nil, content_disposition = nil)
         content_type ||= Rack::Mime.mime_type(::File.extname(filename))
+        content_disposition ||= File.basename(filename)
 
         response.body = ::File.readlines(filename, 'rb')
         response['Content-Length'] = ::File.size(filename).to_s
         response['Content-Type'] = content_type
+        response['Content-Disposition'] = content_disposition
         response.status = 200
 
         throw(:respond, response)
