@@ -1,3 +1,129 @@
+[987c5d7 | Sat Apr 18 02:44:26 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Update the release tasks
+
+[f927c9d | Fri Apr 17 11:51:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add Content-Disposition support to send_file
+
+[888318c | Fri Apr 17 10:43:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Better English in render_custom error
+
+[15078e6 | Wed Apr 15 16:49:04 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add comment about planned deprecation of SendFile helper's default status
+
+[4b487aa | Wed Apr 15 16:48:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove the length from Response, Rack provides that
+
+[1634391 | Wed Apr 15 11:02:11 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't camel-case the helper module name, simply remove underscores, we do case-insensitive lookup anyway
+
+[f97e8d7 | Wed Apr 15 10:58:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove core_extensions, we don't need String#each or BasicObject anymore
+
+[0b33546 | Wed Apr 15 09:16:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Action may be invalid if the node requires a method and view
+
+[39dd843 | Wed Apr 15 09:15:30 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Escape non-hash arguments to Helper::Link#route (ryan grove)
+
+[22ee4df | Wed Apr 15 07:25:02 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Raise if the Render helper cannot obtain an Action
+
+[e229299 | Mon Apr 13 12:48:05 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow Action#call even if we are outside Current#wrap
+
+[b6e9558 | Mon Apr 13 04:37:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove Action#exts member and use better terms
+
+[46d2a5e | Sun Apr 12 05:03:58 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * FileBased caches have access to @filename now
+
+[f84f18f | Sun Apr 12 05:03:39 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Set a PROJECT_README for some rake tasks
+
+[8920482 | Sun Apr 12 05:03:21 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improvment and spec for provide example
+
+[a892dea | Sun Apr 12 05:02:50 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Minor improvment and spec for retro games example
+
+[b3aeb97 | Fri Apr 10 12:30:08 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow overriding of middleware mode for specs
+
+[7d65255 | Fri Apr 10 12:07:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Compact code
+
+[cde9366 | Fri Apr 10 10:51:03 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Simplify specs and make them pass using rack-test
+
+[f4c9572 | Fri Apr 10 10:50:34 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't forget to specify an app for rack-test
+
+[41b1955 | Fri Apr 10 10:17:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove spec for render_template
+
+[a3b73ca | Fri Apr 10 10:17:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add `rake setup` task to comply to convention. I will put up the corresponding gems ASAP
+
+[c648bf7 | Fri Apr 10 10:16:12 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Switch to using rack-test for our specs, needs rack-test from the master branch head
+
+[5c08e25 | Thu Apr 09 17:52:28 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use ContentLength middleware
+
+[0dc50d4 | Thu Apr 09 16:10:51 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix template caching... was using html instead of the wish the glob was for
+
+[622bbe3 | Thu Apr 09 16:01:08 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix example apps
+
+[6e9e843 | Tue Apr 07 09:56:56 UTC 2009] Sam Carr <samcarr@gmail.com>
+
+  * Minor tidy-ups to fix comments, add missing requires, add comments etc.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[8f9af98 | Tue Apr 07 18:42:35 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Set default interval for reloader to 2 seconds
+
+[9f7e749 | Tue Apr 07 18:42:14 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Never assign $0, bad mojo
+
+[281501e | Tue Apr 07 17:53:08 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't assign a directory to $0
+
+[8a2ddc7 | Tue Apr 07 17:16:37 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.04.08
+
 [89ab244 | Tue Apr 07 16:17:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * bring the retro_games example up to date

@@ -4,10 +4,10 @@ MANIFEST
 README.md
 Rakefile
 example/app/retro_games.rb
-example/app/todo/layout/default.erb
+example/app/todo/layout/default.xhtml
 example/app/todo/spec/todo.rb
 example/app/todo/start.rb
-example/app/todo/view/index.erb
+example/app/todo/view/index.xhtml
 example/app/whywiki_erb/layout/wiki.html.erb
 example/app/whywiki_erb/spec/wiki.rb
 example/app/whywiki_erb/start.rb
@@ -30,8 +30,6 @@ lib/innate/cache/file_based.rb
 lib/innate/cache/marshal.rb
 lib/innate/cache/memory.rb
 lib/innate/cache/yaml.rb
-lib/innate/core_compatibility/basic_object.rb
-lib/innate/core_compatibility/string.rb
 lib/innate/current.rb
 lib/innate/dynamap.rb
 lib/innate/helper.rb
@@ -68,8 +66,10 @@ lib/innate/view.rb
 lib/innate/view/erb.rb
 lib/innate/view/etanni.rb
 lib/innate/view/none.rb
+spec/example/app/retro_games.rb
 spec/example/hello.rb
 spec/example/link.rb
+spec/example/provides.rb
 spec/example/session.rb
 spec/helper.rb
 spec/innate/action/layout.rb
@@ -124,3 +124,4 @@ tasks/manifest.rake
 tasks/rcov.rake
 tasks/release.rake
 tasks/reversion.rake
+tasks/setup.rake
