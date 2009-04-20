@@ -46,6 +46,9 @@ module Innate
         Rack::Utils.escape_html(input.to_s).gsub(/#([{@$]@?)/, '&#35;\1')
       end
       alias h html_and_code_escape
+
+      # aliases are ignored by module_function...
+      module_function :u, :h
     end
   end
 end
