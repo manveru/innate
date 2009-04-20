@@ -38,17 +38,21 @@ module Innate
       end
 
       # Renders an action without any layout.
+      # You can further tweak the action to be rendered by passing a block.
+      #
       # @api external
       # @see render_custom
       # @author manveru
       def render_partial(action_name, variables = {})
         render_custom(action_name, variables) do |action|
           action.layout = nil
+          yield(action) if block_given?
         end
       end
 
       # Renders an action view, doesn't execute any methods and won't wrap it
       # into a layout.
+      # You can further tweak the action to be rendered by passing a block.
       #
       # @api external
       # @see render_custom
@@ -57,6 +61,7 @@ module Innate
         render_custom(action_name, variables) do |action|
           action.layout = nil
           action.method = nil
+          yield(action) if block_given?
         end
       end
 
