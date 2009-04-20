@@ -57,7 +57,7 @@ module Innate
       end
 
       def raw_redirect(target, options = {}, &block)
-        header = {'Location' => target.to_s}
+        header = response.header.merge('Location' => target.to_s)
         status = options[:status] || 302
         body   = options[:body] || redirect_body(target)
 
