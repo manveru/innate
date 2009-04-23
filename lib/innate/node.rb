@@ -364,7 +364,7 @@ module Innate
     def resolve(path)
       name, wish, engine = find_provide(path)
       node = (respond_to?(:ancestors) && respond_to?(:new)) ? self : self.class
-      action = Action.create(:node => node, :wish => wish, :engine => engine)
+      action = Action.create(:node => node, :wish => wish, :engine => engine, :path => path)
 
       if content_type = node.ancestral_trait["#{wish}_content_type"]
         action.options = {:content_type => content_type}

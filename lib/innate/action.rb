@@ -1,6 +1,6 @@
 module Innate
   ACTION_MEMBERS = [ :node, :instance, :method, :params, :method_value, :view,
-    :view_value, :layout, :wish, :options, :variables, :engine ]
+    :view_value, :layout, :wish, :options, :variables, :engine, :path ]
 
   class Action < Struct.new(*ACTION_MEMBERS)
     # Create a new Action instance.
@@ -135,6 +135,12 @@ module Innate
     # Try to figure out a sane name for current action.
     def name
       File.basename((method || view).to_s).split('.').first
+    end
+
+    # Path to this action, including params, with the mapping of the current
+    # controller prepended.
+    def full_path
+      File.join(node.mapping, path)
     end
 
     def valid?
