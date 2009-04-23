@@ -18,6 +18,11 @@ module Innate
       remap(@originals.merge(location.to_s => object))
     end
 
+    def delete(location)
+      @originals.delete(location)
+      remap(@originals)
+    end
+
     def at(location)
       @originals[location]
     end
