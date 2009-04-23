@@ -113,9 +113,9 @@ module Innate
 
         def add_action_wrapper(order, method_name)
           if wrap = trait[:wrap]
-            wrap.merge(SortedSet[[order, method_name]])
+            wrap.merge(SortedSet[[order, method_name.to_s]])
           else
-            trait :wrap => SortedSet[[order, method_name]]
+            trait :wrap => SortedSet[[order, method_name.to_s]]
           end
         end
       end
