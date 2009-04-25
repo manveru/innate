@@ -1,3 +1,31 @@
+[0ec2012 | Thu Apr 23 06:21:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow deletion of mapped apps in DynaMap
+
+[cbedd9c | Thu Apr 23 05:04:04 UTC 2009] Ryan Grove <ryan@wonko.com>
+
+  * Add path and full_path to Innate::Action
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[b9a0d4b | Mon Apr 20 05:12:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make the u and h aliases for the CGI helper module_functions too
+
+[b68aad4 | Mon Apr 20 05:12:10 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow further modification of the Action in the render_* methods via block
+
+[dca3531 | Sun Apr 19 23:38:06 UTC 2009] Ryan Grove <ryan@wonko.com>
+
+  * Preserve response headers when redirecting. Closes #1
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[d465ca3 | Sat Apr 18 02:46:09 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.04.18
+
 [987c5d7 | Sat Apr 18 02:44:26 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Update the release tasks
