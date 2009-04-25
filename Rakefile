@@ -20,6 +20,7 @@ GEMSPEC = Gem::Specification.new{|s|
   s.files        = `git ls-files`.split("\n").sort
   s.has_rdoc     = true
   s.require_path = 'lib'
+  s.rubyforge_project = "innate"
 
   # s.add_runtime_dependency('rack', '>= 0.9.1') # lies!
   # s.add_development_dependency('bacon', '>= 1.0')
