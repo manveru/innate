@@ -94,21 +94,21 @@ module Innate
           AOP[self][:before_all] = block
         end
 
-        def before(name, &block)
-          AOP[self][:before][name] = block
+        def before(*names, &block)
+          names.each{|name| AOP[self][:before][name] = block }
         end
 
         def after_all(&block)
           AOP[self][:after_all] = block
         end
 
-        def after(name, &block)
-          AOP[self][:after][name] = block
+        def after(*names, &block)
+          names.each{|name| AOP[self][:after][name] = block }
         end
 
-        def wrap(name, &block)
-          before(name, &block)
-          after(name, &block)
+        def wrap(*names, &block)
+          before(*names, &block)
+          after(*names, &block)
         end
 
         def add_action_wrapper(order, method_name)
