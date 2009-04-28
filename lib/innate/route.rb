@@ -5,6 +5,10 @@ module Innate
   #
   # This middleware should wrap Innate::DynaMap.
   #
+  # Please note that Rack::File is put before Route and Rewrite, that means
+  # that you cannot apply routes to static files unless you add your own route
+  # middleware before.
+  #
   # String routers are the simplest way to route in Innate. One path is
   # translated into another:
   #
