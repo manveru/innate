@@ -165,19 +165,21 @@ module Innate
     # Figure out files that might have the helper we ask for and then require
     # the first we find, if any.
     def try_require(name)
-      if found = Dir[glob(name)].first
+      if found = find_helper(name.to_s)
         require(found) || true
       else
         raise(LoadError, "Helper #{name} not found")
       end
     end
 
-    # Return a nice list of filenames in correct locations with correct
-    # filename-extensions.
-    def glob(name = '*')
-      exts, paths = options.exts, options.paths
-      paths.uniq!
-      "{#{paths.join(',')}}/helper/#{name}.{#{exts.join(',')}}"
+    def find_helper(name)
+      options.paths.uniq.find do |path|
+        base = ::File.join(path, 'helper', name)
+        options.exts.find do |ext|
+          full = "#{base}.#{ext}"
+          return full if ::File.file?(full)
+        end
+      end
     end
   end
 end
