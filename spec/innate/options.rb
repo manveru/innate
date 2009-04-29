@@ -46,7 +46,7 @@ describe Options do
 
   should 'get sub-sub option' do
     @options.get(:deep, :down, :me).
-      should == {:value => :too, :doc => 'deep down', :trigger=> nil}
+      should == {:value => :too, :doc => 'deep down'}
   end
 
   should 'respond with nil on getting missing option' do

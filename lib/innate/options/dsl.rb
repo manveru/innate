@@ -78,7 +78,8 @@ module Innate
     #                        :doc, :value keys will be ignored
     def option(doc, key, value, other = {}, &block)
       trigger = block || other[:trigger]
-      convert = {:doc => doc.to_s, :value => value, :trigger => trigger}
+      convert = {:doc => doc.to_s, :value => value}
+      convert[:trigger] = trigger if trigger
       @hash[key.to_sym] = other.merge(convert)
     end
     alias o option
