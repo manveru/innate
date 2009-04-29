@@ -57,6 +57,11 @@ class SpecRedirectHelper
   def redirect_unmodified
     raw_redirect '/noop'
   end
+
+  def redirect_with_cookie
+    response.set_cookie('user', :value => 'manveru')
+    redirect r(:noop)
+  end
 end
 
 describe Innate::Helper::Redirect do
@@ -156,5 +161,11 @@ describe Innate::Helper::Redirect do
     get("#@uri/no_actual_double_redirect")
     last_response.status.should == 200
     last_response.body.should == 'no actual double redirect'
+  end
+
+  should 'set cookie before redirect' do
+    get("#@uri/redirect_with_cookie")
+    follow_redirect!
+    last_request.cookies.should == {'user' => 'manveru'}
   end
 end
