@@ -8,6 +8,12 @@ module Innate
 
     module_function
 
+    def compile(string)
+      string = string.to_s
+      checksum = Digest::MD5.hexdigest(string)
+      Cache.view[checksum] ||= yield(string)
+    end
+
     def exts_of(engine)
       name = engine.to_s
       ENGINE.reject{|k,v| v != name }.keys

@@ -1,6 +1,8 @@
 require 'spec/helper'
 require 'innate/helper'
 
+Innate.setup_dependencies
+
 module Innate
   module Helper
     module SmileHelper

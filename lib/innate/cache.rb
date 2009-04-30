@@ -65,7 +65,7 @@ module Innate
 
     options.dsl do
       o "Assign a cache to each of these names on Innate::Cache::setup",
-        :names, [:session]
+        :names, [:session, :view]
 
       default "If no option for the cache name exists, fall back to this",
         Innate::Cache::Memory

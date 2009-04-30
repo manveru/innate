@@ -2,8 +2,8 @@ module Innate
   module View
     module Etanni
       def self.call(action, string)
-        template = Innate::Etanni.new(string.to_s)
-        html = template.result(action.binding, (action.view || action.method))
+        etanni = View.compile(string){|s| Innate::Etanni.new(s) }
+        html = etanni.result(action.binding, (action.view || action.method))
         return html, 'text/html'
       end
     end
