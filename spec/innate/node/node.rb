@@ -129,7 +129,7 @@ describe 'Innate::Node' do
   should 'use alias_view' do
     got = get('/alias_view/aliased')
     got.status.should == 200
-    got.body.strip.should == "<h1>Hello, World!</h1>"
+    got.body.join.strip.should == "<h1>Hello, World!</h1>"
     got['Content-Type'].should == 'text/html'
   end
 end
