@@ -4,11 +4,16 @@ module Innate
   # lazy requiring of needed engines.
 
   module View
+    include Optioned
+
     ENGINE, TEMP = {}, {}
+
+    options.dsl{ o("Cache compiled templates", :cache, true) }
 
     module_function
 
     def compile(string)
+      return yield(string.to_s) unless View.options.cache
       string = string.to_s
       checksum = Digest::MD5.hexdigest(string)
       Cache.view[checksum] ||= yield(string)
