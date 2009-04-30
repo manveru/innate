@@ -17,16 +17,13 @@ module Innate
 
     def compile
       temp = @template.dup
-      start_heredoc = "T" << Digest::SHA1.hexdigest(temp)
-      start_heredoc, end_heredoc = "\n<<#{start_heredoc}.chomp\n", "\n#{start_heredoc}\n"
+      separator = "T" << Digest::SHA1.hexdigest(temp)
+      from, to = "\n<<#{separator}.chomp\n", "\n#{separator}\n"
       bufadd = "_out_ << "
 
-      temp.gsub!(/<\?r\s+(.*?)\s+\?>/m,
-            "#{end_heredoc} \\1; #{bufadd} #{start_heredoc}")
+      temp.gsub!(/<\?r\s+(.*?)\s+\?>/m, "#{to} \\1; #{bufadd} #{from}")
 
-      @compiled = "_out_ = ''
-      #{bufadd} #{start_heredoc} #{temp} #{end_heredoc}
-      _out_"
+      @compiled = "_out_ = ''; #{bufadd} #{from} #{temp} #{to}; _out_"
     end
 
     def result(binding, filename = '<Etanni>')
