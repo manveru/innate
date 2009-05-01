@@ -1,3 +1,5 @@
+require 'find'
+
 module Innate
 
   # The nervous system of {Innate}, so you can relax.
@@ -798,7 +800,6 @@ module Innate
     end
 
     def update_mapping_shared(paths)
-      require 'find'
       mapping = {}
 
       provides.each do |wish_key, engine|
