@@ -75,9 +75,9 @@ describe 'Node#wrap_action_call' do
 
   it 'stops in the chain when not yielded' do
     SpecWrapActionCallStop.add_action_wrapper(1.0, :wrap_pass)
-    get('/stop').body.join.should == 'Hello'
+    get('/stop').body.should == 'Hello'
 
     SpecWrapActionCallStop.add_action_wrapper(2.0, :wrap_stop)
-    get('/stop').body.join.should == 'No Hello'
+    get('/stop').body.should == 'No Hello'
   end
 end
