@@ -5,7 +5,6 @@ module Innate
       #
       # @example of added functionality
       #   YourController.render_partial(:foo, :x => 42)
-      #
       def self.included(into)
         into.extend(self)
       end
@@ -19,6 +18,14 @@ module Innate
       # It should work as expected on any subsequent requests.
       #
       # As usual, patches welcome.
+      #
+      # @example usage
+      #
+      #   render_full('/blog/article/1')
+      #   render_full('/blog/article/1', :lang => :de)
+      #
+      # Please note that you have to give the full path in the same way you'd
+      # do in a direct request with curl or a browser.
       #
       # @api external
       # @see Mock.session
@@ -40,6 +47,24 @@ module Innate
       # Renders an action without any layout.
       # You can further tweak the action to be rendered by passing a block.
       #
+      # @example usage
+      #
+      #   render_partial(:index)
+      #   render_partial(:index, :title => :foo)
+      #
+      # Please note that you only have to supply the action name, if your
+      # action requires arguments then you have to pass a name suitable for
+      # that.
+      #
+      # @example usage with action that requires arguments
+      #
+      #   # requires two arguments
+      #   def foo(a, b)
+      #   end
+      #
+      #   # pass two suitable arguments
+      #   render_partial('foo/1/2')
+      #
       # @api external
       # @see render_custom
       # @author manveru
@@ -53,6 +78,11 @@ module Innate
       # Renders an action view, doesn't execute any methods and won't wrap it
       # into a layout.
       # You can further tweak the action to be rendered by passing a block.
+      #
+      # @example usage
+      #
+      #   render_view(:index)
+      #   render_view(:index, :title => :foo)
       #
       # @api external
       # @see render_custom
