@@ -74,6 +74,26 @@ class SpecHelperRenderMisc
   end
 end
 
+class SpecHelperRenderTemplate
+  Innate.node '/render_template'
+
+  layout :layout
+
+  def layout
+    '{ #{@content} }'
+  end
+
+  TEMPLATE = File.expand_path('../view/aspect_hello.xhtml', __FILE__)
+
+  def absolute
+    render_template(TEMPLATE)
+  end
+
+  def absolute_with(foo, bar)
+    render_template(TEMPLATE, :foo => foo, :bar => bar)
+  end
+end
+
 describe Innate::Helper::Render do
   describe '#render_full' do
     behaves_like :mock
@@ -128,6 +148,18 @@ describe Innate::Helper::Render do
 
     it 'can recursively render_partial' do
       get('/misc/recursive').body.scan(/\S/).join.should == '{1{2{3{44}3}2}1}'
+    end
+  end
+
+  describe '#render_template' do
+    behaves_like :mock
+
+    it 'renders template from absolute path' do
+      get('/render_template/absolute').body.should == '{ ! }'
+    end
+
+    it 'renders template from absolute path with variables' do
+      get('/render_template/absolute_with/one/two').body.should == '{ one two! }'
     end
   end
 end
