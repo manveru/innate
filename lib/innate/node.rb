@@ -806,7 +806,7 @@ module Innate
         exts = possible_exts_for(wish)
 
         paths.reverse_each do |path|
-          next unless Dir.exist?(path)
+          next unless File.directory?(path)
 
           Find.find(*paths.reverse) do |file|
             exts.each do |ext|
