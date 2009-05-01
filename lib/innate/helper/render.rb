@@ -95,19 +95,19 @@ module Innate
         end
       end
 
-      # Use given file as a template and render it in the same scope as the
-      # current action.
+      # Use the given file as a template and render it in the same scope as
+      # the current action.
       #
       # @example usage
       #
       #   path = '/home/manveru/example/app/todo/view/index.xhtml'
-      #   render_template(path)
-      #   render_template(path, :title => :foo)
+      #   render_file(path)
+      #   render_file(path, :title => :foo)
       #
       # @api external
       # @see render_custom
       # @author manveru
-      def render_template(filename, variables = {})
+      def render_file(filename, variables = {})
         render_custom(action.path, variables) do |action|
           action.layout = nil
           action.method = nil

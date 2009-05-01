@@ -74,8 +74,8 @@ class SpecHelperRenderMisc
   end
 end
 
-class SpecHelperRenderTemplate
-  Innate.node '/render_template'
+class SpecHelperRenderFile
+  Innate.node '/render_file'
 
   layout :layout
 
@@ -83,14 +83,14 @@ class SpecHelperRenderTemplate
     '{ #{@content} }'
   end
 
-  TEMPLATE = File.expand_path('../view/aspect_hello.xhtml', __FILE__)
+  FILE = File.expand_path('../view/aspect_hello.xhtml', __FILE__)
 
   def absolute
-    render_template(TEMPLATE)
+    render_file(FILE)
   end
 
   def absolute_with(foo, bar)
-    render_template(TEMPLATE, :foo => foo, :bar => bar)
+    render_file(FILE, :foo => foo, :bar => bar)
   end
 end
 
@@ -151,15 +151,15 @@ describe Innate::Helper::Render do
     end
   end
 
-  describe '#render_template' do
+  describe '#render_file' do
     behaves_like :mock
 
-    it 'renders template from absolute path' do
-      get('/render_template/absolute').body.should == '{ ! }'
+    it 'renders file from absolute path' do
+      get('/render_file/absolute').body.should == '{ ! }'
     end
 
-    it 'renders template from absolute path with variables' do
-      get('/render_template/absolute_with/one/two').body.should == '{ one two! }'
+    it 'renders file from absolute path with variables' do
+      get('/render_file/absolute_with/one/two').body.should == '{ one two! }'
     end
   end
 end
