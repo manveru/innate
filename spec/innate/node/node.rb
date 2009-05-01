@@ -49,6 +49,7 @@ class SpecNodeWithLayoutView < SpecNodeProvide
   layout 'another_layout'
 
   map_views 'node/another_layout'
+  map_layouts 'another_layout'
 end
 
 class SpecNodeWithLayoutMethod < SpecNodeProvide

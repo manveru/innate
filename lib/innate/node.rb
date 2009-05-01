@@ -936,7 +936,7 @@ module Innate
     # @author manveru
     def layout_mappings
       paths = [*ancestral_trait[:layouts]]
-      paths = [mapping] if paths.empty?
+      paths = ['/'] if paths.empty?
 
       [[*options.layouts].flatten, [*paths].flatten]
     end
