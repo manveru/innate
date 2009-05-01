@@ -28,8 +28,6 @@ class UsingRouteSelf
   end
 end
 
-Innate.setup_dependencies
-
 describe Innate::Helper::Link do
   describe '#route' do
     should 'respond with URI for node' do

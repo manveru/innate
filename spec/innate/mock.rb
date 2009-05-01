@@ -22,8 +22,6 @@ class SpecMock2
   end
 end
 
-Innate.setup_dependencies
-
 describe 'Innate::SpeckMock2' do
   should 'handle get request' do
     response = Innate::Mock.get('/deep/foo')

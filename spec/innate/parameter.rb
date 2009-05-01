@@ -63,8 +63,6 @@ class SpecParameter3
   end
 end
 
-Innate.setup_dependencies
-
 describe "Simple Parameters" do
   def handle(*url)
     response = Innate::Mock.get(*url)

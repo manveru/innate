@@ -10,6 +10,10 @@ module Innate
 
     options.dsl{ o("Cache compiled templates", :cache, true) }
 
+    # In order to be able to render actions without running
+    # Innate::setup_dependencies we have to add the cache here already.
+    Cache.add(:view)
+
     module_function
 
     def compile(string)
