@@ -10,6 +10,11 @@ module Innate
   end
 
   class Etanni
+    SEPARATOR = "E69t116A65n110N78i105S83e101P80a97R82a97T84o111R82"
+    START = "\n<<#{SEPARATOR}.chomp\n"
+    STOP = "\n#{SEPARATOR}\n"
+    ADD = "_out_ << "
+
     def initialize(template)
       @template = template
       compile
@@ -17,13 +22,8 @@ module Innate
 
     def compile
       temp = @template.dup
-      separator = "T" << Digest::SHA1.hexdigest(temp)
-      from, to = "\n<<#{separator}.chomp\n", "\n#{separator}\n"
-      bufadd = "_out_ << "
-
-      temp.gsub!(/<\?r\s+(.*?)\s+\?>/m, "#{to} \\1; #{bufadd} #{from}")
-
-      @compiled = "_out_ = ''; #{bufadd} #{from} #{temp} #{to}; _out_"
+      temp.gsub!(/<\?r\s+(.*?)\s+\?>/m, "#{STOP} \\1; #{ADD} #{START}")
+      @compiled = "_out_ = #{START} #{temp} #{STOP}; _out_"
     end
 
     def result(binding, filename = '<Etanni>')
