@@ -127,11 +127,8 @@ module Innate
 
         yield(action) if block_given?
 
-        if action.valid?
-          action.render
-        else
-          Log.warn("Invalid action: %p" % action)
-        end
+        Log.warn("Invalid action: %p" % action) unless action.valid?
+        action.render
       end
     end
   end
