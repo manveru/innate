@@ -65,13 +65,13 @@ module Innate
     end
 
     COPY_VARIABLES = '
-      STATE[:action_variables].each do |iv, value|
+      Thread.current[:action_variables].each do |iv, value|
         instance_variable_set("@#{iv}", value)
       end'.strip.freeze
 
     # Copy Action#variables as instance variables into the given binding.
     #
-    # This relies on Innate::STATE, so should be thread-safe and doesn't depend
+    # This relies on Thread.current, so should be thread-safe and doesn't depend
     # on Innate::Current::actions order.
     # So we avoid nasty business with Objectspace#_id2ref which may not work on
     # all ruby implementations and seems to cause other problems as well.
@@ -83,13 +83,9 @@ module Innate
     def copy_variables(binding = self.binding)
       return unless variables.any?
 
-      STATE.sync do
-        STATE[:action_variables] = self.variables
-
-        eval(COPY_VARIABLES, binding)
-
-        STATE[:action_variables] = nil
-      end
+      Thread.current[:action_variables] = self.variables
+      eval(COPY_VARIABLES, binding)
+      Thread.current[:action_variables] = nil
     end
 
     def render

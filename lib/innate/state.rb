@@ -1,12 +1,6 @@
-module Innate
-  begin
-    require 'innate/state/fiber'
-    STATE = State::Fiber.new
-  rescue LoadError
-    require 'innate/state/thread'
-    STATE = State::Thread.new
-  end
+require 'thread'
 
+module Innate
   module SingletonMethods
     # Use this method to achieve thread-safety for sensitive operations.
     #
@@ -17,11 +11,11 @@ module Innate
     # @param [Proc] block the things you want to execute
     # @see State::Thread#sync State::Fiber#sync
     def sync(&block)
-      STATE.sync(&block)
+      Thread.exclusive(&block)
     end
 
     def defer(&block)
-      STATE.defer(&block)
+      Thread.new(&block)
     end
   end
 end

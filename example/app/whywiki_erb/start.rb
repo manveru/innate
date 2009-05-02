@@ -35,7 +35,7 @@ class Wiki
   private
 
   def sync
-    Innate::STATE.sync{ DB.transaction{ yield }}
+    Innate.sync{ DB.transaction{ yield }}
   end
 end
 

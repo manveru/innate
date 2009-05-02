@@ -56,7 +56,7 @@ module Innate
   # * values_at
 
   class Request < Rack::Request
-    # Currently handled request from Innate::STATE[:request]
+    # Currently handled request from Thread.current[:request]
     # Call it from anywhere via Innate::Request.current
     def self.current
       Current.request

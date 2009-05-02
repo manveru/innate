@@ -1,5 +1,5 @@
 module Innate
-  # Simplify accessing STATE variables.
+  # Simplify accessing Thread.current variables.
   #
   # Example:
   #
@@ -54,7 +54,7 @@ module Innate
       state_reader(*names, &initializer)
     end
 
-    # Writer accessor to STATE[key]=
+    # Writer accessor to Thread.current[key]=
     #
     #   Example:
     #
@@ -81,11 +81,11 @@ module Innate
 
     def state_writer(*names)
       StateAccessor.each(*names) do |key, meth|
-        class_eval("def %s=(obj) STATE[%p] = obj; end" % [meth, key])
+        class_eval("def %s=(obj) Thread.current[%p] = obj; end" % [meth, key])
       end
     end
 
-    # Reader accessor for STATE[key]
+    # Reader accessor for Thread.current[key]
     #
     # Example:
     #
@@ -115,14 +115,14 @@ module Innate
       StateAccessor.each(*names) do |key, meth|
         if initializer
           define_method(meth) do
-            unless STATE.key?(key)
-              STATE[key] = instance_eval(&initializer)
+            unless Thread.current.key?(key)
+              Thread.current[key] = instance_eval(&initializer)
             else
-              STATE[key]
+              Thread.current[key]
             end
           end
         else
-          class_eval("def %s; STATE[%p]; end" % [meth, key])
+          class_eval("def %s; Thread.current[%p]; end" % [meth, key])
         end
       end
     end

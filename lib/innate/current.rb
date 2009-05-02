@@ -2,9 +2,9 @@ require 'innate/request'
 require 'innate/response'
 
 module Innate
-  # Uses STATE to scope request/response/session per Fiber/Thread so we can
-  # reach them from anywhere in the code without passing around the objects
-  # directly.
+  # We track the current request/response/session (Trinity) in Thread.current
+  # so we can reach them from anywhere in the code without passing around the
+  # objects directly.
   class Current
     extend Trinity
 
@@ -16,22 +16,20 @@ module Innate
       end
     end
 
-    # Wrap into STATE, run setup and call the app inside STATE.
-
+    # Run setup and call the app
     def call(env)
-      STATE.wrap do
-        setup(env)
-        @app.call(env)
-      end
+      setup(env)
+      @app.call(env)
     end
 
     # Setup new Request/Response/Session for this request/response cycle.
     # The parameters are here to allow Ramaze to inject its own classes.
     def setup(env, request = Request, response = Response, session = Session)
-      req = STATE[:request] = request.new(env)
-      res = STATE[:response] = response.new
-      STATE[:actions] = []
-      STATE[:session] = Session.new(req, res)
+      current = Thread.current
+      req = current[:request] = request.new(env)
+      res = current[:response] = response.new
+      current[:actions] = []
+      current[:session] = Session.new(req, res)
     end
   end
 end

@@ -44,10 +44,10 @@ module Innate
     # on the first request (before TEMP is set).
     # No mutex is used in Fiber environment, see Innate::State and subclasses.
     def obtain(klass, root = Object)
-      STATE.sync do
+      Thread.exclusive{
         klass.to_s.scan(/\w+/){|part| root = root.const_get(part) }
-        root
-      end
+        return root
+      }
     end
 
     # Register given templating engine wrapper and extensions for later usage.

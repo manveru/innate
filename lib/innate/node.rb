@@ -246,7 +246,7 @@ module Innate
     # with feedback in your logs.
     #
     # A lot of functionality in here relies on the fact that call is executed
-    # within Innate::STATE.wrap which populates the variables used by Trinity.
+    # within Current#call which populates the variables used by Trinity.
     # So if you use the Node directly as a middleware make sure that you #use
     # Innate::Current as a middleware before it.
     #
