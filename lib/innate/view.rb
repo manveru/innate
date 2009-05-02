@@ -8,7 +8,7 @@ module Innate
 
     ENGINE, TEMP = {}, {}
 
-    options.dsl{ o("Cache compiled templates", :cache, true) }
+    options.option "Cache compiled templates", :cache, true
 
     # In order to be able to render actions without running
     # Innate::setup_dependencies we have to add the cache here already.
