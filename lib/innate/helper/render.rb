@@ -97,6 +97,8 @@ module Innate
 
       # Use the given file as a template and render it in the same scope as
       # the current action.
+      # The +filename+ may be an absolute path or relative to the process
+      # working directory.
       #
       # @example usage
       #
