@@ -23,7 +23,7 @@ module Innate
     def compile
       temp = @template.dup
       temp.gsub!(/<\?r\s+(.*?)\s+\?>/m, "#{STOP} \\1; #{ADD} #{START}")
-      @compiled = "_out_ = #{START} #{temp} #{STOP}; _out_"
+      @compiled = "_out_ = #{START} #{temp} #{STOP} _out_"
     end
 
     def result(binding, filename = '<Etanni>')
