@@ -1,5 +1,3 @@
-require 'find'
-
 module Innate
 
   # The nervous system of {Innate}, so you can relax.
