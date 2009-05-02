@@ -14,8 +14,13 @@ module Innate
       Thread.exclusive(&block)
     end
 
-    def defer(&block)
-      Thread.new(&block)
+    def defer
+      outer = ::Thread.current
+      ::Thread.new{
+        inner = ::Thread.current
+        outer.keys.each{|k| inner[k] = outer[k] }
+        yield
+      }
     end
   end
 end
