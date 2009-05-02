@@ -104,6 +104,11 @@ module Innate
       #   render_file(path)
       #   render_file(path, :title => :foo)
       #
+      # Ramaze will emit a warning if you try to render an Action without a
+      # method or view template, but will still try to render it.
+      # The usual {Action#valid?} doesn't apply here, as sometimes you just
+      # cannot have a method associated with a template.
+      #
       # @api external
       # @see render_custom
       # @author manveru
@@ -118,7 +123,7 @@ module Innate
 
       def render_custom(action_name, variables = {})
         unless action = resolve(action_name.to_s)
-          raise(ArgumentError, "No Action %p on #{self}" % action_name)
+          raise(ArgumentError, "No Action %p on #{self}" % [action_name])
         end
 
         action.sync_variables(self.action)
@@ -127,7 +132,8 @@ module Innate
 
         yield(action) if block_given?
 
-        Log.warn("Invalid action: %p" % action) unless action.valid?
+        valid_action = action.view || action.method
+        Log.warn("Empty action: %p" % [action]) unless valid_action
         action.render
       end
     end
