@@ -50,6 +50,17 @@ module Innate
       }
     end
 
+    # Reads the specified view template from the filesystem. When the view cache
+    # is enabled and Innate is in +:live+ mode, templates will be cached to
+    # prevent unnecessary filesystem reads in the future.
+    def read(view)
+      unless View.options.cache && Innate.options.mode == :live
+        return ::File.read(view) 
+      end
+
+      Cache.view[view] ||= ::File.read(view)
+    end
+
     # Register given templating engine wrapper and extensions for later usage.
     #
     # +name+ : the class name of the templating engine wrapper
