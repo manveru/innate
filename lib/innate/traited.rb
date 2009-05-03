@@ -26,7 +26,7 @@ module Innate
   #   foo.trait[:hello] # => "World!"
   #   foo.show          # => ["Hello", "World!", "World!"]
   module Traited
-    TRAITS = {}
+    TRAITS, ANCESTRAL_TRAITS, ANCESTRAL_VALUES = {}, {}, {}
 
     def self.included(into)
       into.extend(self)
@@ -35,7 +35,10 @@ module Innate
     def trait(hash = nil)
       if hash
         TRAITS[self] ||= {}
-        TRAITS[self].merge!(hash)
+        result = TRAITS[self].merge!(hash)
+        ANCESTRAL_VALUES.clear
+        ANCESTRAL_TRAITS.clear
+        result
       else
         TRAITS[self] || {}
       end
@@ -60,21 +63,23 @@ module Innate
     # Foobar.ancestral_trait
     # # => {:three => :drei, :two => :zwei, :one => :eins, :first => :overwritten}
     def ancestral_trait
-      result = {}
-      each_ancestral_trait{|trait| result.merge!(trait) }
-      result
+      klass = self.kind_of?(Module) ? self : self.class
+      ANCESTRAL_TRAITS[klass] ||=
+        each_ancestral_trait({}){|hash, trait| hash.update(trait) }
     end
 
     def ancestral_trait_values(key)
-      result = []
-      each_ancestral_trait{|trait| result << trait[key] if trait.key?(key) }
-      result
+      klass = self.kind_of?(Module) ? self : self.class
+      cache = ANCESTRAL_VALUES[klass] ||= {}
+      cache[key] ||= each_ancestral_trait([]){|array, trait|
+        array << trait[key] if trait.key?(key) }
     end
 
-    def each_ancestral_trait
+    def each_ancestral_trait(obj)
       ancs = respond_to?(:ancestors) ? ancestors : self.class.ancestors
       ancs.unshift(self)
-      ancs.reverse_each{|anc| yield(TRAITS[anc]) if TRAITS.key?(anc) }
+      ancs.reverse_each{|anc| yield(obj, TRAITS[anc]) if TRAITS.key?(anc) }
+      obj
     end
 
     # trait for self.class if we are an instance
