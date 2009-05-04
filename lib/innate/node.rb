@@ -799,15 +799,14 @@ module Innate
 
     def update_mapping_shared(paths)
       mapping = {}
+      paths.reject!{|path| !File.directory?(path) }
 
       provides.each do |wish_key, engine|
         wish = wish_key[/(.*)_handler/, 1]
         exts = possible_exts_for(wish)
 
         paths.reverse_each do |path|
-          next unless File.directory?(path)
-
-          Find.find(*paths.reverse) do |file|
+          Find.find(path) do |file|
             exts.each do |ext|
               next unless file =~ ext
 
