@@ -8,7 +8,13 @@ module Innate
 
     ENGINE, TEMP = {}, {}
 
-    options.option "Cache compiled templates", :cache, true
+    options.dsl do
+      o "Cache compiled templates",
+        :cache, true
+
+      o "Cache template files after they're read to prevent additional filesystem calls",
+        :read_cache, false
+    end
 
     # In order to be able to render actions without running
     # Innate::setup_dependencies we have to add the cache here already.
@@ -50,15 +56,12 @@ module Innate
       }
     end
 
-    # Reads the specified view template from the filesystem. When the view cache
-    # is enabled and Innate is in +:live+ mode, templates will be cached to
-    # prevent unnecessary filesystem reads in the future.
+    # Reads the specified view template from the filesystem. When the read_cache
+    # option is enabled, templates will be cached to prevent unnecessary
+    # filesystem reads in the future.
     def read(view)
-      unless View.options.cache && Innate.options.mode == :live
-        return ::File.read(view) 
-      end
-
-      Cache.view[view] ||= ::File.read(view)
+      return Cache.view[view] ||= ::File.read(view) if View.options.read_cache
+      ::File.read(view)
     end
 
     # Register given templating engine wrapper and extensions for later usage.
