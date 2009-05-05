@@ -9,8 +9,7 @@ module Innate
     # example below is using a normal Hash, but it is recommended to use a
     # thread-safe alternative like SyncHash.
     #
-    # Example for DRb server:
-    #
+    # @usage example for DRb server
     #   require 'drb'
     #
     #   URI = "druby://127.0.0.1:9069"
@@ -21,12 +20,13 @@ module Innate
     #   DRb.start_service(URI, CACHE)
     #   DRb.thread.join
     #
-    # Usage for all caches:
+    # Please note that on some Ruby implementations, access to Hash is not
+    # atomic and you might need to lock around access to avoid race conditions.
     #
+    # @usage for all caches
     #   Innate.options.cache.default = Innate::Cache::DRb
     #
-    # Usage for sessions only:
-    #
+    # @usage for sessions only
     #   Innate.options.cache.session = Innate::Cache::DRb
     class DRb
       include Cache::API

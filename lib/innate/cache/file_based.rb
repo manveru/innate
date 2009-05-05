@@ -2,6 +2,9 @@ module Innate
   class Cache
 
     # Used by caches that serialize their contents to the filesystem.
+    # Right now we do not lock around write access to the file outside of the
+    # process, that means that all FileBased caches are not safe for use if you
+    # need more than one instance of your application.
     module FileBased
       attr_reader :filename
 

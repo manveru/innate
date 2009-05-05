@@ -1,8 +1,7 @@
 module Innate
   class Cache
     # Memory cache is simply a Hash with the Cache::API, it's the reference
-    # implementation for every other cache.
-
+    # implementation for every other cache and the default cache.
     class Memory < Hash
       include Cache::API
 
