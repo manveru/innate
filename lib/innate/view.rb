@@ -2,7 +2,6 @@ module Innate
 
   # This is a container module for wrappers of templating engines and handles
   # lazy requiring of needed engines.
-
   module View
     include Optioned
 
@@ -59,6 +58,15 @@ module Innate
     # Reads the specified view template from the filesystem. When the read_cache
     # option is enabled, templates will be cached to prevent unnecessary
     # filesystem reads in the future.
+    #
+    # @example usage
+    #
+    #   View.read('some/file.xhtml')
+    #
+    # @param [#to_str] view
+    #
+    # @api private
+    # @see Action#render
     def read(view)
       return Cache.view[view] ||= ::File.read(view) if View.options.read_cache
       ::File.read(view)
