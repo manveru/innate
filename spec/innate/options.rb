@@ -106,7 +106,16 @@ describe Options do
     require 'pp'
     p = PP.new
     @options.pretty_print(p)
-    p.output.should =~ /:value=>:mom/
+    lines = p.output.split(/\n/)
+    lines.find{|l|
+      /:doc/ === l &&
+      /:value/ === l &&
+      /:cli/ === l
+    }.should.not.be.nil
+    lines.find_all{|l|
+      /:doc/ === l &&
+      /:value/ === l
+    }.size.should.equal 4
   end
 
   should 'trigger block when option is changed' do
