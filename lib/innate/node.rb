@@ -261,11 +261,7 @@ module Innate
       path << '/' if path.empty?
 
       response.reset
-      response = try_resolve(path)
-
-      Current.session.flush(response)
-
-      response.finish
+      try_resolve(path).finish
     end
 
     # Let's try to find some valid action for given +path+.

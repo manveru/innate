@@ -17,6 +17,7 @@ module Innate
 
     def finish
       options.headers.each{|key, value| self[key] ||= value }
+      Current.session.flush(self)
       super
     end
   end
