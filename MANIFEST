@@ -57,8 +57,6 @@ lib/innate/session/flash.rb
 lib/innate/spec.rb
 lib/innate/state.rb
 lib/innate/state/accessor.rb
-lib/innate/state/fiber.rb
-lib/innate/state/thread.rb
 lib/innate/traited.rb
 lib/innate/trinity.rb
 lib/innate/version.rb
@@ -111,9 +109,8 @@ spec/innate/provides/list.txt.xhtml
 spec/innate/request.rb
 spec/innate/route.rb
 spec/innate/session.rb
-spec/innate/state/fiber.rb
-spec/innate/state/thread.rb
 spec/innate/traited.rb
+tasks/authors.rake
 tasks/bacon.rake
 tasks/changelog.rake
 tasks/gem.rake
@@ -125,3 +122,4 @@ tasks/rcov.rake
 tasks/release.rake
 tasks/reversion.rake
 tasks/setup.rake
+tasks/ycov.rake

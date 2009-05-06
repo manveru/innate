@@ -1,3 +1,205 @@
+[9486b35 | Wed May 06 15:37:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * VERSION=xxx rake release:xxx
+
+[14feedf | Wed May 06 15:33:48 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Bring rakefile up to date
+
+[2252c28 | Wed May 06 15:20:19 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Last minute changes to tasks
+
+[ddc4560 | Wed May 06 15:14:56 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add some ycov tasks, not all that tested yet
+
+[146e349 | Wed May 06 12:56:27 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * raise a more meaningful error when trying to assign to a non-existent option
+
+[21bbd9b | Tue May 05 06:08:06 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove some (c)
+
+[8fd62a3 | Tue May 05 04:48:32 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make Session compatible with the Rack spec, prepare to make it a middleware
+
+[a73a54e | Tue May 05 04:37:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Tell people that using YAML/Marshal cache is a bad idea in some cases
+
+[fff4e2a | Tue May 05 04:30:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some docs fixes
+
+[d90138c | Mon May 04 11:19:35 UTC 2009] Ryan Grove <ryan@wonko.com>
+
+  * Add a read_cache option (off by default) to control caching of template files on read
+
+[aaa9b96 | Sun May 03 04:04:18 UTC 2009] Ryan Grove <ryan@wonko.com>
+
+  * When the view cache is enabled and Innate is in :live mode, cache view files after the first read to prevent unnecessary filesystem reads in the future.
+
+[06c224f | Mon May 04 16:49:15 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix update_mapping_shared, it would try to walk files and was buggy
+
+[e3ad651 | Mon May 04 03:28:49 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * remove specs for state
+
+[f69716d | Sun May 03 17:37:06 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Implement caching of traits
+
+[0434785 | Sat May 02 15:56:05 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove useless token from Etanni
+
+[d0356c6 | Sat May 02 06:05:42 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use clearer syntax for the option in view
+
+[2c3c1ca | Sat May 02 05:40:54 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Elaborate what +filename+ means
+
+[12d3666 | Sat May 02 05:40:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Only emit warning when the action is really invalid
+
+[5cb9b41 | Sat May 02 05:37:25 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Put the require of find into innate.rb
+
+[89d5858 | Sat May 02 14:24:30 UTC 2009] Andreas Karlsson <andreas@proxel.se>
+
+  * Simplify copy_variables by not using eval.
+
+    Copying to an instance instead of a binding simplifies
+    the code while also giving a minor performance enhancement
+    as a bonus.
+    
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[d1fe1f4 | Sat May 02 14:38:28 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * copy thread variables in Innate::defer
+
+[83d0a93 | Sat May 02 13:59:52 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove Innate::STATE
+
+[f9ff691 | Fri May 01 20:04:20 UTC 2009] Andreas Karlsson <andreas@proxel.se>
+
+  * Move require due to profiling results.
+
+    When profiling with ruby-prof it was reveiled to me that a
+    major part of the time was spent inside require. Benchmarking
+    with a simple hello world application revealed it to be about
+    25 percent faster without this require.
+    
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[4155ea9 | Fri May 01 15:51:53 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Only warn if we encounter an invalid action in render_custom, try to render still
+
+[b4a9e70 | Fri May 01 15:46:49 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Be compatible with rack-test
+
+[3db47bc | Fri May 01 15:46:38 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Be compatible with 1.8
+
+[b3fb7be | Fri May 01 14:07:10 UTC 2009] Pistos <gitsomegrace.5.pistos@geoshell.com>
+
+  * In render helper: render_template -> render_file .  Changed relevant specs, too.
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[f3491f7 | Thu Apr 30 04:59:16 UTC 2009] Tadahiko Uehara <kikofx@gmail.com>
+
+  * Skip template/view/layout lookup if the given path doesn't exist.
+
+    
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[e4b5388 | Fri May 01 08:30:31 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * We don't want to call Innate::setup_dependencies for rendering...
+
+[7c90ec0 | Fri May 01 07:22:29 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Default layout mapping to '/'
+
+[64517b3 | Fri May 01 07:20:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add some example invocations to the Helper::Render methods
+
+[d531f58 | Fri May 01 07:19:39 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Adding Helper::Render#render_template due to popular demand
+
+[59229dc | Fri May 01 06:18:39 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Speed up and simplify Etanni a little bit more
+
+[d8c3ca5 | Thu Apr 30 09:07:12 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add option to switch caching of compiled templates
+
+[21c4dfd | Thu Apr 30 08:19:24 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make Etanni a little bit more compact
+
+[43f6d76 | Thu Apr 30 08:19:07 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * First cut of template compilation, it's dumb, but it should speed things up a little
+
+[cca6d4d | Wed Apr 29 14:34:45 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve the ColorFormatter, output background as well
+
+[abda94c | Wed Apr 29 11:04:43 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Only add :trigger to options if there is one
+
+[559e711 | Wed Apr 29 07:51:58 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Spec cookie setting before redirect. Closes #1
+
+[9c85a49 | Tue Apr 28 13:05:33 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make the template lookup work without globs, hopefully that works on GAE now
+
+[a0b1f4a | Tue Apr 28 12:41:40 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make helper lookup work without glob
+
+[49ed57b | Tue Apr 28 12:41:28 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Tell people that routing static files doesn't work
+
+[ff310ab | Thu Apr 23 15:30:05 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Avoid issues with symbol comparision on 1.8
+
+[fce62b9 | Sun Apr 26 16:30:44 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Support setting multiple AOP hooks at once in before/after/wrap
+
+[ffd8edd | Sat Apr 25 14:59:47 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Give innate a rubyforge project
+
+[cf62a9c | Sat Apr 25 14:59:20 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.04
+
 [0ec2012 | Thu Apr 23 06:21:17 UTC 2009] Michael Fellinger <m.fellinger@gmail.com>
 
   * Allow deletion of mapped apps in DynaMap
