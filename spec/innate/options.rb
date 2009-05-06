@@ -107,15 +107,10 @@ describe Options do
     p = PP.new
     @options.pretty_print(p)
     lines = p.output.split(/\n/)
-    lines.find{|l|
-      /:doc/ === l &&
-      /:value/ === l &&
-      /:cli/ === l
-    }.should.not.be.nil
     lines.find_all{|l|
       /:doc/ === l &&
       /:value/ === l
-    }.size.should.equal 4
+    }.size.should > 3
   end
 
   should 'trigger block when option is changed' do
