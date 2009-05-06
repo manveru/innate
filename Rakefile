@@ -7,6 +7,7 @@ require 'date'
 PROJECT_SPECS = FileList['spec/{innate,example}/**/*.rb'].exclude('common.rb')
 PROJECT_MODULE = 'Innate'
 PROJECT_README = 'README.md'
+PROJECT_VERSION = ENV['VERSION'] || Date.today.strftime('%Y.%m.%d')
 
 GEMSPEC = Gem::Specification.new{|s|
   s.name         = 'innate'
@@ -16,7 +17,7 @@ GEMSPEC = Gem::Specification.new{|s|
   s.email        = 'm.fellinger@gmail.com'
   s.homepage     = 'http://github.com/manveru/innate'
   s.platform     = Gem::Platform::RUBY
-  s.version      = (ENV['PROJECT_VERSION'] || Date.today.strftime("%Y.%m.%d"))
+  s.version      = PROJECT_VERSION
   s.files        = `git ls-files`.split("\n").sort
   s.has_rdoc     = true
   s.require_path = 'lib'
