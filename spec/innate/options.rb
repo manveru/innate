@@ -98,6 +98,10 @@ describe Options do
     lambda{ @options[:foo] = :bar }.should.raise(ArgumentError)
   end
 
+  should "raise when trying to assign to an option that doesn't exist" do
+    lambda{ @options.merge!(:foo => :bar) }.should.raise(IndexError)
+  end
+
   should 'pretty_print' do
     require 'pp'
     p = PP.new

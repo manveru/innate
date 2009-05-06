@@ -116,7 +116,9 @@ module Innate
     # @param [Array] keys
     # @param [Object] value
     def set_value(keys, value)
-      get(*keys)[:value] = value
+      got = get(*keys)
+      return got[:value] = value if got
+      raise(IndexError, "There is no option available for %p" % [keys])
     end
 
     # Retrieve only the :value from the value hash if found via +keys+.
