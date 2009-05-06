@@ -2,13 +2,13 @@ namespace :release do
   task :all => [:release_github, :release_rubyforge]
 
   desc 'Display instructions to release on github'
-  task :github => [:reversion, :gemspec] do
+  task :github => [:reversion, :authors, :gemspec] do
     name, version = GEMSPEC.name, GEMSPEC.version
 
     puts <<INSTRUCTIONS
 First add the relevant files:
 
-git add MANIFEST CHANGELOG #{name}.gemspec lib/#{name}/version.rb
+git add AUTHORS MANIFEST CHANGELOG #{name}.gemspec lib/#{name}/version.rb
 
 Then commit them, tag the commit, and push:
 
@@ -22,7 +22,7 @@ INSTRUCTIONS
 
   # TODO: Not tested
   desc 'Display instructions to release on rubyforge'
-  task :rubyforge => [:reversion, :gemspec, :package] do
+  task :rubyforge => [:reversion, :authors, :gemspec, :package] do
     name, version = GEMSPEC.name, GEMSPEC.version
 
     puts <<INSTRUCTIONS
