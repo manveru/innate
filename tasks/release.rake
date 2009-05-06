@@ -29,7 +29,8 @@ INSTRUCTIONS
 To publish to rubyforge do following:
 
 rubyforge login
-rubyforge add_release #{name} '#{version}' pkg/#{name}-#{version}.gem
+rubyforge add_release #{name} #{name} '#{version}' pkg/#{name}-#{version}.gem
+
 
 After you have done these steps, see:
 
@@ -41,8 +42,9 @@ INSTRUCTIONS
   desc 'Display instructions to add archives after release:rubyforge'
   task :rubyforge_archives do
     puts "Adding archives for distro packagers is:", ""
+    name, version = GEMSPEC.name, GEMSPEC.version
 
-    Dir["pkg/#{name}-#{version}.{gz,zip}"].each do |file|
+    Dir["pkg/#{name}-#{version}.{tgz,zip}"].each do |file|
       puts "rubyforge add_file #{name} #{name} '#{version}' '#{file}'"
     end
 
