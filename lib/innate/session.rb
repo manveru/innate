@@ -72,14 +72,14 @@ module Innate
       set_cookie(response)
     end
 
+    def sid
+      @sid ||= cookie || generate_sid
+    end
+
     private
 
     def cache_sid
       @cache_sid ||= cache[sid] || {}
-    end
-
-    def sid
-      @sid ||= cookie || generate_sid
     end
 
     def cookie

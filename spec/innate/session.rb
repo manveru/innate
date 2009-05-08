@@ -51,4 +51,8 @@ describe Innate::Session do
       get('/decrement').body.should == n.to_s
     end
   end
+
+  should 'expose sid method' do
+    Innate::Current.session.sid.should.not.be.empty
+  end
 end
