@@ -57,7 +57,7 @@ module Innate
     end
 
     def compile!
-      @compiled = @middlewares.inject(@app){|s, (app, args, block)|
+      @compiled = @middlewares.reverse.inject(@app){|s, (app, args, block)|
         app.new(s, *args, &block) }
       self
     end
