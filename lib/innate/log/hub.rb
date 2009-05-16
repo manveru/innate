@@ -63,7 +63,7 @@ module Innate
       eval %~
         def #{meth}(*args, &block)
           return unless @active
-          @loggers.each{|l| l.#{meth}(*args, &block) }
+          args.each{|arg| @loggers.each{|logger| logger.#{meth}(arg, &block) }}
         end
       ~
 
