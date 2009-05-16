@@ -115,14 +115,23 @@ module Innate
       # @see render_custom
       # @author manveru
       def render_file(filename, variables = {})
-        render_custom(action.path, variables) do |action|
-          action.layout = nil
-          action.method = nil
-          action.view = filename
-          yield(action) if block_given?
-        end
+        action = Action.create(:view => filename)
+        action.sync_variables(self.action)
+
+        action.node      = self.class
+        action.engine    = self.action.engine
+        action.instance  = action.node.new
+        action.variables = variables.dup
+
+        yield(action) if block_given?
+
+        valid_action = action.view || action.method
+        Log.warn("Empty action: %p" % [action]) unless valid_action
+        action.render
       end
 
+      # @api internal
+      # @author manveru
       def render_custom(action_name, variables = {})
         unless action = resolve(action_name.to_s)
           raise(ArgumentError, "No Action %p on #{self}" % [action_name])
