@@ -27,6 +27,11 @@ class AspectAllSpec
   def with_instance_var_second; "#{@foo} to the #{@bar}"; end
 end
 
+class DerivedWithLayout < AspectAllSpec
+  layout :page
+  Innate.node('/derived', self).provide(:html, :Etanni)
+end
+
 class AspecNoMethodSpec
   Innate.node('/without_method', self)
   include Innate::Node
@@ -72,4 +77,15 @@ describe Innate::Helper::Aspect do
     get('/all/with_instance_var_second').body.should == 'Hello to the World'
     get('/without_method/aspect_hello').body.should == "Hello World!"
   end
+
+  it 'calls before_all and after_all in the superclass' do
+    $aspect_spec_before_all = $aspect_spec_after_all = 0
+    get('/derived/before_first').body.should == 'Content: 42'
+    $aspect_spec_before_all.should == 42
+    $aspect_spec_after_all.should == 40
+    get('/derived/before_second').body.should == 'Content: 84'
+    $aspect_spec_before_all.should == 84
+    $aspect_spec_after_all.should == 80
+  end
+
 end
