@@ -27,9 +27,12 @@ class AspectAllSpec
   def with_instance_var_second; "#{@foo} to the #{@bar}"; end
 end
 
-class DerivedWithLayout < AspectAllSpec
+class AspectDerivedWithLayout < AspectAllSpec
   layout :page
-  Innate.node('/derived', self).provide(:html, :Etanni)
+  Innate.node('/derived', self).provide(:html, :None)
+  def page
+    "Content: #{@content}"
+  end
 end
 
 class AspecNoMethodSpec
