@@ -69,5 +69,9 @@ module Innate
 
       send(meth, *args, &block)
     end
+
+    def write(*args)
+      self.<<(*args)
+    end
   end
 end
