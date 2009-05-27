@@ -28,6 +28,8 @@ module Innate
         hashes, names = args.partition{|arg| arg.respond_to?(:merge!) }
         hashes.each{|to_merge| hash.merge!(to_merge) }
 
+        name = name.to_s.gsub(/__/, '/')
+
         escape = Rack::Utils.method(:escape)
         location = route_location(self)
         front = Array[location, name, *names.map{|n| escape[n]}].join('/').squeeze('/')
