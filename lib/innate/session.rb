@@ -34,7 +34,7 @@ module Innate
         :secure, false
       o "Time of cookie expiration",
         :expires, nil
-      o "Time to live in seconds for session cookies and cache",
+      o "Time to live for session cookies and cache, nil/false will prevent setting",
         :ttl, (60 * 60 * 24 * 30) # 30 days
 
       trigger(:expires){|v|
@@ -109,11 +109,10 @@ module Innate
     end
 
     def cookie_value
-      { :domain  => options.domain,
-        :expires => (Time.now + options.ttl),
-        :path    => options.path,
-        :secure  => options.secure,
-        :value   => sid }
+      o = options
+      cookie = {:domain => o.domain, :path => o.path, :secure => o.secure}
+      cookie[:expires] = (Time.now + o.ttl) if o.ttl
+      cookie.merge!(:value => sid)
     end
 
     def generate_sid
