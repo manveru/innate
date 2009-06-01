@@ -107,7 +107,7 @@ module Innate
       file = given_options.delete(:file)
 
       found_root = go_figure_root(caller, :root => root, :file => file)
-      Innate.options.roots = [found_root] if found_root
+      Innate.options.roots = [*found_root] if found_root
 
       # Convert some top-level option keys to the internal ones that we use.
       PROXY_OPTIONS.each{|k,v| given_options[v] = given_options.delete(k) }
