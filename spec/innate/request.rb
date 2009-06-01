@@ -44,11 +44,13 @@ describe Innate::Request do
   end
 
   should 'provide #subset' do
-    params = {'a' => 'b', 'c' => 'd', 'e' => 'f'}
-    env = { 'rack.request.form_hash' => params }
-    req = request(env)
+    require 'stringio'
 
-    req.params.should == params
+    query = {'a' => 'b', 'c' => 'd', 'e' => 'f'}
+    params = StringIO.new(Rack::Utils.build_query(query))
+    req = request('rack.request.form_hash' => params, 'rack.input' => params)
+
+    req.params.should == query
     req.subset(:a).should == {'a' => 'b'}
     req.subset(:a, :c).should == {'a' => 'b', 'c' => 'd'}
   end
