@@ -14,7 +14,7 @@ end
 
 describe 'Innate modes' do
   describe 'dev' do
-    behaves_like :mock
+    behaves_like :rack_test
     Innate.options.mode = :dev
 
     should 'handle GET request' do
@@ -37,7 +37,7 @@ describe 'Innate modes' do
   end
 
   describe 'live' do
-    behaves_like :mock
+    behaves_like :rack_test
     Innate.options.mode = :live
 
     should 'handle GET request' do

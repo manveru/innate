@@ -2,7 +2,7 @@ require 'spec/helper'
 require 'example/app/retro_games'
 
 describe 'Retro-games app' do
-  behaves_like :mock
+  behaves_like :rack_test
 
   it 'lists the first game' do
     get '/'

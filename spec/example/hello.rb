@@ -2,7 +2,7 @@ require 'spec/helper'
 require 'example/hello'
 
 describe 'example/hello' do
-  behaves_like :mock
+  behaves_like :rack_test
 
   should 'have index action' do
     got = get('/')

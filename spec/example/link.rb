@@ -2,7 +2,7 @@ require 'spec/helper'
 require 'example/link'
 
 describe 'example/link' do
-  behaves_like :mock
+  behaves_like :rack_test
 
   should 'have index on Linking' do
     get('/').body.should == 'Index links to <a href="/help">Help?</a>'

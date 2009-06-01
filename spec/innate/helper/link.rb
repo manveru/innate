@@ -130,7 +130,7 @@ describe Innate::Helper::Link do
   end
 
   describe '#route_self' do
-    behaves_like :mock
+    behaves_like :rack_test
     should 'provide a route to the node of the currently active action' do
       get('/auto_route').body.should == '/elsewhere'
       get('/two/auto_route').body.should == '/two/elsewhere'

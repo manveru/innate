@@ -54,7 +54,7 @@ class SpecFlashSub < SpecFlash
 end
 
 describe Innate::Helper::Flash do
-  behaves_like :mock
+  behaves_like :rack_test
 
   should 'set and forget flash twice' do
     get('/welcome').body.should == 'Welcome manveru'

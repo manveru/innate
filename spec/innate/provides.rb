@@ -49,7 +49,7 @@ end
 
 describe 'Content representation' do
   describe 'without template' do
-    behaves_like :mock, :assert_wish
+    behaves_like :rack_test, :assert_wish
 
     it 'provides yaml for an object' do
       assert_wish('/object.yaml', {'intro' => 'Hello, World!'}.to_yaml, 'text/yaml')
@@ -69,7 +69,7 @@ describe 'Content representation' do
   end
 
   describe 'with templates' do
-    behaves_like :mock, :assert_wish
+    behaves_like :rack_test, :assert_wish
 
     it 'defaults to <name>.html.<engine>' do
       body = '<ul><li>starbucks</li><li>apollo</li><li>athena</li></ul>'

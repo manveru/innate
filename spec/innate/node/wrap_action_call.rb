@@ -38,7 +38,7 @@ end
 
 
 describe 'Node#wrap_action_call' do
-  behaves_like :mock
+  behaves_like :rack_test
 
   it 'executes our wrapper' do
     SPEC_WRAP_LOG.clear

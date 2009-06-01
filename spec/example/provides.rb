@@ -2,7 +2,7 @@ require 'spec/helper'
 require 'example/provides'
 
 describe 'examples/provide' do
-  behaves_like :mock
+  behaves_like :rack_test
 
   it 'provides YAML representation' do
     get '/list.yaml'

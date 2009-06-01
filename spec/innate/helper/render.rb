@@ -96,7 +96,7 @@ end
 
 describe Innate::Helper::Render do
   describe '#render_full' do
-    behaves_like :mock
+    behaves_like :rack_test
 
     it 'renders a full action' do
       get('/render_full/standard').body.should == 'foo: []'
@@ -120,7 +120,7 @@ describe Innate::Helper::Render do
   end
 
   describe '#render_partial' do
-    behaves_like :mock
+    behaves_like :rack_test
 
     it 'renders action with layout' do
       get('/render_partial/standard').body.should == '{ hello }'
@@ -132,7 +132,7 @@ describe Innate::Helper::Render do
   end
 
   describe '#render_view' do
-    behaves_like :mock
+    behaves_like :rack_test
 
     it 'renders action without calling the method or applying layout' do
       get('/render_view/without_method_or_layout').body.should == '{ 42 }'
@@ -140,7 +140,7 @@ describe Innate::Helper::Render do
   end
 
   describe 'misc functionality' do
-    behaves_like :mock
+    behaves_like :rack_test
 
     it 'can render_partial in a loop' do
       get('/misc/loop').body.scan(/\d+/).should == %w[1 2 3 4 5]
@@ -152,7 +152,7 @@ describe Innate::Helper::Render do
   end
 
   describe '#render_file' do
-    behaves_like :mock
+    behaves_like :rack_test
 
     it 'renders file from absolute path' do
       get('/render_file/absolute').body.should == '{ ! }'

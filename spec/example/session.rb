@@ -2,7 +2,7 @@ require 'spec/helper'
 require 'example/session'
 
 describe 'example/session' do
-  behaves_like :mock
+  behaves_like :rack_test
 
   it 'starts at 0' do
     get('/').body.should =~ /Value is: 0/

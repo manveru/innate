@@ -29,7 +29,7 @@ class SpecSession
 end
 
 describe Innate::Session do
-  behaves_like :mock
+  behaves_like :rack_test
 
   should 'initiate session as needed' do
     get '/'

@@ -65,7 +65,7 @@ class SpecRedirectHelper
 end
 
 describe Innate::Helper::Redirect do
-  behaves_like :mock
+  behaves_like :rack_test
 
   @uri = 'http://localhost:7000'
 

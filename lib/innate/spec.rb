@@ -15,9 +15,14 @@ module Innate
   options.mode = :spec
 end
 
-shared :mock do
+shared :rack_test do
   Innate.setup_dependencies
   extend Rack::Test::Methods
 
   def app; Innate.middleware; end
+end
+
+shared :mock do
+  warn 'behaves_like(:mock) is deprecated, use behaves_like(:rack_test) instead'
+  behaves_like :rack_test
 end

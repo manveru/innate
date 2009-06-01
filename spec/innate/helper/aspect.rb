@@ -36,7 +36,7 @@ class AspecNoMethodSpec
 end
 
 describe Innate::Helper::Aspect do
-  behaves_like :mock
+  behaves_like :rack_test
 
   it 'executes before aspect' do
     $aspect_spec_before = 0

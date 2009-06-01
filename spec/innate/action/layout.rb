@@ -75,7 +75,7 @@ class SpecActionLayoutMulti < SpecActionLayout
 end
 
 describe 'Innate::Action#layout' do
-  behaves_like :mock
+  behaves_like :rack_test
 
   it 'uses a layout method' do
     get('/from_method').body.should == '<pre>Method Layout</pre>'

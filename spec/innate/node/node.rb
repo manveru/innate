@@ -77,7 +77,7 @@ class SpecNodeAliasView < SpecNodeProvideTemplate
 end
 
 describe 'Innate::Node' do
-  behaves_like :mock
+  behaves_like :rack_test
 
   should 'respond with 404 if no action was found' do
     got = Innate::Mock.get('/does_not_exist')
