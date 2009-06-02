@@ -56,6 +56,7 @@ lib/innate/route.rb
 lib/innate/session.rb
 lib/innate/session/flash.rb
 lib/innate/spec.rb
+lib/innate/spec/bacon.rb
 lib/innate/state.rb
 lib/innate/state/accessor.rb
 lib/innate/traited.rb
@@ -93,6 +94,7 @@ spec/innate/helper/view/num.xhtml
 spec/innate/helper/view/partial.xhtml
 spec/innate/helper/view/recursive.xhtml
 spec/innate/mock.rb
+spec/innate/modes.rb
 spec/innate/node/mapping.rb
 spec/innate/node/node.rb
 spec/innate/node/resolve.rb
@@ -115,9 +117,8 @@ tasks/authors.rake
 tasks/bacon.rake
 tasks/changelog.rake
 tasks/gem.rake
-tasks/gem_installer.rake
+tasks/gem_setup.rake
 tasks/grancher.rake
-tasks/install_dependencies.rake
 tasks/manifest.rake
 tasks/rcov.rake
 tasks/release.rake
