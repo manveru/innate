@@ -103,6 +103,7 @@ module Innate
       action.view_value = nil
       action.sync_variables(self)
       body, content_type = yield
+      action.sync_variables(self)
       action.variables[:content] = body
       return action.call, content_type
     end

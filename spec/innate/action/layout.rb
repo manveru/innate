@@ -74,6 +74,19 @@ class SpecActionLayoutMulti < SpecActionLayout
   end
 end
 
+class SpecIVFromView < SpecActionLayout
+  Innate.node('/iv', self)
+  layout :multiply
+
+  def index
+    '#{ @a = 1 }'
+  end
+
+  def multiply
+    '#{@content} #{ @a * 2 } #{ @a * 3 }'
+  end
+end
+
 describe 'Innate::Action#layout' do
   behaves_like :rack_test
 
@@ -100,5 +113,9 @@ describe 'Innate::Action#layout' do
     get('/multi').body.strip.should == '<p>Multi Layout Index</p>'
     get('/multi/second').body.strip.should == '<p>Multi Layout Second</p>'
     get('/multi/without').body.strip.should == 'Without wrapper'
+  end
+
+  it 'uses layout only for specific actions' do
+    get('/iv').body.strip.should == '1 2 3'
   end
 end
