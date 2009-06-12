@@ -1,3 +1,15 @@
+[e92a8b3 | 2009-06-11 15:41:35 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make sure that instance-variables set in the view template can be used in the layout
+
+[84ce0d8 | 2009-06-03 11:09:09 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix the bacon task dependency
+
+[46de89c | 2009-06-02 11:50:26 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.06
+
 [e05a004 | 2009-06-02 11:49:17 UTC] Michael Fellinger <m.fellinger@gmail.com>
 
   * Use rubygems development-dependencies, improve rake setup
