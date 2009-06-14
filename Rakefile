@@ -22,6 +22,7 @@ GEMSPEC = Gem::Specification.new{|s|
   s.has_rdoc     = true
   s.require_path = 'lib'
   s.rubyforge_project = "innate"
+  s.required_rubygems_version = '>= 1.3.1'
 
   s.add_dependency('rack', '~> 1.0.0')
 
