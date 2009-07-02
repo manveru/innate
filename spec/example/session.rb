@@ -1,5 +1,5 @@
-require 'spec/helper'
-require 'example/session'
+require File.expand_path('../../helper', __FILE__)
+require File.expand_path('../../../example/session', __FILE__)
 
 describe 'example/session' do
   behaves_like :rack_test

@@ -1,5 +1,3 @@
-require 'spec/helper'
-
 Innate::Cache.options.names = [:one, :two]
 Innate::Cache.options.one = $common_cache_class
 Innate::Cache.options.two = $common_cache_class

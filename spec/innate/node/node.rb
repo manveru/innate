@@ -1,4 +1,4 @@
-require 'spec/helper'
+require File.expand_path('../../../helper', __FILE__)
 
 Innate.options.merge!(:views => 'view', :layouts => 'view')
 

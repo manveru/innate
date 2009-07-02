@@ -1,4 +1,4 @@
-require 'spec/helper'
+require File.expand_path('../../../helper', __FILE__)
 require 'innate/helper/cgi'
 
 describe "url encode" do

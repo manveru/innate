@@ -1,10 +1,6 @@
-begin
-  require 'json'
-rescue LoadError
-  exit
-end
+require File.expand_path('../../helper', __FILE__)
 
-require 'spec/helper'
+require 'json'
 require 'yaml'
 
 Innate.options.merge!(:views => 'provides', :layouts => 'provides')

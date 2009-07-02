@@ -1,4 +1,4 @@
-require 'spec/helper'
+require File.expand_path('../../helper', __FILE__)
 
 describe Innate::DynaMap do
   @app = lambda{|env| [200, {}, ['pass']] }

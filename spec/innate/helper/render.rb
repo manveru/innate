@@ -1,4 +1,4 @@
-require 'spec/helper'
+require File.expand_path('../../../helper', __FILE__)
 
 class SpecHelperRenderFull
   Innate.node '/render_full'

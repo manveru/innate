@@ -1,5 +1,5 @@
-require 'spec/helper'
-require 'example/app/retro_games'
+require File.expand_path('../../../helper', __FILE__)
+require File.expand_path('../../../../example/app/retro_games', __FILE__)
 
 describe 'Retro-games app' do
   behaves_like :rack_test

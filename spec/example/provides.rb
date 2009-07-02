@@ -1,5 +1,5 @@
-require 'spec/helper'
-require 'example/provides'
+require File.expand_path('../../helper', __FILE__)
+require File.expand_path('../../../example/provides', __FILE__)
 
 describe 'examples/provide' do
   behaves_like :rack_test

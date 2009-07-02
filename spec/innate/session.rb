@@ -1,4 +1,4 @@
-require 'spec/helper'
+require File.expand_path('../../helper', __FILE__)
 
 class SpecSession
   Innate.node('/').provide(:html, :None)
