@@ -9,6 +9,16 @@ PROJECT_MODULE = 'Innate'
 PROJECT_README = 'README.md'
 PROJECT_VERSION = ENV['VERSION'] || Date.today.strftime('%Y.%m.%d')
 
+DEPENDENCIES = {
+  'rack' => {:version => '~> 1.0.0'},
+}
+
+DEVELOPMENT_DEPENDENCIES = {
+  'bacon'     => {:version => '>= 1.1.0'},
+  'json'      => {:version => '~> 1.1.6'},
+  'rack-test' => {:version => '>= 0.3.0', :lib => 'rack/test'}
+}
+
 GEMSPEC = Gem::Specification.new{|s|
   s.name         = 'innate'
   s.author       = "Michael 'manveru' Fellinger"
@@ -23,14 +33,15 @@ GEMSPEC = Gem::Specification.new{|s|
   s.require_path = 'lib'
   s.rubyforge_project = "innate"
   s.required_rubygems_version = '>= 1.3.1'
-
-  s.add_dependency('rack', '~> 1.0.0')
-
-  # rip those out if they cause you trouble
-  s.add_development_dependency('bacon',     '>= 1.1.0')
-  s.add_development_dependency('json',      '~> 1.1.6')
-  s.add_development_dependency('rack-test', '>= 0.3.0')
 }
+
+DEPENDENCIES.each do |name, options|
+  GEMSPEC.add_dependency(name, options[:version])
+end
+
+DEVELOPMENT_DEPENDENCIES.each do |name, options|
+  GEMSPEC.add_development_dependency(name, options[:version])
+end
 
 Dir['tasks/*.rake'].each{|f| import(f) }
 
