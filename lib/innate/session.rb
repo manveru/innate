@@ -36,6 +36,8 @@ module Innate
         :expires, nil
       o "Time to live for session cookies and cache, nil/false will prevent setting",
         :ttl, (60 * 60 * 24 * 30) # 30 days
+      o "Length of generated Session ID (only applies when using SecureRandom)",
+        :sid_length, 64
 
       trigger(:expires){|v|
         self.ttl = v - Time.now.to_i
@@ -122,8 +124,32 @@ module Innate
 
     begin
       require 'securerandom'
-      def sid_algorithm; SecureRandom.hex(32); end
+
+      # Using SecureRandom, optional length.
+      # SecureRandom is available since Ruby 1.8.7.
+      # For Ruby versions earlier than that, you can require the uuidtools gem,
+      # which has a drop-in replacement for SecureRandom.
+      def sid_algorithm; SecureRandom.hex(options.sid_length); end
     rescue LoadError
+      require 'openssl'
+
+      # Using OpenSSL::Random for generation, this is comparable in performance
+      # with stdlib SecureRandom and also allows for optional length, it should
+      # have the same behaviour as the SecureRandom::hex method of the
+      # uuidtools gem.
+      def sid_algorithm
+        OpenSSL::Random.random_bytes(options.sid_length / 2).unpack('H*')[0]
+      end
+    rescue LoadError
+      warn "Falling back to low-entropy Session ID generation"
+      warn "Avoid this by upgrading Ruby, installing OpenSSL, or UUIDTools"
+
+      # Digest::SHA2::hexdigest produces a string of length 64, although
+      # collisions are not very likely, the entropy is still very low and
+      # length is not optional.
+      #
+      # Replacing it with OS-provided random data would take a lot of code and
+      # won't be as cross-platform as Ruby.
       def sid_algorithm
         entropy = [ srand, rand, Time.now.to_f, rand, $$, rand, object_id ]
         Digest::SHA2.hexdigest(entropy.join)
