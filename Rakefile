@@ -15,8 +15,8 @@ DEPENDENCIES = {
 
 DEVELOPMENT_DEPENDENCIES = {
   'bacon'     => {:version => '>= 1.1.0'},
-  'json'      => {:version => '~> 1.1.6'},
-  'rack-test' => {:version => '>= 0.3.0', :lib => 'rack/test'}
+  'json'      => {:version => '~> 1.1.7'},
+  'rack-test' => {:version => '>= 0.4.0', :lib => 'rack/test'}
 }
 
 GEMSPEC = Gem::Specification.new{|s|
