@@ -132,7 +132,9 @@ module Innate
     #
     # TODO: allow arbitrary assignments
     def []=(key, value)
-      if ns = @hash[key.to_sym]
+      ks = key.to_sym
+      if @hash.has_key? ks
+        ns = @hash[ks]
         ns[:value] = value
         ns[:trigger].call(value) if ns[:trigger].respond_to?(:call)
       elsif existing = get(key)

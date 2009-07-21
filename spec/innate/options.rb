@@ -120,4 +120,15 @@ describe Options do
     @options.port = 300
     set.should == 300
   end
+  should 'return default value' do
+    @options.default('my default', 'jeremy' )
+    @options.fake.should == 'jeremy'
+  end
+  should 'not change default value' do
+    @options.fake1.should == 'jeremy'
+    @options.fake2.should == 'jeremy'
+    @options.fake1 = 'zurcher'
+    @options.fake1.should == 'zurcher'
+    @options.fake2.should == 'jeremy'
+  end
 end
