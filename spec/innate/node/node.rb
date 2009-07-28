@@ -164,4 +164,14 @@ describe 'Innate::Node' do
     got = get('/cat3/cat33')
     got.body.should == 'The right 33rd cat.'
   end
+
+  it 'resolves normal template in subnode ' do
+    got = get('/sub/baz')
+    got.body.should == 'This is baz, cheer up!'
+  end
+
+  it 'resolves nested template in subnode' do
+    got = get('/sub/foo/baz')
+    got.body.should == 'This is foo/baz, cheer up!'
+  end
 end
