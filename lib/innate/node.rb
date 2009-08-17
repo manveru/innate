@@ -513,7 +513,7 @@ module Innate
     # @example
     #
     #   Hi.update_method_arities
-    #   # => {'index' => 0, 'foo' => -1, 'bar => 2}
+    #   # => {'index' => 0, 'foo' => -1, 'bar' => 2}
     #
     # @api internal
     # @see Node#resolve
