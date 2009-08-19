@@ -1,7 +1,7 @@
 require 'drb'
 
 module Innate
-  module Cache
+  class Cache
 
     # Cache utilizing a DRb server.
     #
