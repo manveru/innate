@@ -13,6 +13,7 @@ module Innate
   end
 
   # stdlib
+  require 'digest/md5'
   require 'digest/sha1'
   require 'digest/sha2'
   require 'find'
