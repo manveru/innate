@@ -104,9 +104,7 @@ describe Options do
 
   should 'pretty_print' do
     require 'pp'
-    p = PP.new
-    @options.pretty_print(p)
-    lines = p.output.split(/\n/)
+    lines = @options.pretty_inspect.split(/\n/)
     lines.find_all{|l|
       /:doc/ === l &&
       /:value/ === l
