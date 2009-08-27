@@ -79,6 +79,7 @@ module Innate
       # @see Action#render
       # @author manveru
       def wrap_action_call(action, &block)
+        return yield if action.options[:is_layout]
         wrap = SortedSet.new
         action.node.ancestral_trait_values(:wrap).each{|sset| wrap.merge(sset) }
         head, *tail = wrap.map{|k,v| v }

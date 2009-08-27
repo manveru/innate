@@ -98,6 +98,7 @@ module Innate
 
       action = dup
       action.view, action.method = layout_view_or_method(*layout)
+      action.options[:is_layout] = true
       action.params = []
       action.layout = nil
       action.view_value = nil
