@@ -7,7 +7,7 @@ describe Innate::DynaMap do
     lambda{ Innate::DynaMap.call({}) }.should.raise(RuntimeError)
   end
 
-  should 'not raise if nothing is mapped' do
+  should 'not raise if something is mapped' do
     Innate.map('/', &@app)
     Innate::DynaMap.call('SCRIPT_NAME' => '/').should == [200, {}, ['pass']]
   end
