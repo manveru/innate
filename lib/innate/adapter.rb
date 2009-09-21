@@ -1,4 +1,9 @@
-Rack::Handler.register('ebb', 'Rack::Handler::Ebb')
+# Rack doesn't ship with ebb handler, but it doesn't get picked up under some
+# circumstances, so we do that here.
+# Jruby Rack doesn't have the Handler::register method, so we have to check.
+if Rack::Handler.respond_to?(:register)
+  Rack::Handler.register('ebb', 'Rack::Handler::Ebb')
+end
 
 module Innate
 
