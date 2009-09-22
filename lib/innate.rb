@@ -23,6 +23,7 @@ module Innate
   require 'pp'
   require 'set'
   require 'socket'
+  require 'thread'
   require 'uri'
 
   # 3rd party

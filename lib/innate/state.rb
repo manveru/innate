@@ -1,6 +1,8 @@
 require 'thread'
 
 module Innate
+  SEMAPHORE = Mutex.new
+
   module SingletonMethods
     # Use this method to achieve thread-safety for sensitive operations.
     #
@@ -9,9 +11,8 @@ module Innate
     # execution of this method.
     #
     # @param [Proc] block the things you want to execute
-    # @see State::Thread#sync State::Fiber#sync
     def sync(&block)
-      Thread.exclusive(&block)
+      SEMAPHORE.synchronize(&block)
     end
 
     def defer
