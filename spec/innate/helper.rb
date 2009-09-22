@@ -54,7 +54,7 @@ describe Innate::Helper::Link do
     FNL.r(:index, :foo => :bar).should == URI('/foo/index?foo=bar')
 
     uri = FNL.r(:index, :a => :b, :x => :y)
-    uri.query.split(';').sort.should == %w[a=b x=y]
+    uri.query.split('&').sort.should == %w[a=b x=y]
   end
 
   should 'construct link from ::a' do
