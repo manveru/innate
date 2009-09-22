@@ -19,9 +19,9 @@ DEVELOPMENT_DEPENDENCIES = {
 }
 
 if defined?(RUBY_PLATFORM) && RUBY_PLATFORM =~ /jruby/
-  DEVELOPMENT_DEPENDENCIES['json'] = {:version => '~> 1.1.7'}
-else
   DEVELOPMENT_DEPENDENCIES['json-jruby'] = {:version => '~> 1.1.2'}
+else
+  DEVELOPMENT_DEPENDENCIES['json'] = {:version => '~> 1.1.7'}
 end
 
 GEMSPEC = Gem::Specification.new{|s|
