@@ -19,8 +19,8 @@ module Innate
       yield(self) if block_given?
     end
 
-    def use(app, *args, &block)
-      @middlewares << [app, args, block]
+    def use(middleware, *args, &block)
+      @middlewares << [middleware, args, block]
     end
 
     def apps(*middlewares)
@@ -41,7 +41,7 @@ module Innate
 
       joined = roots.map{|root| publics.map{|public| ::File.join(root, public)}}
 
-      apps = joined.flatten.map{|pr| Rack::File.new(pr) }
+      apps = joined.flatten.map{|public_root| Rack::File.new(public_root) }
       apps << Current.new(Route.new(app), Rewrite.new(app))
 
       cascade(*apps)
@@ -57,8 +57,9 @@ module Innate
     end
 
     def compile!
-      @compiled = @middlewares.reverse.inject(@app){|s, (app, args, block)|
-        app.new(s, *args, &block) }
+      @compiled = @middlewares.reverse.
+        inject(@app){|app, (middleware, args, block)|
+          middleware.new(app, *args, &block) }
       self
     end
   end

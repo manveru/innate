@@ -51,7 +51,7 @@ module Innate
     end
 
     def self.[]=(key, value)
-      self::ROUTES.delete_if{|k,v| k == key }
+      self::ROUTES.delete_if{|route_key, route_value| route_key == key }
       self::ROUTES << [key, value]
     end
 

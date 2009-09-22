@@ -55,10 +55,9 @@ module Innate
     def sync_variables(from_action)
       instance = from_action.instance
 
-      instance.instance_variables.each{|iv|
-        iv_value = instance.instance_variable_get(iv)
-        iv_name = iv.to_s[1..-1]
-        self.variables[iv_name.to_sym] = iv_value
+      instance.instance_variables.each{|variable|
+        name = variable.to_s[1..-1].to_sym
+        self.variables[name] = instance.instance_variable_get(variable)
       }
 
       from_action
@@ -71,18 +70,18 @@ module Innate
     # @return [NilClass] there is no indication of failure or success
     # @see Action#render
     # @author manveru
-    def copy_variables(object)
+    def copy_variables(object = instance)
       self.variables.each do |iv, value|
         object.instance_variable_set("@#{iv}", value)
       end
     end
 
     def render
-      self.instance = node.new
+      self.instance = instance = node.new
       self.variables[:content] ||= nil
 
       instance.wrap_action_call(self) do
-        copy_variables(self.instance) # this might need another position
+        copy_variables
         self.method_value = instance.__send__(method, *params) if method
         self.view_value = View.read(view) if view
 
@@ -94,19 +93,22 @@ module Innate
     end
 
     def wrap_in_layout
-      return yield unless layout
+      layout ? dup.render_in_layout(&Proc.new) : yield
+    end
 
-      action = dup
-      action.view, action.method = layout_view_or_method(*layout)
-      action.options[:is_layout] = true
-      action.params = []
-      action.layout = nil
-      action.view_value = nil
-      action.sync_variables(self)
+    def render_in_layout
+      self.view, self.method = layout_view_or_method(*layout)
+      self.options[:is_layout] = true
+      self.params = []
+      self.layout = self.view_value = nil
+      self.sync_variables(self)
+
       body, content_type = yield
-      action.sync_variables(self)
-      action.variables[:content] = body
-      return action.call, content_type
+
+      self.sync_variables(self)
+      self.variables[:content] = body
+
+      return call, content_type
     end
 
     def layout_view_or_method(name, arg)

@@ -30,7 +30,7 @@ module Innate
 
     def exts_of(engine)
       name = engine.to_s
-      ENGINE.reject{|k,v| v != name }.keys
+      ENGINE.reject{|ext, klass| klass != name }.keys
     end
 
     # Try to obtain given engine by its registered name.

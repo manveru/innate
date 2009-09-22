@@ -39,8 +39,8 @@ module Innate
       o "Length of generated Session ID (only applies when using SecureRandom)",
         :sid_length, 64
 
-      trigger(:expires){|v|
-        self.ttl = v - Time.now.to_i
+      trigger(:expires){|value|
+        self.ttl = value - Time.now.to_i
         Log.warn("Innate::Session.options.expires is deprecated, use #ttl instead")
       }
     end

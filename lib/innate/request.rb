@@ -124,7 +124,7 @@ module Innate
 
     ipv4 = %w[ 127.0.0.1/32 192.168.0.0/16 172.16.0.0/12 10.0.0.0/8 169.254.0.0/16 ]
     ipv6 = %w[ fc00::/7 fe80::/10 fec0::/10 ::1 ]
-    LOCAL = (ipv4 + ipv6).map{|a| IPAddr.new(a)} unless defined?(LOCAL)
+    LOCAL = (ipv4 + ipv6).map{|range| IPAddr.new(range)} unless defined?(LOCAL)
 
     # Request is from a local network?
     # Checks both IPv4 and IPv6

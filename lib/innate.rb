@@ -104,27 +104,27 @@ module Innate
     #   Keep state in Thread or Fiber, fall back to Thread if Fiber not available
     # @option param :mode    [Symbol]  (:dev)
     #   Indicates which default middleware to use, (:dev|:live)
-    def start(given_options = {}, &block)
-      root = given_options.delete(:root)
-      file = given_options.delete(:file)
+    def start(options = {}, &block)
+      root, file = options.delete(:root), options.delete(:file)
+      innate_options = Innate.options
 
       found_root = go_figure_root(caller, :root => root, :file => file)
-      Innate.options.roots = [*found_root] if found_root
+      innate_options.roots = [*found_root] if found_root
 
       # Convert some top-level option keys to the internal ones that we use.
-      PROXY_OPTIONS.each{|k,v| given_options[v] = given_options.delete(k) }
-      given_options.delete_if{|k,v| v.nil? }
+      PROXY_OPTIONS.each{|given, proxy| options[proxy] = options[given] }
+      options.delete_if{|key, value| PROXY_OPTIONS[key] || value.nil? }
 
       # Merge the user's given options into our existing set, which contains defaults.
-      options.merge!(given_options)
+      innate_options.merge!(options)
 
       setup_dependencies
-      middleware!(options.mode, &block) if block_given?
+      middleware!(innate_options.mode, &block) if block_given?
 
-      return if options.started
-      options.started = true
+      return if innate_options.started
+      innate_options.started = true
 
-      signal = options.trap
+      signal = innate_options.trap
       trap(signal){ stop(10) } if signal
 
       start!

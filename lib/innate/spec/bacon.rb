@@ -8,7 +8,7 @@ Bacon.summary_on_exit
 
 module Innate
   # minimal middleware, no exception handling
-  middleware(:spec){|m| m.innate }
+  middleware(:spec){|mw| mw.innate }
 
   # skip starting adapter
   options.started = true

@@ -138,7 +138,7 @@ module Innate
     # @author manveru
     def map(location)
       trait :skip_node_map => true
-      Innate.map(location, self) if location
+      Innate.map(location, self)
     end
 
     # Specify which way contents are provided and processed.
@@ -226,7 +226,7 @@ module Innate
     end
 
     def provides
-      ancestral_trait.reject{|k,v| k !~ /_handler$/ }
+      ancestral_trait.reject{|key, value| key !~ /_handler$/ }
     end
 
     # This makes the Node a valid application for Rack.
@@ -339,6 +339,7 @@ module Innate
     # @see Innate::Response Node#try_resolve
     # @author manveru
     def action_missing(path)
+      response = Current.response
       response.status = 404
       response['Content-Type'] = 'text/plain'
       response.write("No action found at: %p" % path)
@@ -522,7 +523,7 @@ module Innate
       @method_arities = {}
 
       exposed = ancestors & Helper::EXPOSE.to_a
-      higher = ancestors.select{|a| a < Innate::Node }
+      higher = ancestors.select{|ancestor| ancestor < Innate::Node }
 
       (higher + exposed).reverse_each do |ancestor|
         ancestor.public_instance_methods(false).each do |im|
@@ -661,13 +662,13 @@ module Innate
     #   of multitudes of obscure options and methods like deny_layout we simply
     #   take a block and use the returned value as the name for the layout. No
     #   layout will be used if the block returns nil.
-    def layout(name = nil, &block)
-      if name and block
+    def layout(layout_name = nil, &block)
+      if layout_name and block
         # default name, but still check with block
-        trait(:layout => lambda{|n, w| name if block.call(n, w) })
-      elsif name
+        trait(:layout => lambda{|name, wish| layout_name if block.call(name, wish) })
+      elsif layout_name
         # name of a method or template
-        trait(:layout => name.to_s)
+        trait(:layout => layout_name.to_s)
       elsif block
         # call block every request with name and wish, returned value is name
         # of layout template or method
@@ -1021,7 +1022,7 @@ module Innate
     def node_from_backtrace(backtrace)
       filename, lineno = backtrace[0].split(':', 2)
       regexp = /^\s*class\s+(\S+)/
-      File.readlines(filename)[0..lineno.to_i].reverse.find{|l| l =~ regexp }
+      File.readlines(filename)[0..lineno.to_i].reverse.find{|ln| ln =~ regexp }
       const_get($1)
     end
   end

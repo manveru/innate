@@ -5,7 +5,7 @@ module Innate
         response.write body
         response.status = status
         header['Content-Type'] ||= 'text/html'
-        header.each{|k,v| response[k] = v }
+        header.each{|key, value| response[key] = value }
 
         throw(:respond, response)
       end
