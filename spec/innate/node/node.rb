@@ -73,6 +73,25 @@ class SpecNodeWithLayoutMethod < SpecNodeProvide
   end
 end
 
+class SpecNodeWithLayoutMethodSymbol < SpecNodeProvide
+  map '/layout_method_symbol'
+  layout :layout_method
+
+  def layout_method
+    '<div class="content">#{@content}</div>'
+  end
+end
+
+class SpecNodeWithLayoutMethodSymbolAndBlock < SpecNodeProvide
+  map '/layout_method_symbol_block'
+  layout(:layout_method) { |wish,path| true }
+
+  def layout_method
+    '<div class="content">#{@content}</div>'
+  end
+end
+
+
 class SpecNodeIndex
   Innate.node('/spec_index')
 
@@ -114,6 +133,20 @@ describe 'Innate::Node' do
 
   should 'find layout from method' do
     got = get('/layout_method/bar')
+    got.status.should == 200
+    got.body.should == %(<div class="content">42</div>)
+    got['Content-Type'].should == 'text/html'
+  end
+
+  should 'find layout from method specified as a symbol' do
+    got = get('/layout_method_symbol/bar')
+    got.status.should == 200
+    got.body.should == %(<div class="content">42</div>)
+    got['Content-Type'].should == 'text/html'
+  end
+
+  should 'find layout from method specified as a symbol and a filter block' do
+    got = get('/layout_method_symbol_block/bar')
     got.status.should == 200
     got.body.should == %(<div class="content">42</div>)
     got['Content-Type'].should == 'text/html'

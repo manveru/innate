@@ -665,7 +665,7 @@ module Innate
     def layout(layout_name = nil, &block)
       if layout_name and block
         # default name, but still check with block
-        trait(:layout => lambda{|name, wish| layout_name if block.call(name, wish) })
+        trait(:layout => lambda{|name, wish| layout_name.to_s if block.call(name, wish) })
       elsif layout_name
         # name of a method or template
         trait(:layout => layout_name.to_s)
