@@ -1,3 +1,103 @@
+[88451a1 | 2009-10-02 13:23:53 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve the release tasks, add one for gemcutter
+
+[c37df32 | 2009-10-01 11:16:02 UTC] Arnaud Meuret <arnaud@meuret.name>
+
+  * Fix: specifying a layout from a method and a filter block was broken
+
+[18668be | 2009-09-29 14:13:13 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Update dependencies
+
+[672bbaa | 2009-09-22 15:15:44 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use Rack::Utils::build_query, this changes query separator from ; to &
+
+[0d4d2d1 | 2009-09-22 15:04:05 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Improve code readability a bit
+
+[44d02ed | 2009-09-21 17:02:09 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Use Mutex instead of Thread::critical
+
+[1b80af6 | 2009-09-21 17:00:42 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix ruby/jruby dependency mixup
+
+[783f554 | 2009-09-21 16:32:07 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix startup issue regarding jruby-rack
+
+[a908b32 | 2009-09-15 07:15:48 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix typo
+
+[79df3a5 | 2009-08-27 08:21:05 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Don't call aspects in layout
+
+[b69e9dd | 2009-08-27 03:55:08 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix Options#pretty_print spec
+
+[6b8c32d | 2009-08-27 03:36:53 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * dev dependencies for jruby
+
+[0bb6ea5 | 2009-08-26 16:59:01 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Forgot to require digest/md5
+
+[2bc0566 | 2009-08-19 08:27:37 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Cache is not a module
+
+[c74c2b8 | 2009-08-17 05:37:02 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * fix doc typo
+
+[9650f8c | 2009-07-28 06:49:20 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Some more specs for double underscore
+
+[822560a | 2009-07-28 06:43:32 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Expand specs for double underscore
+
+[b865335 | 2009-05-21 13:27:38 UTC] Antti Tuomi <antti.tuomi@tkk.fi>
+
+  * Aspect spec uses inline layout instead a file-based.
+
+    Also prefixed DerivedWithLayout with the helper name.
+    
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[62d8853 | 2009-05-21 13:16:57 UTC] Antti Tuomi <antti.tuomi@tkk.fi>
+
+  * Aspect spec checks the functionality when using layouts.
+
+    This spec fails at the moment.
+    
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[e4735cb | 2009-05-27 14:57:48 UTC] ravage <ravage@fragmentized.net>
+
+  * Resolve fake depth
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[10d7ef3 | 2009-07-21 16:11:57 UTC] Jérémy Zurcher <jeremy@asynk.ch>
+
+  * fix default option handling overriding in options/dsl
+
+    Signed-off-by: Michael Fellinger <m.fellinger@gmail.com>
+
+[03274f3 | 2009-07-19 03:02:21 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2009.07
+
 [3ed8553 | 2009-07-19 03:01:48 UTC] Michael Fellinger <m.fellinger@gmail.com>
 
   * Update dependencies

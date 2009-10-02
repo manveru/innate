@@ -100,8 +100,12 @@ spec/innate/node/node.rb
 spec/innate/node/resolve.rb
 spec/innate/node/view/another_layout/another_layout.xhtml
 spec/innate/node/view/bar.xhtml
+spec/innate/node/view/cat2/cat22.xhtml
+spec/innate/node/view/cat3/cat33.xhtml
 spec/innate/node/view/foo.html.xhtml
 spec/innate/node/view/only_view.xhtml
+spec/innate/node/view/sub/baz.xhtml
+spec/innate/node/view/sub/foo/baz.xhtml
 spec/innate/node/view/with_layout.xhtml
 spec/innate/node/wrap_action_call.rb
 spec/innate/options.rb
