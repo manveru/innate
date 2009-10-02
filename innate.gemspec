@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/manveru/innate}
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{innate}
-  s.rubygems_version = %q{1.3.4}
+  s.rubygems_version = %q{1.3.5}
   s.summary = %q{Powerful web-framework wrapper for Rack.}
 
   if s.respond_to? :specification_version then
