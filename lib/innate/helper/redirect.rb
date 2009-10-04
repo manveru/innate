@@ -71,7 +71,7 @@ module Innate
       end
 
       def redirect_referrer(fallback = '/')
-        if referer = request.referer and url = request.url
+        if (referer = request.env['HTTP_REFERER']) && (url = request.url)
           referer_uri, request_uri = URI(referer), URI(url)
 
           redirect(referer) unless referer_uri == request_uri
