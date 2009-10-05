@@ -54,6 +54,10 @@ module Innate
     trait :needs_method   => false
     trait :skip_node_map  => false
 
+    # @see patterns_for
+    trait :separate_default_action => false
+    trait :default_action_name => 'index'
+
     # Upon inclusion we make ourselves comfortable.
     def self.included(into)
       into.__send__(:include, Helper)
@@ -720,14 +724,21 @@ module Innate
     # @see Node#fill_action
     # @author manveru
     def patterns_for(path)
+      default_action_name = ancestral_trait[:default_action_name]
+      separate_default_action = ancestral_trait[:separate_default_action]
+
       atoms = path.split('/')
       atoms.delete('')
       result = nil
-
       atoms.size.downto(0) do |len|
         action_name = atoms[0...len].join('__')
+
+        next if separate_default_action && action_name == default_action_name
+
         params = atoms[len..-1]
-        action_name = 'index' if action_name.empty? and params != ['index']
+
+        action_name = default_action_name if action_name.empty? &&
+          (separate_default_action || params != [default_action_name])
 
         return result if result = yield(action_name, params)
       end
