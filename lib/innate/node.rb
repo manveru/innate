@@ -47,6 +47,7 @@ module Innate
     trait :layout         => nil
     trait :alias_view     => {}
     trait :provide        => {}
+    trait :fast_mappings  => false
 
     # @see wrap_action_call
     trait :wrap           => SortedSet.new
@@ -796,11 +797,19 @@ module Innate
     end
 
     def update_view_mappings
+      if ancestral_trait[:fast_mappings]
+        return @view_templates if instance_variable_defined?(:@view_templates)
+      end
+
       paths = possible_paths_for(view_mappings)
       @view_templates = update_mapping_shared(paths)
     end
 
     def update_layout_mappings
+      if ancestral_trait[:fast_mappings]
+        return @layout_templates if instance_variable_defined?(:@layout_templates)
+      end
+
       paths = possible_paths_for(layout_mappings)
       @layout_templates = update_mapping_shared(paths)
     end
