@@ -77,5 +77,14 @@ module Innate
       ::Thin::Logging.silent = true
       handler.run(app, config)
     end
+
+    # A simple Unicorn wrapper.
+    def self.start_unicorn(app, config)
+      require 'unicorn'
+      config = {
+        :listeners => ["#{config[:Host]}:#{config[:Port]}"]
+      }
+      ::Unicorn.run(app, config)
+    end
   end
 end
