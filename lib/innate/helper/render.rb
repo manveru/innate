@@ -121,7 +121,7 @@ module Innate
         action.node      = self.class
         action.engine    = self.action.engine
         action.instance  = action.node.new
-        action.variables = variables.dup
+        action.variables.merge!(variables.dup)
 
         yield(action) if block_given?
 

@@ -86,10 +86,12 @@ class SpecHelperRenderFile
   FILE = File.expand_path('../view/aspect_hello.xhtml', __FILE__)
 
   def absolute
+    @bar = 'bar'
     render_file(FILE)
   end
 
   def absolute_with(foo, bar)
+    @foo = 'foo'
     render_file(FILE, :foo => foo, :bar => bar)
   end
 end
@@ -155,7 +157,7 @@ describe Innate::Helper::Render do
     behaves_like :rack_test
 
     it 'renders file from absolute path' do
-      get('/render_file/absolute').body.should == '{ ! }'
+      get('/render_file/absolute').body.should == '{ bar! }'
     end
 
     it 'renders file from absolute path with variables' do
