@@ -11,9 +11,9 @@ module Innate
 
   class Etanni
     SEPARATOR = "E69t116A65n110N78i105S83e101P80a97R82a97T84o111R82"
-    START = "\n<<#{SEPARATOR}.chomp\n"
+    START = "\n_out_ << <<#{SEPARATOR}.chomp!\n"
     STOP = "\n#{SEPARATOR}\n"
-    ADD = "_out_ << "
+    REPLACEMENT = "#{STOP}\\1#{START}"
 
     def initialize(template)
       @template = template
@@ -22,12 +22,13 @@ module Innate
 
     def compile
       temp = @template.dup
-      temp.gsub!(/<\?r\s+(.*?)\s+\?>/m, "#{STOP} \\1; #{ADD} #{START}")
-      @compiled = "_out_ = #{START} #{temp} #{STOP} _out_"
+      temp.strip!
+      temp.gsub!(/<\?r\s+(.*?)\s+\?>/m, REPLACEMENT)
+      @compiled = "_out_ = [<<#{SEPARATOR}.chomp!]\n#{temp}#{STOP}_out_"
     end
 
     def result(binding, filename = '<Etanni>')
-      eval(@compiled, binding, filename).to_s.strip
+      eval(@compiled, binding, filename).join
     end
-  end
+ end
 end
