@@ -1,3 +1,79 @@
+[2511e2b | 2010-01-06 06:52:49 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Update Rakefile
+
+[07f9238 | 2009-12-01 14:57:56 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Revert "Major performance improvement for Etanni."
+
+    This reverts commit 1b736b793e9f31cf79fad2820f3f20a00802c2c8.
+
+[1b736b7 | 2009-11-30 19:17:23 UTC] Zoxc <zoxc32@gmail.com>
+
+  * Major performance improvement for Etanni.
+
+[7b14652 | 2009-11-30 09:50:01 UTC] Zoxc <zoxc32@gmail.com>
+
+  * Performance improvement for Etanni.
+
+[17dba1a | 2009-11-18 19:12:29 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove comment
+
+[aac4faf | 2009-11-16 13:16:56 UTC] Lin Jen-Shin <godfat@godfat.org>
+
+  * [helper/render.rb] dup on variables arg is not needed. never refered.
+
+[5d1e95d | 2009-11-16 12:52:12 UTC] Lin Jen-Shin <godfat@godfat.org>
+
+  * [helper/render.rb] fixed render_file's sync_variables. see detail:
+
+      This line syncs variables from current action to newly created action:
+        action.sync_variables(self.action)
+    
+      but later this line eliminates above effect:
+        action.variables = variables.dup
+    
+      Assume we would like variables from current action, but
+      would like to override (or hide, shadow) them by passing
+      another hash of variables in render_file's second arguments.
+      Then change that line to:
+        action.variables.merge!(variables.dup)
+    
+      spec this behavior in SpecHelperRenderFile.
+
+[42b5ec5 | 2009-10-28 12:43:54 UTC] Lin Jen-Shin <godfat@godfat.org>
+
+  * Add a simple Unicorn wrapper in innate/adapter.rb
+
+[14a340f | 2009-10-17 18:01:48 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow skipping the template discovery to speed things up
+
+[d02bd71 | 2009-10-17 17:50:51 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix gem_setup task
+
+[0f3c5fe | 2009-10-05 09:32:30 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Allow for change of the default action name as proposed by Daniel Azuma
+
+[ee96b28 | 2009-10-04 08:37:44 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Remove temp README
+
+[3e90299 | 2009-10-04 08:37:07 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix precedence issue in redirect_referer
+
+[44f40da | 2009-10-03 14:33:11 UTC] Arnaud Meuret <arnaud@meuret.name>
+
+  * Typos and minor rephrasing.
+
+[7ad5fd9 | 2009-10-02 15:04:37 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Sync metadata after release
+
 [1b0702f | 2009-10-02 13:24:16 UTC] Michael Fellinger <m.fellinger@gmail.com>
 
   * Version 2009.10
