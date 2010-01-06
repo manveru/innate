@@ -90,7 +90,7 @@ describe Innate::Helper::Redirect do
   end
 
   should 'redirect to referer' do
-    header 'REFERER', "#@uri/index"
+    header 'HTTP_REFERER', "#@uri/index"
     get("#@uri/redirect_referer_action")
 
     last_response.status.should == 302
@@ -99,7 +99,7 @@ describe Innate::Helper::Redirect do
   end
 
   should 'redirect to fallback if referrer is identical' do
-    header 'REFERER', "#@uri/redirect_referer_action"
+    header 'HTTP_REFERER', "#@uri/redirect_referer_action"
     get("#@uri/redirect_referer_action")
 
     last_response.status.should == 302
