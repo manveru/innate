@@ -48,7 +48,10 @@ describe Innate::Request do
 
     query = {'a' => 'b', 'c' => 'd', 'e' => 'f'}
     params = StringIO.new(Rack::Utils.build_query(query))
-    req = request('rack.request.form_hash' => params, 'rack.input' => params)
+    req = request(
+      'QUERY_STRING' => params.string,
+      'rack.input' => params
+    )
 
     req.params.should == query
     req.subset(:a).should == {'a' => 'b'}
