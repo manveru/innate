@@ -422,7 +422,7 @@ module Innate
 
         next unless method if needs_method
         next unless method if params.any?
-        next unless (view = find_view(name, wish)) or method
+        next unless (view = find_view(name, wish)) || method
 
         params.map!{|param| Rack::Utils.unescape(param) }
 
