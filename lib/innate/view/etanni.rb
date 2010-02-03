@@ -30,5 +30,5 @@ module Innate
     def result(binding, filename = '<Etanni>')
       eval(@compiled, binding, filename).join
     end
- end
+  end
 end
