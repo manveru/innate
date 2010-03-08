@@ -79,6 +79,7 @@ spec/innate/cache/marshal.rb
 spec/innate/cache/memory.rb
 spec/innate/cache/yaml.rb
 spec/innate/dynamap.rb
+spec/innate/etanni.rb
 spec/innate/helper.rb
 spec/innate/helper/aspect.rb
 spec/innate/helper/cgi.rb

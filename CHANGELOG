@@ -1,3 +1,23 @@
+[c48a647 | 2010-02-03 07:59:05 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add a spec for Etanni
+
+[baa0dd8 | 2010-01-17 06:57:44 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * clarify precedence
+
+[c9fa60f | 2010-01-06 07:14:40 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Set correct header in referrer spec
+
+[59f03da | 2010-01-06 07:10:22 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix request spec for new rack behaviour
+
+[82cd8d9 | 2010-01-06 06:53:24 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2010.01
+
 [2511e2b | 2010-01-06 06:52:49 UTC] Michael Fellinger <m.fellinger@gmail.com>
 
   * Update Rakefile
