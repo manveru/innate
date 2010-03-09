@@ -7,7 +7,7 @@ require 'date'
 PROJECT_SPECS = FileList['spec/{innate,example}/**/*.rb'].exclude('common.rb')
 PROJECT_MODULE = 'Innate'
 PROJECT_README = 'README.md'
-PROJECT_VERSION = ENV['VERSION'].dup || Date.today.strftime('%Y.%m.%d')
+PROJECT_VERSION = (ENV['VERSION'] || Date.today.strftime('%Y.%m.%d')).dup
 
 DEPENDENCIES = {
   'rack' => {:version => '= 1.1.0'},
