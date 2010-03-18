@@ -22,5 +22,11 @@ describe Innate::Response do
       got = get('/')
       got['Content-Type'].should == 'text/plain'
     end
+
+    it 'is ok with extended value' do
+      Innate::Response.options.headers['Content-Type'] = 'text/plain; charset=utf-8'
+      got = get('/')
+      got['Content-Type'].should == 'text/plain'
+    end
   end
 end

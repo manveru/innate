@@ -8,7 +8,7 @@ module Innate
     end
 
     def self.mime_type
-      options[:headers]['Content-Type'].to_s.split.first || 'text/html'
+      options[:headers]['Content-Type'].to_s.split(/[\s+;]+/).first || 'text/html'
     end
 
     def reset
