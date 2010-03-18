@@ -4,14 +4,14 @@ module Innate
       def respond(body, status = 200, header = {})
         response.write body
         response.status = status
-        header['Content-Type'] ||= Response.content_type
+        header['Content-Type'] ||= Response.mime_type
         header.each{|key, value| response[key] = value }
 
         throw(:respond, response)
       end
 
       def respond!(body, status = 200, header = {})
-        header['Content-Type'] ||= Response.content_type
+        header['Content-Type'] ||= Response.mime_type
         throw(:respond, Response.new(body, status, header))
       end
 
