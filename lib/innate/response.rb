@@ -7,6 +7,10 @@ module Innate
         :headers, {'Content-Type' => 'text/html'}
     end
 
+    def self.mime_type
+      options[:headers]['Content-Type'].to_s.split.first || 'text/html'
+    end
+
     def reset
       self.status = 200
       self.header.delete('Content-Type')

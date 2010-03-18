@@ -4,7 +4,7 @@ module Innate
       def self.call(action, string)
         etanni = View.compile(string){|str| Innate::Etanni.new(str) }
         html = etanni.result(action.binding, (action.view || action.method))
-        return html, 'text/html'
+        return html, Response.mime_type
       end
     end
   end

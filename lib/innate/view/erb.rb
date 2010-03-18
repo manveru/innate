@@ -7,7 +7,7 @@ module Innate
         erb = View.compile(string){|str| ::ERB.new(str, nil, '%<>') }
         erb.filename = (action.view || action.method).to_s
         html = erb.result(action.binding)
-        return html, 'text/html'
+        return html, Response.mime_type
       end
     end
   end
