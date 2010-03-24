@@ -19,6 +19,10 @@ class SpecNodeProvides
   def string
     'Just 42'
   end
+
+  def args(*args)
+    args
+  end
 end
 
 class SpecNodeProvidesTemplates
@@ -61,6 +65,12 @@ describe 'Content representation' do
 
     it 'defaults to html presentation' do
       assert_wish('/string', 'Just 42', 'text/html')
+    end
+
+    it 'takes arguments with <name>/arg1/arg2.json' do
+      assert_wish('/args', '[]', 'text/html')
+      assert_wish('/args.json', '[]', 'application/json')
+      assert_wish('/args/a/b/c.json', '["a","b","c"]', 'application/json')
     end
   end
 
