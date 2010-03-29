@@ -470,7 +470,7 @@ there is no need to keep this around.
 
 ### Contrib
 
-Ramaze got quite some things in contrib, some of them used widely, others not at
+Ramaze has some things in contrib, some of them used widely, others not at
 all.
 
 I'm still going through these, putting what is suitable for a wider audience
@@ -507,8 +507,8 @@ Ruby stdlib.
 
 ### Templating
 
-The basic functionality for templating is provided by Innate, it only provides a
-`None` and `ERB` templating engine. The other engines are in Ramaze.
+The basic functionality for templating is provided by Innate, it only provides the
+`None`, `Etanni` and `ERB` templating engines. The other engines are in Ramaze.
 
 #### Ezamar
 
