@@ -50,8 +50,12 @@ module Innate
     # No mutex is used in Fiber environment, see Innate::State and subclasses.
     def obtain(klass, root = Object)
       Innate.sync do
-        klass.to_s.scan(/\w+/){|part| root = root.const_get(part) }
-        return root
+        view_name = /^#{klass.to_s.downcase.dup.delete('_')}$/i
+        if view = View.constants.grep(view_name).first
+          root.const_get(view)
+        else
+          raise(NameError, "View #{klass} not found")
+        end
       end
     end
 
