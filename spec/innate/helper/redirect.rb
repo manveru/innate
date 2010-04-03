@@ -20,6 +20,10 @@ class SpecRedirectHelper
   end
 
   def redirect_referer_action
+    redirect_referer
+  end
+  
+  def redirect_referer_with_fallback
     redirect_referer(r(:noop))
   end
 
@@ -90,17 +94,17 @@ describe Innate::Helper::Redirect do
   end
 
   should 'redirect to referer' do
-    header 'HTTP_REFERER', "#@uri/index"
+    header 'REFERER', "#@uri/noop"
     get("#@uri/redirect_referer_action")
 
     last_response.status.should == 302
-    last_response.headers['Location'].should == "#@uri/index"
+    last_response.headers['Location'].should == "#@uri/noop"
     last_response.headers['Content-Type'].should == "text/html"
   end
 
   should 'redirect to fallback if referrer is identical' do
-    header 'HTTP_REFERER', "#@uri/redirect_referer_action"
-    get("#@uri/redirect_referer_action")
+    header 'HTTP_REFERER', "#@uri/redirect_referer_with_fallback"
+    get("#@uri/redirect_referer_with_fallback")
 
     last_response.status.should == 302
     last_response.headers['Location'].should == "#@uri/noop"
