@@ -103,7 +103,7 @@ describe Innate::Helper::Redirect do
   end
 
   should 'redirect to fallback if referrer is identical' do
-    header 'HTTP_REFERER', "#@uri/redirect_referer_with_fallback"
+    header 'REFERER', "#@uri/redirect_referer_with_fallback"
     get("#@uri/redirect_referer_with_fallback")
 
     last_response.status.should == 302
