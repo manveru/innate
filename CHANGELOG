@@ -1,3 +1,54 @@
+[1aeacca | 2010-04-03 14:45:46 UTC] injekt <injekt.me@gmail.com>
+
+  * fixed redirect spec
+
+[0a71ec2 | 2010-04-03 14:42:52 UTC] injekt <injekt.me@gmail.com>
+
+  * fixed redirect spec
+
+[6eedc76 | 2010-03-29 14:07:51 UTC] injekt <injekt.me@gmail.com>
+
+  * minor fixes to README
+
+[b5787a4 | 2010-03-29 08:31:03 UTC] injekt <injekt.me@gmail.com>
+
+  * Added support for case-insensitive View lookups
+
+    Removed case sensitive restriction when using Controller::engine
+    for View lookup; :haml is as good as :Haml
+
+[edc00df | 2010-03-27 14:55:07 UTC] injekt <injekt.me@gmail.com>
+
+  * fixed doc for flash helper (depreciated method)
+
+[2e4bdbd | 2010-03-24 06:18:35 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Add spec for how to pass arguments to provide actions
+
+[d09ff45 | 2010-03-18 16:37:27 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix some issues, don't split Content-Type at all
+
+[abe842c | 2010-03-18 16:33:41 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Make sure ; doesn't break Content-Type
+
+[acce333 | 2010-03-18 03:26:03 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * The Response Content-Type option should influence default mime type
+
+[7ad4de7 | 2010-03-11 04:44:42 UTC] crab <crabtw@gmail.com>
+
+  * use Innate.options.prefix as redirect fallback
+
+[e13e2b2 | 2010-03-09 01:48:06 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Fix .dup in Rakefile
+
+[4fa40fc | 2010-03-08 13:53:00 UTC] Michael Fellinger <m.fellinger@gmail.com>
+
+  * Version 2010.03
+
 [c48a647 | 2010-02-03 07:59:05 UTC] Michael Fellinger <m.fellinger@gmail.com>
 
   * Add a spec for Etanni

@@ -115,6 +115,7 @@ spec/innate/provides.rb
 spec/innate/provides/list.html.xhtml
 spec/innate/provides/list.txt.xhtml
 spec/innate/request.rb
+spec/innate/response.rb
 spec/innate/route.rb
 spec/innate/session.rb
 spec/innate/traited.rb
