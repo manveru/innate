@@ -2,9 +2,11 @@ module Innate
   module View
     module Etanni
       def self.call(action, string)
-        filename = action.view || action.method
-        etanni = View.compile(string){|str| Innate::Etanni.new(str, filename) }
-        html = etanni.result(action.binding)
+        etanni = View.compile(string) do |str|
+          filename = action.view || action.method
+          Innate::Etanni.new(str, filename)
+        end
+        html = etanni.result(action.instance)
         return html, Response.mime_type
       end
     end
@@ -30,8 +32,8 @@ module Innate
         nil, @filename)
     end
 
-    def result(binding, filename = @filename)
-      eval('self', binding).instance_eval(&@compiled)
+    def result(instance, filename = @filename)
+      instance.instance_eval(&@compiled)
     end
   end
 end
