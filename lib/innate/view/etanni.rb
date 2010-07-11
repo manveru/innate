@@ -28,7 +28,7 @@ module Innate
     def compile(filename = @filename)
       temp = @template.strip
       temp.gsub!(/<\?r\s+(.*?)\s+\?>/m, REPLACEMENT)
-      @compiled = eval("lambda{ _out_ = [#{CHOMP}]\n#{temp}#{STOP}_out_.join }",
+      @compiled = eval("Proc.new{ _out_ = [#{CHOMP}]\n#{temp}#{STOP}_out_.join }",
         nil, @filename)
     end
 
