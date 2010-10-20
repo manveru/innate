@@ -1,6 +1,0 @@
-<%= a("< #@page", @page) %>
-<form method="post" action="<%= r :save %>">
-  <input type="hidden" name="page" value="<%= h @page %>" />
-  <textarea name="text"><%= @text %></textarea>
-  <input type="submit" value="Save" />
-</form>
